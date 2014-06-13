@@ -26,9 +26,9 @@ public class Wave extends ArrayList<Unit> {
 	}
 	
 	static void sendWave(int waveNumber) {
-		///////////////////////
-		///////FIRST WAVE//////
-		///////////////////////
+		////////////////////////
+		///////FIRST WAVE///////
+		////////////////////////
 		if(waveNumber == 0) {
 			Wave firstWave = new Wave();
 			int x = 0;
