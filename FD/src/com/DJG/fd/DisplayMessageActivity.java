@@ -223,16 +223,6 @@ public class DisplayMessageActivity extends ActionBarActivity {
 	
 	 void youLose() {
 		 gameOver = true;
-		 AlertDialog ad = new AlertDialog.Builder(this).create();
-		 ad.setCancelable(false); // This blocks the 'BACK' button 
-		 ad.setMessage("You lose, FAGGOT."); 
-		 ad.setButton("OK", new DialogInterface.OnClickListener() {  
-			    @Override  
-			    public void onClick(DialogInterface dialog, int which) {  
-			        dialog.dismiss();                      
-			    }  
-			});  
-			ad.show();  
 	 }
 	
 	void updateAllUnits() {
