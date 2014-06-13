@@ -1,0 +1,45 @@
+package com.DJG.fd;
+import java.util.ArrayList;
+
+public class UnitType {
+	
+	// Global list of all Unit Types.
+	public static ArrayList<UnitType> allUnitTypes = new ArrayList<UnitType>();
+	
+	public static void initUnitTypes() {
+		UnitType u1 = new UnitType("Ogre",12);
+		UnitType u2 = new UnitType("Castle",50);
+		allUnitTypes.add(u1);
+		allUnitTypes.add(u2);
+	}
+	
+	public static UnitType getUnitType(String searchType) {
+		UnitType foundUnitType = null;
+		for(UnitType u : allUnitTypes) {
+			if(u.getType() == searchType) {
+				foundUnitType = u;
+				break;
+			}
+		}
+		return foundUnitType;
+	}
+	
+	// UnitType constructor.
+	public UnitType(String newType, int newRadius) {
+		type = newType;
+		radius = newRadius;
+	}
+	
+    // Unit Type fields. WIP: Seperate into sections when there's lots of values.
+	private String type;
+	private int radius;
+	
+	public String getType() {
+		return type;
+	}
+	
+	public int getRadius() {
+		return radius;
+	}
+ 
+}

@@ -1,0 +1,50 @@
+package com.DJG.fd;
+
+public class Unit {
+	private String name;
+	private String type; // Chose not to simply store this as a UnitType incase we want to modify individual
+	private float x;     // fields to be unique values. In other words, we may want to change an Ogre to be
+	private float y;     // really big, but we don't want to have to add a new UnitType every time we do that!
+	private int radius; 
+	
+	public Unit(String newName, String newType, float xSpawn, float ySpawn) {
+		// Look up the UnitType and set the values.
+		UnitType u = UnitType.getUnitType(newType);
+		radius = u.getRadius();
+		type = u.getType();
+		
+		// Set it's coordinates.
+		name = newName;
+		type = newType;
+		x = xSpawn;
+		y = ySpawn;
+		
+		// Add it to the list of units to be drawn.
+		DisplayMessageActivity.addUnit(this);
+	}
+	
+	public void moveInstantly(float xGo, float yGo) {
+		x = xGo;
+		y = yGo;
+	}
+	
+	public String getName() {
+		return name;
+	}
+	
+	public String getType() {
+		return type;
+	}
+	
+	public float getX() {
+		return x;
+	}
+	
+	public float getY() {
+		return y;
+	}
+	
+	public int getRadius() {
+		return radius;
+	}
+}

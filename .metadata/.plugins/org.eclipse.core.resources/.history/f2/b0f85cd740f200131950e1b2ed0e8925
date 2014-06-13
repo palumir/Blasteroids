@@ -1,0 +1,29 @@
+package com.DJG.fd;
+
+public class Unit {
+	private String name;
+	private float x;
+	private float y;
+	
+	public Unit(float xSpawn, float ySpawn) {
+		// Set it's coordinates.
+		x = xSpawn;
+		y = ySpawn;
+		
+		// Add it to the list of units to be drawn.
+		DisplayMessageActivity.addUnit(this);
+	}
+	
+	public void moveInstantly(float xGo, float yGo, String type, String name) {
+		x = xGo;
+		y = yGo;
+	}
+	
+	public float getX() {
+		return x;
+	}
+	
+	public float getY() {
+		return y;
+	}
+}

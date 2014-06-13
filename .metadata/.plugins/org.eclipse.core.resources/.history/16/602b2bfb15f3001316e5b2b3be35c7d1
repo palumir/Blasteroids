@@ -1,0 +1,49 @@
+package com.DJG.fd;
+import java.util.ArrayList;
+
+public class UnitType {
+	
+	// Global list of all Unit Types.
+	public static ArrayList<UnitType> allUnitTypes = new ArrayList<UnitType>();
+	
+	public static void initUnitTypes() {
+		allUnitTypes.add(new UnitType("Ogre",12,0.25f));
+		allUnitTypes.add(new UnitType("Castle",50,0f)); // CASTLES DON'T MOVE OKAY?
+	}
+	
+	public static UnitType getUnitType(String searchType) {
+		UnitType foundUnitType = null;
+		for(UnitType u : allUnitTypes) {
+			if(u.getType() == searchType) {
+				foundUnitType = u;
+				break;
+			}
+		}
+		return foundUnitType;
+	}
+	
+	// UnitType constructor.
+	public UnitType(String newType, int newRadius, float newMoveSpeed) {
+		type = newType;
+		radius = newRadius;
+		moveSpeed = newMoveSpeed;
+	}
+	
+    // Unit Type fields. WIP: Seperate into sections when there's lots of values.
+	private String type;
+	private int radius;
+	private float moveSpeed;
+	
+	public String getType() {
+		return type;
+	}
+	
+	public float getMoveSpeed() {
+		return moveSpeed;
+	}
+	
+	public int getRadius() {
+		return radius;
+	}
+ 
+}

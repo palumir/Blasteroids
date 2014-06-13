@@ -1,0 +1,103 @@
+package com.DJG.fd;
+import java.util.ArrayList;
+import java.util.Random;
+
+import android.graphics.Color;
+
+class XY {
+	public int x;
+	public int y;
+	
+	public XY(int xNew, int yNew) {
+		y = yNew;
+		x = xNew;
+	}
+}
+
+public class Wave extends ArrayList<Unit> {
+	
+	public static ArrayList<Wave> allWaves;
+	public static int currentWave;
+	private boolean waveSent = false;
+	
+	public static void initWaves() {
+		// Obviously we just started the game.
+		currentWave = 0;
+		allWaves = new ArrayList<Wave>();
+		
+		////////////////////////
+		// *** FIRST WAVE *** //
+		////////////////////////
+		Wave firstWave = new Wave();
+		int x = 0;
+		while(x<20) {
+			XY xy = getRandomXY();
+			firstWave.add(new Unit("Some Random Ogre","Ogre",xy.x,xy.y,0,Color.CYAN));
+			x++;
+		}
+		
+		// Add the waves to the list of waves.
+		allWaves.add(firstWave);
+	}
+	
+	private static XY getRandomXY() {
+		// Get the height, width, and a new random number generator.
+		int screenWidth = DisplayMessageActivity.getScreenWidth();
+		int screenHeight = DisplayMessageActivity.getScreenHeight();
+		
+		Random r = new Random();
+		int xSpawn = 0;
+		int ySpawn = 0;
+	    int whatQuarter = r.nextInt(5) - 1;
+	    
+	    // ^ //
+	    if(whatQuarter == 1) {
+	    	xSpawn = r.nextInt(screenWidth);
+	    	ySpawn = -50;
+	    }
+	    
+	    // > //
+	    if(whatQuarter == 2) {
+	    	xSpawn = screenWidth + 50;
+	    	ySpawn = r.nextInt(screenHeight);
+	    }
+	    
+	    // \/ //
+	    if(whatQuarter == 3) {
+	    	xSpawn = r.nextInt(screenWidth);
+	    	ySpawn = screenHeight + 50;
+	    }
+	    
+	    // < //
+	    if(whatQuarter == 4) {
+	    	xSpawn = -50;
+	    	ySpawn = r.nextInt(screenHeight);
+	    }
+	    XY xy = new XY(xSpawn,ySpawn);
+	    return xy;
+	}
+	
+	public boolean getWaveSent() {
+		return waveSent;
+	}
+	
+	public static int getCurrentWave() {
+		return currentWave;
+	}
+	
+	public static void sendWaves() {
+		if(allWaves.get(currentWave).getWaveSent() == false) {
+			allWaves.get(currentWave).attackCastle();
+		}
+	}
+    
+	private void attackCastle() {
+		// Get the height, width, and a new random number generator.
+		int screenWidth = DisplayMessageActivity.getScreenWidth();
+		int screenHeight = DisplayMessageActivity.getScreenHeight();;
+		
+		for(Unit u : this) {
+			u.moveNormally(screenWidth/2,screenHeight/2);
+		}
+	}
+}

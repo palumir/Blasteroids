@@ -1,0 +1,6 @@
+INDEX VERSION 1.126+/Users/citawj/android/.metadata/.plugins/org.eclipse.jdt.core
+3370947404.index
+465745349.index
+1270315800.index
+685856362.index
+3466865403.index

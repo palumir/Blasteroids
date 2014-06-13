@@ -1,0 +1,25 @@
+package com.DJG.fd;
+import java.util.ArrayList;
+
+public class UnitType {
+	
+	// Global list of all Unit Types.
+	public static ArrayList<UnitType> allUnitTypes = new ArrayList<UnitType>();
+	
+	public static void initUnitTypes() {
+		UnitType u1 = new UnitType("Ogre",12,12);
+		allUnitTypes.add(u1);
+	}
+	
+	// UnitType constructor.
+	public UnitType(String newType, int newWidth, int newHeight) {
+		type = newType;
+		radius = newRadius;
+	}
+	
+    // Unit Type fields. WIP: Seperate into sections when there's lots of values.
+	private String name;
+	private String type;
+	private int radius;
+ 
+}

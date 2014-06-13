@@ -1,0 +1,16 @@
+package com.DJG.fd;
+
+public class Unit {
+	private static float x;
+	private static float y;
+	
+	public Unit(float xSpawn, float ySpawn) {
+		x = xSpawn;
+		y = ySpawn;
+	}
+	
+	public void move(float xGo, float yGo) {
+		x = xGo;
+		y = yGo;
+	}
+}

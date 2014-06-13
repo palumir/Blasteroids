@@ -1,0 +1,26 @@
+package com.DJG.fd;
+import java.util.ArrayList;
+
+public class Wave extends ArrayList<Unit> {
+	
+	public static ArrayList<Wave> allWaves;
+	public static int currentWave;
+	
+	public void initWaves() {
+		currentWave = 0;
+		
+		////////////////////////
+		// *** FIRST WAVE *** //
+		////////////////////////
+		Wave firstWave = new Wave();
+		int x = 0;
+		while(x<20) {
+			firstWave.add(new Unit("Some Random Ogre","Ogre",100,100,0));
+			x++;
+		}
+	}
+	
+	public void attackCastle() {
+		
+	}
+}
