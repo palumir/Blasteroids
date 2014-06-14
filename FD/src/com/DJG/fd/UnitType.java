@@ -10,6 +10,7 @@ public class UnitType {
 	private static ArrayList<UnitType> allUnitTypes;
 	
 	public static void initUnitTypes() {
+		allUnitTypes = new ArrayList<UnitType>();
 		allUnitTypes.add(new UnitType("Ogre",30,1f,true, Color.CYAN));
 		allUnitTypes.add(new UnitType("Mage",25,0.8f,true, Color.BLUE));
 		allUnitTypes.add(new UnitType("Demon",30,0.7f,true, Color.RED));
