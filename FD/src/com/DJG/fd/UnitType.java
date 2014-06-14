@@ -1,6 +1,8 @@
 package com.DJG.fd;
 import java.util.ArrayList;
 
+import android.graphics.Color;
+
 public class UnitType {
 	
 	// Global list of all Unit Types.
@@ -36,6 +38,15 @@ public class UnitType {
 		radius = newRadius;
 		moveSpeed = newMoveSpeed;
 		killable = isKillable;
+		color = Color.BLACK;
+	}
+	
+	public UnitType(String newType, int newRadius, float newMoveSpeed, boolean isKillable, int newColor) {
+		type = newType;
+		radius = newRadius;
+		moveSpeed = newMoveSpeed;
+		killable = isKillable;
+		color = newColor;
 	}
 	
     // Unit Type fields. WIP: Seperate into sections when there's lots of values.
@@ -43,6 +54,7 @@ public class UnitType {
 	private int radius;
 	private float moveSpeed;
 	private boolean killable;
+	private int color;
 	
 	public boolean getKillable() {
 		return killable;
@@ -58,6 +70,10 @@ public class UnitType {
 	
 	public int getRadius() {
 		return radius;
+	}
+	
+	public int getColor(){
+		return color;
 	}
  
 }
