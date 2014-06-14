@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MotionEventCompat;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -19,13 +20,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.TextView;
 
 public class DisplayMessageActivity extends ActionBarActivity {
     
 	// The current game thread.
 	private Thread gameThread;
-	private volatile static boolean gameOver = false;
+	private volatile static boolean gameOver;
 	
 	// Grabbed unit (with touch)
 	private static Unit grabbedUnit = null;
@@ -36,7 +36,7 @@ public class DisplayMessageActivity extends ActionBarActivity {
 	private static int screenWidth;
 	
 	// Text, that's all.
-	public static String levelText = "Wave 1";
+	public static String levelText;
 	
 	// List of all units. This list is constantly redrawn.
 	public static ArrayList<Unit> allUnits = new ArrayList<Unit>();
@@ -71,6 +71,8 @@ public class DisplayMessageActivity extends ActionBarActivity {
 	         currentView = v;
 
 			 if(doOnce) { 
+				 gameOver = false;
+				 levelText = "Wave " + (Wave.getCurrentWaveNumber() + 1);
 				 initGame();
 				 playGame();
 				 doOnce = false;
@@ -211,7 +213,6 @@ public class DisplayMessageActivity extends ActionBarActivity {
 	
 	void initGame() {
 		UnitType.initUnitTypes();
-		
 		// Put the Castle in the middle.
 		Display display = getWindowManager().getDefaultDisplay();
 		screenWidth = display.getWidth();
@@ -239,12 +240,15 @@ public class DisplayMessageActivity extends ActionBarActivity {
 	
 	 void youLose() {
 		 gameOver = true;
+		 doOnce = true;
 		 levelText = "You fucked up.";
 		 allUnits.clear(); // Don't request the lock because the caller is already locking it.
-		 synchronized(Wave.currentWaveLock) {
-			 Wave.getCurrentWave().clear();
-		 }
+		 Wave.destroyWaves();
 	 }
+	 
+	public static int numUnits() {
+		return allUnits.size();
+	}
 	
 	void updateAllUnits() {
 		// Unleash the waves.

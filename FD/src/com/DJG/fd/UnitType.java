@@ -5,14 +5,15 @@ public class UnitType {
 	
 	// Global list of all Unit Types.
 	private final static Object allUnitTypesLock= new Object(); // A lock so we don't fuck up the allUnits
-	public static ArrayList<UnitType> allUnitTypes = new ArrayList<UnitType>();
+	private static ArrayList<UnitType> allUnitTypes;
 	
 	public static void initUnitTypes() {
+		allUnitTypes = new ArrayList<UnitType>();
 		allUnitTypes.add(new UnitType("Ogre",30,1f,true));
 		allUnitTypes.add(new UnitType("Mage",25,0.8f,true));
 		allUnitTypes.add(new UnitType("Demon",30,0.7f,true));
 		allUnitTypes.add(new UnitType("Cat",25,3f,true));
-		allUnitTypes.add(new UnitType("Cheetah",25,6f,true));
+		allUnitTypes.add(new UnitType("Cheetah",25,12f,true));
 		allUnitTypes.add(new UnitType("Castle",50,0f,false)); // CASTLES DON'T MOVE OKAY?
 	}
 	

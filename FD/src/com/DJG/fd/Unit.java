@@ -1,6 +1,7 @@
 package com.DJG.fd;
 
 import android.graphics.Color;
+import android.util.Log;
 
 public class Unit {
 	// Unit General Information:

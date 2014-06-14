@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import android.graphics.Color;
+import android.util.Log;
 
 class XY {
 	public int x;
@@ -15,14 +16,15 @@ class XY {
 }
 
 public class Wave extends ArrayList<Unit> {
-	public static Wave currentWave;
+	private static Wave currentWave;
 	public final static Object currentWaveLock = new Object(); // A lock so we don't fuck up the currentWave.
-	public static int currentWaveNumber;
+	private static int currentWaveNumber;
 	private static boolean waveSent = false;
 	private static Random r = new Random();
 	
 	public static void initWaves() {
 		// Obviously we just started the game.
+		waveSent = false;
 		sendWave(0);
 	}
 	
@@ -120,6 +122,7 @@ public class Wave extends ArrayList<Unit> {
 			}
 		}
 		currentWave = myWave;
+		currentWaveNumber = waveNumber;
 	}
 	
 	private static XY getRandomXY() {
@@ -196,6 +199,13 @@ public class Wave extends ArrayList<Unit> {
 		}
 	}
 	
+	public static void destroyWaves() {
+	currentWaveNumber = 0;
+	 synchronized(Wave.currentWaveLock) {
+		 Wave.getCurrentWave().clear();
+	 }
+	}
+	
 	public static int getUnitPos(Unit thisUnit) {
 		int foundUnit = 0;
 		synchronized(currentWaveLock) {
@@ -207,6 +217,10 @@ public class Wave extends ArrayList<Unit> {
 			}
 			return foundUnit;
 		}
+	}
+	
+	public static int getCurrentWaveNumber() {
+		return currentWaveNumber;
 	}
 	
 	public static void killUnit(Unit u) {
