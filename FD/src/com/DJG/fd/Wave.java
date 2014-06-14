@@ -1,6 +1,9 @@
 package com.DJG.fd;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
+
+
 
 import android.graphics.Color;
 
@@ -25,7 +28,61 @@ public class Wave extends ArrayList<Unit> {
 		// Obviously we just started the game.
 		sendWave(0);
 	}
-	
+
+	static void sendWave(int waveNumber){
+		Wave myWave = new Wave();
+		HashMap<String, Integer> unitMap = new HashMap<String, Integer>();
+		switch(waveNumber){
+		case 0:
+			unitMap.put("Ogre", 10);
+			break;
+		case 1:
+			unitMap.put("Mage", 15);
+			break;
+		case 2:
+			unitMap.put("Ogre", 10);
+			unitMap.put("Mage", 10);
+			break;
+		case 3:
+			unitMap.put("Demon", 20);
+			break;
+		case 4:
+			unitMap.put("Cat", 5);
+			break;
+		case 5:
+			unitMap.put("Ogre", 15);
+			unitMap.put("Mage", 15);
+			break;
+		case 6:
+			unitMap.put("Demon", 30);
+			break;
+		case 7:
+			unitMap.put("Ogre", 10);
+			unitMap.put("Mage", 10);
+			unitMap.put("Demon", 15);
+			break;
+		case 8:
+			unitMap.put("Cat", 9);
+			break;
+		case 9:
+			unitMap.put("Cheetah", 1);
+			break;
+		case 10:
+			unitMap.put("Ogre", 25);
+			unitMap.put("Cat", 3);
+			break;
+		default:
+			unitMap.put("Ogre", r.nextInt(3*waveNumber)/2 +1);
+			unitMap.put("Mage", r.nextInt(waveNumber+1));
+			unitMap.put("Demon", r.nextInt(waveNumber+1));
+			unitMap.put("Cat", r.nextInt(waveNumber/3+1));
+			unitMap.put("Cheetah", r.nextInt(waveNumber/10+1));
+			break;
+		}
+		addUnitsToWave(unitMap, myWave);
+		currentWave = myWave;
+	}
+/*	
 	static void sendWave(int waveNumber) {
 		Wave myWave = new Wave();
 		int x = 0;
@@ -120,6 +177,18 @@ public class Wave extends ArrayList<Unit> {
 			}
 		}
 		currentWave = myWave;
+	}*/
+	
+	
+	//Given a hash of how many units of each type you want, addes them to the given wave
+	static void addUnitsToWave(HashMap<String, Integer> units, Wave wave){
+		for(String type : units.keySet()){
+			int c = UnitType.getUnitType(type).getColor();
+			for(int i = 0; i<units.get(type); i++){
+				XY xy = getRandomXY();
+				wave.add(new Unit("Any Name",type,xy.x,xy.y,0,c));
+			}
+		}
 	}
 	
 	private static XY getRandomXY() {

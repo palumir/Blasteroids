@@ -1,6 +1,8 @@
 package com.DJG.fd;
 import java.util.ArrayList;
 
+import android.graphics.Color;
+
 public class UnitType {
 	
 	// Global list of all Unit Types.
@@ -8,11 +10,11 @@ public class UnitType {
 	public static ArrayList<UnitType> allUnitTypes = new ArrayList<UnitType>();
 	
 	public static void initUnitTypes() {
-		allUnitTypes.add(new UnitType("Ogre",30,1f,true));
-		allUnitTypes.add(new UnitType("Mage",25,0.8f,true));
-		allUnitTypes.add(new UnitType("Demon",30,0.7f,true));
-		allUnitTypes.add(new UnitType("Cat",25,3f,true));
-		allUnitTypes.add(new UnitType("Cheetah",25,6f,true));
+		allUnitTypes.add(new UnitType("Ogre",30,1f,true, Color.CYAN));
+		allUnitTypes.add(new UnitType("Mage",25,0.8f,true, Color.BLUE));
+		allUnitTypes.add(new UnitType("Demon",30,0.7f,true, Color.RED));
+		allUnitTypes.add(new UnitType("Cat",25,3f,true,Color.BLACK));
+		allUnitTypes.add(new UnitType("Cheetah",25,6f,true,Color.GREEN));
 		allUnitTypes.add(new UnitType("Castle",50,0f,false)); // CASTLES DON'T MOVE OKAY?
 	}
 	
@@ -35,6 +37,15 @@ public class UnitType {
 		radius = newRadius;
 		moveSpeed = newMoveSpeed;
 		killable = isKillable;
+		color = Color.BLACK;
+	}
+	
+	public UnitType(String newType, int newRadius, float newMoveSpeed, boolean isKillable, int newColor) {
+		type = newType;
+		radius = newRadius;
+		moveSpeed = newMoveSpeed;
+		killable = isKillable;
+		color = newColor;
 	}
 	
     // Unit Type fields. WIP: Seperate into sections when there's lots of values.
@@ -42,6 +53,7 @@ public class UnitType {
 	private int radius;
 	private float moveSpeed;
 	private boolean killable;
+	private int color;
 	
 	public boolean getKillable() {
 		return killable;
@@ -57,6 +69,10 @@ public class UnitType {
 	
 	public int getRadius() {
 		return radius;
+	}
+	
+	public int getColor(){
+		return color;
 	}
  
 }
