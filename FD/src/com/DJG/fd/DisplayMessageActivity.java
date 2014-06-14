@@ -205,10 +205,12 @@ public class DisplayMessageActivity extends ActionBarActivity {
 	}
 	
 	public static void killUnit(Unit u) {
+		if(allUnits.size()!=0){
 			int pos = getUnitPos(u);
 			synchronized(allUnitsLock) {
 				allUnits.remove(pos);
 			}
+		}
 	}
 	
 	void initGame() {
