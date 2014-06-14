@@ -19,6 +19,7 @@ public class Wave extends ArrayList<Unit> {
 	public final static Object currentWaveLock = new Object(); // A lock so we don't fuck up the currentWave.
 	public static int currentWaveNumber;
 	private static boolean waveSent = false;
+	private static Random r = new Random();
 	
 	public static void initWaves() {
 		// Obviously we just started the game.
@@ -126,10 +127,10 @@ public class Wave extends ArrayList<Unit> {
 		int screenWidth = DisplayMessageActivity.getScreenWidth();
 		int screenHeight = DisplayMessageActivity.getScreenHeight();
 		
-		Random r = new Random();
+		
 		int xSpawn = -200;
 		int ySpawn = -200;
-	    int whatQuarter = r.nextInt(3) + 1;
+	    int whatQuarter = r.nextInt(4) + 1;
 	    
 	    // ^ // NORTH // TOP
 	    if(whatQuarter == 1) {
