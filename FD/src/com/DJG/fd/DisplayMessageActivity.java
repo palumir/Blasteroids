@@ -3,6 +3,8 @@ package com.DJG.fd;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -10,7 +12,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MotionEventCompat;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -105,9 +106,14 @@ public class DisplayMessageActivity extends ActionBarActivity {
 	        	  	if(currentUnit.getName() == "Fortress") {
 	        		  	myPaint.setStrokeWidth(10);
 	        		  	myPaint.setStyle(Paint.Style.STROKE);
+	        		  	// REALLY INEFFICIENT AND STUPID DO NOT ALLOCATE EVERY DRAW HOLY FUCK
+	        		    Bitmap castleBMP = BitmapFactory.decodeResource(getResources(), R.drawable.castle);
+	        	        canvas.drawBitmap(castleBMP, currentUnit.getX() - currentUnit.getRadius(), currentUnit.getY() - currentUnit.getRadius(), null);
 	        	  	}
-	        	  	myPaint.setColor(currentUnit.color);
-        		  	canvas.drawCircle(currentUnit.getX(), currentUnit.getY(), currentUnit.getRadius(), myPaint);
+	        	  	else {
+	        	  		myPaint.setColor(currentUnit.color);
+        		  		canvas.drawCircle(currentUnit.getX(), currentUnit.getY(), currentUnit.getRadius(), myPaint);
+	        	  	}
 	          	}
 	          }
 	      }
