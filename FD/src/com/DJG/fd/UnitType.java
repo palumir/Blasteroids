@@ -10,12 +10,11 @@ public class UnitType {
 	private static ArrayList<UnitType> allUnitTypes;
 	
 	public static void initUnitTypes() {
-		allUnitTypes = new ArrayList<UnitType>();
-		allUnitTypes.add(new UnitType("Ogre",30,1f,true));
-		allUnitTypes.add(new UnitType("Mage",25,0.8f,true));
-		allUnitTypes.add(new UnitType("Demon",30,0.7f,true));
-		allUnitTypes.add(new UnitType("Cat",25,3f,true));
-		allUnitTypes.add(new UnitType("Cheetah",25,12f,true));
+		allUnitTypes.add(new UnitType("Ogre",30,1f,true, Color.CYAN));
+		allUnitTypes.add(new UnitType("Mage",25,0.8f,true, Color.BLUE));
+		allUnitTypes.add(new UnitType("Demon",30,0.7f,true, Color.RED));
+		allUnitTypes.add(new UnitType("Cat",25,3f,true,Color.BLACK));
+		allUnitTypes.add(new UnitType("Cheetah",25,6f,true,Color.GREEN));
 		allUnitTypes.add(new UnitType("Castle",50,0f,false)); // CASTLES DON'T MOVE OKAY?
 	}
 	
