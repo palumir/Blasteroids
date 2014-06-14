@@ -13,7 +13,7 @@ public class Unit {
 	private float y;     
 	private float xNew;
 	private float yNew;
-	private int radius; 
+	private int radius;
 	private float moveSpeed;
 	
 	// Combat information:
@@ -22,9 +22,17 @@ public class Unit {
 	// TEMPORARY COLOR STORE FOR COOLNESS
 	public int color;
 	
+	// Unit Stats
+	private int currentHitPoints;
+	private int maxHitPoints;
+	private int attackSpeed;
+	private int damage;
+	private int attackWait;
+	
 	// Wave Information:
 	private int waveSpawnDelay; // How long to delay the next unit from spawning?
 	
+
 	public Unit(String newName, String newType, float xSpawn, float ySpawn, int newWaveSpawnDelay, int c) {
 		// Look up the UnitType and set the values.
 		UnitType u = UnitType.getUnitType(newType);
@@ -33,6 +41,12 @@ public class Unit {
 		moveSpeed = u.getMoveSpeed();
 		killable = u.getKillable();
 		
+		// Stats
+		maxHitPoints = u.getMaxHitPoints();
+		currentHitPoints = maxHitPoints;
+		attackSpeed = u.getAttackSpeed();
+		attackWait = attackSpeed;
+		damage = u.getDamage();
 		// TEMPORARY COLOR FOR COOLNESS
 		color = c;
 		
@@ -102,17 +116,58 @@ public class Unit {
 		}
 	}
 	
+	//Methods involving stats
+	public Boolean isDead(){
+		return currentHitPoints<=0;
+	}
+	
+	public void takeDamage(int damage){
+		currentHitPoints -= damage;
+	}
+	
+	public void attacks(Unit u){
+		u.takeDamage(getDamage());
+		attackWait = attackSpeed;
+	}
+	
 	public void die() {
 		DisplayMessageActivity.killUnit(this);
 		Wave.killUnit(this);
 	}
 	
+	
+	// Methods to get values
 	public String getName() {
 		return name;
 	}
 	
 	public String getType() {
 		return type;
+	}
+	
+	// Stats
+	public int getHP(){
+		return currentHitPoints;
+	}
+	
+	public int getCurrentHitPoitns(){
+		return currentHitPoints;
+	}
+	
+	public int getMaxHitPoints(){
+		return maxHitPoints;
+	}
+	
+	public int getAttackSpeed(){
+		return attackSpeed;
+	}
+	
+	public int getAttackWait(){
+		return attackWait;
+	}
+	
+	public int getDamage(){
+		return damage;
 	}
 	
 	public boolean getKillable() {
