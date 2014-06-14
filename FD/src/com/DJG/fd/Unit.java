@@ -121,7 +121,7 @@ public class Unit {
 		return currentHitPoints<=0;
 	}
 	
-	public void takeDamage(int damage){
+	private void takeDamage(int damage){
 		currentHitPoints -= damage;
 	}
 	
