@@ -3,11 +3,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
-
-
-import android.graphics.Color;
-import android.util.Log;
-
 class XY {
 	public int x;
 	public int y;
@@ -100,8 +95,6 @@ public class Wave extends ArrayList<Unit> {
 		// Get the height, width, and a new random number generator.
 		int screenWidth = DisplayMessageActivity.getScreenWidth();
 		int screenHeight = DisplayMessageActivity.getScreenHeight();
-		
-		
 		int xSpawn = -200;
 		int ySpawn = -200;
 	    int whatQuarter = r.nextInt(4) + 1;
@@ -147,6 +140,12 @@ public class Wave extends ArrayList<Unit> {
 		if(currentWave.isEmpty()) {
 			currentWaveNumber++;
 			DisplayMessageActivity.levelText = "Wave " + (currentWaveNumber+1);
+			try {
+				Thread.sleep(2000);
+			}
+			catch(Throwable t) {
+				
+			}
 			synchronized(currentWaveLock) {
 				sendWave(currentWaveNumber);
 			}
