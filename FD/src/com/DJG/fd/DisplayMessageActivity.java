@@ -239,6 +239,12 @@ public class DisplayMessageActivity extends ActionBarActivity {
 	
 	 void youLose() {
 		 gameOver = true;
+		 synchronized(allUnitsLock) {
+			 allUnits.clear();
+		 }
+		 synchronized(Wave.currentWaveLock) {
+			 Wave.getCurrentWave().clear();
+		 }
 	 }
 	
 	void updateAllUnits() {

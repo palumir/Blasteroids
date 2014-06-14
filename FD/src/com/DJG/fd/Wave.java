@@ -103,7 +103,7 @@ public class Wave extends ArrayList<Unit> {
 		//FOURTH SUPER WAVE////
 		///////////////////////
 		if(waveNumber == 7) {
-			while(x<10) {
+			while(x<7) {
 				XY xy = getRandomXY();
 				myWave.add(new Unit("Any Name","Cat",xy.x,xy.y,0,Color.BLACK));
 				x++;
