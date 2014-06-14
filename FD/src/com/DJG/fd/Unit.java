@@ -60,7 +60,6 @@ public class Unit {
 		yNew = yGo;
 	}
 
-	// WIP: This pathing function SUCKS.
 	public void moveUnit() {
 		float yDistance = (yNew - y);
 		float xDistance = (xNew - x);

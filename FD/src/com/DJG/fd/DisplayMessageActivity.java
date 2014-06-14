@@ -2,9 +2,7 @@ package com.DJG.fd;
 
 import java.util.ArrayList;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -21,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.TextView;
 
 public class DisplayMessageActivity extends ActionBarActivity {
     
@@ -35,6 +34,9 @@ public class DisplayMessageActivity extends ActionBarActivity {
 	private static View currentView;
 	private static int screenHeight;
 	private static int screenWidth;
+	
+	// Text, that's all.
+	public static String levelText = "Wave 1";
 	
 	// List of all units. This list is constantly redrawn.
 	public static ArrayList<Unit> allUnits = new ArrayList<Unit>();
@@ -67,6 +69,7 @@ public class DisplayMessageActivity extends ActionBarActivity {
 	         View v = new gameView(this);
 	         setContentView(v);
 	         currentView = v;
+
 			 if(doOnce) { 
 				 initGame();
 				 playGame();
@@ -85,14 +88,21 @@ public class DisplayMessageActivity extends ActionBarActivity {
 	      @Override
 	      protected void onDraw(Canvas canvas) {
 	          Paint myPaint = new Paint();
-	          myPaint.setStyle(Paint.Style.STROKE);
 	          
 	          // Draw all of our units (just one for now)
+  	        	myPaint.setStyle(Paint.Style.STROKE);
+  	        	myPaint.setStrokeWidth(3);
+  	        	myPaint.setTextSize(50);
+  	        	myPaint.setColor(Color.BLACK);
+  	        	canvas.drawText(levelText,50f,50f,myPaint);
+	          
 	          synchronized(allUnitsLock) {
 	        	  for(Unit currentUnit : allUnits) {
+	    	        myPaint.setStyle(Paint.Style.FILL);
 	        	  	myPaint.setStrokeWidth(23);
 	        	  	if(currentUnit.getName() == "Fortress") {
 	        		  	myPaint.setStrokeWidth(10);
+	        		  	myPaint.setStyle(Paint.Style.STROKE);
 	        	  	}
 	        	  	myPaint.setColor(currentUnit.color);
         		  	canvas.drawCircle(currentUnit.getX(), currentUnit.getY(), currentUnit.getRadius(), myPaint);
@@ -137,15 +147,17 @@ public class DisplayMessageActivity extends ActionBarActivity {
 	
 	// Get the selected unit at the coordinates.
 	public Unit getUnitAt(float x, float y) {
-		for(Unit u : allUnits) {
-			float yDistance = (u.getY() - y);
-			float xDistance = (u.getX() - x);
-			float distanceXY = (float)Math.sqrt(yDistance*yDistance + xDistance*xDistance);
-			if(distanceXY <= 50 + u.getRadius() && u.getName() != "Fortress") {
-				return u;
+		synchronized(allUnitsLock) {
+			for(Unit u : allUnits) {
+				float yDistance = (u.getY() - y);
+				float xDistance = (u.getX() - x);
+				float distanceXY = (float)Math.sqrt(yDistance*yDistance + xDistance*xDistance);
+				if(distanceXY <= 50 + u.getRadius() && u.getName() != "Fortress") {
+					return u;
+				}
 			}
+			return null;
 		}
-		return null;
 	}
 	
 	// Get screen height and width.
@@ -165,32 +177,36 @@ public class DisplayMessageActivity extends ActionBarActivity {
 	}
 	
 	public static Unit getUnit(String nameToSearch) {
-		Unit foundUnit = null;
-		for(Unit u : allUnits) {
-			if(u.getName() == nameToSearch) {
-				foundUnit = u;
-				break;
+		synchronized(allUnitsLock) {
+			Unit foundUnit = null;
+			for(Unit u : allUnits) {
+				if(u.getName() == nameToSearch) {
+					foundUnit = u;
+					break;
+				}
 			}
+			return foundUnit;
 		}
-		return foundUnit;
 	}
 	
 	public static int getUnitPos(Unit thisUnit) {
-		int foundUnit = 0;
-		for(Unit u : allUnits) {
-			if(u == thisUnit) {
-				break;
+		synchronized(allUnitsLock) {
+			int foundUnit = 0;
+			for(Unit u : allUnits) {
+				if(u == thisUnit) {
+					break;
+				}
+				foundUnit++;
 			}
-			foundUnit++;
+			return foundUnit;
 		}
-		return foundUnit;
 	}
 	
 	public static void killUnit(Unit u) {
-		synchronized(allUnitsLock) {
 			int pos = getUnitPos(u);
-			allUnits.remove(pos);
-		}
+			synchronized(allUnitsLock) {
+				allUnits.remove(pos);
+			}
 	}
 	
 	void initGame() {
@@ -231,9 +247,9 @@ public class DisplayMessageActivity extends ActionBarActivity {
 			Wave.sendWaves();
 		}
 		
+		// Where is the castle?
+		Unit castle = getUnit("Fortress");
 		synchronized(allUnitsLock) {
-			// Where is the castle?
-			Unit castle = getUnit("Fortress");
 			for(Unit u : allUnits) {
 			    float castleY = 0;
 			    float castleX = 0;

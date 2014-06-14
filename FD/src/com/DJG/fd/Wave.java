@@ -26,110 +26,99 @@ public class Wave extends ArrayList<Unit> {
 	}
 	
 	static void sendWave(int waveNumber) {
+		Wave myWave = new Wave();
+		int x = 0;
 		////////////////////////
 		///////FIRST WAVE///////
 		////////////////////////
 		if(waveNumber == 0) {
-			Wave firstWave = new Wave();
-			int x = 0;
 			while(x<10) {
 				XY xy = getRandomXY();
-				firstWave.add(new Unit("Any Name","Ogre",xy.x,xy.y,0,Color.CYAN));
+				myWave.add(new Unit("Any Name","Ogre",xy.x,xy.y,0,Color.CYAN));
 				x++;
 			}
-			currentWave = firstWave;
 		}
 		///////////////////////
 		//////SECOND WAVE//////
 		///////////////////////
 		if(waveNumber == 1) {
-			Wave firstWave = new Wave();
-			int x = 0;
 			while(x<10) {
 				XY xy = getRandomXY();
-				firstWave.add(new Unit("Any Name","Mage",xy.x,xy.y,0,Color.BLUE));
+				myWave.add(new Unit("Any Name","Mage",xy.x,xy.y,0,Color.BLUE));
 				x++;
 			}
-			currentWave = firstWave;
 		}
 		///////////////////////
 		///////THIRD WAVE//////
 		///////////////////////
 		if(waveNumber == 2) {
-			Wave firstWave = new Wave();
-			int x = 0;
 			while(x<20) {
 				XY xy = getRandomXY();
-				firstWave.add(new Unit("Any Name","Demon",xy.x,xy.y,0,Color.RED));
+				myWave.add(new Unit("Any Name","Demon",xy.x,xy.y,0,Color.RED));
 				x++;
 			}
-			currentWave = firstWave;
 		}
 		///////////////////////
 		//////FOURTH WAVE//////
 		///////////////////////
 		if(waveNumber == 3) {
-			Wave firstWave = new Wave();
-			int x = 0;
 			while(x<5) {
 				XY xy = getRandomXY();
-				firstWave.add(new Unit("Any Name","Cat",xy.x,xy.y,0,Color.BLACK));
+				myWave.add(new Unit("Any Name","Cat",xy.x,xy.y,0,Color.BLACK));
 				x++;
 			}
-			currentWave = firstWave;
 		}
 		///////////////////////
 		///FIRST SUPER WAVE////
 		///////////////////////
 		if(waveNumber == 4) {
-			Wave firstWave = new Wave();
-			int x = 0;
 			while(x<20) {
 				XY xy = getRandomXY();
-				firstWave.add(new Unit("Any Name","Ogre",xy.x,xy.y,0,Color.CYAN));
+				myWave.add(new Unit("Any Name","Ogre",xy.x,xy.y,0,Color.CYAN));
 				x++;
 			}
-			currentWave = firstWave;
 		}
 		///////////////////////
 		///SECOND SUPER WAVE///
 		///////////////////////
 		if(waveNumber == 5) {
-			Wave firstWave = new Wave();
-			int x = 0;
 			while(x<30) {
 				XY xy = getRandomXY();
-				firstWave.add(new Unit("Any Name","Mage",xy.x,xy.y,0,Color.BLUE));
+				myWave.add(new Unit("Any Name","Mage",xy.x,xy.y,0,Color.BLUE));
 				x++;
 			}
-			currentWave = firstWave;
 		}
 		///////////////////////
 		///THIRD SUPER WAVE////
 		///////////////////////
 		if(waveNumber == 6) {
-			Wave firstWave = new Wave();
-			int x = 0;
-			while(x<100) {
+			while(x<40) {
 				XY xy = getRandomXY();
-				firstWave.add(new Unit("Any Name","Demon",xy.x,xy.y,0,Color.RED));
+				myWave.add(new Unit("Any Name","Demon",xy.x,xy.y,0,Color.RED));
 				x++;
 			}
-			currentWave = firstWave;
 		}
 		///////////////////////
 		//FOURTH SUPER WAVE////
 		///////////////////////
 		if(waveNumber == 7) {
-			Wave firstWave = new Wave();
-			int x = 0;
-			while(x<50) {
+			while(x<10) {
 				XY xy = getRandomXY();
-				firstWave.add(new Unit("Any Name","Cat",xy.x,xy.y,0,Color.BLACK));
+				myWave.add(new Unit("Any Name","Cat",xy.x,xy.y,0,Color.BLACK));
 				x++;
 			}
-			currentWave = firstWave;
 		}
+		///////////////////////
+		//FIRST ULTRA WAVE/////
+		///////////////////////
+		if(waveNumber == 8) {
+			while(x<1) {
+				XY xy = getRandomXY();
+				myWave.add(new Unit("Any Name","Cheetah",xy.x,xy.y,0,Color.BLUE));
+				x++;
+			}
+		}
+		currentWave = myWave;
 	}
 	
 	private static XY getRandomXY() {
@@ -142,25 +131,25 @@ public class Wave extends ArrayList<Unit> {
 		int ySpawn = -200;
 	    int whatQuarter = r.nextInt(3) + 1;
 	    
-	    // ^ //
+	    // ^ // NORTH // TOP
 	    if(whatQuarter == 1) {
 	    	xSpawn = r.nextInt(screenWidth);
 	    	ySpawn = r.nextInt(300)*(-1);
 	    }
 	    
-	    // > //
+	    // > // EAST // RIGHT
 	    if(whatQuarter == 2) {
 	    	xSpawn = screenWidth + r.nextInt(300);
 	    	ySpawn = r.nextInt(screenHeight);
 	    }
 	    
-	    // \/ //
+	    // \/ // SOUTH // BOTTOM
 	    if(whatQuarter == 3) {
 	    	xSpawn = r.nextInt(screenWidth);
 	    	ySpawn = screenHeight + r.nextInt(300);
 	    }
 	    
-	    // < //
+	    // < // WEST // LEFT
 	    if(whatQuarter == 4) {
 	    	xSpawn = r.nextInt(300)*(-1);
 	    	ySpawn = r.nextInt(screenHeight);
@@ -182,6 +171,7 @@ public class Wave extends ArrayList<Unit> {
 		// Send the next wave if the current one is empty!
 		if(currentWave.isEmpty()) {
 			currentWaveNumber++;
+			DisplayMessageActivity.levelText = "Wave " + currentWaveNumber;
 			synchronized(currentWaveLock) {
 				sendWave(currentWaveNumber);
 			}
@@ -198,21 +188,24 @@ public class Wave extends ArrayList<Unit> {
 		// Get the height, width, and a new random number generator.
 		int screenWidth = DisplayMessageActivity.getScreenWidth();
 		int screenHeight = DisplayMessageActivity.getScreenHeight();
-		
-		for(Unit u : this) {
-			u.moveNormally(screenWidth/2,screenHeight/2);
+		synchronized(currentWaveLock) {
+			for(Unit u : this) {
+				u.moveNormally(screenWidth/2,screenHeight/2);
+			}
 		}
 	}
 	
 	public static int getUnitPos(Unit thisUnit) {
 		int foundUnit = 0;
-		for(Unit u : currentWave) {
-			if(u == thisUnit) {
-				break;
+		synchronized(currentWaveLock) {
+			for(Unit u : currentWave) {
+				if(u == thisUnit) {
+					break;
+				}
+				foundUnit++;
 			}
-			foundUnit++;
+			return foundUnit;
 		}
-		return foundUnit;
 	}
 	
 	public static void killUnit(Unit u) {
