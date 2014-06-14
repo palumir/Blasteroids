@@ -241,7 +241,7 @@ public class Wave extends ArrayList<Unit> {
 		// Send the next wave if the current one is empty!
 		if(currentWave.isEmpty()) {
 			currentWaveNumber++;
-			DisplayMessageActivity.levelText = "Wave " + currentWaveNumber;
+			DisplayMessageActivity.levelText = "Wave " + (currentWaveNumber+1);
 			synchronized(currentWaveLock) {
 				sendWave(currentWaveNumber);
 			}

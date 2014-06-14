@@ -239,9 +239,8 @@ public class DisplayMessageActivity extends ActionBarActivity {
 	
 	 void youLose() {
 		 gameOver = true;
-		 synchronized(allUnitsLock) {
-			 allUnits.clear();
-		 }
+		 levelText = "You fucked up.";
+		 allUnits.clear(); // Don't request the lock because the caller is already locking it.
 		 synchronized(Wave.currentWaveLock) {
 			 Wave.getCurrentWave().clear();
 		 }
@@ -270,6 +269,7 @@ public class DisplayMessageActivity extends ActionBarActivity {
 				float distanceXY = (float)Math.sqrt(yDistance*yDistance + xDistance*xDistance);
 				if(distanceXY <= castleRadius + u.getRadius() && u.getName() != "Fortress") {
 					youLose();
+					break;
 				}
 				else {
 					u.moveUnit();
