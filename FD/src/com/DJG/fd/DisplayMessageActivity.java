@@ -37,6 +37,7 @@ public class DisplayMessageActivity extends ActionBarActivity {
 	
 	// Text, that's all.
 	public static String levelText;
+	public static String castleHP;
 	
 	// List of all units. This list is constantly redrawn.
 	public static ArrayList<Unit> allUnits = new ArrayList<Unit>();
@@ -73,6 +74,7 @@ public class DisplayMessageActivity extends ActionBarActivity {
 			 if(doOnce) { 
 				 gameOver = false;
 				 levelText = "Wave " + (Wave.getCurrentWaveNumber() + 1);
+				 castleHP = "HP: ";
 				 initGame();
 				 playGame();
 				 doOnce = false;
@@ -97,7 +99,8 @@ public class DisplayMessageActivity extends ActionBarActivity {
   	        	myPaint.setTextSize(50);
   	        	myPaint.setColor(Color.BLACK);
   	        	canvas.drawText(levelText,50f,50f,myPaint);
-	          
+  	        	canvas.drawText(castleHP, 50f, (float)(screenHeight-50) ,myPaint );
+  	        	
 	          synchronized(allUnitsLock) {
 	        	  for(Unit currentUnit : allUnits) {
 	    	        myPaint.setStyle(Paint.Style.FILL);
@@ -260,6 +263,7 @@ public class DisplayMessageActivity extends ActionBarActivity {
 		
 		// Where is the castle?
 		Unit castle = getUnit("Fortress");
+		castleHP = "HP " + castle.getHP();
 		synchronized(allUnitsLock) {
 			for(Unit u : allUnits) {
 			    float castleY = 0;
@@ -274,6 +278,11 @@ public class DisplayMessageActivity extends ActionBarActivity {
 				float xDistance = (castleX - u.getX());
 				float distanceXY = (float)Math.sqrt(yDistance*yDistance + xDistance*xDistance);
 				if(distanceXY <= castleRadius + u.getRadius() && u.getName() != "Fortress") {
+					//youLose();
+					u.attacks(castle);
+					break;
+				}
+				if(castle.isDead()){
 					youLose();
 					break;
 				}
