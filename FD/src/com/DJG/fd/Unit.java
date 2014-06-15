@@ -27,7 +27,7 @@ public class Unit {
 	private int maxHitPoints;
 	private int attackSpeed;
 	private int damage;
-	private int attackWait;
+	private int attackWait;//when hit 0, unit can attack
 	
 	// Wave Information:
 	private int waveSpawnDelay; // How long to delay the next unit from spawning?
@@ -45,7 +45,7 @@ public class Unit {
 		maxHitPoints = u.getMaxHitPoints();
 		currentHitPoints = maxHitPoints;
 		attackSpeed = u.getAttackSpeed();
-		attackWait = attackSpeed;
+		attackWait = 0;
 		damage = u.getDamage();
 		// TEMPORARY COLOR FOR COOLNESS
 		color = c;
@@ -127,7 +127,17 @@ public class Unit {
 	
 	public void attacks(Unit u){
 		u.takeDamage(getDamage());
-		attackWait = attackSpeed;
+		attackWait = 1000;
+	}
+	
+	
+	public Boolean canAttack(){
+		if(attackWait <= 0){
+			return true;
+		}else{
+			attackWait = attackWait - attackSpeed;
+			return false;
+		}
 	}
 	
 	public void die() {
