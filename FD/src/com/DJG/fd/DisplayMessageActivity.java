@@ -285,7 +285,7 @@ public class DisplayMessageActivity extends ActionBarActivity {
 				float distanceXY = (float)Math.sqrt(yDistance*yDistance + xDistance*xDistance);
 				if(distanceXY <= castleRadius + u.getRadius() && u.getName() != "Fortress") {
 					//youLose();
-					u.attacks(castle);
+					if(u.canAttack()) { u.attacks(castle); }
 					break;
 				}
 				if(castle.isDead()){
