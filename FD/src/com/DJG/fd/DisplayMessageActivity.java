@@ -229,7 +229,7 @@ public class DisplayMessageActivity extends ActionBarActivity {
 		Display display = getWindowManager().getDefaultDisplay();
 		screenWidth = display.getWidth();
 		screenHeight = display.getHeight();
-	    Unit u = new Unit("Fortress","Castle",screenWidth/2,screenHeight/2,0,Color.WHITE);
+	    Unit u = new Unit("Fortress","Castle",screenWidth/2,screenHeight/2,Color.WHITE);
 	    Wave.initWaves();
 	}
 	
@@ -253,7 +253,7 @@ public class DisplayMessageActivity extends ActionBarActivity {
 	 void youLose() {
 		 gameOver = true;
 		 doOnce = true;
-		 levelText = "You fucked up.";
+		 levelText = "Wave " + (Wave.getCurrentWaveNumber() + 1) + " defeated you.";
 		 allUnits.clear(); // Don't request the lock because the caller is already locking it.
 		 Wave.destroyWaves();
 	 }
@@ -288,6 +288,11 @@ public class DisplayMessageActivity extends ActionBarActivity {
 					//youLose();
 					u.attacks(castle);
 					u.die();
+					if(castle.isDead()){
+						castleHP = "HP " + castle.getHP();
+						youLose();
+						break;
+					}
 					break;
 				}
 				if(castle.isDead()){

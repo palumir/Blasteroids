@@ -90,7 +90,7 @@ public class Wave extends ArrayList<Unit> {
 			int c = UnitType.getUnitType(type).getColor();
 			for(int i = 0; i<units.get(type); i++){
 				XY xy = getRandomXY();
-				wave.add(new Unit("Any Name",type,xy.x,xy.y,0,c));
+				wave.add(new Unit("Any Name",type,xy.x,xy.y,c));
 			}
 		}
 	}

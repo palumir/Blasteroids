@@ -11,12 +11,12 @@ public class UnitType {
 	
 	public static void initUnitTypes() {
 		allUnitTypes = new ArrayList<UnitType>();
-		allUnitTypes.add(new UnitType("Ogre",30,1f, true, Color.CYAN, 2, 10));
-		allUnitTypes.add(new UnitType("Mage",25,0.8f,true, Color.BLUE, 1, 10));
-		allUnitTypes.add(new UnitType("Demon",30,0.7f,true, Color.RED, 2, 15));
-		allUnitTypes.add(new UnitType("Cat",25,3f, true, Color.WHITE,1, 10));
-		allUnitTypes.add(new UnitType("Cheetah",25,6f,true,Color.GREEN,1, 15));
-		allUnitTypes.add(new UnitType("Castle",50,0f,false,Color.WHITE,100,0)); // CASTLES DON'T MOVE OKAY?
+		allUnitTypes.add(new UnitType("Ogre",30,1f, true, Color.CYAN,"Circle", 2, 10));
+		allUnitTypes.add(new UnitType("Mage",25,0.8f,true, Color.BLUE, "Circle", 1, 10));
+		allUnitTypes.add(new UnitType("Demon",30,0.7f,true, Color.RED, "Circle", 2, 15));
+		allUnitTypes.add(new UnitType("Cat",25,3f, true, Color.WHITE, "Circle", 1, 10));
+		allUnitTypes.add(new UnitType("Cheetah",25,6f,true,Color.GREEN,"Circle", 1, 15));
+		allUnitTypes.add(new UnitType("Castle",50,0f,false,Color.WHITE,"Circle", 100,0)); // CASTLES DON'T MOVE OKAY?
 	}
 	
 	public static UnitType getUnitType(String searchType) {
@@ -41,11 +41,11 @@ public class UnitType {
 		color = Color.BLACK;
 	}
 	
-	public UnitType(String newType, int newRadius, float newMoveSpeed, boolean isKillable, int newColor, int newHP, int newDamage) {
+	public UnitType(String newType, int newRadius, float newMoveSpeed, boolean isKillable, int newColor, String newShape, int newHP, int newDamage) {
 		type = newType;
 		radius = newRadius;
 		moveSpeed = newMoveSpeed;
-	//	attackSpeed = newAS;
+		shape = newShape;
 		killable = isKillable;
 		color = newColor;
 		maxHitPoints = newHP;
@@ -59,6 +59,7 @@ public class UnitType {
 	
 	//UI stuff
 	private int color;
+	private String shape;
 	
 	//Unit stats
 	private int maxHitPoints;

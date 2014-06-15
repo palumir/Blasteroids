@@ -25,15 +25,9 @@ public class Unit {
 	// Unit Stats
 	private int currentHitPoints;
 	private int maxHitPoints;
-//	private int attackSpeed;
 	private int damage;
-//	private int attackWait;//when hit 0, unit can attack
-	
-	// Wave Information:
-	private int waveSpawnDelay; // How long to delay the next unit from spawning?
-	
 
-	public Unit(String newName, String newType, float xSpawn, float ySpawn, int newWaveSpawnDelay, int c) {
+	public Unit(String newName, String newType, float xSpawn, float ySpawn, int c) {
 		// Look up the UnitType and set the values.
 		UnitType u = UnitType.getUnitType(newType);
 		radius = u.getRadius();
@@ -44,10 +38,7 @@ public class Unit {
 		// Stats
 		maxHitPoints = u.getMaxHitPoints();
 		currentHitPoints = maxHitPoints;
-//		attackSpeed = u.getAttackSpeed();
-//		attackWait = 0;
 		damage = u.getDamage();
-		// TEMPORARY COLOR FOR COOLNESS
 		color = c;
 		
 		// Set it's coordinates.
@@ -57,7 +48,6 @@ public class Unit {
 		y = ySpawn;
 		xNew = xSpawn;
 		yNew = ySpawn;
-		waveSpawnDelay = newWaveSpawnDelay;
 		
 		// Add it to the list of units to be drawn.
 		DisplayMessageActivity.addUnit(this);
@@ -167,15 +157,6 @@ public class Unit {
 	public int getMaxHitPoints(){
 		return maxHitPoints;
 	}
-
-	/* AttackSpeed, not neede
-	public int getAttackSpeed(){
-		return attackSpeed;
-	}
-	
-	public int getAttackWait(){
-		return attackWait;
-	}*/
 	
 	public int getDamage(){
 		return damage;
