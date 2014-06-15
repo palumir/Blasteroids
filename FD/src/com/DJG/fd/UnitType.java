@@ -11,12 +11,12 @@ public class UnitType {
 	
 	public static void initUnitTypes() {
 		allUnitTypes = new ArrayList<UnitType>();
-		allUnitTypes.add(new UnitType("Ogre",30,1f, 35,true, Color.CYAN, 2, 20));
-		allUnitTypes.add(new UnitType("Mage",25,0.8f, 80,true, Color.BLUE, 1, 10));
-		allUnitTypes.add(new UnitType("Demon",30,0.7f,75,true, Color.RED, 2, 15));
-		allUnitTypes.add(new UnitType("Cat",25,3f,350, true, Color.WHITE,1, 3));
-		allUnitTypes.add(new UnitType("Cheetah",25,6f,200,true,Color.GREEN,1, 15));
-		allUnitTypes.add(new UnitType("Castle",50,0f,0,false,Color.WHITE,500,0)); // CASTLES DON'T MOVE OKAY?
+		allUnitTypes.add(new UnitType("Ogre",30,1f, true, Color.CYAN, 2, 10));
+		allUnitTypes.add(new UnitType("Mage",25,0.8f,true, Color.BLUE, 1, 10));
+		allUnitTypes.add(new UnitType("Demon",30,0.7f,true, Color.RED, 2, 15));
+		allUnitTypes.add(new UnitType("Cat",25,3f, true, Color.WHITE,1, 10));
+		allUnitTypes.add(new UnitType("Cheetah",25,6f,true,Color.GREEN,1, 15));
+		allUnitTypes.add(new UnitType("Castle",50,0f,false,Color.WHITE,100,0)); // CASTLES DON'T MOVE OKAY?
 	}
 	
 	public static UnitType getUnitType(String searchType) {
@@ -41,11 +41,11 @@ public class UnitType {
 		color = Color.BLACK;
 	}
 	
-	public UnitType(String newType, int newRadius, float newMoveSpeed, int newAS, boolean isKillable, int newColor, int newHP, int newDamage) {
+	public UnitType(String newType, int newRadius, float newMoveSpeed, boolean isKillable, int newColor, int newHP, int newDamage) {
 		type = newType;
 		radius = newRadius;
 		moveSpeed = newMoveSpeed;
-		attackSpeed = newAS;
+	//	attackSpeed = newAS;
 		killable = isKillable;
 		color = newColor;
 		maxHitPoints = newHP;
@@ -64,7 +64,7 @@ public class UnitType {
 	private int maxHitPoints;
 	private int damage;
 	private float moveSpeed;
-	private int attackSpeed;
+//	private int attackSpeed;
 	
 	
 	public boolean getKillable() {
@@ -91,9 +91,9 @@ public class UnitType {
 		return damage;
 	}
 	
-	public int getAttackSpeed(){
-		return attackSpeed;
-	}	
+//	public int getAttackSpeed(){
+//		return attackSpeed;
+//	}	
 	
 	public float getMoveSpeed() {
 		return moveSpeed;
