@@ -23,6 +23,9 @@ public class Wave extends ArrayList<Unit> {
 	public static void initWaves() {
 		// Obviously we just started the game.
 		waveSent = false;
+		
+		// Start at what wave?
+		currentWaveNumber = 0;
 		sendWave(0);
 	}
 
@@ -59,10 +62,11 @@ public class Wave extends ArrayList<Unit> {
 			unitMap.put("Demon", 15);
 			break;
 		case 8:
-			unitMap.put("Cat", 9);
+			unitMap.put("Cat", 5);
+			unitMap.put("Cheetah", 1);
 			break;
 		case 9:
-			unitMap.put("Cheetah", 1);
+			unitMap.put("Cheetah", 3);
 			break;
 		case 10:
 			unitMap.put("Ogre", 25);
@@ -194,9 +198,17 @@ public class Wave extends ArrayList<Unit> {
 	}
 	
 	public static void killUnit(Unit u) {
-		synchronized(currentWaveLock) {
-			int pos = getUnitPos(u);
-			currentWave.remove(pos);
-		}
+			synchronized(currentWaveLock) {
+				int foundUnit = 0;
+					for(Unit v : currentWave) {
+						if(v == u) {
+							break;
+						}
+						foundUnit++;
+					}
+					if(currentWave.size() != 0) {
+						currentWave.remove(foundUnit);
+					}
+				}
 	}
 }
