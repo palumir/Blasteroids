@@ -93,25 +93,26 @@ public class DisplayMessageActivity extends ActionBarActivity {
 	      @Override
 	      protected void onDraw(Canvas canvas) {
 	          Paint myPaint = new Paint();
+	          canvas.drawColor(Color.BLACK);
 	          
-	          // Draw all of our units (just one for now)
+	          // Draw our text.
   	        	myPaint.setStyle(Paint.Style.STROKE);
   	        	myPaint.setStrokeWidth(3);
   	        	myPaint.setTextSize(50);
-  	        	myPaint.setColor(Color.BLACK);
+  	        	myPaint.setColor(Color.WHITE);
   	        	canvas.drawText(levelText,50f,50f,myPaint);
   	        	canvas.drawText(castleHP, 50f, (float)(screenHeight-50) ,myPaint );
   	        	
+  	          // Draw all of our units (just one for now)
 	          synchronized(allUnitsLock) {
 	        	  for(Unit currentUnit : allUnits) {
 	    	        myPaint.setStyle(Paint.Style.FILL);
 	        	  	myPaint.setStrokeWidth(23);
 	        	  	if(currentUnit.getName() == "Fortress") {
-	        		  	myPaint.setStrokeWidth(10);
+	        		  	myPaint.setStrokeWidth(1);
 	        		  	myPaint.setStyle(Paint.Style.STROKE);
-	        		  	// REALLY INEFFICIENT AND STUPID DO NOT ALLOCATE EVERY DRAW HOLY FUCK
-	        		    Bitmap castleBMP = BitmapFactory.decodeResource(getResources(), R.drawable.castle);
-	        	        canvas.drawBitmap(castleBMP, currentUnit.getX() - currentUnit.getRadius(), currentUnit.getY() - currentUnit.getRadius(), null);
+	        	  		myPaint.setColor(currentUnit.color);
+        		  		canvas.drawCircle(currentUnit.getX(), currentUnit.getY(), currentUnit.getRadius(), myPaint);
 	        	  	}
 	        	  	else {
 	        	  		myPaint.setColor(currentUnit.color);
@@ -228,7 +229,7 @@ public class DisplayMessageActivity extends ActionBarActivity {
 		Display display = getWindowManager().getDefaultDisplay();
 		screenWidth = display.getWidth();
 		screenHeight = display.getHeight();
-	    Unit u = new Unit("Fortress","Castle",screenWidth/2,screenHeight/2,0,Color.BLACK);
+	    Unit u = new Unit("Fortress","Castle",screenWidth/2,screenHeight/2,0,Color.WHITE);
 	    Wave.initWaves();
 	}
 	

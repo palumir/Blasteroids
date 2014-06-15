@@ -14,9 +14,9 @@ public class UnitType {
 		allUnitTypes.add(new UnitType("Ogre",30,1f, 35,true, Color.CYAN, 2, 20));
 		allUnitTypes.add(new UnitType("Mage",25,0.8f, 80,true, Color.BLUE, 1, 10));
 		allUnitTypes.add(new UnitType("Demon",30,0.7f,75,true, Color.RED, 2, 15));
-		allUnitTypes.add(new UnitType("Cat",25,3f,350, true, Color.BLACK,1, 3));
+		allUnitTypes.add(new UnitType("Cat",25,3f,350, true, Color.WHITE,1, 3));
 		allUnitTypes.add(new UnitType("Cheetah",25,6f,200,true,Color.GREEN,1, 15));
-		allUnitTypes.add(new UnitType("Castle",50,0f,0,false,Color.BLACK,500,0)); // CASTLES DON'T MOVE OKAY?
+		allUnitTypes.add(new UnitType("Castle",50,0f,0,false,Color.WHITE,500,0)); // CASTLES DON'T MOVE OKAY?
 	}
 	
 	public static UnitType getUnitType(String searchType) {
