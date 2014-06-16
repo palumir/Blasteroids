@@ -19,7 +19,8 @@ public class Unit {
 	// Combat information:
 	private boolean killable;
 	
-	// TEMPORARY COLOR STORE FOR COOLNESS
+	// Drawing information:
+	private String shape;
 	public int color;
 	
 	// Unit Stats
@@ -34,6 +35,7 @@ public class Unit {
 		type = u.getType();
 		moveSpeed = u.getMoveSpeed();
 		killable = u.getKillable();
+		shape = u.getShape();
 		
 		// Stats
 		maxHitPoints = u.getMaxHitPoints();
@@ -119,22 +121,10 @@ public class Unit {
 		u.takeDamage(getDamage());
 	}
 	
-//Attack Speed, not needed
-	/*
-	public Boolean canAttack(){
-		if(attackWait <= 0){
-			return true;
-		}else{
-			attackWait = attackWait - attackSpeed;
-			return false;
-		}
-	}*/
-	
 	public void die() {
 		DisplayMessageActivity.killUnit(this);
 		Wave.killUnit(this);
 	}
-	
 	
 	// Methods to get values
 	public String getName() {
@@ -164,6 +154,10 @@ public class Unit {
 	
 	public boolean getKillable() {
 		return killable;
+	}
+	
+	public String getShape() {
+		return shape;
 	}
 	
 	public float getX() {

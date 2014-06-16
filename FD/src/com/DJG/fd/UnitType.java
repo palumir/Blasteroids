@@ -12,10 +12,10 @@ public class UnitType {
 	public static void initUnitTypes() {
 		allUnitTypes = new ArrayList<UnitType>();
 		allUnitTypes.add(new UnitType("Ogre",30,1f, true, Color.CYAN,"Circle", 2, 10));
-		allUnitTypes.add(new UnitType("Mage",25,0.8f,true, Color.BLUE, "Circle", 1, 10));
+		allUnitTypes.add(new UnitType("Mage",50,0.8f,true, Color.BLUE, "Square", 1, 10));
 		allUnitTypes.add(new UnitType("Demon",30,0.7f,true, Color.RED, "Circle", 2, 15));
 		allUnitTypes.add(new UnitType("Cat",25,3f, true, Color.WHITE, "Circle", 1, 10));
-		allUnitTypes.add(new UnitType("Cheetah",25,6f,true,Color.GREEN,"Circle", 1, 15));
+		allUnitTypes.add(new UnitType("Cheetah",45,6f,true,Color.GREEN,"Square", 1, 15));
 		allUnitTypes.add(new UnitType("Castle",50,0f,false,Color.WHITE,"Circle", 100,0)); // CASTLES DON'T MOVE OKAY?
 	}
 	
@@ -65,7 +65,6 @@ public class UnitType {
 	private int maxHitPoints;
 	private int damage;
 	private float moveSpeed;
-//	private int attackSpeed;
 	
 	
 	public boolean getKillable() {
@@ -92,9 +91,9 @@ public class UnitType {
 		return damage;
 	}
 	
-//	public int getAttackSpeed(){
-//		return attackSpeed;
-//	}	
+	public String getShape() {
+		return shape;
+	}
 	
 	public float getMoveSpeed() {
 		return moveSpeed;

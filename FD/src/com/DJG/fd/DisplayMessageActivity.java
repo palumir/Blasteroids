@@ -115,8 +115,17 @@ public class DisplayMessageActivity extends ActionBarActivity {
         		  		canvas.drawCircle(currentUnit.getX(), currentUnit.getY(), currentUnit.getRadius(), myPaint);
 	        	  	}
 	        	  	else {
+	        	  		// What shape do we draw?
 	        	  		myPaint.setColor(currentUnit.color);
-        		  		canvas.drawCircle(currentUnit.getX(), currentUnit.getY(), currentUnit.getRadius(), myPaint);
+	        	  		if(currentUnit.getShape() == "Circle") {
+	        	  			canvas.drawCircle(currentUnit.getX(), currentUnit.getY(), currentUnit.getRadius(), myPaint);
+	        	  		}
+	        	  		if(currentUnit.getShape() == "Square") {
+	      	              canvas.drawRect(currentUnit.getX(), currentUnit.getY(), currentUnit.getX() + currentUnit.getRadius(), currentUnit.getY() + currentUnit.getRadius(), myPaint );
+	        	  		}
+	        	  		if(currentUnit.getShape() == "Triangle") {
+	        	  			canvas.drawCircle(currentUnit.getX(), currentUnit.getY(), currentUnit.getRadius(), myPaint);
+	        	  		}
 	        	  	}
 	          	}
 	          }
@@ -216,9 +225,15 @@ public class DisplayMessageActivity extends ActionBarActivity {
 	
 	public static void killUnit(Unit u) {
 		if(allUnits.size()!=0){
-			int pos = getUnitPos(u);
 			synchronized(allUnitsLock) {
-				allUnits.remove(pos);
+				int foundUnit = 0;
+				for(Unit v : allUnits) {
+					if(u == v) {
+						break;
+					}
+					foundUnit++;
+				}
+				allUnits.remove(foundUnit);
 			}
 		}
 	}
