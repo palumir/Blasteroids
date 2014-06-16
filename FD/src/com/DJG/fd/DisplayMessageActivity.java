@@ -55,7 +55,6 @@ public class DisplayMessageActivity extends ActionBarActivity {
 	    }
 	    else if(action == android.view.MotionEvent.ACTION_UP) {
 	    	if(grabbedUnit != null && grabbedUnit.getKillable() && grabbedUnit == getUnitAt(event.getX(event.findPointerIndex(event.getPointerId(0))),event.getY(event.findPointerIndex(event.getPointerId(0))))) {
-    			Log.d("Event", "Unit is not null and is killable 1");
 	    		grabbedUnit.die();
 	    	}
 	    }
@@ -68,7 +67,6 @@ public class DisplayMessageActivity extends ActionBarActivity {
 		    }
 		    else if(action == android.view.MotionEvent.ACTION_POINTER_UP) {
 		    	if(grabbedUnit != null && grabbedUnit.getKillable() && grabbedUnit == getUnitAt(event.getX(event.findPointerIndex(event.getPointerId(0))),event.getY(event.findPointerIndex(event.getPointerId(0))))) {
-	    			Log.d("Event", "Unit is not null and is killable 1");
 		    		grabbedUnit.die();
 		    	}
 		    }
@@ -78,7 +76,6 @@ public class DisplayMessageActivity extends ActionBarActivity {
 	    	}
 	    	else if(action == android.view.MotionEvent.ACTION_POINTER_UP && secondGrabbedUnit == getUnitAt(event.getX(event.findPointerIndex(event.getPointerId(1))),event.getY(event.findPointerIndex(event.getPointerId(1))))) {
 	    	 	if(secondGrabbedUnit != null && secondGrabbedUnit.getKillable()) {
-	    			Log.d("Event", "Unit is not null and is killable 2");
 	    			secondGrabbedUnit.die();
 	    		}
 	    	}
@@ -101,7 +98,7 @@ public class DisplayMessageActivity extends ActionBarActivity {
 			 if(doOnce) { 
 				 gameOver = false;
 				 levelText = "Wave " + (Wave.getCurrentWaveNumber() + 1);
-				 castleHP = "HP: ";
+				 castleHP = "HEALTH ";
 				 initGame();
 				 playGame();
 				 doOnce = false;
@@ -148,6 +145,11 @@ public class DisplayMessageActivity extends ActionBarActivity {
 	        	  		}
 	        	  		if(currentUnit.getShape() == "Square") {
 	      	              canvas.drawRect(currentUnit.getX(), currentUnit.getY(), currentUnit.getX() + currentUnit.getRadius(), currentUnit.getY() + currentUnit.getRadius(), myPaint );
+	        	  		}
+	        	  		if(currentUnit.getShape() == "Plus") {
+	    	        	  	myPaint.setStrokeWidth(6);
+	        	  			canvas.drawLine(currentUnit.getX() + currentUnit.getRadius(), currentUnit.getY(), currentUnit.getX() + currentUnit.getRadius(), currentUnit.getY() + currentUnit.getRadius()*2, myPaint);
+	      	            	canvas.drawLine(currentUnit.getX(), currentUnit.getY() + currentUnit.getRadius(), currentUnit.getX() + currentUnit.getRadius()*2, currentUnit.getY() + currentUnit.getRadius(), myPaint);
 	        	  		}
 	        	  		if(currentUnit.getShape() == "Triangle") {
 	        	  			canvas.drawCircle(currentUnit.getX(), currentUnit.getY(), currentUnit.getRadius(), myPaint);
@@ -318,7 +320,7 @@ public class DisplayMessageActivity extends ActionBarActivity {
 		synchronized(allUnitsLock) {
 			// Where is the castle?
 			Unit castle = getUnit("Fortress");
-			castleHP = "HP " + castle.getHP();
+			castleHP = "HEALTH " + castle.getHP();
 			for(Unit u : allUnits) {
 			    float castleY = 0;
 			    float castleX = 0;
@@ -334,8 +336,8 @@ public class DisplayMessageActivity extends ActionBarActivity {
 				if(distanceXY <= castleRadius + u.getRadius() && u.getName() != "Fortress") {
 					u.attacks(castle);
 					u.die();
+					castleHP = "HEALTH " + castle.getHP();
 					if(castle.isDead()){
-						castleHP = "HP " + castle.getHP();
 						youLose();
 						break;
 					}

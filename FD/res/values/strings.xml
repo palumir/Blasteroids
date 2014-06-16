@@ -3,8 +3,7 @@
 
     <string name="app_name">FD</string>
     <string name="action_settings">Settings</string>
-    <string name="edit_message">Enter a Message</string>
-    <string name="button_send">Submit</string>
-    <string name="title_activity_display_message">My Message</string>
+    <string name="button_send">Play Survival Mode</string>
+    <string name="title_activity_display_message">Survival</string>
 
 </resources>
