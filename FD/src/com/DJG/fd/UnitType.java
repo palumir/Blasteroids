@@ -16,6 +16,10 @@ public class UnitType {
 		allUnitTypes.add(new UnitType("Demon",30,0.7f,true, Color.RED, "Circle", 2, 15));
 		allUnitTypes.add(new UnitType("Cat",25,3f, true, Color.WHITE, "Circle", 1, 10));
 		allUnitTypes.add(new UnitType("Cheetah",45,6f,true,Color.GREEN,"Square", 1, 15));
+		allUnitTypes.add(new UnitType("Splitter Huge",200,1f,true,Color.RED,"Square", 1, 200));
+		allUnitTypes.add(new UnitType("Splitter Big",100,0.5f,true,Color.YELLOW,"Square", 1, 100));
+		allUnitTypes.add(new UnitType("Splitter Medium",50,0.25f,true,Color.CYAN,"Square", 1, 25));
+		allUnitTypes.add(new UnitType("Splitter Small",25,0.1f,true,Color.BLUE,"Square", 1, 10));
 		allUnitTypes.add(new UnitType("Castle",50,0f,false,Color.WHITE,"Circle", 100,0)); // CASTLES DON'T MOVE OKAY?
 	}
 	
@@ -38,7 +42,7 @@ public class UnitType {
 		radius = newRadius;
 		moveSpeed = newMoveSpeed;
 		killable = isKillable;
-		color = Color.BLACK;
+		color = Color.WHITE;
 	}
 	
 	public UnitType(String newType, int newRadius, float newMoveSpeed, boolean isKillable, int newColor, String newShape, int newHP, int newDamage) {

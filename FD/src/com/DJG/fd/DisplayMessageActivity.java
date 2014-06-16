@@ -3,8 +3,6 @@ package com.DJG.fd;
 import java.util.ArrayList;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -12,6 +10,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MotionEventCompat;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -28,8 +27,9 @@ public class DisplayMessageActivity extends ActionBarActivity {
 	private Thread gameThread;
 	private volatile static boolean gameOver;
 	
-	// Grabbed unit (with touch)
+	// Grabbed units (two, one for each hand);
 	private static Unit grabbedUnit = null;
+	private static Unit secondGrabbedUnit = null;
 	
 	// The current view.
 	private static View currentView;
@@ -42,19 +42,45 @@ public class DisplayMessageActivity extends ActionBarActivity {
 	
 	// List of all units. This list is constantly redrawn.
 	public static ArrayList<Unit> allUnits = new ArrayList<Unit>();
-	private final static Object allUnitsLock = new Object(); // A lock so we don't fuck up the allUnits
+	public final static Object allUnitsLock = new Object(); // A lock so we don't fuck up the allUnits
 	public static boolean doOnce = true;
 	
 	@Override
 	public boolean onTouchEvent(MotionEvent event) { 
+		
+		// Respond to a single touch event
 	    int action = MotionEventCompat.getActionMasked(event);
 	    if(action == android.view.MotionEvent.ACTION_DOWN) {
-	    	grabbedUnit = getUnitAt(event.getRawX(),event.getRawY());
+	    	grabbedUnit = getUnitAt(event.getX(event.findPointerIndex(event.getPointerId(0))),event.getY(event.findPointerIndex(event.getPointerId(0))));
 	    }
 	    else if(action == android.view.MotionEvent.ACTION_UP) {
-	    	// WIP: THIS DOESN'T ACTUALLY SUFFICE FOR FLINGING. JUST FOR ALPHA.
-	    	if(grabbedUnit != null && grabbedUnit.getKillable()) {
+	    	if(grabbedUnit != null && grabbedUnit.getKillable() && grabbedUnit == getUnitAt(event.getX(event.findPointerIndex(event.getPointerId(0))),event.getY(event.findPointerIndex(event.getPointerId(0))))) {
+    			Log.d("Event", "Unit is not null and is killable 1");
 	    		grabbedUnit.die();
+	    	}
+	    }
+	    
+	    // Respond to a multitouch event.
+	    if(event.getPointerCount() > 1) {
+			// Respond to the first touch event.
+		    if(action == android.view.MotionEvent.ACTION_POINTER_DOWN) {
+		    	grabbedUnit = getUnitAt(event.getX(event.findPointerIndex(event.getPointerId(0))),event.getY(event.findPointerIndex(event.getPointerId(0))));
+		    }
+		    else if(action == android.view.MotionEvent.ACTION_POINTER_UP) {
+		    	if(grabbedUnit != null && grabbedUnit.getKillable() && grabbedUnit == getUnitAt(event.getX(event.findPointerIndex(event.getPointerId(0))),event.getY(event.findPointerIndex(event.getPointerId(0))))) {
+	    			Log.d("Event", "Unit is not null and is killable 1");
+		    		grabbedUnit.die();
+		    	}
+		    }
+		    // Respond to the second touch event.
+	    	if(action == android.view.MotionEvent.ACTION_POINTER_DOWN) {
+	    	 	secondGrabbedUnit = getUnitAt(event.getX(event.findPointerIndex(event.getPointerId(1))),event.getY(event.findPointerIndex(event.getPointerId(1))));
+	    	}
+	    	else if(action == android.view.MotionEvent.ACTION_POINTER_UP && secondGrabbedUnit == getUnitAt(event.getX(event.findPointerIndex(event.getPointerId(1))),event.getY(event.findPointerIndex(event.getPointerId(1))))) {
+	    	 	if(secondGrabbedUnit != null && secondGrabbedUnit.getKillable()) {
+	    			Log.d("Event", "Unit is not null and is killable 2");
+	    			secondGrabbedUnit.die();
+	    		}
 	    	}
 	    }
 	    return true;
@@ -173,7 +199,13 @@ public class DisplayMessageActivity extends ActionBarActivity {
 				float yDistance = (u.getY() - y);
 				float xDistance = (u.getX() - x);
 				float distanceXY = (float)Math.sqrt(yDistance*yDistance + xDistance*xDistance);
-				if(distanceXY <= 50 + u.getRadius() && u.getName() != "Fortress") {
+				
+				// If the unit is very small make it easier to press.
+				if(distanceXY <= 45 + u.getRadius() && u.getName() != "Fortress" && u.getRadius() <= 50) {
+					return u;
+				}
+				// If the unit is big, don't make it get in the way of other things with a huge hitbox.
+				if(distanceXY <= 10 + u.getRadius() && u.getName() != "Fortress" && u.getRadius() > 50) {
 					return u;
 				}
 			}
@@ -233,7 +265,9 @@ public class DisplayMessageActivity extends ActionBarActivity {
 					}
 					foundUnit++;
 				}
-				allUnits.remove(foundUnit);
+				if(foundUnit < allUnits.size()) {
+					allUnits.remove(foundUnit);
+				}
 			}
 		}
 	}
@@ -244,7 +278,7 @@ public class DisplayMessageActivity extends ActionBarActivity {
 		Display display = getWindowManager().getDefaultDisplay();
 		screenWidth = display.getWidth();
 		screenHeight = display.getHeight();
-	    Unit u = new Unit("Fortress","Castle",screenWidth/2,screenHeight/2,Color.WHITE);
+	    Unit u = new Unit("Fortress","Castle",screenWidth/2,screenHeight/2);
 	    Wave.initWaves();
 	}
 	
@@ -279,14 +313,12 @@ public class DisplayMessageActivity extends ActionBarActivity {
 	
 	void updateAllUnits() {
 		// Unleash the waves.
-		synchronized(Wave.currentWaveLock) {
-			Wave.sendWaves();
-		}
+		Wave.sendWaves();
 		
-		// Where is the castle?
-		Unit castle = getUnit("Fortress");
-		castleHP = "HP " + castle.getHP();
 		synchronized(allUnitsLock) {
+			// Where is the castle?
+			Unit castle = getUnit("Fortress");
+			castleHP = "HP " + castle.getHP();
 			for(Unit u : allUnits) {
 			    float castleY = 0;
 			    float castleX = 0;
@@ -300,7 +332,6 @@ public class DisplayMessageActivity extends ActionBarActivity {
 				float xDistance = (castleX - u.getX());
 				float distanceXY = (float)Math.sqrt(yDistance*yDistance + xDistance*xDistance);
 				if(distanceXY <= castleRadius + u.getRadius() && u.getName() != "Fortress") {
-					//youLose();
 					u.attacks(castle);
 					u.die();
 					if(castle.isDead()){

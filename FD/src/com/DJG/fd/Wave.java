@@ -72,6 +72,9 @@ public class Wave extends ArrayList<Unit> {
 			unitMap.put("Ogre", 25);
 			unitMap.put("Cat", 3);
 			break;
+		case 11:
+			unitMap.put("Splitter Huge", 2);
+			break;
 		default:
 			unitMap.put("Ogre", r.nextInt(3*waveNumber)/2 +1);
 			unitMap.put("Mage", r.nextInt(waveNumber+1));
@@ -84,13 +87,12 @@ public class Wave extends ArrayList<Unit> {
 		currentWave = myWave;
 	}
 	
-	//Given a hash of how many units of each type you want, addes them to the given wave
+	//Given a hash of how many units of each type you want, adds them to the given wave
 	static void addUnitsToWave(HashMap<String, Integer> units, Wave wave){
 		for(String type : units.keySet()){
-			int c = UnitType.getUnitType(type).getColor();
 			for(int i = 0; i<units.get(type); i++){
 				XY xy = getRandomXY();
-				wave.add(new Unit("Any Name",type,xy.x,xy.y,c));
+				wave.add(new Unit("Any Name",type,xy.x,xy.y));
 			}
 		}
 	}
@@ -134,34 +136,44 @@ public class Wave extends ArrayList<Unit> {
 		return waveSent;
 	}
 	
+	public static void addToCurrentWave(Unit u) {
+		synchronized(currentWaveLock) {
+			currentWave.add(u);
+		}
+	}
+	
 	public static Wave getCurrentWave() {
 		return currentWave;
 	}
 	
 	public static void sendWaves() {
 		
-		// Send the next wave if the current one is empty!
-		if(currentWave.isEmpty()) {
-			currentWaveNumber++;
-			try {
-				Thread.sleep(2000);
-			}
-			catch(Throwable t) {
+		synchronized(currentWaveLock) {
+			// Send the next wave if the current one is empty!
+			if(currentWave.isEmpty()) {
+				currentWaveNumber++;
+				try {
+					Thread.sleep(2000);
+				}
+				catch(Throwable t) {
 				
-			}
-			DisplayMessageActivity.levelText = "Wave " + (currentWaveNumber+1);
-			synchronized(currentWaveLock) {
+				}
+				DisplayMessageActivity.levelText = "Wave " + (currentWaveNumber+1);
 				sendWave(currentWaveNumber);
+				}
+				waveSent = false;
+			// Tell the wave to attack the castle.
+			if(currentWave.getWaveSent() == false) {
+				currentWave.attackCastle();
+				waveSent = true; // Efficiency.
 			}
-			waveSent = false;
-		}
-		// Tell the wave to attack the castle.
-		if(currentWave.getWaveSent() == false) {
-			currentWave.attackCastle();
-			waveSent = true; // Efficiency.
 		}
 	}
-    
+
+	public static void currentWaveAttackCastle() {
+			currentWave.attackCastle();
+	}
+	
 	private void attackCastle() {
 		// Get the height, width, and a new random number generator.
 		int screenWidth = DisplayMessageActivity.getScreenWidth();
@@ -206,7 +218,7 @@ public class Wave extends ArrayList<Unit> {
 						}
 						foundUnit++;
 					}
-					if(currentWave.size() != 0) {
+					if(currentWave.size() != 0 && foundUnit < currentWave.size()) {
 						currentWave.remove(foundUnit);
 					}
 				}

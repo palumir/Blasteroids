@@ -28,7 +28,7 @@ public class Unit {
 	private int maxHitPoints;
 	private int damage;
 
-	public Unit(String newName, String newType, float xSpawn, float ySpawn, int c) {
+	public Unit(String newName, String newType, float xSpawn, float ySpawn) {
 		// Look up the UnitType and set the values.
 		UnitType u = UnitType.getUnitType(newType);
 		radius = u.getRadius();
@@ -41,7 +41,7 @@ public class Unit {
 		maxHitPoints = u.getMaxHitPoints();
 		currentHitPoints = maxHitPoints;
 		damage = u.getDamage();
-		color = c;
+		color = u.getColor();
 		
 		// Set it's coordinates.
 		name = newName;
@@ -52,7 +52,9 @@ public class Unit {
 		yNew = ySpawn;
 		
 		// Add it to the list of units to be drawn.
-		DisplayMessageActivity.addUnit(this);
+		synchronized(DisplayMessageActivity.allUnitsLock) {
+			DisplayMessageActivity.addUnit(this);
+		}
 	}
 	
 	public void moveNormally(float xGo, float yGo) {
@@ -122,6 +124,31 @@ public class Unit {
 	}
 	
 	public void die() {
+		
+		// Do special things for special units.
+		if(type == "Splitter Huge") {
+			Wave.addToCurrentWave(new Unit("Any Name","Splitter Big",this.getX(),this.getY()));
+			Wave.addToCurrentWave(new Unit("Any Name","Splitter Big",this.getX()+this.getRadius()/2 + 5,this.getY()));
+			Wave.addToCurrentWave(new Unit("Any Name","Splitter Big",this.getX(),this.getY()+this.getRadius()/2 + 5));
+			Wave.addToCurrentWave(new Unit("Any Name","Splitter Big",this.getX()+this.getRadius()/2 + 5,this.getY()+this.getRadius()/2 + 5));
+			Wave.currentWaveAttackCastle();
+		}
+		if(type == "Splitter Big") {
+			Wave.addToCurrentWave(new Unit("Any Name","Splitter Medium",this.getX(),this.getY()));
+			Wave.addToCurrentWave(new Unit("Any Name","Splitter Medium",this.getX()+this.getRadius()/2 + 5,this.getY()));
+			Wave.addToCurrentWave(new Unit("Any Name","Splitter Medium",this.getX(),this.getY()+this.getRadius()/2 + 5));
+			Wave.addToCurrentWave(new Unit("Any Name","Splitter Medium",this.getX()+this.getRadius()/2 + 5,this.getY()+this.getRadius()/2 + 5));
+			Wave.currentWaveAttackCastle();
+		}
+		if(type == "Splitter Medium") {
+			Wave.addToCurrentWave(new Unit("Any Name","Splitter Small",this.getX(),this.getY()));
+			Wave.addToCurrentWave(new Unit("Any Name","Splitter Small",this.getX()+this.getRadius()/2 + 5,this.getY() + 5));
+			Wave.addToCurrentWave(new Unit("Any Name","Splitter Small",this.getX(),this.getY()+this.getRadius()/2 + 5));
+			Wave.addToCurrentWave(new Unit("Any Name","Splitter Small",this.getX()+this.getRadius()/2 + 5,this.getY()+this.getRadius()/2 + 5));
+			Wave.currentWaveAttackCastle();
+		}
+		
+		// Kill the old unit.
 		DisplayMessageActivity.killUnit(this);
 		Wave.killUnit(this);
 	}
