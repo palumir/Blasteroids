@@ -15,7 +15,7 @@ public class UnitType {
 		allUnitTypes.add(new UnitType("Mage",50,0.8f,true, Color.BLUE, "Square", 1, 10));
 		allUnitTypes.add(new UnitType("Demon",30,0.7f,true, Color.RED, "Circle", 2, 15));
 		allUnitTypes.add(new UnitType("Cat",25,3f, true, Color.WHITE, "Circle", 1, 10));
-		allUnitTypes.add(new UnitType("Cheetah",45,6f,true,Color.YELLOW,"Square", 1, 15));
+		allUnitTypes.add(new UnitType("Cheetah",50,6f,true,Color.YELLOW,"Square", 1, 15));
 		allUnitTypes.add(new UnitType("Splitter Huge",200,1f,true,Color.RED,"Square", 1, 200));
 		allUnitTypes.add(new UnitType("Splitter Big",100,0.5f,true,Color.YELLOW,"Square", 1, 100));
 		allUnitTypes.add(new UnitType("Splitter Medium",50,0.25f,true,Color.CYAN,"Square", 1, 25));

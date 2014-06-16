@@ -34,8 +34,8 @@ public class Wave extends ArrayList<Unit> {
 		waveSent = false;
 		
 		// Start at what wave?
-		currentWaveNumber = 0;
-		sendWave(0);
+		currentWaveNumber = 12;
+		sendWave(12);
 	}
 
 	static void sendWave(int waveNumber){
@@ -45,8 +45,8 @@ public class Wave extends ArrayList<Unit> {
 		case 0:
 			unitMap.put("Ogre", new UnitPattern(3,"Random"));
 			break;
-		/*case 1:
-			unitMap.put("Mage", new UnitPattern(15,"Random"));
+		case 1:
+			unitMap.put("Mage", new UnitPattern(10,"Random"));
 			break;
 		case 2:
 			unitMap.put("Ogre", new UnitPattern(10,"Random"));
@@ -63,15 +63,15 @@ public class Wave extends ArrayList<Unit> {
 			unitMap.put("Mage", new UnitPattern(15,"Random"));
 			break;
 		case 6:
-			unitMap.put("Demon", new UnitPattern(30,"Random"));
+			unitMap.put("Demon", new UnitPattern(40,"Random"));
 			break;
 		case 7:
 			unitMap.put("Ogre", new UnitPattern(10,"Random"));
 			unitMap.put("Mage", new UnitPattern(10,"Random"));
-			unitMap.put("Demon", new UnitPattern(15,"Random"));
+			unitMap.put("Demon", new UnitPattern(10,"Random"));
 			break;
 		case 8:
-			unitMap.put("Cat", new UnitPattern(5,"Random"));
+			unitMap.put("Cat", new UnitPattern(4,"Random"));
 			unitMap.put("Cheetah", new UnitPattern(1,"Random"));
 			break;
 		case 9:
@@ -83,7 +83,7 @@ public class Wave extends ArrayList<Unit> {
 			break;
 		case 11:
 			unitMap.put("Splitter Huge", new UnitPattern(2,"Random"));
-			break;*/
+			break;
 		default:
 			unitMap.put("Ogre", new UnitPattern(r.nextInt(3*waveNumber)/2 +1,"Random"));
 			unitMap.put("Mage", new UnitPattern(r.nextInt(waveNumber+1),"Random"));

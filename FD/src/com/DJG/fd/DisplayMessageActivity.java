@@ -3,6 +3,8 @@ package com.DJG.fd;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -10,7 +12,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MotionEventCompat;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -22,6 +23,9 @@ import android.view.Window;
 import android.view.WindowManager;
 
 public class DisplayMessageActivity extends ActionBarActivity {
+	
+	// Shared data.
+	SharedPreferences prefs;
     
 	// The current game thread.
 	private Thread gameThread;
@@ -39,6 +43,8 @@ public class DisplayMessageActivity extends ActionBarActivity {
 	// Text, that's all.
 	public static String levelText;
 	public static String castleHP;
+	public static String highScoreText;
+	public static String previousHighScoreText;
 	
 	// List of all units. This list is constantly redrawn.
 	public static ArrayList<Unit> allUnits = new ArrayList<Unit>();
@@ -91,6 +97,7 @@ public class DisplayMessageActivity extends ActionBarActivity {
 	         requestWindowFeature(Window.FEATURE_NO_TITLE);
 	         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
 	                                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
+	         prefs = this.getSharedPreferences("flickOffGame", Context.MODE_PRIVATE);
 	         View v = new gameView(this);
 	         setContentView(v);
 	         currentView = v;
@@ -98,7 +105,9 @@ public class DisplayMessageActivity extends ActionBarActivity {
 			 if(doOnce) { 
 				 gameOver = false;
 				 levelText = "Wave " + (Wave.getCurrentWaveNumber() + 1);
-				 castleHP = "HEALTH ";
+				 highScoreText = "";
+				 previousHighScoreText = "";
+				 castleHP = "Health ";
 				 initGame();
 				 playGame();
 				 doOnce = false;
@@ -124,6 +133,8 @@ public class DisplayMessageActivity extends ActionBarActivity {
   	        	myPaint.setTextSize(50);
   	        	myPaint.setColor(Color.WHITE);
   	        	canvas.drawText(levelText,50f,50f,myPaint);
+  	        	canvas.drawText(highScoreText,50f,100f,myPaint);
+  	        	canvas.drawText(previousHighScoreText,50f,150f,myPaint);
   	        	canvas.drawText(castleHP, 50f, (float)(screenHeight-50) ,myPaint );
   	        	
   	          // Draw all of our units (just one for now)
@@ -197,13 +208,30 @@ public class DisplayMessageActivity extends ActionBarActivity {
 	// Get the selected unit at the coordinates.
 	public Unit getUnitAt(float x, float y) {
 		synchronized(allUnitsLock) {
+			// Spare the plusses if possible.
 			for(Unit u : allUnits) {
 				float yDistance = (u.getY() - y);
 				float xDistance = (u.getX() - x);
 				float distanceXY = (float)Math.sqrt(yDistance*yDistance + xDistance*xDistance);
 				
 				// If the unit is very small make it easier to press.
-				if(distanceXY <= 45 + u.getRadius() && u.getName() != "Fortress" && u.getRadius() <= 50) {
+				if(distanceXY <= 50 + u.getRadius() && u.getName() != "Fortress" && u.getRadius() <= 50 && u.getShape() != "Plus") {
+					return u;
+				}
+				// If the unit is big, don't make it get in the way of other things with a huge hitbox.
+				if(distanceXY <= 10 + u.getRadius() && u.getName() != "Fortress" && u.getRadius() > 50 && u.getShape() != "Plus") {
+					return u;
+				}
+			}
+			
+			// KILL THE PLUSSES!
+			for(Unit u : allUnits) {
+				float yDistance = (u.getY() - y);
+				float xDistance = (u.getX() - x);
+				float distanceXY = (float)Math.sqrt(yDistance*yDistance + xDistance*xDistance);
+				
+				// If the unit is very small make it easier to press.
+				if(distanceXY <= 50 + u.getRadius() && u.getName() != "Fortress" && u.getRadius() <= 50) {
 					return u;
 				}
 				// If the unit is big, don't make it get in the way of other things with a huge hitbox.
@@ -305,6 +333,18 @@ public class DisplayMessageActivity extends ActionBarActivity {
 		 gameOver = true;
 		 doOnce = true;
 		 levelText = "Wave " + (Wave.getCurrentWaveNumber() + 1) + " defeated you.";
+		 int currHighScore = prefs.getInt("highScoreSurvival", 0);
+		 if((Wave.getCurrentWaveNumber() + 1) > currHighScore)  {
+			 Editor editor = prefs.edit();
+			 editor.putInt("highScoreSurvival", (Wave.getCurrentWaveNumber() + 1));
+			 highScoreText = "New high score!";
+			 previousHighScoreText = "Previous: Wave " + currHighScore + ".";
+			 editor.commit();
+		 }
+		 else {
+			 highScoreText = "Current high score: Wave " + currHighScore + ".";
+			 previousHighScoreText = "";
+		 }
 		 allUnits.clear(); // Don't request the lock because the caller is already locking it.
 		 Wave.destroyWaves();
 	 }
@@ -320,7 +360,7 @@ public class DisplayMessageActivity extends ActionBarActivity {
 		synchronized(allUnitsLock) {
 			// Where is the castle?
 			Unit castle = getUnit("Fortress");
-			castleHP = "HEALTH " + castle.getHP();
+			castleHP = "Health " + castle.getHP();
 			for(Unit u : allUnits) {
 			    float castleY = 0;
 			    float castleX = 0;
@@ -336,7 +376,7 @@ public class DisplayMessageActivity extends ActionBarActivity {
 				if(distanceXY <= castleRadius + u.getRadius() && u.getName() != "Fortress") {
 					u.attacks(castle);
 					u.die();
-					castleHP = "HEALTH " + castle.getHP();
+					castleHP = "Health " + castle.getHP();
 					if(castle.isDead()){
 						youLose();
 						break;
