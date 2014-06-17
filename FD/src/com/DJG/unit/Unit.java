@@ -1,4 +1,7 @@
-package com.DJG.fd;
+package com.DJG.unit;
+
+import com.DJG.fd.DisplayMessageActivity;
+import com.DJG.fd.Wave;
 
 import android.graphics.Color;
 import android.util.Log;
@@ -77,8 +80,6 @@ public class Unit {
 		
 		// Move the unit.
 		if(xNew != x || yNew != y) {
-			if(xDistance != 0 && yDistance != 0) {
-				// Deal with negatives.
 				if(xDistance < 0) {
 					x = x + (-1)*Math.abs(xDistance/distanceXY)*step;
 				}
@@ -93,14 +94,6 @@ public class Unit {
 				else {
 					y = y + Math.abs(yDistance/distanceXY)*step;
 				}
-			}
-			else if(xDistance == 0 && yDistance != 0) {
-				y = yNew + step;
-			}
-			else if(yDistance == 0 && xDistance != 0) {
-				x = xNew + step;
-			}
-			else {}
 		}
 		
 		// Just move it if it's close.

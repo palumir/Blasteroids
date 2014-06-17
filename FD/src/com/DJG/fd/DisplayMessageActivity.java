@@ -2,6 +2,11 @@ package com.DJG.fd;
 
 import java.util.ArrayList;
 
+import com.DJG.ability.Ability;
+import com.DJG.ability.Bomb;
+import com.DJG.unit.Unit;
+import com.DJG.unit.UnitType;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -32,6 +37,8 @@ public class DisplayMessageActivity extends ActionBarActivity {
 	private volatile static boolean gameOver;
 	
 	// Grabbed units (two, one for each hand);
+	private static Ability grabbedAbility = null;
+	private static Ability secondGrabbedAbility = null;
 	private static Unit grabbedUnit = null;
 	private static Unit secondGrabbedUnit = null;
 	
@@ -52,37 +59,60 @@ public class DisplayMessageActivity extends ActionBarActivity {
 	public static boolean doOnce = true;
 	
 	@Override
-	public boolean onTouchEvent(MotionEvent event) { 
+	public boolean onTouchEvent(MotionEvent event) { 		
+		
+		float pos1 = event.getX(event.findPointerIndex(event.getPointerId(0)));
+		float pos2 = event.getY(event.findPointerIndex(event.getPointerId(0)));
 		
 		// Respond to a single touch event
 	    int action = MotionEventCompat.getActionMasked(event);
 	    if(action == android.view.MotionEvent.ACTION_DOWN) {
-	    	grabbedUnit = getUnitAt(event.getX(event.findPointerIndex(event.getPointerId(0))),event.getY(event.findPointerIndex(event.getPointerId(0))));
-	    	Bomb b = new Bomb(event.getX(event.findPointerIndex(event.getPointerId(0))),event.getY(event.findPointerIndex(event.getPointerId(0))),10000);
+	    	grabbedAbility = Ability.getAbilityAt(pos1,pos2);
+	    	if(grabbedAbility == null) {
+	    		grabbedUnit = getUnitAt(pos1,pos2);
+	    	}
 	    }
 	    else if(action == android.view.MotionEvent.ACTION_UP) {
-	    	if(grabbedUnit != null && grabbedUnit.getKillable() && grabbedUnit == getUnitAt(event.getX(event.findPointerIndex(event.getPointerId(0))),event.getY(event.findPointerIndex(event.getPointerId(0))))) {
+	    	if(grabbedAbility != null && grabbedAbility != Ability.getAbilityAt(pos1,pos2)) {
+	    		Bomb newBomb = new Bomb(pos1,pos2,5000);
+	    	}
+	    	if(grabbedUnit != null && grabbedUnit.getKillable() && grabbedUnit == getUnitAt(pos1,pos2)) {
 	    		grabbedUnit.die();
 	    	}
 	    }
 	    
 	    // Respond to a multitouch event.
 	    if(event.getPointerCount() > 1) {
+			float pos1Second = event.getX(event.findPointerIndex(event.getPointerId(1)));
+			float pos2Second = event.getY(event.findPointerIndex(event.getPointerId(1)));
+			
 			// Respond to the first touch event.
 		    if(action == android.view.MotionEvent.ACTION_POINTER_DOWN) {
-		    	grabbedUnit = getUnitAt(event.getX(event.findPointerIndex(event.getPointerId(0))),event.getY(event.findPointerIndex(event.getPointerId(0))));
+		    	grabbedAbility = Ability.getAbilityAt(pos1,pos2);
+		    	if(grabbedAbility == null) {
+		    		grabbedUnit = getUnitAt(pos1,pos2);
+		    	}
 		    }
 		    else if(action == android.view.MotionEvent.ACTION_POINTER_UP) {
-		    	if(grabbedUnit != null && grabbedUnit.getKillable() && grabbedUnit == getUnitAt(event.getX(event.findPointerIndex(event.getPointerId(0))),event.getY(event.findPointerIndex(event.getPointerId(0))))) {
+		    	if(grabbedAbility != null && grabbedAbility != Ability.getAbilityAt(pos1,pos2)) {
+		    		Bomb newBomb = new Bomb(pos1,pos2,5000);
+		    	}
+		    	if(grabbedUnit != null && grabbedUnit.getKillable() && grabbedUnit == getUnitAt(pos1,pos2)) {
 		    		grabbedUnit.die();
 		    	}
 		    }
 		    // Respond to the second touch event.
 	    	if(action == android.view.MotionEvent.ACTION_POINTER_DOWN) {
-	    	 	secondGrabbedUnit = getUnitAt(event.getX(event.findPointerIndex(event.getPointerId(1))),event.getY(event.findPointerIndex(event.getPointerId(1))));
+		    	secondGrabbedAbility = Ability.getAbilityAt(pos1Second,pos2Second);
+		    	if(secondGrabbedAbility == null) {
+		    		secondGrabbedUnit = getUnitAt(pos1Second,pos2Second);
+		    	}
 	    	}
-	    	else if(action == android.view.MotionEvent.ACTION_POINTER_UP && secondGrabbedUnit == getUnitAt(event.getX(event.findPointerIndex(event.getPointerId(1))),event.getY(event.findPointerIndex(event.getPointerId(1))))) {
-	    	 	if(secondGrabbedUnit != null && secondGrabbedUnit.getKillable()) {
+	    	else if(action == android.view.MotionEvent.ACTION_POINTER_UP && secondGrabbedUnit == getUnitAt(pos1Second,pos2Second)) {
+		    	if(secondGrabbedAbility != null && secondGrabbedAbility != Ability.getAbilityAt(pos1,pos2)) {
+		    		Bomb newBomb = new Bomb(pos1,pos2,5000);
+		    	}
+	    		if(secondGrabbedUnit != null && secondGrabbedUnit.getKillable()) {
 	    			secondGrabbedUnit.die();
 	    		}
 	    	}
@@ -137,6 +167,17 @@ public class DisplayMessageActivity extends ActionBarActivity {
   	        	canvas.drawText(highScoreText,50f,100f,myPaint);
   	        	canvas.drawText(previousHighScoreText,50f,150f,myPaint);
   	        	canvas.drawText(castleHP, 50f, (float)(screenHeight-50) ,myPaint );
+  	        	
+  	          // Draw ability icons. 
+  	        	synchronized(Ability.abilitiesLock) {
+  	        		for(Ability a : Ability.getEquippedAbilities()) {
+	        	  		myPaint.setColor(Color.WHITE);
+	        	  		if(a.getType() == "Bomb") {
+	          	        	canvas.drawText("B",a.getX()+7,a.getY()+a.getRadius()-6,myPaint);
+	        	  			canvas.drawRect(a.getX(), a.getY(), a.getX() + a.getRadius(), a.getY() + a.getRadius(), myPaint );
+	        	  		}
+  	        		}
+  	        	}
   	        	
   	          // Draw all of our abilities.
   	        	if(Bomb.getCurrentBomb() != null) {
@@ -317,6 +358,7 @@ public class DisplayMessageActivity extends ActionBarActivity {
 		screenHeight = display.getHeight();
 	    Unit u = new Unit("Fortress","Castle",screenWidth/2,screenHeight/2);
 	    Wave.initWaves();
+	    Ability.initAbilities();
 	}
 	
 	void playGame() {
@@ -354,6 +396,7 @@ public class DisplayMessageActivity extends ActionBarActivity {
 		 }
 		 allUnits.clear(); // Don't request the lock because the caller is already locking it.
 		 Wave.destroyWaves();
+		 Ability.clearAbilities();
 	 }
 	 
 	public static int numUnits() {

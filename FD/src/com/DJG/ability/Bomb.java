@@ -1,4 +1,4 @@
-package com.DJG.fd;
+package com.DJG.ability;
 
 public class Bomb {
 	
@@ -24,9 +24,9 @@ public class Bomb {
 	
 	public void updateBomb() {
 		if(this != null) {
-			radius++;
+			radius = radius+2;
 			long currentTime = System.currentTimeMillis();
-			if((int)(currentTime - startTime) == duration) {
+			if((int)(currentTime - startTime) > duration) {
 				currentBomb = null;
 			}
 		}
@@ -50,6 +50,10 @@ public class Bomb {
 
 	public float getY() {
 		return y;
+	}
+	
+	public static void clearBomb() {
+		currentBomb = null;
 	}
 	
 	public static Bomb getCurrentBomb() {
