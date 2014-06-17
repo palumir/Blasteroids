@@ -355,24 +355,23 @@ public class DisplayMessageActivity extends ActionBarActivity {
 	
 	void updateAllUnits() {
 		// Unleash the waves.
-		Wave.sendWaves();
-	;	
+		Wave.sendWaves();	
 		synchronized(allUnitsLock) {
 			// Where is the castle?
 			Unit castle = getUnit("Fortress");
 			castleHP = "Health " + castle.getHP();
-		    float castleY = 0;
-		    float castleX = 0;
-		    float castleRadius = 0;
-		    if(castle!=null) {
-		    	castleY = castle.getY();
-		    	castleX = castle.getX();
-		    	castleRadius = castle.getRadius();
-		    }
 			for(Unit u : allUnits) {
-				float yDistance = (float)(castleY - u.getY());
+			    float castleY = 0;
+			    float castleX = 0;
+			    float castleRadius = 0;
+			    if(castle!=null) {
+			    	castleY = castle.getY();
+			    	castleX = castle.getX();
+			    	castleRadius = castle.getRadius();
+			    }
+				float yDistance = (castleY - u.getY());
 				float xDistance = (castleX - u.getX());
-				float distanceXY = (float)Math.sqrt((yDistance*yDistance) + (xDistance*xDistance));
+				float distanceXY = (float)Math.sqrt(yDistance*yDistance + xDistance*xDistance);
 				if(distanceXY <= castleRadius + u.getRadius() && u.getName() != "Fortress") {
 					u.attacks(castle);
 					u.die();
