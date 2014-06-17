@@ -2,11 +2,6 @@ package com.DJG.fd;
 
 import java.util.ArrayList;
 
-import com.DJG.ability.Ability;
-import com.DJG.ability.Bomb;
-import com.DJG.unit.Unit;
-import com.DJG.unit.UnitType;
-
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -17,6 +12,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MotionEventCompat;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -26,6 +22,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+
+import com.DJG.ability.Ability;
+import com.DJG.ability.Bomb;
+import com.DJG.unit.Unit;
+import com.DJG.unit.UnitType;
 
 public class DisplayMessageActivity extends ActionBarActivity {
 	
@@ -63,21 +64,21 @@ public class DisplayMessageActivity extends ActionBarActivity {
 		
 		float pos1 = event.getX(event.findPointerIndex(event.getPointerId(0)));
 		float pos2 = event.getY(event.findPointerIndex(event.getPointerId(0)));
-		
+    	int action = MotionEventCompat.getActionMasked(event);
+    	
 		// Respond to a single touch event
-	    int action = MotionEventCompat.getActionMasked(event);
-	    if(action == android.view.MotionEvent.ACTION_DOWN) {
-	    	grabbedAbility = Ability.getAbilityAt(pos1,pos2);
-	    	if(grabbedAbility == null) {
+	    if(event.getPointerCount() <= 1) {
+	    	if(action == android.view.MotionEvent.ACTION_DOWN) {
+	    		grabbedAbility = Ability.getAbilityAt(pos1,pos2);
 	    		grabbedUnit = getUnitAt(pos1,pos2);
 	    	}
-	    }
-	    else if(action == android.view.MotionEvent.ACTION_UP) {
-	    	if(grabbedAbility != null && grabbedAbility != Ability.getAbilityAt(pos1,pos2)) {
-	    		Bomb newBomb = new Bomb(pos1,pos2,500);
-	    	}
-	    	if(grabbedUnit != null && grabbedUnit.getKillable() && grabbedUnit == getUnitAt(pos1,pos2)) {
-	    		grabbedUnit.die();
+	    	else if(action == android.view.MotionEvent.ACTION_UP) {
+	    		if(grabbedAbility != null && grabbedAbility != Ability.getAbilityAt(pos1,pos2)) {
+	    			grabbedAbility.dropBomb(pos1,pos2);
+	    		}
+	    		if(grabbedUnit != null && grabbedUnit.getKillable() && grabbedUnit == getUnitAt(pos1,pos2)) {
+	    			grabbedUnit.die();
+	    		}
 	    	}
 	    }
 	    
@@ -86,36 +87,35 @@ public class DisplayMessageActivity extends ActionBarActivity {
 			float pos1Second = event.getX(event.findPointerIndex(event.getPointerId(1)));
 			float pos2Second = event.getY(event.findPointerIndex(event.getPointerId(1)));
 			
-			// Respond to the first touch event.
+			
 		    if(action == android.view.MotionEvent.ACTION_POINTER_DOWN) {
+		    	// First touch.
 		    	grabbedAbility = Ability.getAbilityAt(pos1,pos2);
-		    	if(grabbedAbility == null) {
-		    		grabbedUnit = getUnitAt(pos1,pos2);
-		    	}
+		    	grabbedUnit = getUnitAt(pos1,pos2);
+		    	
+		    	// Second touch.
+		    	secondGrabbedAbility = Ability.getAbilityAt(pos1Second,pos2Second);
+		    	secondGrabbedUnit = getUnitAt(pos1Second,pos2Second);
 		    }
 		    else if(action == android.view.MotionEvent.ACTION_POINTER_UP) {
+		    	
+		    	// First touch.
 		    	if(grabbedAbility != null && grabbedAbility != Ability.getAbilityAt(pos1,pos2)) {
-		    		Bomb newBomb = new Bomb(pos1,pos2,5000);
+		    		grabbedAbility.dropBomb(pos1,pos2);
 		    	}
 		    	if(grabbedUnit != null && grabbedUnit.getKillable() && grabbedUnit == getUnitAt(pos1,pos2)) {
 		    		grabbedUnit.die();
 		    	}
-		    }
-		    // Respond to the second touch event.
-	    	if(action == android.view.MotionEvent.ACTION_POINTER_DOWN) {
-		    	secondGrabbedAbility = Ability.getAbilityAt(pos1Second,pos2Second);
-		    	if(secondGrabbedAbility == null) {
-		    		secondGrabbedUnit = getUnitAt(pos1Second,pos2Second);
+		    	
+		    	// Second touch.
+	    		if(secondGrabbedAbility != null && secondGrabbedAbility != Ability.getAbilityAt(pos1Second,pos2Second)) {
+		    		secondGrabbedAbility.dropBomb(pos1Second,pos2Second);
 		    	}
-	    	}
-	    	else if(action == android.view.MotionEvent.ACTION_POINTER_UP && secondGrabbedUnit == getUnitAt(pos1Second,pos2Second)) {
-		    	if(secondGrabbedAbility != null && secondGrabbedAbility != Ability.getAbilityAt(pos1,pos2)) {
-		    		Bomb newBomb = new Bomb(pos1,pos2,5000);
-		    	}
-	    		if(secondGrabbedUnit != null && secondGrabbedUnit.getKillable()) {
+	    		if(secondGrabbedUnit != null && secondGrabbedUnit.getKillable() && secondGrabbedUnit == getUnitAt(pos1Second,pos2Second)) {
 	    			secondGrabbedUnit.die();
 	    		}
-	    	}
+		    	
+		    }
 	    }
 	    return true;
 	}
@@ -159,7 +159,7 @@ public class DisplayMessageActivity extends ActionBarActivity {
 	          canvas.drawColor(Color.BLACK);
 	          
 	          // Draw our text.
-  	        	myPaint.setStyle(Paint.Style.STROKE);
+  	        	myPaint.setStyle(Paint.Style.FILL);
   	        	myPaint.setStrokeWidth(3);
   	        	myPaint.setTextSize(50);
   	        	myPaint.setColor(Color.WHITE);
@@ -171,24 +171,32 @@ public class DisplayMessageActivity extends ActionBarActivity {
   	          // Draw ability icons. 
   	        	synchronized(Ability.abilitiesLock) {
   	        		for(Ability a : Ability.getEquippedAbilities()) {
-	        	  		myPaint.setColor(Color.WHITE);
 	        	  		if(a.getType() == "Bomb") {
-	          	        	canvas.drawText("B",a.getX()+7,a.getY()+a.getRadius()-6,myPaint);
+	        	  			myPaint.setColor(Color.GREEN);
+			    	        myPaint.setStyle(Paint.Style.FILL);
+	        	  			canvas.drawRect(a.getX(), a.getY() + ((float)a.getRadius())*(1-a.getCDPercentRemaining()), a.getX() + a.getRadius(), a.getY() + a.getRadius(), myPaint );
+		        	  		myPaint.setColor(Color.WHITE);
+	          	        	canvas.drawText("B",a.getX()+12,a.getY()+a.getRadius()-12,myPaint);
+			    	        myPaint.setStyle(Paint.Style.STROKE);
 	        	  			canvas.drawRect(a.getX(), a.getY(), a.getX() + a.getRadius(), a.getY() + a.getRadius(), myPaint );
 	        	  		}
   	        		}
   	        	}
   	        	
   	          // Draw all of our abilities.
-  	        	if(Bomb.getCurrentBomb() != null) {
-  	        		myPaint.setColor(Bomb.getCurrentBomb().getColor());
-      	        	myPaint.setStrokeWidth(Bomb.getCurrentBomb().getStroke());
-  	        		canvas.drawCircle(Bomb.getCurrentBomb().getX(), Bomb.getCurrentBomb().getY(), Bomb.getCurrentBomb().getRadius(), myPaint);
+  	          synchronized(Bomb.bombsLock) {
+  				for(int i = 0; i < Bomb.getAllBombs().size(); i++) {
+  					Bomb b = Bomb.getAllBombs().get(i);
+  	        		myPaint.setColor(b.getColor());
+      	        	myPaint.setStrokeWidth(b.getStroke());
+  	        		canvas.drawCircle(b.getX(),b.getY(),b.getRadius(), myPaint);
+  	        	  }
   	        	}
   	        	
   	          // Draw all of our units (just one for now)
 	          synchronized(allUnitsLock) {
-	        	  for(Unit currentUnit : allUnits) {
+	  			for(int j = 0; j < allUnits.size(); j++) {
+					Unit currentUnit = allUnits.get(j);
 	    	        myPaint.setStyle(Paint.Style.FILL);
 	        	  	myPaint.setStrokeWidth(23);
 	        	  	if(currentUnit.getName() == "Fortress") {
@@ -258,7 +266,8 @@ public class DisplayMessageActivity extends ActionBarActivity {
 	public Unit getUnitAt(float x, float y) {
 		synchronized(allUnitsLock) {
 			// Spare the plusses if possible.
-			for(Unit u : allUnits) {
+			for(int j = 0; j < allUnits.size(); j++) {
+				Unit u = allUnits.get(j);
 				float yDistance = (u.getY() - y);
 				float xDistance = (u.getX() - x);
 				float distanceXY = (float)Math.sqrt(yDistance*yDistance + xDistance*xDistance);
@@ -274,7 +283,8 @@ public class DisplayMessageActivity extends ActionBarActivity {
 			}
 			
 			// KILL THE PLUSSES!
-			for(Unit u : allUnits) {
+			for(int j = 0; j < allUnits.size(); j++) {
+				Unit u = allUnits.get(j);
 				float yDistance = (u.getY() - y);
 				float xDistance = (u.getX() - x);
 				float distanceXY = (float)Math.sqrt(yDistance*yDistance + xDistance*xDistance);
@@ -311,7 +321,8 @@ public class DisplayMessageActivity extends ActionBarActivity {
 	public static Unit getUnit(String nameToSearch) {
 		synchronized(allUnitsLock) {
 			Unit foundUnit = null;
-			for(Unit u : allUnits) {
+			for(int j = 0; j < allUnits.size(); j++) {
+				Unit u = allUnits.get(j);
 				if(u.getName() == nameToSearch) {
 					foundUnit = u;
 					break;
@@ -324,7 +335,8 @@ public class DisplayMessageActivity extends ActionBarActivity {
 	public static int getUnitPos(Unit thisUnit) {
 		synchronized(allUnitsLock) {
 			int foundUnit = 0;
-			for(Unit u : allUnits) {
+			for(int j = 0; j < allUnits.size(); j++) {
+				Unit u = allUnits.get(j);
 				if(u == thisUnit) {
 					break;
 				}
@@ -338,7 +350,8 @@ public class DisplayMessageActivity extends ActionBarActivity {
 		if(allUnits.size()!=0){
 			synchronized(allUnitsLock) {
 				int foundUnit = 0;
-				for(Unit v : allUnits) {
+				for(int j = 0; j < allUnits.size(); j++) {
+					Unit v = allUnits.get(j);
 					if(u == v) {
 						break;
 					}
@@ -404,6 +417,34 @@ public class DisplayMessageActivity extends ActionBarActivity {
 		return allUnits.size();
 	}
 	
+	void checkIfHitCastleOrMove(Unit castle, Unit u) {
+		float castleY = 0;
+		float castleX = 0;
+		float castleRadius = 0;
+		if(castle!=null) {
+			castleY = castle.getY();
+			castleX = castle.getX();
+			castleRadius = castle.getRadius();
+		}
+		float yDistanceUnit = (castleY - u.getY());
+		float xDistanceUnit = (castleX - u.getX());
+		float distanceXYUnit = (float)Math.sqrt(yDistanceUnit*yDistanceUnit + xDistanceUnit*xDistanceUnit);
+		if(distanceXYUnit <= castleRadius + u.getRadius()) {
+			u.attacks(castle);
+			u.die();
+			castleHP = "Health " + castle.getHP();
+			if(castle.isDead()){
+				youLose();
+			}
+		}
+		if(castle.isDead()){
+			youLose();
+		}
+		else {
+			u.moveUnit();
+		}
+	}
+	
 	void updateAllUnits() {
 		// Unleash the waves.
 		Wave.sendWaves();
@@ -415,54 +456,15 @@ public class DisplayMessageActivity extends ActionBarActivity {
 			// Where is the castle?
 			Unit castle = getUnit("Fortress");
 			castleHP = "Health " + castle.getHP();
-			for(Unit u : allUnits) {
+			for(int j = 0; j < allUnits.size(); j++) {
+				Unit u = allUnits.get(j);
 				if(u.getName() != "Fortress") {
+					
 					// Check if we have hit a bomb.
-					float bombY = 0;
-					float bombX = 0;
-					float bombRadius = 0;
-					if(Bomb.getCurrentBomb()!=null) {
-						bombY = Bomb.getCurrentBomb().getY();
-						bombX = Bomb.getCurrentBomb().getX();
-						bombRadius = Bomb.getCurrentBomb().getRadius();
-					}
-					float yDistanceBomb = (bombY - u.getY());
-					float xDistanceBomb = (bombX - u.getX());
-					float distanceXYBomb = (float)Math.sqrt(yDistanceBomb*yDistanceBomb + xDistanceBomb*xDistanceBomb);
-					if(distanceXYBomb <= bombRadius + u.getRadius()) {
-						u.die();
-						break;
-					}
+					Bomb.checkIfHitBomb(u);
 				
 					// Check if we have hit the castle.
-					float castleY = 0;
-					float castleX = 0;
-					float castleRadius = 0;
-					if(castle!=null) {
-						castleY = castle.getY();
-						castleX = castle.getX();
-						castleRadius = castle.getRadius();
-					}
-					float yDistanceUnit = (castleY - u.getY());
-					float xDistanceUnit = (castleX - u.getX());
-					float distanceXYUnit = (float)Math.sqrt(yDistanceUnit*yDistanceUnit + xDistanceUnit*xDistanceUnit);
-					if(distanceXYUnit <= castleRadius + u.getRadius()) {
-						u.attacks(castle);
-						u.die();
-						castleHP = "Health " + castle.getHP();
-						if(castle.isDead()){
-							youLose();
-							break;
-						}
-						break;
-					}
-					if(castle.isDead()){
-						youLose();
-						break;
-					}
-					else {
-						u.moveUnit();
-					}
+					checkIfHitCastleOrMove(castle, u);
 				}
 			}
 		}

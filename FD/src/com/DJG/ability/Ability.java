@@ -9,18 +9,25 @@ public class Ability {
 	
 	// All abilities
 	private static ArrayList<Ability> equippedAbilities;
-	public final static Object abilitiesLock = new Object(); // A lock so we don't fuck up the allUnits
+	public final static Object abilitiesLock = new Object(); // A lock so we don't fuck up the abilities
 	
 	// General information
 	private String type;
 
+	// Cooldown information
+	private int coolDown;
+	
+	// When was it last used?
+	private long coolDownTime = 0;
+	
 	// Slot information.
 	private int slot;
 	private float x;
 	private float y;
 	private int radius;
 	
-	public Ability(String newType, int newSlot) {
+	public Ability(String newType, int newSlot, int newCoolDown) {
+		coolDown = newCoolDown;
 		slot = newSlot;
 		type = newType;
 		switch(slot){
@@ -37,7 +44,7 @@ public class Ability {
 	// Temporary
 	public static void initAbilities() {
 		equippedAbilities = new ArrayList<Ability>();
-		equippedAbilities.add(new Ability("Bomb",0));
+		equippedAbilities.add(new Ability("Bomb",0,5000));
 	}
 	
 	public static ArrayList<Ability> getEquippedAbilities() {
@@ -45,9 +52,37 @@ public class Ability {
 	}
 	
 	public static void updateAbilities() {
-		if(Bomb.getCurrentBomb() != null) {
-			Bomb.getCurrentBomb().updateBomb();
+		Bomb.updateBombs();
+	}
+	
+	public void dropBomb(float xSpawn,float ySpawn) {
+		if(this.isOffCoolDown()) {
+			this.putOnCoolDown();
+			synchronized(Bomb.bombsLock) {
+				Bomb newBomb = new Bomb(xSpawn,ySpawn);
+			}
 		}
+	} 
+	
+	public float getCDPercentRemaining() {
+		if(coolDownTime == 0 || this.isOffCoolDown() || coolDown == 0) {
+			return 1;
+		}
+		else {
+			return (float)(System.currentTimeMillis() - coolDownTime)/coolDown;
+		}
+	}
+	
+	public void putOnCoolDown() {
+		coolDownTime = System.currentTimeMillis();
+	}
+	
+	public boolean isOffCoolDown() {
+		return (System.currentTimeMillis() - coolDownTime > coolDown);
+	}
+	
+	public int getCoolDown() {
+		return coolDown;
 	}
 	
 	public String getType() {
@@ -95,11 +130,7 @@ public class Ability {
 					float distanceXY = (float)Math.sqrt(yDistance*yDistance + xDistance*xDistance);
 					
 					// If the unit is very small make it easier to press.
-					if(distanceXY <= 50 + u.getRadius() && u.getRadius() <= 50) {
-						return u;
-					}
-					// If the unit is big, don't make it get in the way of other things with a huge hitbox.
-					if(distanceXY <= 10 + u.getRadius() && u.getRadius() > 50) {
+					if(distanceXY <= 10 + u.getRadius()) {
 						return u;
 					}
 				}
