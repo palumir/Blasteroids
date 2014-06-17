@@ -74,7 +74,7 @@ public class DisplayMessageActivity extends ActionBarActivity {
 	    }
 	    else if(action == android.view.MotionEvent.ACTION_UP) {
 	    	if(grabbedAbility != null && grabbedAbility != Ability.getAbilityAt(pos1,pos2)) {
-	    		Bomb newBomb = new Bomb(pos1,pos2,5000);
+	    		Bomb newBomb = new Bomb(pos1,pos2,500);
 	    	}
 	    	if(grabbedUnit != null && grabbedUnit.getKillable() && grabbedUnit == getUnitAt(pos1,pos2)) {
 	    		grabbedUnit.die();
@@ -181,7 +181,8 @@ public class DisplayMessageActivity extends ActionBarActivity {
   	        	
   	          // Draw all of our abilities.
   	        	if(Bomb.getCurrentBomb() != null) {
-  	        		myPaint.setColor(Color.WHITE);
+  	        		myPaint.setColor(Bomb.getCurrentBomb().getColor());
+      	        	myPaint.setStrokeWidth(Bomb.getCurrentBomb().getStroke());
   	        		canvas.drawCircle(Bomb.getCurrentBomb().getX(), Bomb.getCurrentBomb().getY(), Bomb.getCurrentBomb().getRadius(), myPaint);
   	        	}
   	        	

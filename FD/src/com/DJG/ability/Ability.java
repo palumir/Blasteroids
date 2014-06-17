@@ -26,8 +26,8 @@ public class Ability {
 		switch(slot){
 		case 0:
 				x = DisplayMessageActivity.getScreenWidth()-100;
-				y = 20;
-				radius = 50;
+				y = DisplayMessageActivity.getScreenHeight()-100;
+				radius = 60;
 			break;
 		default:
 			break;
