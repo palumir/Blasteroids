@@ -18,6 +18,7 @@ public class Unit {
 	private float yNew;
 	private int radius;
 	private float moveSpeed;
+	private float spinSpeed;
 	
 	// Combat information:
 	private boolean killable;
@@ -39,7 +40,36 @@ public class Unit {
 		moveSpeed = u.getMoveSpeed();
 		killable = u.getKillable();
 		shape = u.getShape();
+		spinSpeed = 0;
+		// Stats
+		maxHitPoints = u.getMaxHitPoints();
+		currentHitPoints = maxHitPoints;
+		damage = u.getDamage();
+		color = u.getColor();
 		
+		// Set it's coordinates.
+		name = newName;
+		type = newType;
+		x = xSpawn;
+		y = ySpawn;
+		xNew = xSpawn;
+		yNew = ySpawn;
+		
+		// Add it to the list of units to be drawn.
+		synchronized(DisplayMessageActivity.allUnitsLock) {
+			DisplayMessageActivity.addUnit(this);
+		}
+	}
+	
+	public Unit(String newName, String newType, float xSpawn, float ySpawn, float spin) {
+		// Look up the UnitType and set the values.
+		UnitType u = UnitType.getUnitType(newType);
+		radius = u.getRadius();
+		type = u.getType();
+		moveSpeed = u.getMoveSpeed();
+		killable = u.getKillable();
+		shape = u.getShape();
+		spinSpeed = spin;
 		// Stats
 		maxHitPoints = u.getMaxHitPoints();
 		currentHitPoints = maxHitPoints;
@@ -78,6 +108,8 @@ public class Unit {
 		float step = moveSpeed;
 		float distanceXY = (float)Math.sqrt(yDistance*yDistance + xDistance*xDistance); // It should take this many frames to get there.
 		
+		
+		
 		// Move the unit.
 		if(xNew != x || yNew != y) {
 				if(xDistance < 0) {
@@ -93,7 +125,16 @@ public class Unit {
 				}
 				else {
 					y = y + Math.abs(yDistance/distanceXY)*step;
-				}
+				}	
+		}
+		
+		//Spin the Unit
+		if(spinSpeed!=0){
+			yDistance = (yNew - y);
+		 	xDistance = (xNew - x);
+		 	distanceXY = (float)Math.sqrt(yDistance*yDistance + xDistance*xDistance); 
+		 	x = x + spinSpeed*yDistance/(distanceXY);
+		 	y = y + spinSpeed*(0-xDistance)/(distanceXY);
 		}
 		
 		// Just move it if it's close.

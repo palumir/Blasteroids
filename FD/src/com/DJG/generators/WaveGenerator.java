@@ -36,6 +36,7 @@ public class WaveGenerator {
 	private int eastTracker = 0;
 	private int westTracker = 0;
 	private int spiralNumber = 30;
+	private int circleRadius = 500;
 	
 	public WaveGenerator(){
 		 screenWidth = DisplayMessageActivity.getScreenWidth();
@@ -76,6 +77,21 @@ public class WaveGenerator {
 					 xy = westLine();
 					 w.add(new Unit("Any Name",g.unitType,xy.x,xy.y));
 				}
+				break;
+			case SpinCardinal:
+				for(int i = 0; i<g.unitNumbers; i+=4){
+					 xy = northLine();
+					 w.add(new Unit("Any Name",g.unitType,xy.x,xy.y, 5));
+					 xy = eastLine();
+					 w.add(new Unit("Any Name",g.unitType,xy.x,xy.y, 5));
+					 xy = southLine();
+					 w.add(new Unit("Any Name",g.unitType,xy.x,xy.y, 5));
+					 xy = westLine();
+					 w.add(new Unit("Any Name",g.unitType,xy.x,xy.y, 5));
+				}
+				break;
+			case Circle:
+				buildCircle(w, g.unitNumbers, g.unitType );
 				break;
 			case LineFromNorth:
 				for (int i = 0; i<g.unitNumbers; i++){
@@ -178,5 +194,17 @@ public class WaveGenerator {
 	    }
 	    XY xy = new XY(xSpawn,ySpawn);
 	    return xy;
+	}
+	
+	public void buildCircle(Wave w, int n, String unitType){
+		double currentDegree = 0;
+		double degreeChange = (double) 360/n;
+		for(int i = 0; i<n; i++){
+			int x = (int) (screenWidth/2 + circleRadius*Math.cos(Math.toRadians(currentDegree))); 
+			int y = (int) (screenHeight/2 + circleRadius*Math.sin(Math.toRadians(currentDegree)));
+			currentDegree += degreeChange;
+			w.add(new Unit("New name", unitType, x, y, circleRadius/50));
+		}
+		circleRadius +=100;
 	}
 }
