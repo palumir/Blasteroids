@@ -29,11 +29,13 @@ public class WaveGenerator {
 	private static int xSpawn = -200;
 	private static int ySpawn = -200;
 	
+	
 	private static Random r = new Random();
 	private int northTracker = 0;
 	private int southTracker = 0;
 	private int eastTracker = 0;
 	private int westTracker = 0;
+	private int spiralNumber = 30;
 	
 	public WaveGenerator(){
 		 screenWidth = DisplayMessageActivity.getScreenWidth();
@@ -54,6 +56,12 @@ public class WaveGenerator {
 			case FullRandom:
 				for (int i = 0; i<g.unitNumbers; i++){
 					xy = getRandomXY();
+					w.add(new Unit("Any Name",g.unitType,xy.x,xy.y));
+				}
+				break;
+			case Spiral:
+				for(int i =0; i<g.unitNumbers; i++){
+					xy = spiralXY();
 					w.add(new Unit("Any Name",g.unitType,xy.x,xy.y));
 				}
 				break;
@@ -103,6 +111,13 @@ public class WaveGenerator {
 		}
 		
 		return w;
+	}
+	
+	private XY spiralXY(){
+		int x = screenWidth/2 + (int) (18 * spiralNumber *Math.cos(((double) spiralNumber)/3)) ; 
+		int y = screenHeight/2  + (int) (18 * spiralNumber *Math.sin(((double) spiralNumber)/3)) ;
+		spiralNumber++;
+		return new XY(x,y);
 	}
 	
 	private XY northLine(){

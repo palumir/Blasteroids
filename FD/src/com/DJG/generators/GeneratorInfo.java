@@ -14,7 +14,7 @@ public class GeneratorInfo {
 	}
 	
 	public enum spawnSystem{
-		FullRandom, Cardinal, LineFromNorth,LineFromEast, LineFromWest, LineFromSouth
+		FullRandom, Cardinal, LineFromNorth,LineFromEast, LineFromWest, LineFromSouth, Spiral
 	}
 	
 	public GeneratorInfo( String type, int unitNum, spawnSystem sSystem){
