@@ -3,6 +3,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
+import com.DJG.generators.WaveGenerator;
+import com.DJG.generators.GeneratorInfo;
+import com.DJG.generators.GeneratorInfo.spawnSystem;
+
 class XY {
 	public int x;
 	public int y;
@@ -23,6 +27,7 @@ class UnitPattern {
 }
 
 public class Wave extends ArrayList<Unit> {
+	private static WaveGenerator waveGenerator;
 	private static Wave currentWave;
 	public final static Object currentWaveLock = new Object(); // A lock so we don't fuck up the currentWave.
 	private static int currentWaveNumber;
@@ -32,116 +37,76 @@ public class Wave extends ArrayList<Unit> {
 	public static void initWaves() {
 		// Obviously we just started the game.
 		waveSent = false;
-		
+		waveGenerator = new WaveGenerator();
 		// Start at what wave?
-		currentWaveNumber = 12;
-		sendWave(12);
+		currentWaveNumber = 0;
+		sendWave(0);
 	}
 
 	static void sendWave(int waveNumber){
 		Wave myWave = new Wave();
 		HashMap<String, UnitPattern> unitMap = new HashMap<String, UnitPattern>();
+		ArrayList<GeneratorInfo> genInfo = new ArrayList<GeneratorInfo>();
 		switch(waveNumber){
 		case 0:
-			unitMap.put("Ogre", new UnitPattern(3,"Random"));
+			genInfo.add(new GeneratorInfo("Ogre", 4, spawnSystem.Cardinal));
 			break;
 		case 1:
-			unitMap.put("Mage", new UnitPattern(10,"Random"));
+			genInfo.add(new GeneratorInfo("Mage", 10,spawnSystem.FullRandom));
 			break;
 		case 2:
-			unitMap.put("Ogre", new UnitPattern(10,"Random"));
-			unitMap.put("Mage", new UnitPattern(10,"Random"));
+			genInfo.add(new GeneratorInfo("Ogre", 10,spawnSystem.FullRandom));
+			genInfo.add(new GeneratorInfo("Mage", 10,spawnSystem.FullRandom));
 			break;
 		case 3:
-			unitMap.put("Demon", new UnitPattern(20,"Random"));
+			genInfo.add(new GeneratorInfo("Demon", 20,spawnSystem.FullRandom));
 			break;
 		case 4:
-			unitMap.put("Cat", new UnitPattern(5,"Random"));
+			genInfo.add(new GeneratorInfo("Cat", 8,spawnSystem.Cardinal));
 			break;
 		case 5:
-			unitMap.put("Ogre", new UnitPattern(15,"Random"));
-			unitMap.put("Mage", new UnitPattern(15,"Random"));
+			genInfo.add(new GeneratorInfo("Ogre", 15,spawnSystem.FullRandom));
+			genInfo.add(new GeneratorInfo("Mage", 15,spawnSystem.FullRandom));
 			break;
 		case 6:
-			unitMap.put("Demon", new UnitPattern(40,"Random"));
+			genInfo.add(new GeneratorInfo("Demon", 20,spawnSystem.Cardinal));
+			genInfo.add(new GeneratorInfo("Demon", 20,spawnSystem.FullRandom));
 			break;
 		case 7:
-			unitMap.put("Ogre", new UnitPattern(10,"Random"));
-			unitMap.put("Mage", new UnitPattern(10,"Random"));
-			unitMap.put("Demon", new UnitPattern(10,"Random"));
+			genInfo.add(new GeneratorInfo("Ogre", 10,spawnSystem.FullRandom));
+			genInfo.add(new GeneratorInfo("Mage", 10,spawnSystem.FullRandom));
+			genInfo.add(new GeneratorInfo("Demon", 10,spawnSystem.FullRandom));
 			break;
 		case 8:
-			unitMap.put("Cat", new UnitPattern(4,"Random"));
-			unitMap.put("Cheetah", new UnitPattern(1,"Random"));
+			genInfo.add(new GeneratorInfo("Cat", 4,spawnSystem.Cardinal));
+			genInfo.add(new GeneratorInfo("Cheetah", 1,spawnSystem.FullRandom));
 			break;
 		case 9:
-			unitMap.put("Cheetah", new UnitPattern(3,"Random"));
+			genInfo.add(new GeneratorInfo("Cheetah", 3,spawnSystem.FullRandom));
 			break;
 		case 10:
-			unitMap.put("Ogre", new UnitPattern(35,"Random"));
-			unitMap.put("Cat", new UnitPattern(3,"Random"));
+			genInfo.add(new GeneratorInfo("Ogre", 36,spawnSystem.FullRandom));
+			genInfo.add(new GeneratorInfo("Cat", 12,spawnSystem.Cardinal));
 			break;
 		case 11:
-			unitMap.put("Splitter Huge", new UnitPattern(2,"Random"));
+			genInfo.add(new GeneratorInfo("Splitter Huge", 2,spawnSystem.FullRandom));
 			break;
 		default:
-			unitMap.put("Ogre", new UnitPattern(r.nextInt(3*waveNumber)/2 +1,"Random"));
-			unitMap.put("Mage", new UnitPattern(r.nextInt(waveNumber+1),"Random"));
-			unitMap.put("Demon", new UnitPattern(r.nextInt(waveNumber+1),"Random"));
-			unitMap.put("Cat", new UnitPattern(r.nextInt(waveNumber/3+1),"Random"));
-			unitMap.put("Healer", new UnitPattern(r.nextInt(waveNumber/4+1),"Random"));
-			unitMap.put("Cheetah", new UnitPattern(r.nextInt(waveNumber/10+1),"Random"));
-			unitMap.put("FullHealer",new UnitPattern(r.nextInt(waveNumber/15+1),"Random"));
+			genInfo.add(new GeneratorInfo("Ogre", r.nextInt(3*waveNumber)/2 +1,spawnSystem.FullRandom));
+			genInfo.add(new GeneratorInfo("Mage", r.nextInt(waveNumber+1),spawnSystem.FullRandom));
+			genInfo.add(new GeneratorInfo("Demon", r.nextInt(waveNumber+1),spawnSystem.FullRandom));
+			genInfo.add(new GeneratorInfo("Cat", r.nextInt(waveNumber/5+1),spawnSystem.Cardinal));
+			genInfo.add(new GeneratorInfo("Cat", r.nextInt(waveNumber/5+1),spawnSystem.FullRandom));
+			genInfo.add(new GeneratorInfo("Healer", r.nextInt(waveNumber/4+1),spawnSystem.FullRandom));
+			genInfo.add(new GeneratorInfo("Cheetah", r.nextInt(waveNumber/10+1),spawnSystem.FullRandom));
+			genInfo.add(new GeneratorInfo("FullHealer", r.nextInt(waveNumber/15+1),spawnSystem.FullRandom));
 			break;
 		}
-		addUnitsToWave(unitMap, myWave);
-		currentWave = myWave;
+		//addUnitsToWave(unitMap, myWave);
+		
+		currentWave = waveGenerator.generateWave(genInfo);
 	}
 	
-	//Given a hash of how many units of each type you want, adds them to the given wave
-	static void addUnitsToWave(HashMap<String, UnitPattern> units, Wave wave){
-		for(String type : units.keySet()){
-			for(int i = 0; i<units.get(type).numUnits; i++){
-				XY xy = getRandomXY();
-				wave.add(new Unit("Any Name",type,xy.x,xy.y));
-			}
-		}
-	}
-	
-	private static XY getRandomXY() {
-		// Get the height, width, and a new random number generator.
-		int screenWidth = DisplayMessageActivity.getScreenWidth();
-		int screenHeight = DisplayMessageActivity.getScreenHeight();
-		int xSpawn = -200;
-		int ySpawn = -200;
-	    int whatQuarter = r.nextInt(4) + 1;
-	    
-	    // ^ // NORTH // TOP
-	    if(whatQuarter == 1) {
-	    	xSpawn = r.nextInt(screenWidth);
-	    	ySpawn = r.nextInt(300)*(-1)-50;
-	    }
-	    
-	    // > // EAST // RIGHT
-	    if(whatQuarter == 2) {
-	    	xSpawn = screenWidth + r.nextInt(300) + 50;
-	    	ySpawn = r.nextInt(screenHeight);
-	    }
-	    
-	    // \/ // SOUTH // BOTTOM
-	    if(whatQuarter == 3) {
-	    	xSpawn = r.nextInt(screenWidth);
-	    	ySpawn = screenHeight + r.nextInt(300) + 50;
-	    }
-	    
-	    // < // WEST // LEFT
-	    if(whatQuarter == 4) {
-	    	xSpawn = r.nextInt(300)*(-1)-50;
-	    	ySpawn = r.nextInt(screenHeight);
-	    }
-	    XY xy = new XY(xSpawn,ySpawn);
-	    return xy;
-	}
 	
 	public boolean getWaveSent() {
 		return waveSent;
