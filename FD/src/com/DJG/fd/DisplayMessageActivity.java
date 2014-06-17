@@ -58,6 +58,7 @@ public class DisplayMessageActivity extends ActionBarActivity {
 	    int action = MotionEventCompat.getActionMasked(event);
 	    if(action == android.view.MotionEvent.ACTION_DOWN) {
 	    	grabbedUnit = getUnitAt(event.getX(event.findPointerIndex(event.getPointerId(0))),event.getY(event.findPointerIndex(event.getPointerId(0))));
+	    	Bomb b = new Bomb(event.getX(event.findPointerIndex(event.getPointerId(0))),event.getY(event.findPointerIndex(event.getPointerId(0))),10000);
 	    }
 	    else if(action == android.view.MotionEvent.ACTION_UP) {
 	    	if(grabbedUnit != null && grabbedUnit.getKillable() && grabbedUnit == getUnitAt(event.getX(event.findPointerIndex(event.getPointerId(0))),event.getY(event.findPointerIndex(event.getPointerId(0))))) {
@@ -136,6 +137,12 @@ public class DisplayMessageActivity extends ActionBarActivity {
   	        	canvas.drawText(highScoreText,50f,100f,myPaint);
   	        	canvas.drawText(previousHighScoreText,50f,150f,myPaint);
   	        	canvas.drawText(castleHP, 50f, (float)(screenHeight-50) ,myPaint );
+  	        	
+  	          // Draw all of our abilities.
+  	        	if(Bomb.getCurrentBomb() != null) {
+  	        		myPaint.setColor(Color.WHITE);
+  	        		canvas.drawCircle(Bomb.getCurrentBomb().getX(), Bomb.getCurrentBomb().getY(), Bomb.getCurrentBomb().getRadius(), myPaint);
+  	        	}
   	        	
   	          // Draw all of our units (just one for now)
 	          synchronized(allUnitsLock) {
@@ -357,38 +364,61 @@ public class DisplayMessageActivity extends ActionBarActivity {
 		// Unleash the waves.
 		Wave.sendWaves();
 		
+		// Update abilities.
+		Ability.updateAbilities();
+		
 		synchronized(allUnitsLock) {
 			// Where is the castle?
 			Unit castle = getUnit("Fortress");
 			castleHP = "Health " + castle.getHP();
 			for(Unit u : allUnits) {
-			    float castleY = 0;
-			    float castleX = 0;
-			    float castleRadius = 0;
-			    if(castle!=null) {
-			    	castleY = castle.getY();
-			    	castleX = castle.getX();
-			    	castleRadius = castle.getRadius();
-			    }
-				float yDistance = (castleY - u.getY());
-				float xDistance = (castleX - u.getX());
-				float distanceXY = (float)Math.sqrt(yDistance*yDistance + xDistance*xDistance);
-				if(distanceXY <= castleRadius + u.getRadius() && u.getName() != "Fortress") {
-					u.attacks(castle);
-					u.die();
-					castleHP = "Health " + castle.getHP();
+				if(u.getName() != "Fortress") {
+					// Check if we have hit a bomb.
+					float bombY = 0;
+					float bombX = 0;
+					float bombRadius = 0;
+					if(Bomb.getCurrentBomb()!=null) {
+						bombY = Bomb.getCurrentBomb().getY();
+						bombX = Bomb.getCurrentBomb().getX();
+						bombRadius = Bomb.getCurrentBomb().getRadius();
+					}
+					float yDistanceBomb = (bombY - u.getY());
+					float xDistanceBomb = (bombX - u.getX());
+					float distanceXYBomb = (float)Math.sqrt(yDistanceBomb*yDistanceBomb + xDistanceBomb*xDistanceBomb);
+					if(distanceXYBomb <= bombRadius + u.getRadius()) {
+						u.die();
+						break;
+					}
+				
+					// Check if we have hit the castle.
+					float castleY = 0;
+					float castleX = 0;
+					float castleRadius = 0;
+					if(castle!=null) {
+						castleY = castle.getY();
+						castleX = castle.getX();
+						castleRadius = castle.getRadius();
+					}
+					float yDistanceUnit = (castleY - u.getY());
+					float xDistanceUnit = (castleX - u.getX());
+					float distanceXYUnit = (float)Math.sqrt(yDistanceUnit*yDistanceUnit + xDistanceUnit*xDistanceUnit);
+					if(distanceXYUnit <= castleRadius + u.getRadius()) {
+						u.attacks(castle);
+						u.die();
+						castleHP = "Health " + castle.getHP();
+						if(castle.isDead()){
+							youLose();
+							break;
+						}
+						break;
+					}
 					if(castle.isDead()){
 						youLose();
 						break;
 					}
-					break;
-				}
-				if(castle.isDead()){
-					youLose();
-					break;
-				}
-				else {
-					u.moveUnit();
+					else {
+						u.moveUnit();
+					}
 				}
 			}
 		}

@@ -24,6 +24,8 @@ class UnitPattern {
 
 public class Wave extends ArrayList<Unit> {
 	private static Wave currentWave;
+	private static boolean isFirst;
+	private static long waveEndedTime;
 	public final static Object currentWaveLock = new Object(); // A lock so we don't fuck up the currentWave.
 	private static int currentWaveNumber;
 	private static boolean waveSent = false;
@@ -32,10 +34,11 @@ public class Wave extends ArrayList<Unit> {
 	public static void initWaves() {
 		// Obviously we just started the game.
 		waveSent = false;
+		isFirst = true;
 		
 		// Start at what wave?
-		currentWaveNumber = 12;
-		sendWave(12);
+		currentWaveNumber = 0;
+		sendWave(0);
 	}
 
 	static void sendWave(int waveNumber){
@@ -160,19 +163,22 @@ public class Wave extends ArrayList<Unit> {
 	public static void sendWaves() {
 		
 		synchronized(currentWaveLock) {
-			// Send the next wave if the current one is empty!
-			if(currentWave.isEmpty()) {
+			
+			// Record when it first becomes empty.
+			if(currentWave.isEmpty() && isFirst) {
+				waveEndedTime = System.currentTimeMillis();
+				isFirst = false;
+			}
+			
+			// Send the next wave if the current one is empty and it has been two seconds!
+			if(currentWave.isEmpty() && System.currentTimeMillis() - waveEndedTime > 2000) {
 				currentWaveNumber++;
-				try {
-					Thread.sleep(1500);
-				}
-				catch(Throwable t) {
-				
-				}
 				DisplayMessageActivity.levelText = "Wave " + (currentWaveNumber+1);
 				sendWave(currentWaveNumber);
-				}
 				waveSent = false;
+				isFirst = true;
+			}
+
 			// Tell the wave to attack the castle.
 			if(currentWave.getWaveSent() == false) {
 				currentWave.attackCastle();
