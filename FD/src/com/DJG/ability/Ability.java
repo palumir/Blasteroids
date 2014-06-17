@@ -32,9 +32,9 @@ public class Ability {
 		type = newType;
 		switch(slot){
 		case 0:
-				x = DisplayMessageActivity.getScreenWidth()-100;
-				y = DisplayMessageActivity.getScreenHeight()-100;
-				radius = 60;
+				x = DisplayMessageActivity.getScreenWidth()-50;
+				y = DisplayMessageActivity.getScreenHeight()-50;
+				radius = 80;
 			break;
 		default:
 			break;
