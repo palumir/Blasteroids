@@ -174,11 +174,11 @@ public class DisplayMessageActivity extends ActionBarActivity {
 	        	  		if(a.getType() == "Bomb") {
 	        	  			myPaint.setColor(Color.GREEN);
 			    	        myPaint.setStyle(Paint.Style.FILL);
-	        	  			canvas.drawRect(a.getX(), a.getY() + ((float)a.getRadius())*(1-a.getCDPercentRemaining()), a.getX() + a.getRadius(), a.getY() + a.getRadius(), myPaint );
+	        	  			canvas.drawRect(a.getX() - +a.getRadius(), a.getY() + ((float)a.getRadius())*(1-a.getCDPercentRemaining()) - +a.getRadius(), a.getX(), a.getY(), myPaint );
 		        	  		myPaint.setColor(Color.WHITE);
-	          	        	canvas.drawText("B",a.getX()+12,a.getY()+a.getRadius()-12,myPaint);
+	          	        	canvas.drawText("B",a.getX()+23-a.getRadius(),a.getY()-22,myPaint);
 			    	        myPaint.setStyle(Paint.Style.STROKE);
-	        	  			canvas.drawRect(a.getX(), a.getY(), a.getX() + a.getRadius(), a.getY() + a.getRadius(), myPaint );
+	        	  			canvas.drawRect(a.getX() - a.getRadius(), a.getY() - a.getRadius(), a.getX(), a.getY(), myPaint );
 	        	  		}
   	        		}
   	        	}
@@ -212,7 +212,7 @@ public class DisplayMessageActivity extends ActionBarActivity {
 	        	  			canvas.drawCircle(currentUnit.getX(), currentUnit.getY(), currentUnit.getRadius(), myPaint);
 	        	  		}
 	        	  		if(currentUnit.getShape() == "Square") {
-	      	              canvas.drawRect(currentUnit.getX(), currentUnit.getY(), currentUnit.getX() + currentUnit.getRadius(), currentUnit.getY() + currentUnit.getRadius(), myPaint );
+	      	              canvas.drawRect(currentUnit.getX()-currentUnit.getRadius(), currentUnit.getY()-currentUnit.getRadius(), currentUnit.getX(), currentUnit.getY(), myPaint );
 	        	  		}
 	        	  		if(currentUnit.getShape() == "Plus") {
 	    	        	  	myPaint.setStrokeWidth(6);
