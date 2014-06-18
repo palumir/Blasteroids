@@ -3,6 +3,7 @@ package com.DJG.ability;
 import java.util.ArrayList;
 
 import android.graphics.Color;
+import android.util.Log;
 
 import com.DJG.unit.Unit;
 
@@ -22,14 +23,16 @@ public class Bomb {
 	private int radius;
 	private int blastRadius;
 	private int stroke;
+	private int maxStroke;
 	private int color;
 	
-	public Bomb(float newX, float newY) {
+	public Bomb(float newX, float newY, int newBlastRadius, int newDuration) {
 		x = newX;
 		y = newY;
 		color = Color.YELLOW;
-		stroke = 100;
-		blastRadius = 500;
+		maxStroke = 100;
+		blastRadius = newBlastRadius;
+		duration = newDuration;
 		startTime = System.currentTimeMillis();
 		synchronized(allBombs) {
 			addBomb(this);
@@ -39,8 +42,9 @@ public class Bomb {
 	public void updateBomb(int bombPos) {
 		synchronized(bombsLock) {
 		if(this != null) {
-			radius = radius+2;
-			stroke = stroke-1;
+			double percentDone = (double)(System.currentTimeMillis() - startTime)/(double)duration;
+			radius = (int)(blastRadius*percentDone);
+			stroke = (int)(maxStroke*(1 - percentDone));
 			long currentTime = System.currentTimeMillis();
 			if((int)(currentTime - startTime) > duration) {
 					removeBomb(bombPos);

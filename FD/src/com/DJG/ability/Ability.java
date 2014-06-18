@@ -59,7 +59,7 @@ public class Ability {
 		if(this.isOffCoolDown()) {
 			this.putOnCoolDown();
 			synchronized(Bomb.bombsLock) {
-				Bomb newBomb = new Bomb(xSpawn,ySpawn);
+				Bomb newBomb = new Bomb(xSpawn,ySpawn,500,1200); // Default explosion for now. Make upgradable.
 			}
 		}
 	} 

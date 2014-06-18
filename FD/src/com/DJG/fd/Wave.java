@@ -43,8 +43,8 @@ public class Wave extends ArrayList<Unit> {
 		isFirst = true;
 		waveGenerator = new WaveGenerator();
 		// Start at what wave?
-		currentWaveNumber = 0;
-		sendWave(0);
+		currentWaveNumber = 1;
+		sendWave(1);
 	}
 
 	static void sendWave(int waveNumber){
@@ -53,57 +53,57 @@ public class Wave extends ArrayList<Unit> {
 		ArrayList<GeneratorInfo> genInfo = new ArrayList<GeneratorInfo>();
 		switch(waveNumber){
 		case 0:
-			genInfo.add(new GeneratorInfo("Ogre", 4, spawnSystem.SpinCardinal));
+			genInfo.add(new GeneratorInfo("Ogre", 4, spawnSystem.FullRandom));
 			break;
 		case 1:
-			genInfo.add(new GeneratorInfo("Mage", 20,spawnSystem.FullRandom));
+			genInfo.add(new GeneratorInfo("Mage", 10,spawnSystem.LineFromNorth));
 			break;
 		case 2:
-			genInfo.add(new GeneratorInfo("Ogre", 10,spawnSystem.Circle));
-			genInfo.add(new GeneratorInfo("Mage", 10,spawnSystem.FullRandom));
+			genInfo.add(new GeneratorInfo("Ogre", 10,spawnSystem.LineFromEast));
+			genInfo.add(new GeneratorInfo("Ogre", 10,spawnSystem.LineFromWest));
 			break;
 		case 3:
 			genInfo.add(new GeneratorInfo("Demon", 20,spawnSystem.FullRandom));
 			break;
 		case 4:
-			genInfo.add(new GeneratorInfo("Cat", 4,spawnSystem.Circle));
+			genInfo.add(new GeneratorInfo("Ogre", 12,spawnSystem.Circle));
 			break;
 		case 5:
-			genInfo.add(new GeneratorInfo("Ogre", 15,spawnSystem.FullRandom));
-			genInfo.add(new GeneratorInfo("Mage", 15,spawnSystem.FullRandom));
+			genInfo.add(new GeneratorInfo("Ogre", 15,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Mage", 15,spawnSystem.Spiral));
 			break;
 		case 6:
-			genInfo.add(new GeneratorInfo("Demon", 20,spawnSystem.Cardinal));
-			genInfo.add(new GeneratorInfo("Demon", 20,spawnSystem.FullRandom));
+			genInfo.add(new GeneratorInfo("Demon", 10,spawnSystem.Circle));
+			genInfo.add(new GeneratorInfo("Demon", 10,spawnSystem.Circle));
+			genInfo.add(new GeneratorInfo("Demon", 20,spawnSystem.Circle));
 			break;
 		case 7:
-			genInfo.add(new GeneratorInfo("Ogre", 10,spawnSystem.FullRandom));
-			genInfo.add(new GeneratorInfo("Mage", 10,spawnSystem.FullRandom));
-			genInfo.add(new GeneratorInfo("Demon", 10,spawnSystem.FullRandom));
+			genInfo.add(new GeneratorInfo("Cat", 10,spawnSystem.LineFromNorth));
+			genInfo.add(new GeneratorInfo("Cat", 10,spawnSystem.LineFromSouth));
 			break;
 		case 8:
-			genInfo.add(new GeneratorInfo("Cat", 4,spawnSystem.Cardinal));
+			genInfo.add(new GeneratorInfo("Cat", 4,spawnSystem.LineFromNorth));
 			genInfo.add(new GeneratorInfo("Cheetah", 1,spawnSystem.FullRandom));
 			break;
 		case 9:
-			genInfo.add(new GeneratorInfo("Cheetah", 3,spawnSystem.FullRandom));
+			genInfo.add(new GeneratorInfo("Cheetah", 1,spawnSystem.LineFromNorth));
+			genInfo.add(new GeneratorInfo("Cheetah", 1,spawnSystem.Spiral));
 			break;
 		case 10:
-			genInfo.add(new GeneratorInfo("Ogre", 36,spawnSystem.FullRandom));
-			genInfo.add(new GeneratorInfo("Cat", 12,spawnSystem.Cardinal));
+			genInfo.add(new GeneratorInfo("Ogre", 24,spawnSystem.Circle));
 			break;
 		case 11:
-			genInfo.add(new GeneratorInfo("Splitter Huge", 2,spawnSystem.FullRandom));
+			genInfo.add(new GeneratorInfo("Splitter Huge", 1,spawnSystem.FullRandom));
 			break;
 		default:
 			genInfo.add(new GeneratorInfo("Ogre", r.nextInt(3*waveNumber)/2 +1,spawnSystem.FullRandom));
 			genInfo.add(new GeneratorInfo("Mage", r.nextInt(waveNumber+1),spawnSystem.FullRandom));
 			genInfo.add(new GeneratorInfo("Demon", r.nextInt(waveNumber+1),spawnSystem.FullRandom));
-			genInfo.add(new GeneratorInfo("Cat", r.nextInt(waveNumber/5+1),spawnSystem.Cardinal));
+			genInfo.add(new GeneratorInfo("Cat", r.nextInt(waveNumber/5+1),spawnSystem.FullRandom));
 			genInfo.add(new GeneratorInfo("Cat", r.nextInt(waveNumber/5+1),spawnSystem.FullRandom));
 			genInfo.add(new GeneratorInfo("Healer", r.nextInt(waveNumber/4+1),spawnSystem.FullRandom));
 			genInfo.add(new GeneratorInfo("Cheetah", r.nextInt(waveNumber/10+1),spawnSystem.FullRandom));
-			genInfo.add(new GeneratorInfo("FullHealer", r.nextInt(waveNumber/15+1),spawnSystem.FullRandom));
+			genInfo.add(new GeneratorInfo("FullHealer", r.nextInt(waveNumber/50+1),spawnSystem.FullRandom));
 			break;
 		}
 		//addUnitsToWave(unitMap, myWave);

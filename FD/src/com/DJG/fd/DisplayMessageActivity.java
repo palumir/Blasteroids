@@ -212,7 +212,7 @@ public class DisplayMessageActivity extends ActionBarActivity {
 	        	  			canvas.drawCircle(currentUnit.getX(), currentUnit.getY(), currentUnit.getRadius(), myPaint);
 	        	  		}
 	        	  		if(currentUnit.getShape() == "Square") {
-	      	              canvas.drawRect(currentUnit.getX()-currentUnit.getRadius(), currentUnit.getY()-currentUnit.getRadius(), currentUnit.getX(), currentUnit.getY(), myPaint );
+	      	              canvas.drawRect(currentUnit.getX()-currentUnit.getRadius()/2, currentUnit.getY()-currentUnit.getRadius()/2, currentUnit.getX() + currentUnit.getRadius()/2, currentUnit.getY() + currentUnit.getRadius()/2, myPaint );
 	        	  		}
 	        	  		if(currentUnit.getShape() == "Plus") {
 	    	        	  	myPaint.setStrokeWidth(6);
