@@ -76,7 +76,7 @@ public class DisplayMessageActivity extends ActionBarActivity {
 	    		if(grabbedAbility != null && grabbedAbility != Ability.getAbilityAt(pos1,pos2)) {
 	    			grabbedAbility.dropBomb(pos1,pos2);
 	    		}
-	    		if(grabbedUnit != null && grabbedUnit.getKillable() && grabbedUnit == getUnitAt(pos1,pos2)) {
+	    		if(grabbedUnit != null && grabbedUnit.getKillable()) {
 	    			grabbedUnit.die();
 	    		}
 	    	}
@@ -103,7 +103,7 @@ public class DisplayMessageActivity extends ActionBarActivity {
 		    	if(grabbedAbility != null && grabbedAbility != Ability.getAbilityAt(pos1,pos2)) {
 		    		grabbedAbility.dropBomb(pos1,pos2);
 		    	}
-		    	if(grabbedUnit != null && grabbedUnit.getKillable() && grabbedUnit == getUnitAt(pos1,pos2)) {
+		    	if(grabbedUnit != null && grabbedUnit.getKillable()) {
 		    		grabbedUnit.die();
 		    	}
 		    	
@@ -111,7 +111,7 @@ public class DisplayMessageActivity extends ActionBarActivity {
 	    		if(secondGrabbedAbility != null && secondGrabbedAbility != Ability.getAbilityAt(pos1Second,pos2Second)) {
 		    		secondGrabbedAbility.dropBomb(pos1Second,pos2Second);
 		    	}
-	    		if(secondGrabbedUnit != null && secondGrabbedUnit.getKillable() && secondGrabbedUnit == getUnitAt(pos1Second,pos2Second)) {
+	    		if(secondGrabbedUnit != null && secondGrabbedUnit.getKillable()) {
 	    			secondGrabbedUnit.die();
 	    		}
 		    	

@@ -66,7 +66,7 @@ public class Wave extends ArrayList<Unit> {
 			genInfo.add(new GeneratorInfo("Demon", 20,spawnSystem.FullRandom));
 			break;
 		case 4:
-			genInfo.add(new GeneratorInfo("Cat", 8,spawnSystem.Circle));
+			genInfo.add(new GeneratorInfo("Cat", 4,spawnSystem.Circle));
 			break;
 		case 5:
 			genInfo.add(new GeneratorInfo("Ogre", 15,spawnSystem.FullRandom));
