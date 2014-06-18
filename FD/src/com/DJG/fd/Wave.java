@@ -43,8 +43,8 @@ public class Wave extends ArrayList<Unit> {
 		isFirst = true;
 		waveGenerator = new WaveGenerator();
 		// Start at what wave?
-		currentWaveNumber = 1;
-		sendWave(1);
+		currentWaveNumber = 5;
+		sendWave(5);
 	}
 
 	static void sendWave(int waveNumber){
@@ -56,7 +56,7 @@ public class Wave extends ArrayList<Unit> {
 			genInfo.add(new GeneratorInfo("Ogre", 4, spawnSystem.FullRandom));
 			break;
 		case 1:
-			genInfo.add(new GeneratorInfo("Mage", 10,spawnSystem.LineFromNorth));
+			genInfo.add(new GeneratorInfo("Healer", 10,spawnSystem.LineFromNorth));
 			break;
 		case 2:
 			genInfo.add(new GeneratorInfo("Ogre", 10,spawnSystem.LineFromEast));

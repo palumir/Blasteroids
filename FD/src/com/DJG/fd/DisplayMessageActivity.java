@@ -7,12 +7,12 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Movie;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MotionEventCompat;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -74,7 +74,7 @@ public class DisplayMessageActivity extends ActionBarActivity {
 	    	}
 	    	else if(action == android.view.MotionEvent.ACTION_UP) {
 	    		if(grabbedAbility != null && grabbedAbility != Ability.getAbilityAt(pos1,pos2)) {
-	    			grabbedAbility.dropBomb(pos1,pos2);
+	    			grabbedAbility.useAbility(pos1,pos2);
 	    		}
 	    		if(grabbedUnit != null && grabbedUnit.getKillable()) {
 	    			grabbedUnit.die();
@@ -101,7 +101,7 @@ public class DisplayMessageActivity extends ActionBarActivity {
 		    	
 		    	// First touch.
 		    	if(grabbedAbility != null && grabbedAbility != Ability.getAbilityAt(pos1,pos2)) {
-		    		grabbedAbility.dropBomb(pos1,pos2);
+		    		grabbedAbility.useAbility(pos1,pos2);
 		    	}
 		    	if(grabbedUnit != null && grabbedUnit.getKillable()) {
 		    		grabbedUnit.die();
@@ -109,7 +109,7 @@ public class DisplayMessageActivity extends ActionBarActivity {
 		    	
 		    	// Second touch.
 	    		if(secondGrabbedAbility != null && secondGrabbedAbility != Ability.getAbilityAt(pos1Second,pos2Second)) {
-		    		secondGrabbedAbility.dropBomb(pos1Second,pos2Second);
+		    		secondGrabbedAbility.useAbility(pos1Second,pos2Second);
 		    	}
 	    		if(secondGrabbedUnit != null && secondGrabbedUnit.getKillable()) {
 	    			secondGrabbedUnit.die();
@@ -212,12 +212,12 @@ public class DisplayMessageActivity extends ActionBarActivity {
 	        	  			canvas.drawCircle(currentUnit.getX(), currentUnit.getY(), currentUnit.getRadius(), myPaint);
 	        	  		}
 	        	  		if(currentUnit.getShape() == "Square") {
-	      	              canvas.drawRect(currentUnit.getX()-currentUnit.getRadius()/2, currentUnit.getY()-currentUnit.getRadius()/2, currentUnit.getX() + currentUnit.getRadius()/2, currentUnit.getY() + currentUnit.getRadius()/2, myPaint );
+	      	              canvas.drawRect(currentUnit.getX()-currentUnit.getRadius(), currentUnit.getY()-currentUnit.getRadius(), currentUnit.getX() + currentUnit.getRadius(), currentUnit.getY() + currentUnit.getRadius(), myPaint );
 	        	  		}
 	        	  		if(currentUnit.getShape() == "Plus") {
 	    	        	  	myPaint.setStrokeWidth(6);
-	        	  			canvas.drawLine(currentUnit.getX() + currentUnit.getRadius(), currentUnit.getY(), currentUnit.getX() + currentUnit.getRadius(), currentUnit.getY() + currentUnit.getRadius()*2, myPaint);
-	      	            	canvas.drawLine(currentUnit.getX(), currentUnit.getY() + currentUnit.getRadius(), currentUnit.getX() + currentUnit.getRadius()*2, currentUnit.getY() + currentUnit.getRadius(), myPaint);
+	        	  			canvas.drawLine(currentUnit.getX() + currentUnit.getRadius()/2, currentUnit.getY() - currentUnit.getRadius()/2, currentUnit.getX() + currentUnit.getRadius()/2, currentUnit.getY() + currentUnit.getRadius()*2 - currentUnit.getRadius()/2, myPaint);
+	      	            	canvas.drawLine(currentUnit.getX() - currentUnit.getRadius()/2, currentUnit.getY() + currentUnit.getRadius()/2, currentUnit.getX() + currentUnit.getRadius()*2 - currentUnit.getRadius()/2, currentUnit.getY() + currentUnit.getRadius()/2, myPaint);
 	        	  		}
 	        	  		if(currentUnit.getShape() == "Triangle") {
 	        	  			canvas.drawCircle(currentUnit.getX(), currentUnit.getY(), currentUnit.getRadius(), myPaint);
@@ -395,7 +395,7 @@ public class DisplayMessageActivity extends ActionBarActivity {
 	 void youLose() {
 		 gameOver = true;
 		 doOnce = true;
-		 levelText = "Wave " + (Wave.getCurrentWaveNumber() + 1) + " defeated you.";
+		 levelText = "Wave " + (Wave.getCurrentWaveNumber()+1) + " defeated you.";
 		 int currHighScore = prefs.getInt("highScoreSurvival", 0);
 		 if((Wave.getCurrentWaveNumber() + 1) > currHighScore)  {
 			 Editor editor = prefs.edit();
@@ -420,6 +420,7 @@ public class DisplayMessageActivity extends ActionBarActivity {
 	void checkIfHitCastleOrMove(Unit castle, Unit u) {
 		float castleY = 0;
 		float castleX = 0;
+		boolean dontLoseAgain = false;
 		float castleRadius = 0;
 		if(castle!=null) {
 			castleY = castle.getY();
@@ -434,10 +435,11 @@ public class DisplayMessageActivity extends ActionBarActivity {
 			u.die();
 			castleHP = "Health " + castle.getHP();
 			if(castle.isDead()){
+				dontLoseAgain = true;
 				youLose();
 			}
 		}
-		if(castle.isDead()){
+		if(castle.isDead() && !dontLoseAgain){
 			youLose();
 		}
 		else {

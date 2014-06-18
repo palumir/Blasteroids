@@ -55,11 +55,13 @@ public class Ability {
 		Bomb.updateBombs();
 	}
 	
-	public void dropBomb(float xSpawn,float ySpawn) {
+	public void useAbility(float xSpawn,float ySpawn) {
 		if(this.isOffCoolDown()) {
 			this.putOnCoolDown();
-			synchronized(Bomb.bombsLock) {
-				Bomb newBomb = new Bomb(xSpawn,ySpawn,500,1200); // Default explosion for now. Make upgradable.
+			if(this.getType() == "Bomb") {
+				synchronized(Bomb.bombsLock) {
+					Bomb newBomb = new Bomb(xSpawn,ySpawn,250,1200); // Default explosion for now. Make upgradable.
+				}
 			}
 		}
 	} 
