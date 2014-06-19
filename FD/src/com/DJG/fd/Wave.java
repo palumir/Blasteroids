@@ -54,17 +54,18 @@ public class Wave extends ArrayList<Unit> {
 		switch(waveNumber){
 		case 0:
 			genInfo.add(new GeneratorInfo("Ogre", 4, spawnSystem.Circle));
-			genInfo.add(new GeneratorInfo("Ogre", 4, spawnSystem.Circle));
+			genInfo.add(new GeneratorInfo("Ogre", 4, spawnSystem.Circle, 15));
 			break;
 		case 1:
 			genInfo.add(new GeneratorInfo("Healer", 10,spawnSystem.LineFromNorth));
 			break;
 		case 2:
-			genInfo.add(new GeneratorInfo("Ogre", 10,spawnSystem.LineFromEast));
-			genInfo.add(new GeneratorInfo("Ogre", 10,spawnSystem.LineFromWest));
+			genInfo.add(new GeneratorInfo("Ogre", 10,spawnSystem.LineFromEast, 7));
+			genInfo.add(new GeneratorInfo("Ogre", 10,spawnSystem.LineFromWest, 7));
 			break;
 		case 3:
 			genInfo.add(new GeneratorInfo("Demon", 20,spawnSystem.FullRandom));
+			genInfo.add(new GeneratorInfo("Demon", 10,spawnSystem.FullRandom,10));
 			break;
 		case 4:
 			genInfo.add(new GeneratorInfo("Ogre", 12,spawnSystem.Circle));

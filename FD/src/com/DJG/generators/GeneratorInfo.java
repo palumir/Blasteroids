@@ -6,7 +6,8 @@ public class GeneratorInfo {
 	public int unitNumbers;
 	public String unitType;
 	//public unitOrder order;
-	public int startingDist;
+	public int startingDifference;
+	public int spin;
 	public spawnSystem spawn;
 	
 	public enum unitOrder{
@@ -21,13 +22,22 @@ public class GeneratorInfo {
 		unitNumbers = unitNum;
 		unitType = type;
 		spawn = sSystem;
-		startingDist = 0;
+		startingDifference = 0;
+		spin = 0;
 	}
-	
-	public GeneratorInfo( String type, int unitNum, spawnSystem sSystem, int startDistance){
+	public GeneratorInfo( String type, int unitNum, spawnSystem sSystem, int spinSpeed){
 		unitNumbers = unitNum;
 		unitType = type;
 		spawn = sSystem;
-		startingDist = startDistance;
+		startingDifference = 0;
+		spin = spinSpeed;
+	}
+	
+	public GeneratorInfo( String type, int unitNum, spawnSystem sSystem, int spinSpeed, int setDistance){
+		unitNumbers = unitNum;
+		unitType = type;
+		spawn = sSystem;
+		startingDifference = setDistance;
+		spin = spinSpeed;
 	}
 }

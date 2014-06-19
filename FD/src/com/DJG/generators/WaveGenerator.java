@@ -51,76 +51,85 @@ public class WaveGenerator {
 		Wave w = new Wave();
 		
 		for(GeneratorInfo g : genInfo){
+			int spinVal = g.spin;
 			spawnSystem s = g.spawn;
 			XY xy;
 			switch(s){
 			case FullRandom:
 				for (int i = 0; i<g.unitNumbers; i++){
 					xy = getRandomXY();
-					w.add(new Unit("Any Name",g.unitType,xy.x,xy.y));
+					w.add(new Unit("Any Name",g.unitType,xy.x,xy.y, spinVal));
 				}
 				break;
 			case Spiral:
 				for(int i =0; i<g.unitNumbers; i++){
 					xy = spiralXY();
-					w.add(new Unit("Any Name",g.unitType,xy.x,xy.y));
+					w.add(new Unit("Any Name",g.unitType,xy.x,xy.y, spinVal));
 				}
 				break;
 			case Cardinal:
+				northTracker += g.startingDifference;
+				southTracker += g.startingDifference;
+				eastTracker += g.startingDifference;
+				westTracker += g.startingDifference;
 				for(int i = 0; i<g.unitNumbers; i+=4){
 					 xy = northLine();
-					 w.add(new Unit("Any Name",g.unitType,xy.x,xy.y));
+					 w.add(new Unit("Any Name",g.unitType,xy.x,xy.y, spinVal));
 					 xy = eastLine();
-					 w.add(new Unit("Any Name",g.unitType,xy.x,xy.y));
+					 w.add(new Unit("Any Name",g.unitType,xy.x,xy.y,spinVal));
 					 xy = southLine();
-					 w.add(new Unit("Any Name",g.unitType,xy.x,xy.y));
+					 w.add(new Unit("Any Name",g.unitType,xy.x,xy.y, spinVal));
 					 xy = westLine();
-					 w.add(new Unit("Any Name",g.unitType,xy.x,xy.y));
+					 w.add(new Unit("Any Name",g.unitType,xy.x,xy.y, spinVal));
 				}
 				break;
 			case SpinCardinal:
 				for(int i = 0; i<g.unitNumbers; i+=4){
 					 xy = northLine();
-					 w.add(new Unit("Any Name",g.unitType,xy.x,xy.y, 5));
+					 w.add(new Unit("Any Name",g.unitType,xy.x,xy.y, spinVal));
 					 xy = eastLine();
-					 w.add(new Unit("Any Name",g.unitType,xy.x,xy.y, 5));
+					 w.add(new Unit("Any Name",g.unitType,xy.x,xy.y, spinVal));
 					 xy = southLine();
-					 w.add(new Unit("Any Name",g.unitType,xy.x,xy.y, 5));
+					 w.add(new Unit("Any Name",g.unitType,xy.x,xy.y, spinVal));
 					 xy = westLine();
-					 w.add(new Unit("Any Name",g.unitType,xy.x,xy.y, 5));
+					 w.add(new Unit("Any Name",g.unitType,xy.x,xy.y, spinVal));
 				}
 				break;
 			case Circle:
 				buildCircle(w, g.unitNumbers, g.unitType );
 				break;
 			case LineFromNorth:
+				northTracker += g.startingDifference;
 				for (int i = 0; i<g.unitNumbers; i++){
 					xy = northLine();
-					w.add(new Unit("Any Name",g.unitType,xy.x,xy.y));
+					w.add(new Unit("Any Name",g.unitType,xy.x,xy.y, spinVal));
 				}
 				break;
 			case LineFromEast:
+				eastTracker += g.startingDifference;
 				for (int i = 0; i<g.unitNumbers; i++){
 						xy = eastLine();
-					w.add(new Unit("Any Name",g.unitType,xy.x,xy.y));
+					w.add(new Unit("Any Name",g.unitType,xy.x,xy.y, spinVal));
 				}
 				break;
 			case LineFromSouth:
+				southTracker += g.startingDifference;
 				for (int i = 0; i<g.unitNumbers; i++){
 					xy = southLine();
-					w.add(new Unit("Any Name",g.unitType,xy.x,xy.y));
+					w.add(new Unit("Any Name",g.unitType,xy.x,xy.y,spinVal));
 				}
 				break;
 			case LineFromWest:
+				westTracker += g.startingDifference;
 				for (int i = 0; i<g.unitNumbers; i++){
 					xy = westLine();
-					w.add(new Unit("Any Name",g.unitType,xy.x,xy.y));
+					w.add(new Unit("Any Name",g.unitType,xy.x,xy.y,spinVal));
 				}
 				break;
 			default:
 				for (int i = 0; i<g.unitNumbers; i++){
 					 xy = getRandomXY();
-					w.add(new Unit("Any Name",g.unitType,xy.x,xy.y));
+					w.add(new Unit("Any Name",g.unitType,xy.x,xy.y, spinVal));
 				}
 				break;
 			}
