@@ -3,6 +3,7 @@ package com.DJG.units;
 import android.graphics.Bitmap;
 import android.util.Log;
 
+import com.DJG.abilities.Bomb;
 import com.DJG.fd.DisplayMessageActivity;
 import com.DJG.fd.Wave;
 
@@ -163,6 +164,9 @@ public class Unit {
 	public void die() {
 		
 		// Do special things for special units.
+		if(type=="Fire Asteroid") {
+			Bomb b = new Bomb(this.getX(),this.getY(),100,500);
+		}
 		if(type == "Splitter Huge") {
 			Wave.addToCurrentWave(new Unit("Any Name","Splitter Big",this.getX(),this.getY()));
 			Wave.addToCurrentWave(new Unit("Any Name","Splitter Big",this.getX()+this.getRadius()/2 + 5,this.getY()));

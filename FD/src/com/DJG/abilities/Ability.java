@@ -28,12 +28,14 @@ public class Ability {
 	private float y;
 	private int radius;
 	private MediaPlayer mpPlacement;
+	private int uses;
 	
-	public Ability(String newType, int newSlot, int newCoolDown, int soundID) {
+	public Ability(String newType, int newSlot, int newCoolDown, int newUses, int soundID) {
 		coolDown = newCoolDown;
 		mpPlacement = MediaPlayer.create(DisplayMessageActivity.survContext, soundID);
 		slot = newSlot;
 		type = newType;
+		uses = newUses;
 		switch(slot){
 		case 0:
 				x = DisplayMessageActivity.getScreenWidth()-50;
@@ -47,7 +49,7 @@ public class Ability {
 	
 	public static void initAbilities() {
 		equippedAbilities = new ArrayList<Ability>();
-		equippedAbilities.add(new Ability("Bomb",0,5000,R.raw.small_3_second_explosion));
+		equippedAbilities.add(new Ability("Bomb",0,5000,5,R.raw.small_3_second_explosion));
 	}
 	
 	public static ArrayList<Ability> getEquippedAbilities() {
@@ -63,9 +65,10 @@ public class Ability {
 	}
 	
 	public void useAbility(float xSpawn,float ySpawn) {
-		if(this.isOffCoolDown()) {
+		if(this.isOffCoolDown() && uses>0) {
 			// Well you just used it right, put in on CD!
 			this.putOnCoolDown();
+			uses--;
 			
 			// Play a sound of placing ability.
 			this.playPlaceSound();
@@ -97,6 +100,10 @@ public class Ability {
 	
 	public int getCoolDown() {
 		return coolDown;
+	}
+	
+	public int getUses() {
+		return uses;
 	}
 	
 	public String getType() {

@@ -33,18 +33,21 @@ public class DisplayMessageActivity extends ActionBarActivity {
 	
 	// Convert red to transparent in a bitmap
 	public static Bitmap makeTransparent(Bitmap bit) {
-		Bitmap myBitmap = bit.copy(bit.getConfig(),true);
+		int width =  bit.getWidth();
+		int height = bit.getHeight();
+		Bitmap myBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
 		int [] allpixels = new int [ myBitmap.getHeight()*myBitmap.getWidth()];
-
-		myBitmap.getPixels(allpixels, 0, myBitmap.getWidth(), 0, 0, myBitmap.getWidth(),myBitmap.getHeight());
+		bit.getPixels(allpixels, 0, myBitmap.getWidth(), 0, 0, myBitmap.getWidth(),myBitmap.getHeight());
+		myBitmap.setPixels(allpixels, 0, width, 0, 0, width, height);
 
 		for(int i =0; i<myBitmap.getHeight()*myBitmap.getWidth();i++){
 		 if( allpixels[i] == Color.BLACK)
 
-		             allpixels[i] = Color.TRANSPARENT;
+		             allpixels[i] = Color.alpha(Color.TRANSPARENT);
 		 }
 
 		  myBitmap.setPixels(allpixels, 0, myBitmap.getWidth(), 0, 0, myBitmap.getWidth(), myBitmap.getHeight());
+		  Log.d("Supports alpha?", myBitmap.hasAlpha() + "");
 		  return myBitmap;
 	}
 	
@@ -195,7 +198,11 @@ public class DisplayMessageActivity extends ActionBarActivity {
   	        	  			myPaint.setColor(Color.GREEN);
   			    	        myPaint.setStyle(Paint.Style.FILL);
   	        	  			canvas.drawRect(a.getX() - +a.getRadius(), a.getY() + ((float)a.getRadius())*(1-a.getCDPercentRemaining()) - +a.getRadius(), a.getX(), a.getY(), myPaint );
+  		        	  		myPaint.setColor(Color.RED);
+  		    	        	myPaint.setTextSize(23);
+  		        	  	    canvas.drawText(a.getUses() + "",a.getX()+4-a.getRadius(),a.getY()+22-a.getRadius(),myPaint);
   		        	  		myPaint.setColor(Color.WHITE);
+  		    	        	myPaint.setTextSize(50);
   	          	        	canvas.drawText("B",a.getX()+23-a.getRadius(),a.getY()-22,myPaint);
   			    	        myPaint.setStyle(Paint.Style.STROKE);
   	        	  			canvas.drawRect(a.getX() - a.getRadius(), a.getY() - a.getRadius(), a.getX(), a.getY(), myPaint );
@@ -289,6 +296,19 @@ public class DisplayMessageActivity extends ActionBarActivity {
 	// Get the selected unit at the coordinates.
 	public Unit getUnitAt(float x, float y) {
 		synchronized(allUnitsLock) {
+			// Kill the fiery ones first.
+			for(int j = 0; j < allUnits.size(); j++) {
+				Unit u = allUnits.get(j);
+				float yDistance = (u.getY() - y);
+				float xDistance = (u.getX() - x);
+				float distanceXY = (float)Math.sqrt(yDistance*yDistance + xDistance*xDistance);
+				
+				// If the unit is very small make it easier to press.
+				if(distanceXY <= 50 + u.getRadius() && u.getName() != "Fortress" && u.getType() == "Fire Asteroid") {
+					return u;
+				}
+			}
+			
 			// Spare the plusses if possible.
 			for(int j = 0; j < allUnits.size(); j++) {
 				Unit u = allUnits.get(j);
@@ -297,7 +317,7 @@ public class DisplayMessageActivity extends ActionBarActivity {
 				float distanceXY = (float)Math.sqrt(yDistance*yDistance + xDistance*xDistance);
 				
 				// If the unit is very small make it easier to press.
-				if(distanceXY <= 50 + u.getRadius() && u.getName() != "Fortress" && u.getRadius() <= 50 && u.getShape() != "Plus") {
+				if(distanceXY <= 30 + u.getRadius() && u.getName() != "Fortress" && u.getRadius() <= 50 && u.getShape() != "Plus") {
 					return u;
 				}
 				// If the unit is big, don't make it get in the way of other things with a huge hitbox.
@@ -314,7 +334,7 @@ public class DisplayMessageActivity extends ActionBarActivity {
 				float distanceXY = (float)Math.sqrt(yDistance*yDistance + xDistance*xDistance);
 				
 				// If the unit is very small make it easier to press.
-				if(distanceXY <= 50 + u.getRadius() && u.getName() != "Fortress" && u.getRadius() <= 50) {
+				if(distanceXY <= 30 + u.getRadius() && u.getName() != "Fortress" && u.getRadius() <= 50) {
 					return u;
 				}
 				// If the unit is big, don't make it get in the way of other things with a huge hitbox.

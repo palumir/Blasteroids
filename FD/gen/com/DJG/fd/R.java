@@ -983,7 +983,8 @@ containing a value of this type.
         public static final int abc_textfield_searchview_right_holo_light=0x7f020056;
         public static final int asteroid=0x7f020057;
         public static final int earth=0x7f020058;
-        public static final int ic_launcher=0x7f020059;
+        public static final int fire_asteroid=0x7f020059;
+        public static final int ic_launcher=0x7f02005a;
     }
     public static final class id {
         public static final int action_bar=0x7f06001c;

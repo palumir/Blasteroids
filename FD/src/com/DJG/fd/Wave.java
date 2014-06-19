@@ -53,30 +53,31 @@ public class Wave extends ArrayList<Unit> {
 		ArrayList<GeneratorInfo> genInfo = new ArrayList<GeneratorInfo>();
 		switch(waveNumber){
 		case 0:
-			genInfo.add(new GeneratorInfo("Ogre", 4, spawnSystem.FullRandom));
+			genInfo.add(new GeneratorInfo("Asteroid", 4, spawnSystem.FullRandom));
+			genInfo.add(new GeneratorInfo("Fire Asteroid", 4, spawnSystem.FullRandom));
 			break;
 		case 1:
-			genInfo.add(new GeneratorInfo("Ogre", 10,spawnSystem.Circle));
+			genInfo.add(new GeneratorInfo("Asteroid", 10,spawnSystem.Circle));
 			break;
 		case 2:
-			genInfo.add(new GeneratorInfo("Ogre", 10,spawnSystem.LineFromEast));
-			genInfo.add(new GeneratorInfo("Ogre", 10,spawnSystem.LineFromWest));
+			genInfo.add(new GeneratorInfo("Asteroid", 10,spawnSystem.LineFromEast));
+			genInfo.add(new GeneratorInfo("Asteroid", 10,spawnSystem.LineFromWest));
 			break;
 		case 3:
-			genInfo.add(new GeneratorInfo("Demon", 20,spawnSystem.FullRandom));
+			genInfo.add(new GeneratorInfo("Fire Asteroid", 20,spawnSystem.FullRandom));
 			break;
 		case 4:
-			genInfo.add(new GeneratorInfo("Ogre", 12,spawnSystem.Circle));
-			genInfo.add(new GeneratorInfo("Ogre", 12,spawnSystem.Circle));
+			genInfo.add(new GeneratorInfo("Asteroid", 12,spawnSystem.Circle));
+			genInfo.add(new GeneratorInfo("Asteroid", 12,spawnSystem.Circle));
 			break;
 		case 5:
-			genInfo.add(new GeneratorInfo("Ogre", 15,spawnSystem.Spiral));
-			genInfo.add(new GeneratorInfo("Mage", 15,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Asteroid", 15,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Fire Asteroid", 15,spawnSystem.Spiral));
 			break;
 		case 6:
-			genInfo.add(new GeneratorInfo("Demon", 10,spawnSystem.Circle));
-			genInfo.add(new GeneratorInfo("Demon", 10,spawnSystem.LineFromNorth));
-			genInfo.add(new GeneratorInfo("Demon", 10,spawnSystem.LineFromSouth));
+			genInfo.add(new GeneratorInfo("Asteroid", 10,spawnSystem.Circle));
+			genInfo.add(new GeneratorInfo("Asteroid", 10,spawnSystem.LineFromNorth));
+			genInfo.add(new GeneratorInfo("Asteroid", 10,spawnSystem.LineFromSouth));
 			break;
 		case 7:
 			genInfo.add(new GeneratorInfo("Cat", 10,spawnSystem.LineFromNorth));
@@ -95,17 +96,15 @@ public class Wave extends ArrayList<Unit> {
 			genInfo.add(new GeneratorInfo("Cheetah", 1,spawnSystem.Circle));
 			break;
 		case 10:
-			genInfo.add(new GeneratorInfo("Ogre", 20,spawnSystem.Circle));
-			genInfo.add(new GeneratorInfo("Ogre", 10,spawnSystem.Circle));
+			genInfo.add(new GeneratorInfo("Asteroid", 20,spawnSystem.Circle));
+			genInfo.add(new GeneratorInfo("Asteroid", 10,spawnSystem.Circle));
 			break;
 		case 11:
 			genInfo.add(new GeneratorInfo("Splitter Huge", 1,spawnSystem.FullRandom));
 			break;
 		default:
-			genInfo.add(new GeneratorInfo("Ogre", r.nextInt(3*waveNumber)/2 +1,spawnSystem.FullRandom));
-			genInfo.add(new GeneratorInfo("Mage", r.nextInt(waveNumber+1),spawnSystem.FullRandom));
-			genInfo.add(new GeneratorInfo("Demon", r.nextInt(waveNumber+1),spawnSystem.FullRandom));
-			genInfo.add(new GeneratorInfo("Cat", r.nextInt(waveNumber/5+1),spawnSystem.FullRandom));
+			genInfo.add(new GeneratorInfo("Asteroid", r.nextInt(waveNumber) +1,spawnSystem.FullRandom));
+			genInfo.add(new GeneratorInfo("Fire Asteroid", r.nextInt(2*waveNumber+1),spawnSystem.FullRandom));
 			genInfo.add(new GeneratorInfo("Cat", r.nextInt(waveNumber/5+1),spawnSystem.FullRandom));
 			genInfo.add(new GeneratorInfo("Healer", r.nextInt(waveNumber/4+1),spawnSystem.FullRandom));
 			genInfo.add(new GeneratorInfo("Cheetah", r.nextInt(waveNumber/10+1),spawnSystem.FullRandom));
