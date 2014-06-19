@@ -9,7 +9,7 @@ import com.DJG.fd.*;
 import com.DJG.generators.GeneratorInfo.unitOrder;
 import com.DJG.generators.GeneratorInfo.spawnSystem;
 import com.DJG.generators.GeneratorInfo;
-import com.DJG.unit.Unit;
+import com.DJG.units.Unit;
 import com.DJG.fd.DisplayMessageActivity;
 
 

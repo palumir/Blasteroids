@@ -6,7 +6,7 @@ import java.util.Random;
 import com.DJG.generators.WaveGenerator;
 import com.DJG.generators.GeneratorInfo;
 import com.DJG.generators.GeneratorInfo.spawnSystem;
-import com.DJG.unit.Unit;
+import com.DJG.units.Unit;
 
 class XY {
 	public int x;
@@ -43,8 +43,8 @@ public class Wave extends ArrayList<Unit> {
 		isFirst = true;
 		waveGenerator = new WaveGenerator();
 		// Start at what wave?
-		currentWaveNumber = 5;
-		sendWave(5);
+		currentWaveNumber = 0;
+		sendWave(0);
 	}
 
 	static void sendWave(int waveNumber){

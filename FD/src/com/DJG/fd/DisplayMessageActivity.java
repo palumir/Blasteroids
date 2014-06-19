@@ -5,14 +5,15 @@ import java.util.ArrayList;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Movie;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MotionEventCompat;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -23,17 +24,35 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 
-import com.DJG.ability.Ability;
-import com.DJG.ability.Bomb;
-import com.DJG.unit.Unit;
-import com.DJG.unit.UnitType;
+import com.DJG.abilities.Ability;
+import com.DJG.abilities.Bomb;
+import com.DJG.units.Unit;
+import com.DJG.units.UnitType;
 
 public class DisplayMessageActivity extends ActionBarActivity {
+	
+	// Convert red to transparent in a bitmap
+	public static Bitmap makeTransparent(Bitmap bit) {
+		Bitmap myBitmap = bit.copy(bit.getConfig(),true);
+		int [] allpixels = new int [ myBitmap.getHeight()*myBitmap.getWidth()];
+
+		myBitmap.getPixels(allpixels, 0, myBitmap.getWidth(), 0, 0, myBitmap.getWidth(),myBitmap.getHeight());
+
+		for(int i =0; i<myBitmap.getHeight()*myBitmap.getWidth();i++){
+		 if( allpixels[i] == Color.BLACK)
+
+		             allpixels[i] = Color.TRANSPARENT;
+		 }
+
+		  myBitmap.setPixels(allpixels, 0, myBitmap.getWidth(), 0, 0, myBitmap.getWidth(), myBitmap.getHeight());
+		  return myBitmap;
+	}
 	
 	// Shared data.
 	SharedPreferences prefs;
     
 	// The current game thread.
+	public static Context survContext;
 	private Thread gameThread;
 	private volatile static boolean gameOver;
 	
@@ -134,6 +153,7 @@ public class DisplayMessageActivity extends ActionBarActivity {
 	         currentView = v;
 
 			 if(doOnce) { 
+				 survContext = this.getApplicationContext();
 				 gameOver = false;
 				 levelText = "Wave " + (Wave.getCurrentWaveNumber() + 1);
 				 highScoreText = "";
@@ -168,30 +188,20 @@ public class DisplayMessageActivity extends ActionBarActivity {
   	        	canvas.drawText(previousHighScoreText,50f,150f,myPaint);
   	        	canvas.drawText(castleHP, 50f, (float)(screenHeight-50) ,myPaint );
   	        	
-  	          // Draw ability icons. 
-  	        	synchronized(Ability.abilitiesLock) {
-  	        		for(Ability a : Ability.getEquippedAbilities()) {
-	        	  		if(a.getType() == "Bomb") {
-	        	  			myPaint.setColor(Color.GREEN);
-			    	        myPaint.setStyle(Paint.Style.FILL);
-	        	  			canvas.drawRect(a.getX() - +a.getRadius(), a.getY() + ((float)a.getRadius())*(1-a.getCDPercentRemaining()) - +a.getRadius(), a.getX(), a.getY(), myPaint );
-		        	  		myPaint.setColor(Color.WHITE);
-	          	        	canvas.drawText("B",a.getX()+23-a.getRadius(),a.getY()-22,myPaint);
-			    	        myPaint.setStyle(Paint.Style.STROKE);
-	        	  			canvas.drawRect(a.getX() - a.getRadius(), a.getY() - a.getRadius(), a.getX(), a.getY(), myPaint );
-	        	  		}
-  	        		}
-  	        	}
-  	        	
-  	          // Draw all of our abilities.
-  	          synchronized(Bomb.bombsLock) {
-  				for(int i = 0; i < Bomb.getAllBombs().size(); i++) {
-  					Bomb b = Bomb.getAllBombs().get(i);
-  	        		myPaint.setColor(b.getColor());
-      	        	myPaint.setStrokeWidth(b.getStroke());
-  	        		canvas.drawCircle(b.getX(),b.getY(),b.getRadius(), myPaint);
-  	        	  }
-  	        	}
+    	          // Draw ability icons. 
+    	        	synchronized(Ability.abilitiesLock) {
+    	        		for(Ability a : Ability.getEquippedAbilities()) {
+  	        	  		if(a.getType() == "Bomb") {
+  	        	  			myPaint.setColor(Color.GREEN);
+  			    	        myPaint.setStyle(Paint.Style.FILL);
+  	        	  			canvas.drawRect(a.getX() - +a.getRadius(), a.getY() + ((float)a.getRadius())*(1-a.getCDPercentRemaining()) - +a.getRadius(), a.getX(), a.getY(), myPaint );
+  		        	  		myPaint.setColor(Color.WHITE);
+  	          	        	canvas.drawText("B",a.getX()+23-a.getRadius(),a.getY()-22,myPaint);
+  			    	        myPaint.setStyle(Paint.Style.STROKE);
+  	        	  			canvas.drawRect(a.getX() - a.getRadius(), a.getY() - a.getRadius(), a.getX(), a.getY(), myPaint );
+  	        	  		}
+    	        		}
+    	        	}
   	        	
   	          // Draw all of our units (just one for now)
 	          synchronized(allUnitsLock) {
@@ -203,28 +213,42 @@ public class DisplayMessageActivity extends ActionBarActivity {
 	        		  	myPaint.setStrokeWidth(1);
 	        		  	myPaint.setStyle(Paint.Style.STROKE);
 	        	  		myPaint.setColor(currentUnit.color);
-        		  		canvas.drawCircle(currentUnit.getX(), currentUnit.getY(), currentUnit.getRadius(), myPaint);
+	      	        	// Draw Earth!
+	     	        	 canvas.drawBitmap(currentUnit.getBMP(), currentUnit.getX()-currentUnit.getRadius(), currentUnit.getY() - currentUnit.getRadius(), null);
 	        	  	}
 	        	  	else {
 	        	  		// What shape do we draw?
 	        	  		myPaint.setColor(currentUnit.color);
-	        	  		if(currentUnit.getShape() == "Circle") {
+	        	  		if(currentUnit.getBMP() != null) {
+	        	  			 canvas.drawBitmap(currentUnit.getBMP(), currentUnit.getX()-currentUnit.getRadius(), currentUnit.getY() - currentUnit.getRadius(), null);
+	        	  		}
+	        	  		else if(currentUnit.getShape() == "Circle") {
 	        	  			canvas.drawCircle(currentUnit.getX(), currentUnit.getY(), currentUnit.getRadius(), myPaint);
 	        	  		}
-	        	  		if(currentUnit.getShape() == "Square") {
+	        	  		else if(currentUnit.getShape() == "Square") {
 	      	              canvas.drawRect(currentUnit.getX()-currentUnit.getRadius(), currentUnit.getY()-currentUnit.getRadius(), currentUnit.getX() + currentUnit.getRadius(), currentUnit.getY() + currentUnit.getRadius(), myPaint );
 	        	  		}
-	        	  		if(currentUnit.getShape() == "Plus") {
+	        	  		else if(currentUnit.getShape() == "Plus") {
 	    	        	  	myPaint.setStrokeWidth(6);
 	        	  			canvas.drawLine(currentUnit.getX() + currentUnit.getRadius()/2, currentUnit.getY() - currentUnit.getRadius()/2, currentUnit.getX() + currentUnit.getRadius()/2, currentUnit.getY() + currentUnit.getRadius()*2 - currentUnit.getRadius()/2, myPaint);
 	      	            	canvas.drawLine(currentUnit.getX() - currentUnit.getRadius()/2, currentUnit.getY() + currentUnit.getRadius()/2, currentUnit.getX() + currentUnit.getRadius()*2 - currentUnit.getRadius()/2, currentUnit.getY() + currentUnit.getRadius()/2, myPaint);
 	        	  		}
-	        	  		if(currentUnit.getShape() == "Triangle") {
+	        	  		else if(currentUnit.getShape() == "Triangle") {
 	        	  			canvas.drawCircle(currentUnit.getX(), currentUnit.getY(), currentUnit.getRadius(), myPaint);
 	        	  		}
 	        	  	}
 	          	}
 	          }
+  	          // Draw all of our abilities.
+  	          synchronized(Bomb.bombsLock) {
+	    	        myPaint.setStyle(Paint.Style.STROKE);
+  				for(int i = 0; i < Bomb.getAllBombs().size(); i++) {
+  					Bomb b = Bomb.getAllBombs().get(i);
+  	        		myPaint.setColor(b.getColor());
+      	        	myPaint.setStrokeWidth(b.getStroke());
+  	        		canvas.drawCircle(b.getX(),b.getY(),b.getRadius(), myPaint);
+  	        	  }
+  	        	}
 	      }
 	  }
 

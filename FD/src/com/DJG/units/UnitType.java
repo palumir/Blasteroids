@@ -1,7 +1,12 @@
-package com.DJG.unit;
+package com.DJG.units;
 import java.util.ArrayList;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+
+import com.DJG.fd.DisplayMessageActivity;
+import com.DJG.fd.R;
 
 public class UnitType {
 	
@@ -11,7 +16,7 @@ public class UnitType {
 	
 	public static void initUnitTypes() {
 		allUnitTypes = new ArrayList<UnitType>();
-		allUnitTypes.add(new UnitType("Ogre",30,1.5f, true, Color.CYAN,"Circle", 2, 10));
+		allUnitTypes.add(new UnitType("Ogre",30,1.5f, true, R.drawable.asteroid, 2, 10));
 		allUnitTypes.add(new UnitType("Mage",25,1.2f,true, Color.BLUE, "Square", 1, 10));
 		allUnitTypes.add(new UnitType("Demon",30,1f,true, Color.RED, "Circle", 2, 15));
 		allUnitTypes.add(new UnitType("Cat",25,3f, true, Color.WHITE, "Circle", 1, 10));
@@ -22,7 +27,7 @@ public class UnitType {
 		allUnitTypes.add(new UnitType("Splitter Small",25,0.1f,true,Color.BLUE,"Square", 1, 10));
 		allUnitTypes.add(new UnitType("FullHealer",40,1f, true, Color.GREEN,"Plus", 2, -100));
 		allUnitTypes.add(new UnitType("Healer",20,1.5f, true, Color.GREEN,"Plus", 2, -10));
-		allUnitTypes.add(new UnitType("Castle",50,0f,false,Color.WHITE,"Circle", 100,0)); // CASTLES DON'T MOVE OKAY?
+		allUnitTypes.add(new UnitType("Castle",50,0f,false,R.drawable.earth, 100,0)); // CASTLES DON'T MOVE OKAY?
 	}
 	
 	public static UnitType getUnitType(String searchType) {
@@ -47,6 +52,16 @@ public class UnitType {
 		color = Color.WHITE;
 	}
 	
+	public UnitType(String newType, int newRadius, float newMoveSpeed, boolean isKillable, int newBitMapLink, int newHP, int newDamage) {
+		type = newType;
+		radius = newRadius;
+		moveSpeed = newMoveSpeed;
+		killable = isKillable;
+		bitmap = DisplayMessageActivity.makeTransparent(BitmapFactory.decodeResource(DisplayMessageActivity.survContext.getResources(), newBitMapLink));
+		maxHitPoints = newHP;
+		damage = newDamage;
+	}
+	
 	public UnitType(String newType, int newRadius, float newMoveSpeed, boolean isKillable, int newColor, String newShape, int newHP, int newDamage) {
 		type = newType;
 		radius = newRadius;
@@ -66,6 +81,7 @@ public class UnitType {
 	//UI stuff
 	private int color;
 	private String shape;
+	private Bitmap bitmap;
 	
 	//Unit stats
 	private int maxHitPoints;
@@ -91,6 +107,10 @@ public class UnitType {
  
 	public int getMaxHitPoints(){
 		return maxHitPoints;
+	}
+	
+	public Bitmap getBMP() {
+		return bitmap;
 	}
 	
 	public int getDamage(){

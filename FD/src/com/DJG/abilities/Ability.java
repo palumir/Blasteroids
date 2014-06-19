@@ -1,4 +1,4 @@
-package com.DJG.ability;
+package com.DJG.abilities;
 import java.util.ArrayList;
 
 import android.util.Log;

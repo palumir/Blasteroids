@@ -1,11 +1,11 @@
-package com.DJG.ability;
+package com.DJG.abilities;
 
 import java.util.ArrayList;
 
 import android.graphics.Color;
 import android.util.Log;
 
-import com.DJG.unit.Unit;
+import com.DJG.units.Unit;
 
 public class Bomb {
 	

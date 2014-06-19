@@ -1,10 +1,9 @@
-package com.DJG.unit;
+package com.DJG.units;
+
+import android.graphics.Bitmap;
 
 import com.DJG.fd.DisplayMessageActivity;
 import com.DJG.fd.Wave;
-
-import android.graphics.Color;
-import android.util.Log;
 
 public class Unit {
 	// Unit General Information:
@@ -26,6 +25,7 @@ public class Unit {
 	// Drawing information:
 	private String shape;
 	public int color;
+	Bitmap bmp;
 	
 	// Unit Stats
 	private int currentHitPoints;
@@ -46,6 +46,7 @@ public class Unit {
 		currentHitPoints = maxHitPoints;
 		damage = u.getDamage();
 		color = u.getColor();
+		bmp = u.getBMP();
 		
 		// Set it's coordinates.
 		name = newName;
@@ -215,6 +216,10 @@ public class Unit {
 	
 	public boolean getKillable() {
 		return killable;
+	}
+	
+	public Bitmap getBMP() {
+		return bmp;
 	}
 	
 	public String getShape() {
