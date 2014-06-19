@@ -53,21 +53,20 @@ public class Wave extends ArrayList<Unit> {
 		ArrayList<GeneratorInfo> genInfo = new ArrayList<GeneratorInfo>();
 		switch(waveNumber){
 		case 0:
-			genInfo.add(new GeneratorInfo("Ogre", 4, spawnSystem.Circle));
-			genInfo.add(new GeneratorInfo("Ogre", 4, spawnSystem.Circle, 15));
+			genInfo.add(new GeneratorInfo("Ogre", 4, spawnSystem.FullRandom));
 			break;
 		case 1:
-			genInfo.add(new GeneratorInfo("Healer", 10,spawnSystem.LineFromNorth));
+			genInfo.add(new GeneratorInfo("Ogre", 10,spawnSystem.Circle));
 			break;
 		case 2:
-			genInfo.add(new GeneratorInfo("Ogre", 10,spawnSystem.LineFromEast, 7));
-			genInfo.add(new GeneratorInfo("Ogre", 10,spawnSystem.LineFromWest, 7));
+			genInfo.add(new GeneratorInfo("Ogre", 10,spawnSystem.LineFromEast));
+			genInfo.add(new GeneratorInfo("Ogre", 10,spawnSystem.LineFromWest));
 			break;
 		case 3:
 			genInfo.add(new GeneratorInfo("Demon", 20,spawnSystem.FullRandom));
-			genInfo.add(new GeneratorInfo("Demon", 10,spawnSystem.FullRandom,10));
 			break;
 		case 4:
+			genInfo.add(new GeneratorInfo("Ogre", 12,spawnSystem.Circle));
 			genInfo.add(new GeneratorInfo("Ogre", 12,spawnSystem.Circle));
 			break;
 		case 5:
@@ -76,23 +75,28 @@ public class Wave extends ArrayList<Unit> {
 			break;
 		case 6:
 			genInfo.add(new GeneratorInfo("Demon", 10,spawnSystem.Circle));
-			genInfo.add(new GeneratorInfo("Demon", 10,spawnSystem.Circle));
-			genInfo.add(new GeneratorInfo("Demon", 20,spawnSystem.Circle));
+			genInfo.add(new GeneratorInfo("Demon", 10,spawnSystem.LineFromNorth));
+			genInfo.add(new GeneratorInfo("Demon", 10,spawnSystem.LineFromSouth));
 			break;
 		case 7:
 			genInfo.add(new GeneratorInfo("Cat", 10,spawnSystem.LineFromNorth));
 			genInfo.add(new GeneratorInfo("Cat", 10,spawnSystem.LineFromSouth));
 			break;
 		case 8:
-			genInfo.add(new GeneratorInfo("Cat", 4,spawnSystem.LineFromNorth));
-			genInfo.add(new GeneratorInfo("Cheetah", 1,spawnSystem.FullRandom));
+			genInfo.add(new GeneratorInfo("Cat", 1,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Cat", 1,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Cat", 1,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Cat", 1,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Cat", 1,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Cat", 1,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Cat", 1,spawnSystem.Spiral));
 			break;
 		case 9:
-			genInfo.add(new GeneratorInfo("Cheetah", 1,spawnSystem.LineFromNorth));
-			genInfo.add(new GeneratorInfo("Cheetah", 1,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Cheetah", 1,spawnSystem.Circle));
 			break;
 		case 10:
-			genInfo.add(new GeneratorInfo("Ogre", 24,spawnSystem.Circle));
+			genInfo.add(new GeneratorInfo("Ogre", 20,spawnSystem.Circle));
+			genInfo.add(new GeneratorInfo("Ogre", 10,spawnSystem.Circle));
 			break;
 		case 11:
 			genInfo.add(new GeneratorInfo("Splitter Huge", 1,spawnSystem.FullRandom));

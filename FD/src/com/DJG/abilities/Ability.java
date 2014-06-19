@@ -1,7 +1,11 @@
 package com.DJG.abilities;
 import java.util.ArrayList;
 
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+
 import com.DJG.fd.DisplayMessageActivity;
+import com.DJG.fd.R;
 
 public class Ability {
 	
@@ -23,9 +27,11 @@ public class Ability {
 	private float x;
 	private float y;
 	private int radius;
+	private MediaPlayer mpPlacement;
 	
-	public Ability(String newType, int newSlot, int newCoolDown) {
+	public Ability(String newType, int newSlot, int newCoolDown, int soundID) {
 		coolDown = newCoolDown;
+		mpPlacement = MediaPlayer.create(DisplayMessageActivity.survContext, soundID);
 		slot = newSlot;
 		type = newType;
 		switch(slot){
@@ -39,10 +45,9 @@ public class Ability {
 		}
 	}
 	
-	// Temporary
 	public static void initAbilities() {
 		equippedAbilities = new ArrayList<Ability>();
-		equippedAbilities.add(new Ability("Bomb",0,5000));
+		equippedAbilities.add(new Ability("Bomb",0,5000,R.raw.small_3_second_explosion));
 	}
 	
 	public static ArrayList<Ability> getEquippedAbilities() {
@@ -53,12 +58,21 @@ public class Ability {
 		Bomb.updateBombs();
 	}
 	
+	public void playPlaceSound() {
+		mpPlacement.start();
+	}
+	
 	public void useAbility(float xSpawn,float ySpawn) {
 		if(this.isOffCoolDown()) {
+			// Well you just used it right, put in on CD!
 			this.putOnCoolDown();
+			
+			// Play a sound of placing ability.
+			this.playPlaceSound();
+			
 			if(this.getType() == "Bomb") {
 				synchronized(Bomb.bombsLock) {
-					Bomb newBomb = new Bomb(xSpawn,ySpawn,250,1200); // Default explosion for now. Make upgradable.
+					Bomb newBomb = new Bomb(xSpawn,ySpawn,250,1500); // Default explosion for now. Make upgradable.
 				}
 			}
 		}

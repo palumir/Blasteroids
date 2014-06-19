@@ -111,9 +111,6 @@ public class UnitType {
 	}
 	
 	public Bitmap getBMP() {
-		if(bitmap != null) {
-			Log.d("GOGO","GREAT");
-		}
 		return bitmap;
 	}
 	

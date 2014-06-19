@@ -43,7 +43,6 @@ public class Unit {
 		shape = u.getShape();
 		spinSpeed = 0;
 		bmp = u.getBMP();
-		Log.d("RAN","HELLO");
 		// Stats
 		maxHitPoints = u.getMaxHitPoints();
 		currentHitPoints = maxHitPoints;
