@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.util.Log;
 
 import com.DJG.fd.DisplayMessageActivity;
 import com.DJG.fd.R;
@@ -110,6 +111,9 @@ public class UnitType {
 	}
 	
 	public Bitmap getBMP() {
+		if(bitmap != null) {
+			Log.d("GOGO","GREAT");
+		}
 		return bitmap;
 	}
 	

@@ -1,6 +1,7 @@
 package com.DJG.units;
 
 import android.graphics.Bitmap;
+import android.util.Log;
 
 import com.DJG.fd.DisplayMessageActivity;
 import com.DJG.fd.Wave;
@@ -25,7 +26,7 @@ public class Unit {
 	// Drawing information:
 	private String shape;
 	public int color;
-	Bitmap bmp;
+	private Bitmap bmp;
 	
 	// Unit Stats
 	private int currentHitPoints;
@@ -41,12 +42,13 @@ public class Unit {
 		killable = u.getKillable();
 		shape = u.getShape();
 		spinSpeed = 0;
+		bmp = u.getBMP();
+		Log.d("RAN","HELLO");
 		// Stats
 		maxHitPoints = u.getMaxHitPoints();
 		currentHitPoints = maxHitPoints;
 		damage = u.getDamage();
 		color = u.getColor();
-		bmp = u.getBMP();
 		
 		// Set it's coordinates.
 		name = newName;
@@ -71,6 +73,7 @@ public class Unit {
 		killable = u.getKillable();
 		shape = u.getShape();
 		spinSpeed = spin;
+		bmp = u.getBMP();
 		// Stats
 		maxHitPoints = u.getMaxHitPoints();
 		currentHitPoints = maxHitPoints;

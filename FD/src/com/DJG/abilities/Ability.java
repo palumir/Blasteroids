@@ -1,8 +1,6 @@
 package com.DJG.abilities;
 import java.util.ArrayList;
 
-import android.util.Log;
-
 import com.DJG.fd.DisplayMessageActivity;
 
 public class Ability {
