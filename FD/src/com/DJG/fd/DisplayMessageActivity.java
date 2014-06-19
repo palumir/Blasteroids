@@ -26,6 +26,7 @@ import android.view.WindowManager;
 
 import com.DJG.abilities.Ability;
 import com.DJG.abilities.Bomb;
+import com.DJG.abilities.Slow;
 import com.DJG.units.Unit;
 import com.DJG.units.UnitType;
 
@@ -47,12 +48,12 @@ public class DisplayMessageActivity extends ActionBarActivity {
 		 }
 
 		  myBitmap.setPixels(allpixels, 0, myBitmap.getWidth(), 0, 0, myBitmap.getWidth(), myBitmap.getHeight());
-		  Log.d("Supports alpha?", myBitmap.hasAlpha() + "");
 		  return myBitmap;
 	}
 	
 	// Shared data.
 	SharedPreferences prefs;
+	public static int bgColor = Color.BLACK;
     
 	// The current game thread.
 	public static Context survContext;
@@ -179,7 +180,7 @@ public class DisplayMessageActivity extends ActionBarActivity {
 	      @Override
 	      protected void onDraw(Canvas canvas) {
 	          Paint myPaint = new Paint();
-	          canvas.drawColor(Color.BLACK);
+	          canvas.drawColor(bgColor);
 	          
 	          // Draw our text.
   	        	myPaint.setStyle(Paint.Style.FILL);
@@ -194,19 +195,17 @@ public class DisplayMessageActivity extends ActionBarActivity {
     	          // Draw ability icons. 
     	        	synchronized(Ability.abilitiesLock) {
     	        		for(Ability a : Ability.getEquippedAbilities()) {
-  	        	  		if(a.getType() == "Bomb") {
-  	        	  			myPaint.setColor(Color.GREEN);
-  			    	        myPaint.setStyle(Paint.Style.FILL);
-  	        	  			canvas.drawRect(a.getX() - +a.getRadius(), a.getY() + ((float)a.getRadius())*(1-a.getCDPercentRemaining()) - +a.getRadius(), a.getX(), a.getY(), myPaint );
-  		        	  		myPaint.setColor(Color.RED);
-  		    	        	myPaint.setTextSize(23);
-  		        	  	    canvas.drawText(a.getUses() + "",a.getX()+4-a.getRadius(),a.getY()+22-a.getRadius(),myPaint);
-  		        	  		myPaint.setColor(Color.WHITE);
-  		    	        	myPaint.setTextSize(50);
-  	          	        	canvas.drawText("B",a.getX()+23-a.getRadius(),a.getY()-22,myPaint);
-  			    	        myPaint.setStyle(Paint.Style.STROKE);
-  	        	  			canvas.drawRect(a.getX() - a.getRadius(), a.getY() - a.getRadius(), a.getX(), a.getY(), myPaint );
-  	        	  		}
+  	        	  				myPaint.setColor(a.getIconColor());
+  	        	  				myPaint.setStyle(Paint.Style.FILL);
+  	        	  				canvas.drawRect(a.getX() - +a.getRadius(), a.getY() + ((float)a.getRadius())*(1-a.getCDPercentRemaining()) - +a.getRadius(), a.getX(), a.getY(), myPaint );
+  	        	  				myPaint.setColor(Color.RED);
+  	        	  				myPaint.setTextSize(23);
+  	        	  				canvas.drawText(a.getUses() + "",a.getX()+4-a.getRadius(),a.getY()+22-a.getRadius(),myPaint);
+  	        	  				myPaint.setColor(Color.WHITE);
+  	        	  				myPaint.setTextSize(50);
+  	        	  				canvas.drawText(a.getSymbol(),a.getX()+23-a.getRadius(),a.getY()-22,myPaint);
+  	        	  				myPaint.setStyle(Paint.Style.STROKE);
+  	        	  				canvas.drawRect(a.getX() - a.getRadius(), a.getY() - a.getRadius(), a.getX(), a.getY(), myPaint );
     	        		}
     	        	}
   	        	
@@ -246,7 +245,7 @@ public class DisplayMessageActivity extends ActionBarActivity {
 	        	  	}
 	          	}
 	          }
-  	          // Draw all of our abilities.
+	          // Draw bombs.
   	          synchronized(Bomb.bombsLock) {
 	    	        myPaint.setStyle(Paint.Style.STROKE);
   				for(int i = 0; i < Bomb.getAllBombs().size(); i++) {
@@ -256,6 +255,16 @@ public class DisplayMessageActivity extends ActionBarActivity {
   	        		canvas.drawCircle(b.getX(),b.getY(),b.getRadius(), myPaint);
   	        	  }
   	        	}
+  	          // Draw slows.
+  	          synchronized(Slow.SlowsLock) {
+	    	        myPaint.setStyle(Paint.Style.STROKE);
+				for(int i = 0; i < Slow.getAllSlows().size(); i++) {
+					Slow s = Slow.getAllSlows().get(i);
+	        		myPaint.setColor(s.getColor());
+    	        	myPaint.setStrokeWidth(s.getStroke());
+	        		canvas.drawCircle(s.getX(),s.getY(),s.getRadius(), myPaint);
+	        	  }
+	        	}
 	      }
 	  }
 
@@ -317,7 +326,7 @@ public class DisplayMessageActivity extends ActionBarActivity {
 				float distanceXY = (float)Math.sqrt(yDistance*yDistance + xDistance*xDistance);
 				
 				// If the unit is very small make it easier to press.
-				if(distanceXY <= 30 + u.getRadius() && u.getName() != "Fortress" && u.getRadius() <= 50 && u.getShape() != "Plus") {
+				if(distanceXY <= 50 + u.getRadius() && u.getName() != "Fortress" && u.getRadius() <= 50 && u.getShape() != "Plus") {
 					return u;
 				}
 				// If the unit is big, don't make it get in the way of other things with a huge hitbox.
@@ -334,7 +343,7 @@ public class DisplayMessageActivity extends ActionBarActivity {
 				float distanceXY = (float)Math.sqrt(yDistance*yDistance + xDistance*xDistance);
 				
 				// If the unit is very small make it easier to press.
-				if(distanceXY <= 30 + u.getRadius() && u.getName() != "Fortress" && u.getRadius() <= 50) {
+				if(distanceXY <= 50 + u.getRadius() && u.getName() != "Fortress" && u.getRadius() <= 50) {
 					return u;
 				}
 				// If the unit is big, don't make it get in the way of other things with a huge hitbox.
@@ -508,6 +517,7 @@ public class DisplayMessageActivity extends ActionBarActivity {
 					
 					// Check if we have hit a bomb.
 					Bomb.checkIfHitBomb(u);
+					Slow.checkIfHitSlow(u);
 				
 					// Check if we have hit the castle.
 					checkIfHitCastleOrMove(castle, u);

@@ -73,6 +73,33 @@ public class Wave extends ArrayList<Unit> {
 		case 5:
 			genInfo.add(new GeneratorInfo("Asteroid", 15,spawnSystem.Spiral));
 			genInfo.add(new GeneratorInfo("Fire Asteroid", 15,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Asteroid", 5,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Fire Asteroid", 5,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Asteroid", 5,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Fire Asteroid", 5,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Asteroid", 5,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Fire Asteroid", 5,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Asteroid", 5,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Fire Asteroid", 5,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Asteroid", 5,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Fire Asteroid", 5,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Asteroid", 5,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Fire Asteroid", 5,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Asteroid", 5,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Fire Asteroid", 5,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Asteroid", 5,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Fire Asteroid", 5,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Fire Asteroid", 5,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Fire Asteroid", 1,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Fire Asteroid", 1,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Fire Asteroid", 1,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Fire Asteroid", 1,spawnSystem.Spiral));
+			
 			break;
 		case 6:
 			genInfo.add(new GeneratorInfo("Asteroid", 10,spawnSystem.Circle));
@@ -80,8 +107,33 @@ public class Wave extends ArrayList<Unit> {
 			genInfo.add(new GeneratorInfo("Asteroid", 10,spawnSystem.LineFromSouth));
 			break;
 		case 7:
-			genInfo.add(new GeneratorInfo("Cat", 10,spawnSystem.LineFromNorth));
-			genInfo.add(new GeneratorInfo("Cat", 10,spawnSystem.LineFromSouth));
+			genInfo.add(new GeneratorInfo("Fire Asteroid", 5,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Asteroid", 5,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Fire Asteroid", 5,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Asteroid", 5,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Fire Asteroid", 5,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Asteroid", 5,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Fire Asteroid", 5,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Asteroid", 5,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Fire Asteroid", 5,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Asteroid", 5,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Fire Asteroid", 5,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Asteroid", 5,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Fire Asteroid", 5,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Asteroid", 5,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Fire Asteroid", 10,spawnSystem.LineFromNorth));
+			genInfo.add(new GeneratorInfo("Asteroid", 10,spawnSystem.LineFromSouth));
+			genInfo.add(new GeneratorInfo("Fire Asteroid", 5,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Fire Asteroid", 5,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Fire Asteroid", 1,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Fire Asteroid", 1,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Fire Asteroid", 1,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Fire Asteroid", 1,spawnSystem.Spiral));
 			break;
 		case 8:
 			genInfo.add(new GeneratorInfo("Cat", 1,spawnSystem.Spiral));

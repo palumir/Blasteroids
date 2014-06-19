@@ -17,8 +17,8 @@ public class UnitType {
 	
 	public static void initUnitTypes() {
 		allUnitTypes = new ArrayList<UnitType>();
-		allUnitTypes.add(new UnitType("Asteroid",30,1.5f, true, R.drawable.asteroid, 2, 10));
-		allUnitTypes.add(new UnitType("Fire Asteroid",30,1.2f,true, R.drawable.fire_asteroid, 1, 10));
+		allUnitTypes.add(new UnitType("Asteroid",30,1f, true, R.drawable.asteroid, 2, 10));
+		allUnitTypes.add(new UnitType("Fire Asteroid",30,1f,true, R.drawable.fire_asteroid, 1, 10));
 		allUnitTypes.add(new UnitType("Demon",30,1f,true, Color.RED, "Circle", 2, 15));
 		allUnitTypes.add(new UnitType("Cat",25,3f, true, Color.WHITE, "Circle", 1, 10));
 		allUnitTypes.add(new UnitType("Cheetah",25,6f,true,Color.YELLOW,"Square", 1, 15));

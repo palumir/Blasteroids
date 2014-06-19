@@ -3,8 +3,8 @@ package com.DJG.abilities;
 import java.util.ArrayList;
 
 import android.graphics.Color;
-import android.util.Log;
 
+import com.DJG.fd.DisplayMessageActivity;
 import com.DJG.units.Unit;
 
 public class Bomb {
