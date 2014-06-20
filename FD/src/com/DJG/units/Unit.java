@@ -338,7 +338,7 @@ public class Unit {
         	}
         }
 	}
-	
+		
 	public static void updateUnits() {
 		synchronized(Unit.allUnitsLock) {
 		// Where is the castle?
@@ -369,7 +369,9 @@ public class Unit {
 	}
 	
 	public void attacks(Unit u){
-		u.takeDamage(getDamage());
+		if(u.getHP() <= 100 && u.getHP() >= 0) {
+			u.takeDamage(getDamage());
+		}
 	}
 	
 	public void die() {

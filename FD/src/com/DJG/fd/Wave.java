@@ -45,7 +45,7 @@ public class Wave extends ArrayList<Unit> {
 		isFirst = true;
 		waveGenerator = new WaveGenerator();
 		// Start at what wave?
-		int waveStart = 0;
+		int waveStart = 11;
 		currentWaveNumber = waveStart;
 		sendWave(waveStart);
 	}
@@ -57,14 +57,14 @@ public class Wave extends ArrayList<Unit> {
 		HashMap<String, UnitPattern> unitMap = new HashMap<String, UnitPattern>();
 		ArrayList<GeneratorInfo> genInfo = new ArrayList<GeneratorInfo>();
 		switch(waveNumber){
-		case 0:
+		/*case 0:
 			genInfo.add(new GeneratorInfo("Asteroid", 4, spawnSystem.FullRandom));
 			genInfo.add(new GeneratorInfo("Fire Asteroid", 4, spawnSystem.FullRandom));
-			break;
-		/*case 0: 
+			break;*/
+		case 0: 
 			Cthulu.battleStart();
 			isBoss = true;
-			break;*/
+			break;
 		case 1:
 			genInfo.add(new GeneratorInfo("Asteroid", 10,spawnSystem.Circle));
 			break;
@@ -118,19 +118,16 @@ public class Wave extends ArrayList<Unit> {
 			genInfo.add(new GeneratorInfo("Asteroid", 10,spawnSystem.LineFromSouth));
 			break;
 		case 7:
-			genInfo.add(new GeneratorInfo("Asteroid", 15,spawnSystem.Circle));
+			genInfo.add(new GeneratorInfo("Asteroid", 8,spawnSystem.Circle));
 			genInfo.add(new GeneratorInfo("Fire Asteroid", 15,spawnSystem.Circle));
 			genInfo.add(new GeneratorInfo("Asteroid", 8,spawnSystem.LineFromNorth));
 			genInfo.add(new GeneratorInfo("Asteroid", 8,spawnSystem.LineFromSouth));
 			break;
 		case 8:
-			genInfo.add(new GeneratorInfo("Cat", 1,spawnSystem.Spiral));
-			genInfo.add(new GeneratorInfo("Cat", 1,spawnSystem.Spiral));
-			genInfo.add(new GeneratorInfo("Cat", 1,spawnSystem.Spiral));
-			genInfo.add(new GeneratorInfo("Cat", 1,spawnSystem.Spiral));
-			genInfo.add(new GeneratorInfo("Cat", 1,spawnSystem.Spiral));
-			genInfo.add(new GeneratorInfo("Cat", 1,spawnSystem.Spiral));
-			genInfo.add(new GeneratorInfo("Cat", 1,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Asteroid", 30,spawnSystem.FullRandom));
+			genInfo.add(new GeneratorInfo("Fire Asteroid", 15,spawnSystem.Circle));
+			genInfo.add(new GeneratorInfo("Fire Asteroid", 15,spawnSystem.Circle));
+			genInfo.add(new GeneratorInfo("Fire Asteroid", 15,spawnSystem.Circle));
 			break;
 		case 9:
 			genInfo.add(new GeneratorInfo("Cheetah", 1,spawnSystem.Circle));
@@ -144,10 +141,10 @@ public class Wave extends ArrayList<Unit> {
 			break;
 		default:
 			genInfo.add(new GeneratorInfo("Asteroid", r.nextInt(waveNumber) +1,spawnSystem.FullRandom));
-			genInfo.add(new GeneratorInfo("Fire Asteroid", r.nextInt(2*waveNumber+1),spawnSystem.FullRandom));
-			genInfo.add(new GeneratorInfo("Cat", r.nextInt(waveNumber/5+1),spawnSystem.FullRandom));
-			genInfo.add(new GeneratorInfo("Healer", r.nextInt(waveNumber/4+1),spawnSystem.FullRandom));
-			genInfo.add(new GeneratorInfo("Cheetah", r.nextInt(waveNumber/10+1),spawnSystem.FullRandom));
+			genInfo.add(new GeneratorInfo("Fire Asteroid", r.nextInt(waveNumber*5+1)/4,spawnSystem.FullRandom));
+			genInfo.add(new GeneratorInfo("Cat", r.nextInt(waveNumber/4+1),spawnSystem.FullRandom));
+			genInfo.add(new GeneratorInfo("Healer", r.nextInt(waveNumber/25+1),spawnSystem.FullRandom));
+			genInfo.add(new GeneratorInfo("Cheetah", r.nextInt(waveNumber/9+1),spawnSystem.FullRandom));
 			genInfo.add(new GeneratorInfo("FullHealer", r.nextInt(waveNumber/50+1),spawnSystem.FullRandom));
 			break;
 		}
