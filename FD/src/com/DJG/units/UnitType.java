@@ -17,6 +17,8 @@ public class UnitType {
 	
 	public static void initUnitTypes() {
 		allUnitTypes = new ArrayList<UnitType>();
+		
+		// Basic Units
 		allUnitTypes.add(new UnitType("Asteroid",30,1f, true, R.drawable.asteroid, 2, 10));
 		allUnitTypes.add(new UnitType("Fire Asteroid",30,1f,true, R.drawable.fire_asteroid, 1, 10));
 		allUnitTypes.add(new UnitType("Demon",30,1f,true, Color.RED, "Circle", 2, 15));
@@ -28,6 +30,13 @@ public class UnitType {
 		allUnitTypes.add(new UnitType("Splitter Small",25,0.1f,true,Color.BLUE,"Square", 1, 10));
 		allUnitTypes.add(new UnitType("FullHealer",40,1f, true, Color.GREEN,"Plus", 2, -100));
 		allUnitTypes.add(new UnitType("Healer",20,1.5f, true, Color.GREEN,"Plus", 2, -10));
+		
+		// Cthulu
+		allUnitTypes.add(new UnitType("Cthulu Head",100,1f,true,Color.RED,"Square", 1, 0));
+		allUnitTypes.add(new UnitType("Cthulu Lazer Arm",100,1f,true,Color.RED,"Square", 1, 0));
+		allUnitTypes.add(new UnitType("Cthulu Rocket Arm",100,1f,true,Color.RED,"Circle", 1, 0));
+		
+		// The Earth. Called Castle for... some reason.
 		allUnitTypes.add(new UnitType("Castle",50,0f,false,R.drawable.earth, 100,0)); // CASTLES DON'T MOVE OKAY?
 	}
 	

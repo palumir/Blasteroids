@@ -2,8 +2,9 @@ package com.DJG.abilities;
 
 import java.util.ArrayList;
 
+import android.graphics.Canvas;
 import android.graphics.Color;
-import android.util.Log;
+import android.graphics.Paint;
 
 import com.DJG.units.Unit;
 
@@ -78,6 +79,19 @@ public class Slow {
 		synchronized(SlowsLock) {
 			allSlows.remove(pos);
 		}
+	}
+	
+	public static void drawSlows(Canvas canvas, Paint myPaint) {
+        // Draw slows.
+        synchronized(Slow.SlowsLock) {
+	        myPaint.setStyle(Paint.Style.STROKE);
+			for(int i = 0; i < Slow.getAllSlows().size(); i++) {
+				Slow s = Slow.getAllSlows().get(i);
+    		myPaint.setColor(s.getColor());
+	        	myPaint.setStrokeWidth(s.getStroke());
+    		canvas.drawCircle(s.getX(),s.getY(),s.getRadius(), myPaint);
+    	  }
+    	}
 	}
 	
 	public static void checkIfHitSlow(Unit u) {

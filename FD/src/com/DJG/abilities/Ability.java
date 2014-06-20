@@ -1,7 +1,9 @@
 package com.DJG.abilities;
 import java.util.ArrayList;
 
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.media.MediaPlayer;
 
 import com.DJG.fd.DisplayMessageActivity;
@@ -59,7 +61,7 @@ public class Ability {
 	public static void initAbilities() {
 		equippedAbilities = new ArrayList<Ability>();
 		equippedAbilities.add(new Ability("Bomb",0,5000,5,R.raw.small_3_second_explosion,"B",Color.YELLOW));
-		equippedAbilities.add(new Ability("Slow",1,5000,5,-1,"S",Color.BLUE));
+		//equippedAbilities.add(new Ability("Slow",1,5000,5,-1,"S",Color.BLUE));
 	}
 	
 	public static ArrayList<Ability> getEquippedAbilities() {
@@ -74,6 +76,34 @@ public class Ability {
 		return iconColor;
 	}
 	
+	public static void drawAbilities(Canvas canvas, Paint myPaint) {
+        // Draw ability icons. 
+      	myPaint.setStrokeWidth(3);
+      	myPaint.setTextSize(50);
+      	
+      	synchronized(abilitiesLock) {
+      		for(Ability a : Ability.getEquippedAbilities()) {
+    	  				myPaint.setColor(a.getIconColor());
+    	  				myPaint.setStyle(Paint.Style.FILL);
+    	  				canvas.drawRect(a.getX() - +a.getRadius(), a.getY() + ((float)a.getRadius())*(1-a.getCDPercentRemaining()) - +a.getRadius(), a.getX(), a.getY(), myPaint );
+    	  				myPaint.setColor(Color.RED);
+    	  				myPaint.setTextSize(23);
+    	  				canvas.drawText(a.getUses() + "",a.getX()+4-a.getRadius(),a.getY()+22-a.getRadius(),myPaint);
+    	  				myPaint.setColor(Color.WHITE);
+    	  				myPaint.setTextSize(50);
+    	  				canvas.drawText(a.getSymbol(),a.getX()+23-a.getRadius(),a.getY()-22,myPaint);
+    	  				myPaint.setStyle(Paint.Style.STROKE);
+    	  				canvas.drawRect(a.getX() - a.getRadius(), a.getY() - a.getRadius(), a.getX(), a.getY(), myPaint );
+      		}
+      	}
+      	
+	}
+	
+	public static void drawAbilityAnimations(Canvas canvas, Paint myPaint) {
+      	Bomb.drawBombs(canvas, myPaint);
+      	Slow.drawSlows(canvas, myPaint);
+	}
+
 	public static void updateAbilities() {
 		Bomb.updateBombs();
 		Slow.updateSlows();

@@ -1,13 +1,21 @@
 package com.DJG.units;
 
+import java.util.ArrayList;
+
 import android.graphics.Bitmap;
-import android.util.Log;
+import android.graphics.Canvas;
+import android.graphics.Paint;
 
 import com.DJG.abilities.Bomb;
+import com.DJG.abilities.Slow;
 import com.DJG.fd.DisplayMessageActivity;
 import com.DJG.fd.Wave;
 
 public class Unit {
+	// Global stuff.
+	public static ArrayList<Unit> allUnits = new ArrayList<Unit>();
+	public final static Object allUnitsLock = new Object(); // A lock so we don't fuck up the allUnits
+	
 	// Unit General Information:
 	private String name;
 	private String type;     // Chose not to simply store this as a UnitType incase we want to modify individual
@@ -59,8 +67,8 @@ public class Unit {
 		yNew = ySpawn;
 		
 		// Add it to the list of units to be drawn.
-		synchronized(DisplayMessageActivity.allUnitsLock) {
-			DisplayMessageActivity.addUnit(this);
+		synchronized(allUnitsLock) {
+			addUnit(this);
 		}
 	}
 	
@@ -89,8 +97,8 @@ public class Unit {
 		yNew = ySpawn;
 		
 		// Add it to the list of units to be drawn.
-		synchronized(DisplayMessageActivity.allUnitsLock) {
-			DisplayMessageActivity.addUnit(this);
+		synchronized(allUnitsLock) {
+			addUnit(this);
 		}
 	}
 	
@@ -148,6 +156,209 @@ public class Unit {
 		}
 	}
 	
+	// Add a new unit to the list of all units to be drawn in animation.
+		public static void addUnit(Unit newUnit) {
+			synchronized(allUnitsLock) {
+				allUnits.add(newUnit);
+			}
+		}
+		
+		public static Unit getUnit(String nameToSearch) {
+			synchronized(allUnitsLock) {
+				Unit foundUnit = null;
+				for(int j = 0; j < allUnits.size(); j++) {
+					Unit u = allUnits.get(j);
+					if(u.getName() == nameToSearch) {
+						foundUnit = u;
+						break;
+					}
+				}
+				return foundUnit;
+			}
+		}
+		
+		public static int getUnitPos(Unit thisUnit) {
+			synchronized(allUnitsLock) {
+				int foundUnit = 0;
+				for(int j = 0; j < allUnits.size(); j++) {
+					Unit u = allUnits.get(j);
+					if(u == thisUnit) {
+						break;
+					}
+					foundUnit++;
+				}
+				return foundUnit;
+			}
+		}
+		
+		public static void killUnit(Unit u) {
+			if(allUnits.size()!=0){
+				synchronized(allUnitsLock) {
+					int foundUnit = 0;
+					for(int j = 0; j < allUnits.size(); j++) {
+						Unit v = allUnits.get(j);
+						if(u == v) {
+							break;
+						}
+						foundUnit++;
+					}
+					if(foundUnit < allUnits.size()) {
+						allUnits.remove(foundUnit);
+					}
+				}
+			}
+		}
+		
+	
+	// Get the selected unit at the coordinates.
+	public static Unit getUnitAt(float x, float y) {
+		synchronized(allUnitsLock) {
+			// Kill the fiery ones first.
+			for(int j = 0; j < allUnits.size(); j++) {
+				Unit u = allUnits.get(j);
+				float yDistance = (u.getY() - y);
+				float xDistance = (u.getX() - x);
+				float distanceXY = (float)Math.sqrt(yDistance*yDistance + xDistance*xDistance);
+				
+				// If the unit is very small make it easier to press.
+				if(distanceXY <= 50 + u.getRadius() && u.getName() != "Fortress" && u.getType() == "Fire Asteroid") {
+					return u;
+				}
+			}
+			
+			// Spare the plusses if possible.
+			for(int j = 0; j < allUnits.size(); j++) {
+				Unit u = allUnits.get(j);
+				float yDistance = (u.getY() - y);
+				float xDistance = (u.getX() - x);
+				float distanceXY = (float)Math.sqrt(yDistance*yDistance + xDistance*xDistance);
+				
+				// If the unit is very small make it easier to press.
+				if(distanceXY <= 50 + u.getRadius() && u.getName() != "Fortress" && u.getRadius() <= 50 && u.getShape() != "Plus") {
+					return u;
+				}
+				// If the unit is big, don't make it get in the way of other things with a huge hitbox.
+				if(distanceXY <= 10 + u.getRadius() && u.getName() != "Fortress" && u.getRadius() > 50 && u.getShape() != "Plus") {
+					return u;
+				}
+			}
+			
+			// KILL THE PLUSSES!
+			for(int j = 0; j < allUnits.size(); j++) {
+				Unit u = allUnits.get(j);
+				float yDistance = (u.getY() - y);
+				float xDistance = (u.getX() - x);
+				float distanceXY = (float)Math.sqrt(yDistance*yDistance + xDistance*xDistance);
+				
+				// If the unit is very small make it easier to press.
+				if(distanceXY <= 50 + u.getRadius() && u.getName() != "Fortress" && u.getRadius() <= 50) {
+					return u;
+				}
+				// If the unit is big, don't make it get in the way of other things with a huge hitbox.
+				if(distanceXY <= 10 + u.getRadius() && u.getName() != "Fortress" && u.getRadius() > 50) {
+					return u;
+				}
+			}
+			return null;
+		}
+	}
+	
+	public static int numUnits() {
+		return allUnits.size();
+	}
+	
+	static void checkIfHitCastleOrMove(Unit castle, Unit u) {
+		float castleY = 0;
+		float castleX = 0;
+		boolean dontLoseAgain = false;
+		float castleRadius = 0;
+		if(castle!=null) {
+			castleY = castle.getY();
+			castleX = castle.getX();
+			castleRadius = castle.getRadius();
+		}
+		float yDistanceUnit = (castleY - u.getY());
+		float xDistanceUnit = (castleX - u.getX());
+		float distanceXYUnit = (float)Math.sqrt(yDistanceUnit*yDistanceUnit + xDistanceUnit*xDistanceUnit);
+		if(distanceXYUnit <= castleRadius + u.getRadius()) {
+			u.attacks(castle);
+			u.die();
+			DisplayMessageActivity.castleHP = "Health " + castle.getHP();
+			if(castle.isDead()){
+				dontLoseAgain = true;
+				DisplayMessageActivity.youLose();
+			}
+		}
+		if(castle.isDead() && !dontLoseAgain){
+			DisplayMessageActivity.youLose();
+		}
+		else {
+			u.moveUnit();
+		}
+	}
+	
+	public static void destroyAllUnits() {
+		allUnits.clear();
+	}
+	
+	public static void drawUnits(Canvas canvas, Paint myPaint) {
+        synchronized(allUnitsLock) {
+			for(int j = 0; j < allUnits.size(); j++) {
+				Unit currentUnit = allUnits.get(j);
+  	        myPaint.setStyle(Paint.Style.FILL);
+      	  	myPaint.setStrokeWidth(23);
+      	  	if(currentUnit.getName() == "Fortress") {
+      		  	myPaint.setStrokeWidth(1);
+      		  	myPaint.setStyle(Paint.Style.STROKE);
+      	  		myPaint.setColor(currentUnit.color);
+    	        	// Draw Earth!
+   	        	 canvas.drawBitmap(currentUnit.getBMP(), currentUnit.getX()-currentUnit.getRadius(), currentUnit.getY() - currentUnit.getRadius(), null);
+      	  	}
+      	  	else {
+      	  		// What shape do we draw?
+      	  		myPaint.setColor(currentUnit.color);
+      	  		if(currentUnit.getBMP() != null) {
+      	  			 canvas.drawBitmap(currentUnit.getBMP(), currentUnit.getX()-currentUnit.getRadius(), currentUnit.getY() - currentUnit.getRadius(), null);
+      	  		}
+      	  		else if(currentUnit.getShape() == "Circle") {
+      	  			canvas.drawCircle(currentUnit.getX(), currentUnit.getY(), currentUnit.getRadius(), myPaint);
+      	  		}
+      	  		else if(currentUnit.getShape() == "Square") {
+    	              canvas.drawRect(currentUnit.getX()-currentUnit.getRadius(), currentUnit.getY()-currentUnit.getRadius(), currentUnit.getX() + currentUnit.getRadius(), currentUnit.getY() + currentUnit.getRadius(), myPaint );
+      	  		}
+      	  		else if(currentUnit.getShape() == "Plus") {
+  	        	  	myPaint.setStrokeWidth(6);
+      	  			canvas.drawLine(currentUnit.getX() + currentUnit.getRadius()/2, currentUnit.getY() - currentUnit.getRadius()/2, currentUnit.getX() + currentUnit.getRadius()/2, currentUnit.getY() + currentUnit.getRadius()*2 - currentUnit.getRadius()/2, myPaint);
+    	            	canvas.drawLine(currentUnit.getX() - currentUnit.getRadius()/2, currentUnit.getY() + currentUnit.getRadius()/2, currentUnit.getX() + currentUnit.getRadius()*2 - currentUnit.getRadius()/2, currentUnit.getY() + currentUnit.getRadius()/2, myPaint);
+      	  		}
+      	  		else if(currentUnit.getShape() == "Triangle") {
+      	  			canvas.drawCircle(currentUnit.getX(), currentUnit.getY(), currentUnit.getRadius(), myPaint);
+      	  		}
+      	  	}
+        	}
+        }
+	}
+	
+	public static void updateUnits() {
+		synchronized(Unit.allUnitsLock) {
+		// Where is the castle?
+			Unit castle = getUnit("Fortress");
+			DisplayMessageActivity.castleHP = "Health " + castle.getHP();
+			for(int j = 0; j < allUnits.size(); j++) {
+				Unit u = allUnits.get(j);
+				if(u.getName() != "Fortress") {
+				
+					// Check if we have hit a bomb.
+					Bomb.checkIfHitBomb(u);
+					Slow.checkIfHitSlow(u);
+			
+					// Check if we have hit the castle.
+					checkIfHitCastleOrMove(castle, u);
+				}
+			}
+		}
+	}
+	
 	//Methods involving stats
 	public Boolean isDead(){
 		return currentHitPoints<=0;
@@ -190,7 +401,7 @@ public class Unit {
 		}
 		
 		// Kill the old unit.
-		DisplayMessageActivity.killUnit(this);
+		killUnit(this);
 		Wave.killUnit(this);
 	}
 	

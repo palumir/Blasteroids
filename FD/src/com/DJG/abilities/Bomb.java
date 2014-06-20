@@ -2,9 +2,10 @@ package com.DJG.abilities;
 
 import java.util.ArrayList;
 
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
 
-import com.DJG.fd.DisplayMessageActivity;
 import com.DJG.units.Unit;
 
 public class Bomb {
@@ -99,6 +100,18 @@ public class Bomb {
 				}
 			}
 		}
+	}
+	
+	public static void drawBombs (Canvas canvas, Paint myPaint) {
+        synchronized(Bomb.bombsLock) {
+  	        myPaint.setStyle(Paint.Style.STROKE);
+			for(int i = 0; i < Bomb.getAllBombs().size(); i++) {
+				Bomb b = Bomb.getAllBombs().get(i);
+        		myPaint.setColor(b.getColor());
+	        	myPaint.setStrokeWidth(b.getStroke());
+        		canvas.drawCircle(b.getX(),b.getY(),b.getRadius(), myPaint);
+        	  }
+        	}
 	}
 	
 	public int getDuration() {
