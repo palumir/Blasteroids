@@ -76,7 +76,7 @@ public class Wave extends ArrayList<Unit> {
 			genInfo.add(new GeneratorInfo("Asteroid", 10,spawnSystem.LineFromWest));
 			break;
 		case 3:
-			genInfo.add(new GeneratorInfo("Fire Asteroid", 20,spawnSystem.FullRandom));
+			genInfo.add(new GeneratorInfo("Ice Asteroid", 20,spawnSystem.FullRandom));
 			genInfo.add(new GeneratorInfo("Asteroid", 20,spawnSystem.Spiral));
 			break;
 		case 4:

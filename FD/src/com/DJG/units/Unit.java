@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.util.Log;
 
 import com.DJG.abilities.Bomb;
 import com.DJG.abilities.Slow;
@@ -36,6 +37,12 @@ public class Unit {
 	private String shape;
 	public int color;
 	private Bitmap bmp;
+	
+	// Freezing stats
+	private Bitmap oldbmp;
+	private long timeFrozen = 0;
+	private boolean isFrozen = false;
+	private long frozenDuration = 0;
 	
 	// Unit Stats
 	private int currentHitPoints;
@@ -102,6 +109,14 @@ public class Unit {
 		}
 	}
 	
+	public void freeze(long time) {
+		timeFrozen = System.currentTimeMillis();
+		frozenDuration = time;
+		isFrozen = true;
+		oldbmp = this.getBMP();
+		bmp = UnitType.frozenBMP;
+	}
+	
 	public void moveNormally(float xGo, float yGo) {
 		xNew = xGo;
 		yNew = yGo;
@@ -115,45 +130,49 @@ public class Unit {
 	}
 
 	public void moveUnit() {
-		float yDistance = (yNew - y);
-		float xDistance = (xNew - x);
-		float step = moveSpeed;
-		float distanceXY = (float)Math.sqrt(yDistance*yDistance + xDistance*xDistance); // It should take this many frames to get there.
-		
-		
-		
-		// Move the unit.
-		if(xNew != x || yNew != y) {
-				if(xDistance < 0) {
-					x = x + (-1)*Math.abs(xDistance/distanceXY)*step;
-				}
-				else {
-					x = x + Math.abs(xDistance/distanceXY)*step;
+			if(timeFrozen != 0 && System.currentTimeMillis() - timeFrozen > frozenDuration) {
+				isFrozen = false;
+				this.bmp = this.oldbmp;
+			}
+			if(!isFrozen) {
+				float yDistance = (yNew - y);
+				float xDistance = (xNew - x);
+				float step = moveSpeed;
+				float distanceXY = (float)Math.sqrt(yDistance*yDistance + xDistance*xDistance); // It should take this many frames to get there.
+			
+				// Move the unit.
+				if(xNew != x || yNew != y) {
+						if(xDistance < 0) {
+							x = x + (-1)*Math.abs(xDistance/distanceXY)*step;
+						}
+						else {
+							x = x + Math.abs(xDistance/distanceXY)*step;
+						}
+						
+						// Deal with negatives.
+						if(yDistance < 0) {
+							y = y + (-1)*Math.abs(yDistance/distanceXY)*step;
+						}
+						else {
+							y = y + Math.abs(yDistance/distanceXY)*step;
+						}	
 				}
 				
-				// Deal with negatives.
-				if(yDistance < 0) {
-					y = y + (-1)*Math.abs(yDistance/distanceXY)*step;
+				//Spin the Unit
+				if(spinSpeed!=0){
+					yDistance = (yNew - y);
+				 	xDistance = (xNew - x);
+				 	distanceXY = (float)Math.sqrt(yDistance*yDistance + xDistance*xDistance); 
+				 	x = x + spinSpeed*yDistance/(distanceXY);
+				 	y = y + spinSpeed*(0-xDistance)/(distanceXY);
 				}
-				else {
-					y = y + Math.abs(yDistance/distanceXY)*step;
-				}	
-		}
-		
-		//Spin the Unit
-		if(spinSpeed!=0){
-			yDistance = (yNew - y);
-		 	xDistance = (xNew - x);
-		 	distanceXY = (float)Math.sqrt(yDistance*yDistance + xDistance*xDistance); 
-		 	x = x + spinSpeed*yDistance/(distanceXY);
-		 	y = y + spinSpeed*(0-xDistance)/(distanceXY);
-		}
-		
-		// Just move it if it's close.
-		if(Math.abs(yDistance) < step && Math.abs(xDistance) < step) {
-			x = xNew;
-			y = yNew;
-		}
+				
+				// Just move it if it's close.
+				if(Math.abs(yDistance) < step && Math.abs(xDistance) < step) {
+					x = xNew;
+					y = yNew;
+					}
+			}
 	}
 	
 	// Add a new unit to the list of all units to be drawn in animation.

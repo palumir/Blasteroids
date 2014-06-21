@@ -204,9 +204,6 @@ public class DisplayMessageActivity extends ActionBarActivity {
       	       
    	          // Draw abilities.
       	      Ability.drawAbilityAnimations(canvas, myPaint);
-    	       
-    	       
-    	        	
 	      }
 	  }
 

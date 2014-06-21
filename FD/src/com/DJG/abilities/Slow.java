@@ -108,7 +108,7 @@ public class Slow {
 				float xDistanceSlow = (SlowX - u.getX());
 				float distanceXYSlow = (float)Math.sqrt(yDistanceSlow*yDistanceSlow + xDistanceSlow*xDistanceSlow);
 				if(distanceXYSlow <= SlowRadius + u.getRadius()) {
-					u.die();
+					u.freeze(5000);
 					break;
 				}
 			}

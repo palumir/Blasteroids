@@ -229,9 +229,10 @@ int drawable abc_textfield_searchview_right_holo_light 0x7f020056
 int drawable asteroid 0x7f020057
 int drawable earth 0x7f020058
 int drawable fire_asteroid 0x7f020059
-int drawable ic_launcher 0x7f02005a
-int drawable ice_asteroid 0x7f02005b
-int drawable stars 0x7f02005c
+int drawable frozen_asteroid 0x7f02005a
+int drawable ic_launcher 0x7f02005b
+int drawable ice_asteroid 0x7f02005c
+int drawable stars 0x7f02005d
 int id action_bar 0x7f06001c
 int id action_bar_activity_content 0x7f060015
 int id action_bar_container 0x7f06001b

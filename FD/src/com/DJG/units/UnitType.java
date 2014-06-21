@@ -15,12 +15,16 @@ public class UnitType {
 	private final static Object allUnitTypesLock= new Object(); // A lock so we don't fuck up the allUnits
 	private static ArrayList<UnitType> allUnitTypes;
 	
+	// Frozen BMP
+	public static Bitmap frozenBMP;
+	
 	public static void initUnitTypes() {
+		frozenBMP = DisplayMessageActivity.makeTransparent(BitmapFactory.decodeResource(DisplayMessageActivity.survContext.getResources(), R.drawable.frozen_asteroid));
 		allUnitTypes = new ArrayList<UnitType>();
 		
 		// Basic Units
 		allUnitTypes.add(new UnitType("Asteroid",30,1f, true, R.drawable.asteroid, 2, 10));
-		allUnitTypes.add(new UnitType("Fire Asteroid",30,1f,true, R.drawable.fire_asteroid, 1, 10));
+		allUnitTypes.add(new UnitType("Fire Asteroid",30,1f,true, R.drawable.fire_asteroid, 1, 20));
 		allUnitTypes.add(new UnitType("Ice Asteroid",30,1f,true, R.drawable.ice_asteroid, 1, 10));
 		allUnitTypes.add(new UnitType("Demon",30,1f,true, Color.RED, "Circle", 2, 15));
 		allUnitTypes.add(new UnitType("Cat",25,3f, true, Color.WHITE, "Circle", 1, 10));
