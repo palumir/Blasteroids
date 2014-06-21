@@ -61,7 +61,7 @@ public class Ability {
 	public static void initAbilities() {
 		equippedAbilities = new ArrayList<Ability>();
 		equippedAbilities.add(new Ability("Bomb",0,5000,5,R.raw.small_3_second_explosion,"B",Color.YELLOW));
-		//equippedAbilities.add(new Ability("Slow",1,5000,5,-1,"S",Color.BLUE));
+		equippedAbilities.add(new Ability("Slow",1,5000,5,-1,"S",Color.BLUE));
 	}
 	
 	public static ArrayList<Ability> getEquippedAbilities() {

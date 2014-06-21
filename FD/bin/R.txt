@@ -232,7 +232,8 @@ int drawable fire_asteroid 0x7f020059
 int drawable frozen_asteroid 0x7f02005a
 int drawable ic_launcher 0x7f02005b
 int drawable ice_asteroid 0x7f02005c
-int drawable stars 0x7f02005d
+int drawable satelite 0x7f02005d
+int drawable stars 0x7f02005e
 int id action_bar 0x7f06001c
 int id action_bar_activity_content 0x7f060015
 int id action_bar_container 0x7f06001b

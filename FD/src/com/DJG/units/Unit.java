@@ -112,9 +112,11 @@ public class Unit {
 	public void freeze(long time) {
 		timeFrozen = System.currentTimeMillis();
 		frozenDuration = time;
+		if(!isFrozen) {
+			oldbmp = this.getBMP();
+			bmp = UnitType.frozenBMP;
+		}
 		isFrozen = true;
-		oldbmp = this.getBMP();
-		bmp = UnitType.frozenBMP;
 	}
 	
 	public void moveNormally(float xGo, float yGo) {

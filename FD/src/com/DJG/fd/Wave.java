@@ -50,8 +50,12 @@ public class Wave extends ArrayList<Unit> {
 		currentWaveNumber = waveStart;
 		sendWave(waveStart);
 	}
+	
+	public static void setWave(int n) {
+		currentWaveNumber = n;
+	}
 
-	static void sendWave(int waveNumber){
+	static void sendCampaignWave(int waveNumber) {
 		Wave myWave = new Wave();
 		currentWave = myWave;
 		boolean isBoss = false;
@@ -60,6 +64,7 @@ public class Wave extends ArrayList<Unit> {
 		waveWaitTime = 1500;
 		switch(waveNumber){
 		case 0:
+			genInfo.add(new GeneratorInfo("Cat", 4, spawnSystem.FullRandom));
 			genInfo.add(new GeneratorInfo("Asteroid", 4, spawnSystem.FullRandom));
 			genInfo.add(new GeneratorInfo("Fire Asteroid", 4, spawnSystem.FullRandom));
 			genInfo.add(new GeneratorInfo("Ice Asteroid", 4, spawnSystem.FullRandom));
@@ -157,6 +162,33 @@ public class Wave extends ArrayList<Unit> {
 		}
 	}
 	
+	static void sendSurvivalWave(int waveNumber) {
+		Wave myWave = new Wave();
+		currentWave = myWave;
+		boolean isBoss = false;
+		HashMap<String, UnitPattern> unitMap = new HashMap<String, UnitPattern>();
+		ArrayList<GeneratorInfo> genInfo = new ArrayList<GeneratorInfo>();
+		waveWaitTime = 1500;
+			genInfo.add(new GeneratorInfo("Asteroid", r.nextInt(waveNumber+1) +1,spawnSystem.FullRandom));
+			genInfo.add(new GeneratorInfo("Fire Asteroid", r.nextInt(waveNumber*5+1)/4,spawnSystem.FullRandom));
+			genInfo.add(new GeneratorInfo("Cat", r.nextInt(waveNumber/4+1),spawnSystem.FullRandom));
+			genInfo.add(new GeneratorInfo("Healer", r.nextInt(waveNumber/25+1),spawnSystem.FullRandom));
+			genInfo.add(new GeneratorInfo("Cheetah", r.nextInt(waveNumber/9+1),spawnSystem.FullRandom));
+			genInfo.add(new GeneratorInfo("FullHealer", r.nextInt(waveNumber/50+1),spawnSystem.FullRandom));
+		isBossWave = isBoss;
+		if(!isBoss) {
+			currentWave = waveGenerator.generateWave(genInfo);
+		}
+	}
+	
+	static void sendWave(int waveNumber){
+		if(DisplayMessageActivity.getMode() == "Campaign") {
+			sendCampaignWave(waveNumber);
+		}
+		else {
+			sendSurvivalWave(waveNumber);
+		}
+	}
 	
 	public boolean getWaveSent() {
 		return waveSent;

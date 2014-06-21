@@ -52,6 +52,7 @@ public class DisplayMessageActivity extends ActionBarActivity {
 	public static int bgColor = Color.BLACK;
     
 	// The current game thread.
+	private static String mode = "Campaign";
 	public static Context survContext;
 	private Thread gameThread;
 	private volatile static boolean gameOver;
@@ -248,6 +249,10 @@ public class DisplayMessageActivity extends ActionBarActivity {
 	
 	public static int getScreenWidth() {
 		return screenWidth;
+	}
+	
+	public static String getMode() {
+		return mode;
 	}
 	
 	void initGame() {
