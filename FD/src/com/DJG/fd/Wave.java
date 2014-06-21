@@ -45,7 +45,7 @@ public class Wave extends ArrayList<Unit> {
 		isFirst = true;
 		waveGenerator = new WaveGenerator();
 		// Start at what wave?
-		int waveStart = 11;
+		int waveStart = 0;
 		currentWaveNumber = waveStart;
 		sendWave(waveStart);
 	}
@@ -57,13 +57,16 @@ public class Wave extends ArrayList<Unit> {
 		HashMap<String, UnitPattern> unitMap = new HashMap<String, UnitPattern>();
 		ArrayList<GeneratorInfo> genInfo = new ArrayList<GeneratorInfo>();
 		switch(waveNumber){
-		/*case 0:
+		/* 0:
 			genInfo.add(new GeneratorInfo("Asteroid", 4, spawnSystem.FullRandom));
 			genInfo.add(new GeneratorInfo("Fire Asteroid", 4, spawnSystem.FullRandom));
 			break;*/
 		case 0: 
-			Cthulu.battleStart();
-			isBoss = true;
+			//Cthulu.battleStart();
+			//isBoss = true;
+			genInfo.add(new GeneratorInfo("Asteroid", 10,spawnSystem.Circle));
+			genInfo.add(new GeneratorInfo("Asteroid", 10,spawnSystem.Circle));
+			genInfo.add(new GeneratorInfo("Asteroid", 10,spawnSystem.Circle));
 			break;
 		case 1:
 			genInfo.add(new GeneratorInfo("Asteroid", 10,spawnSystem.Circle));

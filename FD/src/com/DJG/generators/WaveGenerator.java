@@ -48,6 +48,7 @@ public class WaveGenerator {
 	}
 	
 	public Wave generateWave(ArrayList<GeneratorInfo> genInfo, unitOrder order){
+		reset();
 		Wave w = new Wave();
 		
 		for(GeneratorInfo g : genInfo){
@@ -138,6 +139,16 @@ public class WaveGenerator {
 		return w;
 	}
 	
+	
+	public void reset(){
+		northTracker = 0;
+		southTracker = 0;
+		eastTracker = 0;
+		westTracker = 0;
+		spiralNumber = 30;
+		circleRadius = 0;
+	}
+	
 	private XY spiralXY(){
 		int x = screenWidth/2 + (int) (18 * spiralNumber *Math.cos(((double) spiralNumber)/3)) ; 
 		int y = screenHeight/2  + (int) (18 * spiralNumber *Math.sin(((double) spiralNumber)/3)) ;
@@ -217,4 +228,6 @@ public class WaveGenerator {
 		}
 		circleRadius++;
 	}
+	
+	
 }
