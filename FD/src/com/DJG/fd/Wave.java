@@ -38,6 +38,7 @@ public class Wave extends ArrayList<Unit> {
 	private static int currentWaveNumber;
 	private static boolean waveSent = false;
 	private static Random r = new Random();
+	private static int waveWaitTime = 1000;
 	
 	public static void initWaves() {
 		// Obviously we just started the game.
@@ -56,6 +57,7 @@ public class Wave extends ArrayList<Unit> {
 		boolean isBoss = false;
 		HashMap<String, UnitPattern> unitMap = new HashMap<String, UnitPattern>();
 		ArrayList<GeneratorInfo> genInfo = new ArrayList<GeneratorInfo>();
+		waveWaitTime = 1500;
 		switch(waveNumber){
 		case 0:
 			genInfo.add(new GeneratorInfo("Asteroid", 4, spawnSystem.FullRandom));
@@ -181,7 +183,7 @@ public class Wave extends ArrayList<Unit> {
 			}
 			
 			// Send the next wave if the current one is empty and it has been two seconds!
-			if(currentWave.isEmpty() && System.currentTimeMillis() - waveEndedTime > 2000) {
+			if(currentWave.isEmpty() && System.currentTimeMillis() - waveEndedTime > waveWaitTime) {
 				currentWaveNumber++;
 				DisplayMessageActivity.levelText = "Wave " + (currentWaveNumber+1);
 				sendWave(currentWaveNumber);
@@ -236,6 +238,10 @@ public class Wave extends ArrayList<Unit> {
 	
 	public static int getCurrentWaveNumber() {
 		return currentWaveNumber;
+	}
+	
+	public int getWaitTime(){
+		return waveWaitTime;
 	}
 	
 	public static void killUnit(Unit u) {
