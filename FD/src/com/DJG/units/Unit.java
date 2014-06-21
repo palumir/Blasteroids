@@ -219,9 +219,10 @@ public class Unit {
 				float yDistance = (u.getY() - y);
 				float xDistance = (u.getX() - x);
 				float distanceXY = (float)Math.sqrt(yDistance*yDistance + xDistance*xDistance);
-				
-				// If the unit is very small make it easier to press.
 				if(distanceXY <= 50 + u.getRadius() && u.getName() != "Fortress" && u.getType() == "Fire Asteroid") {
+					return u;
+				}
+				if(distanceXY <= 50 + u.getRadius() && u.getName() != "Fortress" && u.getType() == "Ice Asteroid") {
 					return u;
 				}
 			}
@@ -232,12 +233,9 @@ public class Unit {
 				float yDistance = (u.getY() - y);
 				float xDistance = (u.getX() - x);
 				float distanceXY = (float)Math.sqrt(yDistance*yDistance + xDistance*xDistance);
-				
-				// If the unit is very small make it easier to press.
 				if(distanceXY <= 50 + u.getRadius() && u.getName() != "Fortress" && u.getRadius() <= 50 && u.getShape() != "Plus") {
 					return u;
 				}
-				// If the unit is big, don't make it get in the way of other things with a huge hitbox.
 				if(distanceXY <= 10 + u.getRadius() && u.getName() != "Fortress" && u.getRadius() > 50 && u.getShape() != "Plus") {
 					return u;
 				}
@@ -249,12 +247,9 @@ public class Unit {
 				float yDistance = (u.getY() - y);
 				float xDistance = (u.getX() - x);
 				float distanceXY = (float)Math.sqrt(yDistance*yDistance + xDistance*xDistance);
-				
-				// If the unit is very small make it easier to press.
 				if(distanceXY <= 50 + u.getRadius() && u.getName() != "Fortress" && u.getRadius() <= 50) {
 					return u;
 				}
-				// If the unit is big, don't make it get in the way of other things with a huge hitbox.
 				if(distanceXY <= 10 + u.getRadius() && u.getName() != "Fortress" && u.getRadius() > 50) {
 					return u;
 				}
@@ -368,8 +363,14 @@ public class Unit {
 		currentHitPoints -= damage;
 	}
 	
-	public void attacks(Unit u){
-		if(u.getHP() <= 100 && u.getHP() >= 0) {
+	public void attacks(Unit u) {
+		if(u.getHP()>100) {
+			currentHitPoints = 100;
+		}
+		if(u.getHP()<0) {
+			currentHitPoints = 0;
+		}
+		if(u.getHP() <= 100 && u.getHP() > 0) {
 			u.takeDamage(getDamage());
 		}
 	}
@@ -379,6 +380,9 @@ public class Unit {
 		// Do special things for special units.
 		if(type=="Fire Asteroid") {
 			Bomb b = new Bomb(this.getX(),this.getY(),100,500);
+		}
+		if(type=="Ice Asteroid") {
+			Slow s = new Slow(this.getX(),this.getY(),200,1500);
 		}
 		if(type == "Splitter Huge") {
 			Wave.addToCurrentWave(new Unit("Any Name","Splitter Big",this.getX(),this.getY()));

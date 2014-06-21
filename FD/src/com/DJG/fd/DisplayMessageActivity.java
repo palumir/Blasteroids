@@ -50,7 +50,6 @@ public class DisplayMessageActivity extends ActionBarActivity {
 	// Shared data.
 	static SharedPreferences prefs;
 	public static int bgColor = Color.BLACK;
-    static Bitmap m;
     
 	// The current game thread.
 	public static Context survContext;
@@ -179,9 +178,6 @@ public class DisplayMessageActivity extends ActionBarActivity {
 	  
 	  void drawBackground(Canvas canvas, Paint myPaint) {
           canvas.drawColor(bgColor);
-          int x = 0;
-          int y = 0;
-          canvas.drawBitmap(m, 0f,0f, null);
 	  }
 	 
 	  private class gameView extends View {
@@ -257,10 +253,7 @@ public class DisplayMessageActivity extends ActionBarActivity {
 		return screenWidth;
 	}
 	
-	
-	
 	void initGame() {
-		m  = makeTransparent(BitmapFactory.decodeResource(DisplayMessageActivity.survContext.getResources(), R.drawable.stars));
 		UnitType.initUnitTypes();
 		// Put the Castle in the middle.
 		Display display = getWindowManager().getDefaultDisplay();

@@ -16,7 +16,7 @@ public class Slow {
 	
 	// General ability attributes. Slows are static at the moment.
 	private long startTime;
-	private int duration = 1050;
+	private int duration = 3000;
 
 	// Well, where is the ability?!
 	private float x;
@@ -30,8 +30,8 @@ public class Slow {
 	public Slow(float newX, float newY, int newBlastRadius, int newDuration) {
 		x = newX;
 		y = newY;
-		color = Color.BLUE;
-		maxStroke = 100;
+		color = Color.CYAN;
+		maxStroke = 30;
 		blastRadius = newBlastRadius;
 		duration = newDuration;
 		startTime = System.currentTimeMillis();
