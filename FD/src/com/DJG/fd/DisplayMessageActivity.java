@@ -141,7 +141,11 @@ public class DisplayMessageActivity extends ActionBarActivity {
 	
 	  @Override
 	  public void onCreate(Bundle savedInstanceState) {
-		  
+		  	Bundle b = getIntent().getExtras();
+		  	int levelStart = 0;
+		  	if (b!=null){
+		  		levelStart = b.getInt("level");
+		  	}
 	         super.onCreate(savedInstanceState);
 	         requestWindowFeature(Window.FEATURE_NO_TITLE);
 	         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
@@ -158,7 +162,7 @@ public class DisplayMessageActivity extends ActionBarActivity {
 				 highScoreText = "";
 				 previousHighScoreText = "";
 				 castleHP = "Health ";
-				 initGame();
+				 initGame(levelStart);
 				 playGame();
 				 doOnce = false;
 			 }
@@ -255,14 +259,14 @@ public class DisplayMessageActivity extends ActionBarActivity {
 		return mode;
 	}
 	
-	void initGame() {
+	void initGame(int levelStart) {
 		UnitType.initUnitTypes();
 		// Put the Castle in the middle.
 		Display display = getWindowManager().getDefaultDisplay();
 		screenWidth = display.getWidth();
 		screenHeight = display.getHeight();
 	    Unit u = new Unit("Fortress","Castle",screenWidth/2,screenHeight/2);
-	    Wave.initWaves();
+	    Wave.initWaves(levelStart);
 	    Ability.initAbilities();
 	}
 	

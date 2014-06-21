@@ -19,6 +19,11 @@ public class MainActivity extends ActionBarActivity {
 		startActivity(intent);
 	}
 	
+	public void campaignSelector(View view){
+		Intent intent = new Intent(this, CampaignSelector.class);
+		startActivity(intent);
+	}
+	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
