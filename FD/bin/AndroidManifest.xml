@@ -31,6 +31,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.DJG.fd.MainActivity" />
         </activity>
+         <activity
+            android:name="com.DJG.fd.CampaignSelector"
+            android:screenOrientation="portrait"
+            android:label="@string/title_activity_display_message"
+            android:parentActivityName="com.DJG.fd.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.DJG.fd.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

@@ -50,6 +50,16 @@ public class Wave extends ArrayList<Unit> {
 		currentWaveNumber = waveStart;
 		sendWave(waveStart);
 	}
+	
+	public static void initWaves(int waveStartNumber){
+		// Obviously we just started the game.
+		waveSent = false;
+		isFirst = true;
+		waveGenerator = new WaveGenerator();
+		// Start at what wave?
+		currentWaveNumber = waveStartNumber;
+		sendWave(waveStartNumber);
+	}
 
 	static void sendWave(int waveNumber){
 		Wave myWave = new Wave();
