@@ -51,10 +51,10 @@ public class Wave extends ArrayList<Unit> {
 		sendWave(waveStart);
 	}
 	
-<<<<<<< HEAD
 	public static void setWave(int n) {
 		currentWaveNumber = n;
-=======
+
+	}
 	public static void initWaves(int waveStartNumber){
 		// Obviously we just started the game.
 		waveSent = false;
@@ -63,7 +63,6 @@ public class Wave extends ArrayList<Unit> {
 		// Start at what wave?
 		currentWaveNumber = waveStartNumber;
 		sendWave(waveStartNumber);
->>>>>>> 2e2129b6b05f9dc7df297add1bd8b4e0a7563860
 	}
 
 	static void sendCampaignWave(int waveNumber) {
