@@ -29,6 +29,7 @@ class UnitPattern {
 }
 
 public class Wave extends ArrayList<Unit> {
+	private static ArrayList<Integer> usedWaves = new ArrayList<Integer>();
 	private static WaveGenerator waveGenerator;
 	private static boolean isBossWave = false;
 	private static Wave currentWave;
@@ -172,23 +173,79 @@ public class Wave extends ArrayList<Unit> {
 		}
 	}
 	
+	// If the int has already used, don't use it again. If every int between
+	// 0 and top have been used, reset usedWaves, and use the input as num.
+	static Integer getMyRandom(Integer num, Integer top) {
+		Integer x = num;
+		Integer n = 0;
+		if(usedWaves == null) {
+			usedWaves.add(num);
+			return num;
+		}
+		while(usedWaves.contains(x)) {
+			if(x<0) {
+				x = top;
+			}
+			if(n>top+1) {
+				usedWaves.clear();
+				usedWaves.add(num);
+				return num;
+			}
+			x--;
+			n++;
+		}
+		usedWaves.add(x);
+		return x;
+	}
+	
 	static void sendSurvivalWave(int waveNumber) {
+		Integer randomNum = getMyRandom(r.nextInt(3),2);
 		Wave myWave = new Wave();
 		currentWave = myWave;
-		boolean isBoss = false;
 		HashMap<String, UnitPattern> unitMap = new HashMap<String, UnitPattern>();
 		ArrayList<GeneratorInfo> genInfo = new ArrayList<GeneratorInfo>();
 		waveWaitTime = 1500;
-			genInfo.add(new GeneratorInfo("Asteroid", r.nextInt(waveNumber+1) +1,spawnSystem.FullRandom));
-			genInfo.add(new GeneratorInfo("Fire Asteroid", r.nextInt(waveNumber*5+1)/4,spawnSystem.FullRandom));
+		
+		switch(randomNum) {
+		// Completely Random Wave
+		case 0:
+			genInfo.add(new GeneratorInfo("Asteroid", r.nextInt(waveNumber*6+1)/2+1,spawnSystem.FullRandom));
+			genInfo.add(new GeneratorInfo("Fire Asteroid", r.nextInt(waveNumber+1),spawnSystem.FullRandom));
+			genInfo.add(new GeneratorInfo("Ice Asteroid", r.nextInt(waveNumber+1),spawnSystem.FullRandom));
 			genInfo.add(new GeneratorInfo("Cat", r.nextInt(waveNumber/4+1),spawnSystem.FullRandom));
 			genInfo.add(new GeneratorInfo("Healer", r.nextInt(waveNumber/25+1),spawnSystem.FullRandom));
 			genInfo.add(new GeneratorInfo("Cheetah", r.nextInt(waveNumber/9+1),spawnSystem.FullRandom));
 			genInfo.add(new GeneratorInfo("FullHealer", r.nextInt(waveNumber/50+1),spawnSystem.FullRandom));
-		isBossWave = isBoss;
-		if(!isBoss) {
-			currentWave = waveGenerator.generateWave(genInfo);
+		break;
+		
+		// Explosive Circle Wave
+		case 1:
+			genInfo.add(new GeneratorInfo("Asteroid", r.nextInt(waveNumber*2+1)+1,spawnSystem.FullRandom));
+			genInfo.add(new GeneratorInfo("Fire Asteroid", r.nextInt(waveNumber*5+1)/2,spawnSystem.Circle));
+			genInfo.add(new GeneratorInfo("Fire Asteroid", r.nextInt(waveNumber*5+1)/2,spawnSystem.Circle));
+			genInfo.add(new GeneratorInfo("Cat", r.nextInt(waveNumber/5+1),spawnSystem.FullRandom));
+			genInfo.add(new GeneratorInfo("Cheetah", r.nextInt(waveNumber/20+1),spawnSystem.FullRandom));
+		break;
+
+		// Spiral Wave
+		case 2:
+			int x = waveNumber+ 2*r.nextInt(waveNumber+1);
+			while(x > 0) {
+				int between0and2 = r.nextInt(3); 
+				String whatToSend = "Asteroid";
+				if(between0and2 == 1) {
+					whatToSend = "Fire Asteroid";
+				}
+				if(between0and2 == 2) {
+					whatToSend = "Ice Asteroid";
+				}
+				genInfo.add(new GeneratorInfo(whatToSend, x,spawnSystem.Spiral));
+				x = x/2;
+			}
+		break;
 		}
+		
+		currentWave = waveGenerator.generateWave(genInfo);
 	}
 	
 	static void sendWave(int waveNumber){
