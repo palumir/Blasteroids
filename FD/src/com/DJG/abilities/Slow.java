@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 
+import com.DJG.fd.DisplayMessageActivity;
 import com.DJG.units.Unit;
 
 public class Slow {
@@ -81,6 +82,12 @@ public class Slow {
 		}
 	}
 	
+	public static void clearSlows() {
+		synchronized(SlowsLock) {
+			allSlows.clear();
+		}
+	}
+	
 	public static void drawSlows(Canvas canvas, Paint myPaint) {
         // Draw slows.
         synchronized(Slow.SlowsLock) {
@@ -107,7 +114,7 @@ public class Slow {
 				float yDistanceSlow = (SlowY - u.getY());
 				float xDistanceSlow = (SlowX - u.getX());
 				float distanceXYSlow = (float)Math.sqrt(yDistanceSlow*yDistanceSlow + xDistanceSlow*xDistanceSlow);
-				if(distanceXYSlow <= SlowRadius + u.getRadius()) {
+				if(distanceXYSlow <= SlowRadius + u.getRadius() && !DisplayMessageActivity.isOffScreen(u.getX(), u.getY())) {
 					u.freeze(5000);
 					break;
 				}

@@ -1,7 +1,7 @@
 package com.DJG.units;
 
 import com.DJG.fd.DisplayMessageActivity;
-import com.DJG.fd.Wave;
+import com.DJG.waves.Wave;
 
 public class Cthulu {
 	 private Unit head;

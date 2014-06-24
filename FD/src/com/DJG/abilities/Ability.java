@@ -131,7 +131,7 @@ public class Ability {
 			}
 			if(this.getType() == "Slow") {
 				synchronized(Slow.SlowsLock) {
-					Slow newSlow = new Slow(xSpawn,ySpawn,250,1500); // Default slow.
+					Slow newSlow = new Slow(xSpawn,ySpawn,350,1000); // Default slow.
 				}
 			}
 		}
@@ -180,7 +180,8 @@ public class Ability {
 	
 	public static void clearAbilities() {
 		synchronized(abilitiesLock) {
-			Bomb.clearBomb();
+			Bomb.clearBombs();
+			Slow.clearSlows();
 			equippedAbilities.clear();
 		}
 	}

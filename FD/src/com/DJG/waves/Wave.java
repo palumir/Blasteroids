@@ -1,8 +1,9 @@
-package com.DJG.fd;
+package com.DJG.waves;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
+import com.DJG.fd.DisplayMessageActivity;
 import com.DJG.generators.GeneratorInfo;
 import com.DJG.generators.GeneratorInfo.spawnSystem;
 import com.DJG.generators.WaveGenerator;
@@ -200,12 +201,12 @@ public class Wave extends ArrayList<Unit> {
 	}
 	
 	static String fireorice() {
-		int between0and2 = r.nextInt(3); 
+		int between = r.nextInt(20); 
 		String whatToSend = "Asteroid";
-		if(between0and2 == 1) {
+		if(between < 5) {
 			whatToSend = "Fire Asteroid";
 		}
-		if(between0and2 == 2) {
+		if(between >= 5 && between <=10) {
 			whatToSend = "Ice Asteroid";
 		}
 		return whatToSend;
@@ -222,17 +223,18 @@ public class Wave extends ArrayList<Unit> {
 		waveWaitTime = 1500;
 		
 		switch(randomNum) {
-		// Completely Random Wave
+		
+		// Random wave with fire preference.
 		case 0:
-			genInfo.add(new GeneratorInfo("Asteroid", r.nextInt(waveNumber*5+1)/2+1,spawnSystem.FullRandom));
+			genInfo.add(new GeneratorInfo(fireorice(), r.nextInt(waveNumber*5+1)/2+1,spawnSystem.FullRandom));
+			genInfo.add(new GeneratorInfo(fireorice(), r.nextInt(waveNumber+1),spawnSystem.FullRandom));
 			genInfo.add(new GeneratorInfo("Fire Asteroid", r.nextInt(waveNumber+1),spawnSystem.FullRandom));
-			genInfo.add(new GeneratorInfo("Ice Asteroid", r.nextInt(waveNumber+1),spawnSystem.FullRandom));
 			genInfo.add(new GeneratorInfo("Cat", r.nextInt(waveNumber/4+1),spawnSystem.FullRandom));
 			genInfo.add(new GeneratorInfo("Healer", r.nextInt(waveNumber/25+1),spawnSystem.FullRandom));
 			genInfo.add(new GeneratorInfo("FullHealer", r.nextInt(waveNumber/50+1),spawnSystem.FullRandom));
 		break;
 		
-		// Explosive Circle Wave
+		// Explosive Circle Wave, probably most satisfying wave.
 		case 1:
 			genInfo.add(new GeneratorInfo("Asteroid", r.nextInt(waveNumber*2+1)+1,spawnSystem.FullRandom));
 			genInfo.add(new GeneratorInfo("Fire Asteroid", r.nextInt(waveNumber*5+1)/2,spawnSystem.Circle));
@@ -240,7 +242,7 @@ public class Wave extends ArrayList<Unit> {
 			genInfo.add(new GeneratorInfo("Cat", r.nextInt(waveNumber/5+1),spawnSystem.FullRandom));
 		break;
 
-		// Spiral Wave
+		// Spiral wave!
 		case 2:
 			genInfo.add(new GeneratorInfo("Cat", r.nextInt(waveNumber/4+1),spawnSystem.FullRandom));
 			x = waveNumber+ 2*r.nextInt(waveNumber+1);
@@ -250,13 +252,13 @@ public class Wave extends ArrayList<Unit> {
 			}
 		break;
 		
-		// Circle regular asteroids with Fire or Ice
+		// Fire or ice circle with top and bottom bombardment.
 		case 3:
 				x = 0;
 				genInfo.add(new GeneratorInfo(fireorice(), r.nextInt(waveNumber*3+1)/2,spawnSystem.Circle));
 				genInfo.add(new GeneratorInfo("Cat", r.nextInt(waveNumber/4+1),spawnSystem.FullRandom));
 				while(x < Math.ceil(waveNumber/5)) {
-					genInfo.add(new GeneratorInfo(fireorice(), r.nextInt(waveNumber*3+1)/2,spawnSystem.Circle));
+					genInfo.add(new GeneratorInfo(fireorice(), r.nextInt(waveNumber+1),spawnSystem.Circle));
 					x++;
 				}
 				genInfo.add(new GeneratorInfo("Cat", r.nextInt(waveNumber/4+1),spawnSystem.FullRandom));
@@ -264,17 +266,18 @@ public class Wave extends ArrayList<Unit> {
 				genInfo.add(new GeneratorInfo(fireorice(), waveNumber+1,spawnSystem.LineFromSouth));				
 		break;
 		
+		// Four sides spiraling inward. Coolest wave so far I think.
 		case 4:
-			genInfo.add(new GeneratorInfo("Asteroid", r.nextInt(waveNumber+1)+1,spawnSystem.FullRandom));
-			genInfo.add(new GeneratorInfo("Fire Asteroid", r.nextInt(waveNumber+1)/2,spawnSystem.FullRandom));
-			genInfo.add(new GeneratorInfo("Ice Asteroid", r.nextInt(waveNumber+1)/2,spawnSystem.FullRandom));
+			genInfo.add(new GeneratorInfo("Asteroid", r.nextInt(waveNumber+1)/5+1,spawnSystem.FullRandom));
+			genInfo.add(new GeneratorInfo("Fire Asteroid", r.nextInt(waveNumber/3+1),spawnSystem.FullRandom));
+			genInfo.add(new GeneratorInfo("Ice Asteroid", r.nextInt(waveNumber/3+1),spawnSystem.FullRandom));
 			genInfo.add(new GeneratorInfo("Cat", r.nextInt(waveNumber/10+1),spawnSystem.FullRandom));
 			genInfo.add(new GeneratorInfo("Healer", r.nextInt(waveNumber/25+1),spawnSystem.FullRandom));
 			genInfo.add(new GeneratorInfo("FullHealer", r.nextInt(waveNumber/50+1),spawnSystem.FullRandom));
-			genInfo.add(new GeneratorInfo(fireorice(), waveNumber+1,spawnSystem.LineFromNorth));
-			genInfo.add(new GeneratorInfo(fireorice(), waveNumber+1,spawnSystem.LineFromSouth));
-			genInfo.add(new GeneratorInfo(fireorice(), waveNumber+1,spawnSystem.LineFromEast));
-			genInfo.add(new GeneratorInfo(fireorice(), waveNumber+1,spawnSystem.LineFromWest));
+			genInfo.add(new GeneratorInfo(fireorice(), waveNumber+1,spawnSystem.LineFromNorth,1));
+			genInfo.add(new GeneratorInfo(fireorice(), waveNumber+1,spawnSystem.LineFromSouth,1));
+			genInfo.add(new GeneratorInfo(fireorice(), waveNumber+1,spawnSystem.LineFromEast,1));
+			genInfo.add(new GeneratorInfo(fireorice(), waveNumber+1,spawnSystem.LineFromWest,1));
 			// I have no idea what this wave does yet.	
 		break;
 		}

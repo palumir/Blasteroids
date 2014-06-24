@@ -10,7 +10,7 @@ import android.util.Log;
 import com.DJG.abilities.Bomb;
 import com.DJG.abilities.Slow;
 import com.DJG.fd.DisplayMessageActivity;
-import com.DJG.fd.Wave;
+import com.DJG.waves.Wave;
 
 public class Unit {
 	// Global stuff.
@@ -300,13 +300,10 @@ public class Unit {
 			u.attacks(castle);
 			u.die();
 			DisplayMessageActivity.castleHP = "Health " + castle.getHP();
-			if(castle.isDead()){
+			if(castle.isDead() && !dontLoseAgain){
 				dontLoseAgain = true;
-				DisplayMessageActivity.youLose();
+				DisplayMessageActivity.setLost();
 			}
-		}
-		if(castle.isDead() && !dontLoseAgain){
-			DisplayMessageActivity.youLose();
 		}
 		else {
 			u.moveUnit();
@@ -323,14 +320,14 @@ public class Unit {
 				Unit currentUnit = allUnits.get(j);
   	        myPaint.setStyle(Paint.Style.FILL);
       	  	myPaint.setStrokeWidth(23);
-      	  	if(currentUnit.getName() == "Fortress") {
+      	  	if(currentUnit.getName() == "Fortress" && !DisplayMessageActivity.getLost()) {
       		  	myPaint.setStrokeWidth(1);
       		  	myPaint.setStyle(Paint.Style.STROKE);
       	  		myPaint.setColor(currentUnit.color);
     	        	// Draw Earth!
    	        	 canvas.drawBitmap(currentUnit.getBMP(), currentUnit.getX()-currentUnit.getRadius(), currentUnit.getY() - currentUnit.getRadius(), null);
       	  	}
-      	  	else {
+      	  	else if(currentUnit.getName() != "Fortress") {
       	  		// What shape do we draw?
       	  		myPaint.setColor(currentUnit.color);
       	  		if(currentUnit.getBMP() != null) {
@@ -353,6 +350,10 @@ public class Unit {
       	  	}
         	}
         }
+	}
+	
+	public static void destroyPlanet() {
+		Bomb b = new Bomb(DisplayMessageActivity.getScreenWidth()/2, DisplayMessageActivity.getScreenHeight()/2,DisplayMessageActivity.getScreenHeight()/2+1,DisplayMessageActivity.getLoseDuration());
 	}
 		
 	public static void updateUnits() {

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -12,6 +11,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MotionEventCompat;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -23,8 +23,10 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.DJG.abilities.Ability;
+import com.DJG.abilities.Bomb;
 import com.DJG.units.Unit;
 import com.DJG.units.UnitType;
+import com.DJG.waves.Wave;
 
 public class DisplayMessageActivity extends ActionBarActivity {
 	
@@ -73,6 +75,11 @@ public class DisplayMessageActivity extends ActionBarActivity {
 	public static String castleHP;
 	public static String highScoreText;
 	public static String previousHighScoreText;
+	
+	// Has this guy lost yet?
+	public static boolean lost;
+	public static double lostTime;
+	public static int loseDuration = 2500;
 	
 	// List of all units. This list is constantly redrawn.
 	public static boolean doOnce = true;
@@ -181,6 +188,13 @@ public class DisplayMessageActivity extends ActionBarActivity {
         	canvas.drawText(castleHP, 50f, (float)(screenHeight-50) ,myPaint );
 	  }
 	  
+	  public static boolean isOffScreen(float x, float y) {
+		  if(x < 0 || x > getScreenWidth() || y < 0|| y > getScreenHeight()) {
+			  return true;
+		  }
+		  return false;
+	  }
+	  
 	  void drawBackground(Canvas canvas, Paint myPaint) {
           canvas.drawColor(bgColor);
 	  }
@@ -246,6 +260,21 @@ public class DisplayMessageActivity extends ActionBarActivity {
 		}
 	}
 	
+	// Set that they lost.
+	public static void setLost() {
+		lost = true;
+		Unit.destroyPlanet();
+		lostTime = System.currentTimeMillis();
+	}
+	
+	public static double getTimeLost() {
+		return lostTime;
+	}
+	
+	public static boolean getLost() {
+		return lost;
+	}
+	
 	// Get screen height and width.
 	public static int getScreenHeight() {
 		return screenHeight;
@@ -259,10 +288,16 @@ public class DisplayMessageActivity extends ActionBarActivity {
 		return mode;
 	}
 	
+	public static int getLoseDuration() {
+		return loseDuration;
+	}
+	
 	void initGame(int levelStart) {
 		UnitType.initUnitTypes();
 		// Put the Castle in the middle.
 		Display display = getWindowManager().getDefaultDisplay();
+		lost = false;
+		lostTime = 0;
 		screenWidth = display.getWidth();
 		screenHeight = display.getHeight();
 	    Unit u = new Unit("Fortress","Castle",screenWidth/2,screenHeight/2);
@@ -270,11 +305,18 @@ public class DisplayMessageActivity extends ActionBarActivity {
 	    Ability.initAbilities();
 	}
 	
+	void checkIfLost() {
+		if(DisplayMessageActivity.getLost() && (System.currentTimeMillis() - DisplayMessageActivity.getTimeLost() > loseDuration)) {
+			DisplayMessageActivity.youLose();
+		}
+	}
+	
 	void playGame() {
 		gameThread=new Thread(new Runnable() {
 			public void run() {
 				while(!gameOver){
-					updateAllUnits();
+					updateAllStuff();
+					checkIfLost();
 					currentView.postInvalidate();
 					try {
 						Thread.sleep(10);
@@ -308,9 +350,11 @@ public class DisplayMessageActivity extends ActionBarActivity {
 		 Ability.clearAbilities();
 	 }
 	
-	void updateAllUnits() {
+	void updateAllStuff() {
 		// Unleash the waves.
-		Wave.sendWaves();
+		if(lost==false) {
+			Wave.sendWaves();
+		}
 		
 		// Update abilities.
 		Ability.updateAbilities();

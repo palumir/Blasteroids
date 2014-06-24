@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 
+import com.DJG.fd.DisplayMessageActivity;
 import com.DJG.units.Unit;
 
 public class Bomb {
@@ -69,6 +70,12 @@ public class Bomb {
 		return startTime;
 	}
 	
+	public static void clearBombs() {
+		synchronized(bombsLock) {
+			allBombs.clear();
+		}
+	}
+	
 	public static void addBomb(Bomb b) {
 		synchronized(bombsLock) {
 			allBombs.add(b);
@@ -94,7 +101,7 @@ public class Bomb {
 				float yDistanceBomb = (bombY - u.getY());
 				float xDistanceBomb = (bombX - u.getX());
 				float distanceXYBomb = (float)Math.sqrt(yDistanceBomb*yDistanceBomb + xDistanceBomb*xDistanceBomb);
-				if(distanceXYBomb <= bombRadius + u.getRadius()) {
+				if(distanceXYBomb <= bombRadius + u.getRadius() && !DisplayMessageActivity.isOffScreen(u.getX(),u.getY())) {
 					u.die();
 					break;
 				}
@@ -136,12 +143,6 @@ public class Bomb {
 	
 	public int getBlastRadius() {
 		return blastRadius;
-	}
-	
-	public static void clearBomb() {
-		synchronized(bombsLock) {
-			allBombs.clear();
-		}
 	}
 	
 	public int getStroke() {
