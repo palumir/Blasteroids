@@ -63,7 +63,7 @@ public class Wave extends ArrayList<Unit> {
 		isFirst = true;
 		waveGenerator = new WaveGenerator();
 		// Start at what wave?
-		//waveStartNumber = 100;
+		waveStartNumber = 15;
 		currentWaveNumber = waveStartNumber;
 		sendWave(waveStartNumber);
 	}
@@ -203,18 +203,19 @@ public class Wave extends ArrayList<Unit> {
 	static String fireorice() {
 		int between = r.nextInt(20); 
 		String whatToSend = "Asteroid";
-		if(between < 5) {
+		if(between == 1) {
 			whatToSend = "Fire Asteroid";
 		}
-		if(between >= 5 && between <=10) {
+		if(between == 2) {
 			whatToSend = "Ice Asteroid";
 		}
 		return whatToSend;
 	}
 	
 	static void sendSurvivalWave(int waveNumber) {
-		int numCases = 5;
+		int numCases = 6;
 		int x = 0;
+		int dist = 0;
 		Integer randomNum = getMyRandom(r.nextInt(numCases),numCases-1);
 		Wave myWave = new Wave();
 		currentWave = myWave;
@@ -246,8 +247,11 @@ public class Wave extends ArrayList<Unit> {
 		case 2:
 			genInfo.add(new GeneratorInfo("Cat", r.nextInt(waveNumber/4+1),spawnSystem.FullRandom));
 			x = waveNumber+ 2*r.nextInt(waveNumber+1);
+			dist = 0;
 			while(x > 0) {
+				dist = dist + 150;
 				genInfo.add(new GeneratorInfo(fireorice(), x,spawnSystem.Spiral));
+				genInfo.add(new GeneratorInfo("Cat", r.nextInt(waveNumber/6+1),spawnSystem.FullRandom,0,dist));
 				x = x/2;
 			}
 		break;
@@ -278,7 +282,26 @@ public class Wave extends ArrayList<Unit> {
 			genInfo.add(new GeneratorInfo(fireorice(), waveNumber+1,spawnSystem.LineFromSouth,1));
 			genInfo.add(new GeneratorInfo(fireorice(), waveNumber+1,spawnSystem.LineFromEast,1));
 			genInfo.add(new GeneratorInfo(fireorice(), waveNumber+1,spawnSystem.LineFromWest,1));
-			// I have no idea what this wave does yet.	
+		break;
+		
+		// Mechanical Wave
+		case 5:
+			x=0;
+			int n = 0;
+			dist=0;
+			while(x < waveNumber) { 
+				if(n%2 == 0) {
+					genInfo.add(new GeneratorInfo("Cat", 8,spawnSystem.LineFromNorth,r.nextInt(2),x+1));
+					genInfo.add(new GeneratorInfo("Cat", 8,spawnSystem.LineFromSouth,r.nextInt(2),x+1));
+				}
+				else {
+					genInfo.add(new GeneratorInfo("Cat", 8,spawnSystem.LineFromEast,r.nextInt(2),x+1));
+					genInfo.add(new GeneratorInfo("Cat", 8,spawnSystem.LineFromWest,r.nextInt(2),x+1));
+				}
+				n = n + 1;
+				x = x + 5;
+			}
+			
 		break;
 		}
 		
