@@ -234,47 +234,47 @@ public class Unit {
 	// Get the selected unit at the coordinates.
 	public static Unit getUnitAt(float x, float y) {
 		synchronized(allUnitsLock) {
-			// Kill the fiery ones first.
-			for(int j = 0; j < allUnits.size(); j++) {
-				Unit u = allUnits.get(j);
-				float yDistance = (u.getY() - y);
-				float xDistance = (u.getX() - x);
-				float distanceXY = (float)Math.sqrt(yDistance*yDistance + xDistance*xDistance);
-				if(distanceXY <= 50 + u.getRadius() && u.getName() != "Fortress" && u.getType() == "Fire Asteroid") {
-					return u;
-				}
-				if(distanceXY <= 50 + u.getRadius() && u.getName() != "Fortress" && u.getType() == "Ice Asteroid") {
-					return u;
-				}
-			}
 			
-			// Spare the plusses if possible.
-			for(int j = 0; j < allUnits.size(); j++) {
-				Unit u = allUnits.get(j);
-				float yDistance = (u.getY() - y);
-				float xDistance = (u.getX() - x);
-				float distanceXY = (float)Math.sqrt(yDistance*yDistance + xDistance*xDistance);
-				if(distanceXY <= 50 + u.getRadius() && u.getName() != "Fortress" && u.getRadius() <= 50 && u.getShape() != "Plus") {
-					return u;
-				}
-				if(distanceXY <= 10 + u.getRadius() && u.getName() != "Fortress" && u.getRadius() > 50 && u.getShape() != "Plus") {
-					return u;
-				}
-			}
+			ArrayList<Unit> closeUnits = new ArrayList<Unit>();
 			
-			// KILL THE PLUSSES!
+			// Get all the close units.
 			for(int j = 0; j < allUnits.size(); j++) {
 				Unit u = allUnits.get(j);
 				float yDistance = (u.getY() - y);
 				float xDistance = (u.getX() - x);
 				float distanceXY = (float)Math.sqrt(yDistance*yDistance + xDistance*xDistance);
 				if(distanceXY <= 50 + u.getRadius() && u.getName() != "Fortress" && u.getRadius() <= 50) {
-					return u;
+					closeUnits.add(u);
 				}
 				if(distanceXY <= 10 + u.getRadius() && u.getName() != "Fortress" && u.getRadius() > 50) {
+					closeUnits.add(u);
+				}
+			}
+			
+			// Kill the pressed one with highest preference
+			for(int j = 0; j < closeUnits.size(); j++) {
+				Unit u = closeUnits.get(j);
+				if(u.getShape() == "Fire Asteroid") {
 					return u;
 				}
 			}
+			for(int j = 0; j < closeUnits.size(); j++) {
+				Unit u = closeUnits.get(j);
+				if(u.getShape() == "Cat") {
+					return u;
+				}
+			}
+			for(int j = 0; j < closeUnits.size(); j++) {
+				Unit u = closeUnits.get(j);
+				if(u.getShape() == "Ice Asteroid") {
+					return u;
+				}
+			}
+			if(closeUnits.size() != 0) {
+				Unit defaultUnit = closeUnits.get(0);
+				return defaultUnit;
+			}
+			
 			return null;
 		}
 	}
@@ -386,14 +386,25 @@ public class Unit {
 	}
 	
 	public void attacks(Unit u) {
-		if(u.getHP()>100) {
-			currentHitPoints = 100;
+		if(getDamage() > 0) {
+			if(u.getHP()>100) {
+				u.currentHitPoints = 100;
+				u.takeDamage(getDamage());
+			}
+			else if(u.getHP() - getDamage() < 0) {
+				u.currentHitPoints = 0;
+			}
+			else if(u.getHP() <= 100 && u.getHP() > 0) {
+				u.takeDamage(getDamage());
+			}
 		}
-		if(u.getHP()<0) {
-			currentHitPoints = 0;
-		}
-		if(u.getHP() <= 100 && u.getHP() > 0) {
-			u.takeDamage(getDamage());
+		if(getDamage() < 0) {
+			if(u.getHP() - getDamage() > 100) {
+				u.currentHitPoints = 100;
+			}
+			if(u.getHP()<0) {
+				currentHitPoints = 0;
+			}
 		}
 	}
 	

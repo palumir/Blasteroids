@@ -1,17 +1,14 @@
 package com.DJG.generators;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Random;
 
 import android.util.Log;
 
-import com.DJG.fd.*;
-import com.DJG.generators.GeneratorInfo.unitOrder;
+import com.DJG.fd.DisplayMessageActivity;
 import com.DJG.generators.GeneratorInfo.spawnSystem;
-import com.DJG.generators.GeneratorInfo;
+import com.DJG.generators.GeneratorInfo.unitOrder;
 import com.DJG.units.Unit;
 import com.DJG.waves.Wave;
-import com.DJG.fd.DisplayMessageActivity;
 
 
 class XY {
@@ -59,7 +56,7 @@ public class WaveGenerator {
 			switch(s){
 			case FullRandom:
 				for (int i = 0; i<g.unitNumbers; i++){
-					xy = getRandomXY();
+					xy = getRandomXY(g.startingDifference);
 					w.add(new Unit("Any Name",g.unitType,xy.x,xy.y, spinVal));
 				}
 				break;
@@ -70,67 +67,59 @@ public class WaveGenerator {
 				}
 				break;
 			case Cardinal:
-				northTracker += g.startingDifference;
-				southTracker += g.startingDifference;
-				eastTracker += g.startingDifference;
-				westTracker += g.startingDifference;
 				for(int i = 0; i<g.unitNumbers; i+=4){
-					 xy = northLine();
+					 xy = northLine(g.startingDifference);
 					 w.add(new Unit("Any Name",g.unitType,xy.x,xy.y, spinVal));
-					 xy = eastLine();
+					 xy = eastLine(g.startingDifference);
 					 w.add(new Unit("Any Name",g.unitType,xy.x,xy.y,spinVal));
-					 xy = southLine();
+					 xy = southLine(g.startingDifference);
 					 w.add(new Unit("Any Name",g.unitType,xy.x,xy.y, spinVal));
-					 xy = westLine();
+					 xy = westLine(g.startingDifference);
 					 w.add(new Unit("Any Name",g.unitType,xy.x,xy.y, spinVal));
 				}
 				break;
 			case SpinCardinal:
 				for(int i = 0; i<g.unitNumbers; i+=4){
-					 xy = northLine();
+					 xy = northLine(g.startingDifference);
 					 w.add(new Unit("Any Name",g.unitType,xy.x,xy.y, spinVal));
-					 xy = eastLine();
+					 xy = eastLine(g.startingDifference);
+					 w.add(new Unit("Any Name",g.unitType,xy.x,xy.y,spinVal));
+					 xy = southLine(g.startingDifference);
 					 w.add(new Unit("Any Name",g.unitType,xy.x,xy.y, spinVal));
-					 xy = southLine();
-					 w.add(new Unit("Any Name",g.unitType,xy.x,xy.y, spinVal));
-					 xy = westLine();
+					 xy = westLine(g.startingDifference);
 					 w.add(new Unit("Any Name",g.unitType,xy.x,xy.y, spinVal));
 				}
 				break;
 			case Circle:
-				buildCircle(w, g.unitNumbers, g.unitType );
+				buildCircle(w, g.unitNumbers, g.unitType, g.startingDifference);
 				break;
 			case LineFromNorth:
-				northTracker += g.startingDifference;
 				for (int i = 0; i<g.unitNumbers; i++){
-					xy = northLine();
+					xy = northLine(g.startingDifference);
 					w.add(new Unit("Any Name",g.unitType,xy.x,xy.y, spinVal));
 				}
 				break;
 			case LineFromEast:
-				eastTracker += g.startingDifference;
 				for (int i = 0; i<g.unitNumbers; i++){
-						xy = eastLine();
+					xy = eastLine(g.startingDifference);
 					w.add(new Unit("Any Name",g.unitType,xy.x,xy.y, spinVal));
 				}
 				break;
 			case LineFromSouth:
-				southTracker += g.startingDifference;
 				for (int i = 0; i<g.unitNumbers; i++){
-					xy = southLine();
+					xy = southLine(g.startingDifference);
 					w.add(new Unit("Any Name",g.unitType,xy.x,xy.y,spinVal));
 				}
 				break;
 			case LineFromWest:
-				westTracker += g.startingDifference;
 				for (int i = 0; i<g.unitNumbers; i++){
-					xy = westLine();
+					xy = westLine(g.startingDifference);
 					w.add(new Unit("Any Name",g.unitType,xy.x,xy.y,spinVal));
 				}
 				break;
 			default:
 				for (int i = 0; i<g.unitNumbers; i++){
-					 xy = getRandomXY();
+					 xy = getRandomXY(g.startingDifference);
 					w.add(new Unit("Any Name",g.unitType,xy.x,xy.y, spinVal));
 				}
 				break;
@@ -157,27 +146,27 @@ public class WaveGenerator {
 		return new XY(x,y);
 	}
 	
-	private XY northLine(){
+	private XY northLine(int startingDifference){
 		int x = screenWidth/2;
-		int y = 150 - 100*northTracker;
+		int y = 150 - 100*northTracker - startingDifference;
 		northTracker++;
 		XY xy = new XY(x,y);
 		return xy;
 	}
-	private XY eastLine(){
-		int x = screenWidth + 100*eastTracker;
+	private XY eastLine(int startingDifference){
+		int x = screenWidth + 100*eastTracker + startingDifference;
 		int y =  screenHeight/2 +1;
 		eastTracker++;
 		return new XY(x,y);
 	}
-	private XY southLine(){
+	private XY southLine(int startingDifference){
 		int x = screenWidth/2;
-		int y = -150 + screenHeight + 100*southTracker;
+		int y = -150 + screenHeight + 100*southTracker + startingDifference;
 		southTracker++;
 		return new  XY(x,y);
 	}
-	private XY westLine(){
-		int x = 0 - 100*westTracker;
+	private XY westLine(int startingDifference){
+		int x = 0 - 100*westTracker - startingDifference;
 		int y = screenHeight/2;
 		westTracker++;
 		return new  XY(x,y);
@@ -217,8 +206,8 @@ public class WaveGenerator {
 	    return xy;
 	}
 	
-	public void buildCircle(Wave w, int n, String unitType){
-		int radius = circleRadius*150 + 400;
+	public void buildCircle(Wave w, int n, String unitType, int startingDifference){
+		int radius = circleRadius*150 + 400 + startingDifference;
 		double currentDegree = 0;
 		double degreeChange = (double) 360/n;
 		for(int i = 0; i<n; i++){
