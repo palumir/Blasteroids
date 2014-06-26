@@ -16,6 +16,8 @@ import com.DJG.waves.Wave;
 public class Unit {
 	// Global stuff.
 	public static ArrayList<Unit> allUnits = new ArrayList<Unit>();
+	public static ArrayList<Unit> onScreenUnits = new ArrayList<Unit>();
+	public final static Object onScreenUnitsLock = new ArrayList<Unit>();
 	public final static Object allUnitsLock = new Object(); // A lock so we don't fuck up the allUnits
 	
 	// Unit General Information:
@@ -23,6 +25,7 @@ public class Unit {
 	private String type;     // Chose not to simply store this as a UnitType incase we want to modify individual
 						     // fields to be unique values. In other words, we may want to change an Ogre to be
 	// Position Information: // really big, but we don't want to have to add a new UnitType every time we do that!
+	private boolean onScreen = false;
 	private float x;     
 	private float y;     
 	private float xNew;
@@ -135,6 +138,13 @@ public class Unit {
 		yNew = yGo;
 	}
 
+	public void setOnScreen() {
+		synchronized(onScreenUnitsLock) {
+			this.onScreen = true;
+			onScreenUnits.add(this);
+		}
+	}
+	
 	public void moveUnit() {
 			if(timeFrozen != 0 && System.currentTimeMillis() - timeFrozen > frozenDuration) {
 				isFrozen = false;
@@ -146,8 +156,17 @@ public class Unit {
 				float step = moveSpeed;
 				float distanceXY = (float)Math.sqrt(yDistance*yDistance + xDistance*xDistance); // It should take this many frames to get there.
 			
+				// The unit needs to be drawn if it's on screen.
+				if(!DisplayMessageActivity.isCloseOffScreen(x,y) && !onScreen) {
+					setOnScreen();
+				}
+				
+				//Log.d("On Screen",onScreenUnits.size()+"");
+				//Log.d("All",allUnits.size()+"");
+				
 				// Move the unit.
 				if(xNew != x || yNew != y) {
+					
 						if(xDistance < 0) {
 							x = x + (-1)*Math.abs(xDistance/distanceXY)*step;
 						}
@@ -195,10 +214,10 @@ public class Unit {
 		}
 		
 		public static Unit getUnit(String nameToSearch) {
-			synchronized(allUnitsLock) {
+			synchronized(onScreenUnitsLock) {
 				Unit foundUnit = null;
-				for(int j = 0; j < allUnits.size(); j++) {
-					Unit u = allUnits.get(j);
+				for(int j = 0; j < onScreenUnits.size(); j++) {
+					Unit u = onScreenUnits.get(j);
 					if(u.getName() == nameToSearch) {
 						foundUnit = u;
 						break;
@@ -219,6 +238,24 @@ public class Unit {
 					foundUnit++;
 				}
 				return foundUnit;
+			}
+		}
+		
+		public static void dontDrawUnit(Unit u) {
+			if(onScreenUnits.size()!=0){
+				synchronized(onScreenUnitsLock) {
+					int foundUnit = 0;
+					for(int j = 0; j < onScreenUnits.size(); j++) {
+						Unit v = onScreenUnits.get(j);
+						if(u == v) {
+							break;
+						}
+						foundUnit++;
+					}
+					if(foundUnit < onScreenUnits.size()) {
+						onScreenUnits.remove(foundUnit);
+					}
+				}
 			}
 		}
 		
@@ -243,13 +280,13 @@ public class Unit {
 	
 	// Get the selected unit at the coordinates.
 	public static Unit getUnitAt(float x, float y) {
-		synchronized(allUnitsLock) {
+		synchronized(onScreenUnitsLock) {
 			
 			ArrayList<Unit> closeUnits = new ArrayList<Unit>();
 			
 			// Get all the close units.
-			for(int j = 0; j < allUnits.size(); j++) {
-				Unit u = allUnits.get(j);
+			for(int j = 0; j < onScreenUnits.size(); j++) {
+				Unit u = onScreenUnits.get(j);
 				float yDistance = (u.getY() - y);
 				float xDistance = (u.getX() - x);
 				float distanceXY = (float)Math.sqrt(yDistance*yDistance + xDistance*xDistance);
@@ -264,19 +301,25 @@ public class Unit {
 			// Kill the pressed one with highest preference
 			for(int j = 0; j < closeUnits.size(); j++) {
 				Unit u = closeUnits.get(j);
-				if(u.getShape() == "Fire Asteroid") {
+				if(u.getType() == "Fire Asteroid") {
 					return u;
 				}
 			}
 			for(int j = 0; j < closeUnits.size(); j++) {
 				Unit u = closeUnits.get(j);
-				if(u.getShape() == "Cat") {
+				if(u.getType() == "Cat") {
 					return u;
 				}
 			}
 			for(int j = 0; j < closeUnits.size(); j++) {
 				Unit u = closeUnits.get(j);
-				if(u.getShape() == "Ice Asteroid") {
+				if(u.getType() == "Ice Asteroid") {
+					return u;
+				}
+			}
+			for(int j = 0; j < closeUnits.size(); j++) {
+				Unit u = closeUnits.get(j);
+				if(u.getType() == "Asteroid") {
 					return u;
 				}
 			}
@@ -296,7 +339,6 @@ public class Unit {
 	static void checkIfHitCastleOrMove(Unit castle, Unit u) {
 		float castleY = 0;
 		float castleX = 0;
-		boolean dontLoseAgain = false;
 		float castleRadius = 0;
 		if(castle!=null) {
 			castleY = castle.getY();
@@ -310,8 +352,7 @@ public class Unit {
 			u.attacks(castle);
 			u.die();
 			DisplayMessageActivity.castleHP = "Health " + castle.getHP();
-			if(castle.isDead() && !dontLoseAgain){
-				dontLoseAgain = true;
+			if(castle.isDead()){
 				DisplayMessageActivity.setLost();
 			}
 		}
@@ -322,12 +363,13 @@ public class Unit {
 	
 	public static void destroyAllUnits() {
 		allUnits.clear();
+		onScreenUnits.clear();
 	}
 	
 	public static void drawUnits(Canvas canvas, Paint myPaint) {
-        synchronized(allUnitsLock) {
-			for(int j = 0; j < allUnits.size(); j++) {
-				Unit currentUnit = allUnits.get(j);
+        synchronized(onScreenUnitsLock) {
+			for(int j = 0; j < onScreenUnits.size(); j++) {
+				Unit currentUnit = onScreenUnits.get(j);
   	        myPaint.setStyle(Paint.Style.FILL);
       	  	myPaint.setStrokeWidth(23);
       	  	if(currentUnit.getName() == "Fortress" && !DisplayMessageActivity.getLost()) {
@@ -367,19 +409,26 @@ public class Unit {
 	}
 		
 	public static void updateUnits() {
-		synchronized(Unit.allUnitsLock) {
 		// Where is the castle?
-			Unit castle = getUnit("Fortress");
-			DisplayMessageActivity.castleHP = "Health " + castle.getHP();
-			for(int j = 0; j < allUnits.size(); j++) {
-				Unit u = allUnits.get(j);
+		Unit castle = getUnit("Fortress");
+		DisplayMessageActivity.castleHP = "Health " + castle.getHP();
+		
+		synchronized(Unit.onScreenUnitsLock) {
+			for(int j = 0; j < onScreenUnits.size(); j++) {
+				Unit u = onScreenUnits.get(j);
 				if(u.getName() != "Fortress") {
-				
 					// Check if we have hit a bomb.
 					Bomb.checkIfHitBomb(u);
 					Slow.checkIfHitSlow(u);
 					KnockBack.checkIfHitKnockBack(u);
-			
+				}
+			}
+		}
+		
+		synchronized(Unit.allUnits) {
+			for(int j = 0; j < allUnits.size(); j++) {
+				Unit u = allUnits.get(j);
+				if(u.getName() != "Fortress") {
 					// Check if we have hit the castle.
 					checkIfHitCastleOrMove(castle, u);
 				}
@@ -451,6 +500,7 @@ public class Unit {
 		}
 		
 		// Kill the old unit.
+		dontDrawUnit(this);
 		killUnit(this);
 		Wave.killUnit(this);
 	}

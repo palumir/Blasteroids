@@ -195,6 +195,13 @@ public class DisplayMessageActivity extends ActionBarActivity {
 		  return false;
 	  }
 	  
+	  public static boolean isCloseOffScreen(float x, float y) {
+		  if(x < -50 || x > getScreenWidth() + 50 || y < -50 || y > getScreenHeight() + 50) {
+			  return true;
+		  }
+		  return false;
+	  }
+	  
 	  void drawBackground(Canvas canvas, Paint myPaint) {
           canvas.drawColor(bgColor);
 	  }
@@ -301,6 +308,7 @@ public class DisplayMessageActivity extends ActionBarActivity {
 		screenWidth = display.getWidth();
 		screenHeight = display.getHeight();
 	    Unit u = new Unit("Fortress","Castle",screenWidth/2,screenHeight/2);
+	    u.setOnScreen();
 	    Wave.initWaves(levelStart);
 	    Ability.initAbilities();
 	}
