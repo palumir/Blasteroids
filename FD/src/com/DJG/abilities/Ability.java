@@ -53,6 +53,11 @@ public class Ability {
 			y = DisplayMessageActivity.getScreenHeight()-50;
 			radius = 80;
 			break;
+		case 2:
+			x = DisplayMessageActivity.getScreenWidth()-250;
+			y = DisplayMessageActivity.getScreenHeight()-50;
+			radius = 80;
+			break;
 		default:
 			break;
 		}
@@ -62,6 +67,7 @@ public class Ability {
 		equippedAbilities = new ArrayList<Ability>();
 		equippedAbilities.add(new Ability("Bomb",0,5000,5,R.raw.small_3_second_explosion,"B",Color.YELLOW));
 		equippedAbilities.add(new Ability("Slow",1,5000,5,-1,"S",Color.BLUE));
+		equippedAbilities.add(new Ability("KnockBack", 2, 8000, 5, -1, "K", Color.WHITE));
 	}
 	
 	public static ArrayList<Ability> getEquippedAbilities() {
@@ -102,11 +108,13 @@ public class Ability {
 	public static void drawAbilityAnimations(Canvas canvas, Paint myPaint) {
       	Bomb.drawBombs(canvas, myPaint);
       	Slow.drawSlows(canvas, myPaint);
+      	KnockBack.drawKnockBacks(canvas, myPaint);
 	}
 
 	public static void updateAbilities() {
 		Bomb.updateBombs();
 		Slow.updateSlows();
+		KnockBack.updateknockBacks();
 	}
 	
 	public void playPlaceSound() {
@@ -132,6 +140,11 @@ public class Ability {
 			if(this.getType() == "Slow") {
 				synchronized(Slow.SlowsLock) {
 					Slow newSlow = new Slow(xSpawn,ySpawn,350,1000); // Default slow.
+				}
+			}
+			if(this.getType() == "KnockBack"){
+				synchronized (KnockBack.knockBacksLock) {
+					KnockBack newKnockBack = new KnockBack(xSpawn, ySpawn, 450, 2000);
 				}
 			}
 		}
@@ -182,6 +195,7 @@ public class Ability {
 		synchronized(abilitiesLock) {
 			Bomb.clearBombs();
 			Slow.clearSlows();
+			KnockBack.clearKnockBacks();
 			equippedAbilities.clear();
 		}
 	}

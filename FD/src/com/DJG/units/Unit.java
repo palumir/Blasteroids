@@ -8,6 +8,7 @@ import android.graphics.Paint;
 import android.util.Log;
 
 import com.DJG.abilities.Bomb;
+import com.DJG.abilities.KnockBack;
 import com.DJG.abilities.Slow;
 import com.DJG.fd.DisplayMessageActivity;
 import com.DJG.waves.Wave;
@@ -29,6 +30,9 @@ public class Unit {
 	private int radius;
 	private float moveSpeed;
 	private float spinSpeed;
+	private float xMomentum=0;
+	private float yMomentum=0;
+	
 	
 	// Combat information:
 	private boolean killable;
@@ -168,6 +172,12 @@ public class Unit {
 				 	x = x + spinSpeed*yDistance/(distanceXY);
 				 	y = y + spinSpeed*(0-xDistance)/(distanceXY);
 				}
+				
+				//Move based on Momentum
+				x -= xMomentum;
+				y -= yMomentum;
+				xMomentum -= xMomentum/3;
+				yMomentum -= yMomentum/3;
 				
 				// Just move it if it's close.
 				if(Math.abs(yDistance) < step && Math.abs(xDistance) < step) {
@@ -368,6 +378,7 @@ public class Unit {
 					// Check if we have hit a bomb.
 					Bomb.checkIfHitBomb(u);
 					Slow.checkIfHitSlow(u);
+					KnockBack.checkIfHitKnockBack(u);
 			
 					// Check if we have hit the castle.
 					checkIfHitCastleOrMove(castle, u);
@@ -443,6 +454,22 @@ public class Unit {
 		killUnit(this);
 		Wave.killUnit(this);
 	}
+	
+	public void setMomentum(int x, int y){
+		xMomentum = x;
+		yMomentum = y;
+	}
+	
+	public void knockBackFrom(int xPos, int yPos, int vel){
+		if(Math.abs(xMomentum) < 1 && Math.abs(yMomentum) < 1){
+			float yDistance = (yPos - y);
+	 		float xDistance = (xPos - x);
+	 		float distanceXY = (float)Math.sqrt(yDistance*yDistance + xDistance*xDistance); 
+	 		xMomentum = vel * xDistance/distanceXY;
+	 		yMomentum = vel * yDistance/distanceXY;
+		}
+	}
+	
 	
 	// Methods to get values
 	public String getName() {
