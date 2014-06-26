@@ -103,7 +103,7 @@ public class KnockBack {
 				float distanceXYKnockBack = (float)Math.sqrt(yDistanceKnockBack*yDistanceKnockBack + xDistanceKnockBack*xDistanceKnockBack);
 				if(distanceXYKnockBack <= knockBackRadius + u.getRadius() && !DisplayMessageActivity.isOffScreen(u.getX(),u.getY())) {
 					
-					u.knockBackFrom((int)x, (int)y, 200);
+					u.knockBackFrom((int)x, (int)y, 70);
 					break;
 				}
 			}

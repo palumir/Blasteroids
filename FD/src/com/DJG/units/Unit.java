@@ -192,18 +192,19 @@ public class Unit {
 				 	y = y + spinSpeed*(0-xDistance)/(distanceXY);
 				}
 				
-				//Move based on Momentum
-				x -= xMomentum;
-				y -= yMomentum;
-				xMomentum -= xMomentum/3;
-				yMomentum -= yMomentum/3;
-				
+			
 				// Just move it if it's close.
 				if(Math.abs(yDistance) < step && Math.abs(xDistance) < step) {
 					x = xNew;
 					y = yNew;
 					}
 			}
+			//Move based on Momentum, fozen units can move
+			x += xMomentum;
+			y += yMomentum;
+			xMomentum -= xMomentum/16;
+			yMomentum -= yMomentum/16;
+			
 	}
 	
 	// Add a new unit to the list of all units to be drawn in animation.
@@ -511,13 +512,13 @@ public class Unit {
 	}
 	
 	public void knockBackFrom(int xPos, int yPos, int vel){
-		if(Math.abs(xMomentum) < 1 && Math.abs(yMomentum) < 1){
-			float yDistance = (yPos - y);
-	 		float xDistance = (xPos - x);
+		
+			float yDistance = (y - yPos);
+	 		float xDistance = (x - xPos);
 	 		float distanceXY = (float)Math.sqrt(yDistance*yDistance + xDistance*xDistance); 
 	 		xMomentum = vel * xDistance/distanceXY;
 	 		yMomentum = vel * yDistance/distanceXY;
-		}
+		
 	}
 	
 	
