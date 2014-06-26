@@ -1,5 +1,7 @@
 package com.DJG.fd;
 
+import java.util.Random;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -11,7 +13,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MotionEventCompat;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -23,7 +24,6 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.DJG.abilities.Ability;
-import com.DJG.abilities.Bomb;
 import com.DJG.units.Unit;
 import com.DJG.units.UnitType;
 import com.DJG.waves.Wave;
@@ -48,6 +48,12 @@ public class DisplayMessageActivity extends ActionBarActivity {
 		  myBitmap.setPixels(allpixels, 0, myBitmap.getWidth(), 0, 0, myBitmap.getWidth(), myBitmap.getHeight());
 		  return myBitmap;
 	}
+	// Just a random
+	static Random r = new Random();
+	
+	// Background
+	private Bitmap background;
+	private Canvas bgCanvas;
 	
 	// Shared data.
 	static SharedPreferences prefs;
@@ -204,6 +210,29 @@ public class DisplayMessageActivity extends ActionBarActivity {
 	  
 	  void drawBackground(Canvas canvas, Paint myPaint) {
           canvas.drawColor(bgColor);
+          if(bgCanvas==null) {
+        	  background = Bitmap.createBitmap(getScreenWidth(),getScreenHeight(),Bitmap.Config.ARGB_8888);
+        	  bgCanvas = new Canvas(background);
+	          myPaint.setStrokeWidth(1);
+	          myPaint.setColor(Color.WHITE);
+	          int x = 0;
+	          while(x<getScreenWidth()) {
+	        	  int y = 0;
+	        	  int n = 0;
+	        	  while(y<getScreenHeight()) {
+	        		  if(r.nextInt(getScreenHeight()) == 0) {
+	        			  n++;
+	            		  bgCanvas.drawPoint(x,y,myPaint);
+	        		  }
+	        		  if(n>10) {
+	        			 break;
+	        		  }
+	        		  y++;
+	        	  }
+	        	  x++;
+	          }
+          }
+          canvas.drawBitmap(background,0,0,myPaint);
 	  }
 	 
 	  private class gameView extends View {
@@ -217,7 +246,7 @@ public class DisplayMessageActivity extends ActionBarActivity {
 	          Paint myPaint = new Paint();
 	          
 	          // Draw background.
-	          drawBackground(canvas, myPaint);
+	          	drawBackground(canvas, myPaint);
 	          
 	          // Draw our text.
 	          drawText(canvas, myPaint);

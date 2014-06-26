@@ -64,7 +64,6 @@ public class Wave extends ArrayList<Unit> {
 		isFirst = true;
 		waveGenerator = new WaveGenerator();
 		// Start at what wave?
-		waveStartNumber = 0;
 		currentWaveNumber = waveStartNumber;
 		sendWave(waveStartNumber);
 	}
