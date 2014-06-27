@@ -1,6 +1,7 @@
 package com.DJG.abilities;
 import java.util.ArrayList;
 
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -25,6 +26,7 @@ public class Ability {
 	private long coolDownTime = 0;
 	
 	// Slot information.
+	private Bitmap bmp;
 	private int slot;
 	private float x;
 	private float y;
@@ -63,11 +65,38 @@ public class Ability {
 		}
 	}
 	
+	public Ability(String newType, int newSlot, int newCoolDown, int newUses, int soundID, String newSymbol, Bitmap newBMP, int newRadius) {
+		coolDown = newCoolDown;
+		if(soundID!=-1)  mpPlacement = MediaPlayer.create(DisplayMessageActivity.survContext, soundID); 
+		slot = newSlot;
+		type = newType;
+		uses = newUses;
+		symbol = newSymbol;
+		iconColor = Color.WHITE;
+		bmp = newBMP;
+		switch(slot){
+		case 0:
+			x = DisplayMessageActivity.getScreenWidth()-100;
+			radius = newRadius;
+			break;
+		case 1:
+			x = DisplayMessageActivity.getScreenWidth()-200;
+			break;
+		case 2:
+			x = DisplayMessageActivity.getScreenWidth()-300;
+			break;
+		default:
+			break;
+		}
+		y = DisplayMessageActivity.getScreenHeight()-100;
+		radius = newRadius;
+	}
+	
 	public static void initAbilities() {
 		equippedAbilities = new ArrayList<Ability>();
-		equippedAbilities.add(new Ability("Bomb",0,5000,5,R.raw.small_3_second_explosion,"B",Color.YELLOW));
-		equippedAbilities.add(new Ability("Slow",1,5000,5,-1,"S",Color.BLUE));
-		equippedAbilities.add(new Ability("KnockBack", 2, 8000, 5, -1, "K", Color.WHITE));
+		equippedAbilities.add(new Ability("Bomb",0,5000,5,R.raw.small_3_second_explosion,"B",Bomb.bombBMP,32));
+		equippedAbilities.add(new Ability("Slow",1,5000,5,-1,"S",Slow.slowBMP,32));
+		//equippedAbilities.add(new Ability("KnockBack", 2, 8000, 5, -1, "K", Color.WHITE));
 	}
 	
 	public static ArrayList<Ability> getEquippedAbilities() {
@@ -82,6 +111,10 @@ public class Ability {
 		return iconColor;
 	}
 	
+	public Bitmap getBMP() {
+		return bmp;
+	}
+	
 	public static void drawAbilities(Canvas canvas, Paint myPaint) {
         // Draw ability icons. 
       	myPaint.setStrokeWidth(3);
@@ -89,6 +122,13 @@ public class Ability {
       	
       	synchronized(abilitiesLock) {
       		for(Ability a : Ability.getEquippedAbilities()) {
+      			if(a.getBMP() != null) {
+      				canvas.drawBitmap(a.getBMP(), a.getX()-a.getRadius(), a.getY() - a.getRadius(), null);
+	  				myPaint.setColor(Color.WHITE);
+ 	  				myPaint.setTextSize(35);
+	  				canvas.drawText(a.getUses() + "",a.getX()-a.getRadius()+20,a.getY() - a.getRadius() +100,myPaint);
+      			}
+      			else {
     	  				myPaint.setColor(a.getIconColor());
     	  				myPaint.setStyle(Paint.Style.FILL);
     	  				canvas.drawRect(a.getX() - +a.getRadius(), a.getY() + ((float)a.getRadius())*(1-a.getCDPercentRemaining()) - +a.getRadius(), a.getX(), a.getY(), myPaint );
@@ -100,6 +140,7 @@ public class Ability {
     	  				canvas.drawText(a.getSymbol(),a.getX()+23-a.getRadius(),a.getY()-22,myPaint);
     	  				myPaint.setStyle(Paint.Style.STROKE);
     	  				canvas.drawRect(a.getX() - a.getRadius(), a.getY() - a.getRadius(), a.getX(), a.getY(), myPaint );
+      			}
       		}
       	}
       	

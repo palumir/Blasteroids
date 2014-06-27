@@ -2,11 +2,14 @@ package com.DJG.abilities;
 
 import java.util.ArrayList;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 
 import com.DJG.fd.DisplayMessageActivity;
+import com.DJG.fd.R;
 import com.DJG.units.Unit;
 
 public class Bomb {
@@ -14,6 +17,9 @@ public class Bomb {
 	// Static information.
 	private static ArrayList<Bomb> allBombs = new ArrayList<Bomb>();
 	public final static Object bombsLock = new Object(); // A lock so we don't fuck up the bombs
+	
+	// Bitmap
+	public static Bitmap bombBMP = DisplayMessageActivity.makeTransparent(BitmapFactory.decodeResource(DisplayMessageActivity.survContext.getResources(), R.drawable.bomb));
 	
 	// General ability attributes. Bombs are static at the moment.
 	private long startTime;
