@@ -472,6 +472,13 @@ public class Unit {
 		}
 	}
 	
+	public void hurt(int i){
+		this.currentHitPoints -=i;
+		if(getHP()<=0 && killable){
+			die();
+		}
+	}
+	
 	public void die() {
 		
 		// Do special things for special units.
