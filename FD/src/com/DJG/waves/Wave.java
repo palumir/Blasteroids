@@ -56,8 +56,8 @@ public class Wave extends ArrayList<Unit> {
 	
 	public static void setWave(int n) {
 		currentWaveNumber = n;
-
 	}
+	
 	public static void initWaves(int waveStartNumber){
 		// Obviously we just started the game.
 		waveSent = false;

@@ -94,8 +94,9 @@ public class Ability {
 	
 	public static void initAbilities() {
 		equippedAbilities = new ArrayList<Ability>();
-		equippedAbilities.add(new Ability("Bomb",0,5000,5,R.raw.small_3_second_explosion,"B",Bomb.bombBMP,32));
-		equippedAbilities.add(new Ability("Slow",1,5000,5,-1,"S",Slow.slowBMP,32));
+		equippedAbilities.add(new Ability("Bomb",0,1,3,R.raw.small_3_second_explosion,"B",Bomb.bombBMP,32));
+		equippedAbilities.add(new Ability("Slow",1,1,3,-1,"S",Slow.slowBMP,32));
+		equippedAbilities.add(new Ability("Blackhole",2,1,3,-1,"S",Blackhole.BlackholeBMP,32));
 		//equippedAbilities.add(new Ability("KnockBack", 2, 8000, 5, -1, "K", Color.WHITE));
 	}
 	
@@ -119,6 +120,14 @@ public class Ability {
         // Draw ability icons. 
       	myPaint.setStrokeWidth(3);
       	myPaint.setTextSize(50);
+      	
+      	// Draw the abilities on fingers.
+      	if(DisplayMessageActivity.grabbedAbility != null && DisplayMessageActivity.grabbedAbility.getUses() > 0) {
+			canvas.drawBitmap(DisplayMessageActivity.grabbedAbility.getBMP(), DisplayMessageActivity.grabbedAbilityX-DisplayMessageActivity.grabbedAbility.getRadius(), DisplayMessageActivity.grabbedAbilityY - DisplayMessageActivity.grabbedAbility.getRadius(), null);
+      	}
+      	if(DisplayMessageActivity.secondGrabbedAbility != null && DisplayMessageActivity.secondGrabbedAbility.getUses() > 0) {
+			canvas.drawBitmap(DisplayMessageActivity.secondGrabbedAbility.getBMP(), DisplayMessageActivity.secondGrabbedAbilityX-DisplayMessageActivity.secondGrabbedAbility.getRadius(), DisplayMessageActivity.secondGrabbedAbilityY - DisplayMessageActivity.secondGrabbedAbility.getRadius(), null);
+      	}
       	
       	synchronized(abilitiesLock) {
       		for(Ability a : Ability.getEquippedAbilities()) {
@@ -149,12 +158,14 @@ public class Ability {
 	public static void drawAbilityAnimations(Canvas canvas, Paint myPaint) {
       	Bomb.drawBombs(canvas, myPaint);
       	Slow.drawSlows(canvas, myPaint);
+      	Blackhole.drawBlackholes(canvas, myPaint);
       	KnockBack.drawKnockBacks(canvas, myPaint);
 	}
 
 	public static void updateAbilities() {
 		Bomb.updateBombs();
 		Slow.updateSlows();
+		Blackhole.updateBlackholes();
 		KnockBack.updateknockBacks();
 	}
 	
@@ -181,6 +192,11 @@ public class Ability {
 			if(this.getType() == "Slow") {
 				synchronized(Slow.SlowsLock) {
 					Slow newSlow = new Slow(xSpawn,ySpawn,350,1000); // Default slow.
+				}
+			}
+			if(this.getType() == "Blackhole") {
+				synchronized(Blackhole.BlackholesLock) {
+					Blackhole newBlackhole = new Blackhole(xSpawn,ySpawn,200,30000); // Default slow.
 				}
 			}
 			if(this.getType() == "KnockBack"){
@@ -236,6 +252,7 @@ public class Ability {
 		synchronized(abilitiesLock) {
 			Bomb.clearBombs();
 			Slow.clearSlows();
+			Blackhole.clearBlackholes();
 			KnockBack.clearKnockBacks();
 			equippedAbilities.clear();
 		}
@@ -263,7 +280,7 @@ public class Ability {
 					float distanceXY = (float)Math.sqrt(yDistance*yDistance + xDistance*xDistance);
 					
 					// If the unit is very small make it easier to press.
-					if(distanceXY <= 10 + u.getRadius()) {
+					if(distanceXY <= 25 + u.getRadius()) {
 						return u;
 					}
 				}

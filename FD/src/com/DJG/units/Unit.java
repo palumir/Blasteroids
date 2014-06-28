@@ -7,6 +7,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.util.Log;
 
+import com.DJG.abilities.Blackhole;
 import com.DJG.abilities.Bomb;
 import com.DJG.abilities.KnockBack;
 import com.DJG.abilities.Slow;
@@ -421,6 +422,7 @@ public class Unit {
 					// Check if we have hit a bomb.
 					Bomb.checkIfHitBomb(u);
 					Slow.checkIfHitSlow(u);
+					Blackhole.checkIfHitBlackhole(u);
 					KnockBack.checkIfHitKnockBack(u);
 				}
 			}
