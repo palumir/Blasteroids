@@ -34,6 +34,7 @@ public class UnitType {
 		allUnitTypes.add(new UnitType("Splitter Small",25,0.1f,true,Color.BLUE,"Square", 1, 10));
 		allUnitTypes.add(new UnitType("FullHealer",40,1f, true, Color.GREEN,"Plus", 2, -100));
 		allUnitTypes.add(new UnitType("Healer",20,1.5f, true, Color.GREEN,"Plus", 2, -10));
+		allUnitTypes.add(new UnitType("Spawner", 200, 0, false, Color.MAGENTA,"Square",1,0));
 		
 		// Cthulu
 		allUnitTypes.add(new UnitType("Cthulu Head",100,1f,true,Color.RED,"Square", 1, 0));

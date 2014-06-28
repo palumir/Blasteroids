@@ -228,6 +228,7 @@ public class Wave extends ArrayList<Unit> {
 		currentWave = myWave;
 		HashMap<String, UnitPattern> unitMap = new HashMap<String, UnitPattern>();
 		ArrayList<GeneratorInfo> genInfo = new ArrayList<GeneratorInfo>();
+		genInfo.add(new GeneratorInfo("Spawner", 1, spawnSystem.Spawner));
 		waveWaitTime = 1500;
 		if(waveNumber%2 == 0) {
 			x=0;
@@ -249,9 +250,10 @@ public class Wave extends ArrayList<Unit> {
 			}
 		}
 		else {
-		switch(randomNum) {		
+		switch(randomNum) {	
 			// Explosive Circle Wave, probably most satisfying wave.
 			case 0:
+				
 				genInfo.add(new GeneratorInfo("Asteroid", cap(r.nextInt(waveNumber*2+1)+1,100),spawnSystem.FullRandom));
 				genInfo.add(new GeneratorInfo("Fire Asteroid", cap(r.nextInt(waveNumber*2+1),100),spawnSystem.Circle));
 				genInfo.add(new GeneratorInfo("Fire Asteroid", cap(r.nextInt(waveNumber*2+1),100),spawnSystem.Circle));

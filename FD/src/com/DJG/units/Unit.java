@@ -57,7 +57,7 @@ public class Unit {
 	private int damage;
 
 	public Unit(String newName, String newType, float xSpawn, float ySpawn) {
-		// Look up the UnitType and set the values.
+		// Look up the UnitType and s	et the values.
 		UnitType u = UnitType.getUnitType(newType);
 		radius = u.getRadius();
 		type = u.getType();
@@ -429,6 +429,9 @@ public class Unit {
 		synchronized(Unit.allUnits) {
 			for(int j = 0; j < allUnits.size(); j++) {
 				Unit u = allUnits.get(j);
+				if(u instanceof UnitSpawner){
+					((UnitSpawner) u).spawnNewUnits();
+				}
 				if(u.getName() != "Fortress") {
 					// Check if we have hit the castle.
 					checkIfHitCastleOrMove(castle, u);
