@@ -2,11 +2,14 @@ package com.DJG.abilities;
 
 import java.util.ArrayList;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 
 import com.DJG.fd.DisplayMessageActivity;
+import com.DJG.fd.R;
 import com.DJG.units.Unit;
 
 public class Slow {
@@ -18,6 +21,9 @@ public class Slow {
 	// General ability attributes. Slows are static at the moment.
 	private long startTime;
 	private int duration = 3000;
+	
+	// Bitmap
+	public static Bitmap slowBMP = DisplayMessageActivity.makeTransparent(BitmapFactory.decodeResource(DisplayMessageActivity.survContext.getResources(), R.drawable.snowflake));
 
 	// Well, where is the ability?!
 	private float x;

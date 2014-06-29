@@ -1,6 +1,7 @@
 package com.DJG.abilities;
 import java.util.ArrayList;
 
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -25,6 +26,7 @@ public class Ability {
 	private long coolDownTime = 0;
 	
 	// Slot information.
+	private Bitmap bmp;
 	private int slot;
 	private float x;
 	private float y;
@@ -63,11 +65,39 @@ public class Ability {
 		}
 	}
 	
+	public Ability(String newType, int newSlot, int newCoolDown, int newUses, int soundID, String newSymbol, Bitmap newBMP, int newRadius) {
+		coolDown = newCoolDown;
+		if(soundID!=-1)  mpPlacement = MediaPlayer.create(DisplayMessageActivity.survContext, soundID); 
+		slot = newSlot;
+		type = newType;
+		uses = newUses;
+		symbol = newSymbol;
+		iconColor = Color.WHITE;
+		bmp = newBMP;
+		switch(slot){
+		case 0:
+			x = DisplayMessageActivity.getScreenWidth()-100;
+			radius = newRadius;
+			break;
+		case 1:
+			x = DisplayMessageActivity.getScreenWidth()-200;
+			break;
+		case 2:
+			x = DisplayMessageActivity.getScreenWidth()-300;
+			break;
+		default:
+			break;
+		}
+		y = DisplayMessageActivity.getScreenHeight()-100;
+		radius = newRadius;
+	}
+	
 	public static void initAbilities() {
 		equippedAbilities = new ArrayList<Ability>();
-		equippedAbilities.add(new Ability("Bomb",0,5000,5,R.raw.small_3_second_explosion,"B",Color.YELLOW));
-		equippedAbilities.add(new Ability("Slow",1,5000,5,-1,"S",Color.BLUE));
-		equippedAbilities.add(new Ability("KnockBack", 2, 8000, 5, -1, "K", Color.WHITE));
+		equippedAbilities.add(new Ability("Bomb",0,1,3,R.raw.small_3_second_explosion,"B",Bomb.bombBMP,32));
+		equippedAbilities.add(new Ability("Slow",1,1,3,-1,"S",Slow.slowBMP,32));
+		equippedAbilities.add(new Ability("Blackhole",2,1,3,-1,"S",Blackhole.BlackholeBMP,32));
+		//equippedAbilities.add(new Ability("KnockBack", 2, 8000, 5, -1, "K", Color.WHITE));
 	}
 	
 	public static ArrayList<Ability> getEquippedAbilities() {
@@ -82,13 +112,32 @@ public class Ability {
 		return iconColor;
 	}
 	
+	public Bitmap getBMP() {
+		return bmp;
+	}
+	
 	public static void drawAbilities(Canvas canvas, Paint myPaint) {
         // Draw ability icons. 
       	myPaint.setStrokeWidth(3);
       	myPaint.setTextSize(50);
       	
+      	// Draw the abilities on fingers.
+      	if(DisplayMessageActivity.grabbedAbility != null && DisplayMessageActivity.grabbedAbility.getUses() > 0) {
+			canvas.drawBitmap(DisplayMessageActivity.grabbedAbility.getBMP(), DisplayMessageActivity.grabbedAbilityX-DisplayMessageActivity.grabbedAbility.getRadius(), DisplayMessageActivity.grabbedAbilityY - DisplayMessageActivity.grabbedAbility.getRadius(), null);
+      	}
+      	if(DisplayMessageActivity.secondGrabbedAbility != null && DisplayMessageActivity.secondGrabbedAbility.getUses() > 0) {
+			canvas.drawBitmap(DisplayMessageActivity.secondGrabbedAbility.getBMP(), DisplayMessageActivity.secondGrabbedAbilityX-DisplayMessageActivity.secondGrabbedAbility.getRadius(), DisplayMessageActivity.secondGrabbedAbilityY - DisplayMessageActivity.secondGrabbedAbility.getRadius(), null);
+      	}
+      	
       	synchronized(abilitiesLock) {
       		for(Ability a : Ability.getEquippedAbilities()) {
+      			if(a.getBMP() != null) {
+      				canvas.drawBitmap(a.getBMP(), a.getX()-a.getRadius(), a.getY() - a.getRadius(), null);
+	  				myPaint.setColor(Color.WHITE);
+ 	  				myPaint.setTextSize(35);
+	  				canvas.drawText(a.getUses() + "",a.getX()-a.getRadius()+20,a.getY() - a.getRadius() +100,myPaint);
+      			}
+      			else {
     	  				myPaint.setColor(a.getIconColor());
     	  				myPaint.setStyle(Paint.Style.FILL);
     	  				canvas.drawRect(a.getX() - +a.getRadius(), a.getY() + ((float)a.getRadius())*(1-a.getCDPercentRemaining()) - +a.getRadius(), a.getX(), a.getY(), myPaint );
@@ -100,6 +149,7 @@ public class Ability {
     	  				canvas.drawText(a.getSymbol(),a.getX()+23-a.getRadius(),a.getY()-22,myPaint);
     	  				myPaint.setStyle(Paint.Style.STROKE);
     	  				canvas.drawRect(a.getX() - a.getRadius(), a.getY() - a.getRadius(), a.getX(), a.getY(), myPaint );
+      			}
       		}
       	}
       	
@@ -108,12 +158,14 @@ public class Ability {
 	public static void drawAbilityAnimations(Canvas canvas, Paint myPaint) {
       	Bomb.drawBombs(canvas, myPaint);
       	Slow.drawSlows(canvas, myPaint);
+      	Blackhole.drawBlackholes(canvas, myPaint);
       	KnockBack.drawKnockBacks(canvas, myPaint);
 	}
 
 	public static void updateAbilities() {
 		Bomb.updateBombs();
 		Slow.updateSlows();
+		Blackhole.updateBlackholes();
 		KnockBack.updateknockBacks();
 	}
 	
@@ -140,6 +192,11 @@ public class Ability {
 			if(this.getType() == "Slow") {
 				synchronized(Slow.SlowsLock) {
 					Slow newSlow = new Slow(xSpawn,ySpawn,350,1000); // Default slow.
+				}
+			}
+			if(this.getType() == "Blackhole") {
+				synchronized(Blackhole.BlackholesLock) {
+					Blackhole newBlackhole = new Blackhole(xSpawn,ySpawn,200,30000); // Default slow.
 				}
 			}
 			if(this.getType() == "KnockBack"){
@@ -195,6 +252,7 @@ public class Ability {
 		synchronized(abilitiesLock) {
 			Bomb.clearBombs();
 			Slow.clearSlows();
+			Blackhole.clearBlackholes();
 			KnockBack.clearKnockBacks();
 			equippedAbilities.clear();
 		}
@@ -222,7 +280,7 @@ public class Ability {
 					float distanceXY = (float)Math.sqrt(yDistance*yDistance + xDistance*xDistance);
 					
 					// If the unit is very small make it easier to press.
-					if(distanceXY <= 10 + u.getRadius()) {
+					if(distanceXY <= 25 + u.getRadius()) {
 						return u;
 					}
 				}

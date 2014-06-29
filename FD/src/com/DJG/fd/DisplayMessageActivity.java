@@ -66,8 +66,12 @@ public class DisplayMessageActivity extends ActionBarActivity {
 	private volatile static boolean gameOver;
 	
 	// Grabbed units (two, one for each hand);
-	private static Ability grabbedAbility = null;
-	private static Ability secondGrabbedAbility = null;
+	public static Ability grabbedAbility = null;
+	public static float grabbedAbilityX;
+	public static float grabbedAbilityY;
+	public static Ability secondGrabbedAbility = null;
+	public static float secondGrabbedAbilityX;
+	public static float secondGrabbedAbilityY;
 	private static Unit grabbedUnit = null;
 	private static Unit secondGrabbedUnit = null;
 	
@@ -100,16 +104,25 @@ public class DisplayMessageActivity extends ActionBarActivity {
 		// Respond to a single touch event
 	    if(event.getPointerCount() <= 1) {
 	    	if(action == android.view.MotionEvent.ACTION_DOWN) {
-	    		grabbedAbility = Ability.getAbilityAt(pos1,pos2);
+	    		if(grabbedAbility == null) {
+	    			grabbedAbility = Ability.getAbilityAt(pos1,pos2);
+	    		}
+	    		grabbedAbilityX = pos1;
+	    		grabbedAbilityY = pos2;
 	    		grabbedUnit = Unit.getUnitAt(pos1,pos2);
 	    	}
 	    	else if(action == android.view.MotionEvent.ACTION_UP) {
 	    		if(grabbedAbility != null && grabbedAbility != Ability.getAbilityAt(pos1,pos2)) {
 	    			grabbedAbility.useAbility(pos1,pos2);
+	    			grabbedAbility = null;
 	    		}
 	    		if(grabbedUnit != null && grabbedUnit.getKillable()) {
 	    			grabbedUnit.hurt(1);
 	    		}
+	    	}
+	    	else if(grabbedAbility != null) {
+	    		grabbedAbilityX = pos1;
+	    		grabbedAbilityY = pos2;
 	    	}
 	    }
 	    
@@ -121,11 +134,19 @@ public class DisplayMessageActivity extends ActionBarActivity {
 			
 		    if(action == android.view.MotionEvent.ACTION_POINTER_DOWN) {
 		    	// First touch.
-		    	grabbedAbility = Ability.getAbilityAt(pos1,pos2);
+		    	if(grabbedAbility == null) {
+		    		grabbedAbility = Ability.getAbilityAt(pos1,pos2);
+		    	}
+	    		grabbedAbilityX = pos1;
+	    		grabbedAbilityY = pos2;
 		    	grabbedUnit = Unit.getUnitAt(pos1,pos2);
 		    	
 		    	// Second touch.
-		    	secondGrabbedAbility = Ability.getAbilityAt(pos1Second,pos2Second);
+		    	if(secondGrabbedAbility == null) {
+		    		secondGrabbedAbility = Ability.getAbilityAt(pos1Second,pos2Second);
+		    	}
+	    		secondGrabbedAbilityX = pos1Second;
+	    		secondGrabbedAbilityY = pos2Second;
 		    	secondGrabbedUnit = Unit.getUnitAt(pos1Second,pos2Second);
 		    }
 		    else if(action == android.view.MotionEvent.ACTION_POINTER_UP) {
@@ -133,6 +154,7 @@ public class DisplayMessageActivity extends ActionBarActivity {
 		    	// First touch.
 		    	if(grabbedAbility != null && grabbedAbility != Ability.getAbilityAt(pos1,pos2)) {
 		    		grabbedAbility.useAbility(pos1,pos2);
+		    		grabbedAbility = null;
 		    	}
 		    	if(grabbedUnit != null && grabbedUnit.getKillable()) {
 		    		grabbedUnit.hurt(1);
@@ -141,12 +163,20 @@ public class DisplayMessageActivity extends ActionBarActivity {
 		    	// Second touch.
 	    		if(secondGrabbedAbility != null && secondGrabbedAbility != Ability.getAbilityAt(pos1Second,pos2Second)) {
 		    		secondGrabbedAbility.useAbility(pos1Second,pos2Second);
+		    		secondGrabbedAbility = null;
 		    	}
 	    		if(secondGrabbedUnit != null && secondGrabbedUnit.getKillable()) {
 	    			secondGrabbedUnit.hurt(1);
 	    		}
-		    	
 		    }
+	    	else if(grabbedAbility != null) {
+	    		grabbedAbilityX = pos1;
+	    		grabbedAbilityY = pos2;
+	    	}
+	    	else if(secondGrabbedAbility != null) {
+	    		secondGrabbedAbilityX = pos1Second;
+	    		secondGrabbedAbilityY = pos2Second;
+	    	}
 	    }
 	    return true;
 	}
