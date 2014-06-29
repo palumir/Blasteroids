@@ -33,13 +33,15 @@ public class Unit {
 	private float yNew;
 	private int radius;
 	private float moveSpeed;
+	private float oldMoveSpeed;
 	private float spinSpeed;
+	private float oldSpinSpeed;
 	private float xMomentum=0;
 	private float yMomentum=0;
 	
-	
 	// Combat information:
-	private boolean killable;
+	private boolean suckedIn = false;
+	private boolean killable = false;
 	
 	// Drawing information:
 	private String shape;
@@ -334,6 +336,14 @@ public class Unit {
 		}
 	}
 	
+	public void suckedIn(boolean tf) {
+		suckedIn = tf;
+	}
+	
+	public boolean getSuckedIn() {
+		return suckedIn;
+	}
+	
 	public static int numUnits() {
 		return allUnits.size();
 	}
@@ -408,6 +418,24 @@ public class Unit {
 	
 	public static void destroyPlanet() {
 		Bomb b = new Bomb(DisplayMessageActivity.getScreenWidth()/2, DisplayMessageActivity.getScreenHeight()/2,DisplayMessageActivity.getScreenHeight()/2+1,DisplayMessageActivity.getLoseDuration());
+	}
+	
+	public void setSpinSpeed(float s) {
+		oldSpinSpeed = spinSpeed;
+		spinSpeed = s;
+	}
+	
+	public void setMoveSpeed(float f) {
+		oldMoveSpeed = moveSpeed;
+		moveSpeed = f;
+	}
+	
+	public float getOldSpinSpeed() {
+		return oldSpinSpeed;
+	}
+	
+	public float getOldMoveSpeed() {
+		return oldMoveSpeed;
 	}
 		
 	public static void updateUnits() {

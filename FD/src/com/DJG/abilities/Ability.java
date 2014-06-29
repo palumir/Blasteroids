@@ -196,7 +196,7 @@ public class Ability {
 			}
 			if(this.getType() == "Blackhole") {
 				synchronized(Blackhole.BlackholesLock) {
-					Blackhole newBlackhole = new Blackhole(xSpawn,ySpawn,200,30000); // Default slow.
+					Blackhole newBlackhole = new Blackhole(xSpawn,ySpawn,150,15000); // Default slow.
 				}
 			}
 			if(this.getType() == "KnockBack"){

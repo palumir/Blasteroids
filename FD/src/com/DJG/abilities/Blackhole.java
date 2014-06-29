@@ -23,7 +23,7 @@ public class Blackhole {
 	private int duration = 3000;
 	
 	// Bitmap
-	public static Bitmap BlackholeBMP = DisplayMessageActivity.makeTransparent(BitmapFactory.decodeResource(DisplayMessageActivity.survContext.getResources(), R.drawable.snowflake));
+	public static Bitmap BlackholeBMP = DisplayMessageActivity.makeTransparent(BitmapFactory.decodeResource(DisplayMessageActivity.survContext.getResources(), R.drawable.blackhole));
 
 	// Well, where is the ability?!
 	private float x;
@@ -37,7 +37,7 @@ public class Blackhole {
 	public Blackhole(float newX, float newY, int newBlastRadius, int newDuration) {
 		x = newX;
 		y = newY;
-		color = Color.CYAN;
+		color = Color.MAGENTA;
 		maxStroke = 30;
 		blastRadius = newBlastRadius;
 		duration = newDuration;
@@ -122,12 +122,29 @@ public class Blackhole {
 				float yDistanceBlackhole = (BlackholeY - u.getY());
 				float xDistanceBlackhole = (BlackholeX - u.getX());
 				float distanceXYBlackhole = (float)Math.sqrt(yDistanceBlackhole*yDistanceBlackhole + xDistanceBlackhole*xDistanceBlackhole);
-				if(distanceXYBlackhole <= BlackholeRadius + u.getRadius() && !DisplayMessageActivity.isOffScreen(u.getX(), u.getY())) {
-					u.freeze(5000);
+				if((int)(System.currentTimeMillis() - b.getStartTime()) > b.getDuration() - 500) {
+					b.unSuckIn(u);
+				}
+				else if(!u.getSuckedIn() && distanceXYBlackhole <= BlackholeRadius + u.getRadius() && !DisplayMessageActivity.isOffScreen(u.getX(), u.getY())) {
+					b.suckIn(u);
 					break;
 				}
 			}
 		}
+	}
+	
+	public void unSuckIn(Unit u) {
+		u.suckedIn(false);
+		u.moveNormally(DisplayMessageActivity.getScreenWidth()/2, DisplayMessageActivity.getScreenHeight()/2);
+		u.setSpinSpeed(u.getOldSpinSpeed());
+		u.setMoveSpeed(u.getOldMoveSpeed());
+	}
+	
+	public void suckIn(Unit u) {
+		u.suckedIn(true);
+		u.setSpinSpeed(1);
+		u.setMoveSpeed(0.2f);
+		u.moveNormally(this.getX(),this.getY());
 	}
 	
 	public int getDuration() {
