@@ -184,7 +184,49 @@ public class Wave extends ArrayList<Unit> {
 		}
 	}
 	
+	// If the int has already used, don't use it again. If every int between
+	// 0 and top have been used, reset usedWaves, and use the input as num.
+	static Integer getMyRandom(Integer num, Integer top) {
+		Integer x = num;
+		Integer n = 0;
+		if(usedWaves == null) {
+			usedWaves.add(num);
+			return num;
+		}
+		while(usedWaves.contains(x)) {
+			if(x<0) {
+				x = top;
+			}
+			if(n>top+1) {
+				usedWaves.clear();
+				usedWaves.add(num);
+				return num;
+			}
+			x--;
+			n++;
+		}
+		usedWaves.add(x);
+		return x;
+	}
 	
+	static int cap(int num, int cap) {
+		if(num > cap) {
+			return cap;
+		}
+		return num;
+	}
+	
+	static String fireorice() {
+		int between = r.nextInt(20); 
+		String whatToSend = "Asteroid";
+		if(between == 1) {
+			whatToSend = "Fire Asteroid";
+		}
+		if(between == 2) {
+			whatToSend = "Ice Asteroid";
+		}
+		return whatToSend;
+	}
 	
 	static void sendWave(int waveNumber){
 		if(DisplayMessageActivity.getMode() == "Campaign") {

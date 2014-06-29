@@ -23,7 +23,7 @@ public class UnitType {
 		allUnitTypes = new ArrayList<UnitType>();
 		
 		// Basic Units
-		allUnitTypes.add(new UnitType("Asteroid",30,1f, true, R.drawable.asteroid, 2, 10));
+		allUnitTypes.add(new UnitType("Asteroid",30,1f, true, R.drawable.asteroid, 1, 10));
 		allUnitTypes.add(new UnitType("Fire Asteroid",30,1f,true, R.drawable.fire_asteroid, 1, 20));
 		allUnitTypes.add(new UnitType("Ice Asteroid",30,1f,true, R.drawable.ice_asteroid, 1, 10));
 		allUnitTypes.add(new UnitType("Cat",50,3f, true, R.drawable.satelite, 1, 10));
@@ -34,6 +34,7 @@ public class UnitType {
 		allUnitTypes.add(new UnitType("Splitter Small",25,0.1f,true,Color.BLUE,"Square", 1, 10));
 		allUnitTypes.add(new UnitType("FullHealer",40,1f, true, Color.GREEN,"Plus", 2, -100));
 		allUnitTypes.add(new UnitType("Healer",20,1.5f, true, Color.GREEN,"Plus", 2, -10));
+		allUnitTypes.add(new UnitType("Spawner", 200, 0, true, Color.MAGENTA,"Square",2,0));
 		
 		// Cthulu
 		allUnitTypes.add(new UnitType("Cthulu Head",100,1f,true,Color.RED,"Square", 1, 0));

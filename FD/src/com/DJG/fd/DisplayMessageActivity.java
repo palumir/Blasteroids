@@ -119,7 +119,7 @@ public class DisplayMessageActivity extends ActionBarActivity {
 	    			grabbedAbility = null;	    			
 	    		}
 	    		if(grabbedUnit != null && grabbedUnit.getKillable()) {
-	    			grabbedUnit.die();
+	    			grabbedUnit.hurt(1);
 	    		}
 	    	}
 	    	else if(grabbedAbility != null) {
@@ -160,7 +160,7 @@ public class DisplayMessageActivity extends ActionBarActivity {
 		    		grabbedAbility = null;
 		    	}
 		    	if(grabbedUnit != null && grabbedUnit.getKillable()) {
-		    		grabbedUnit.die();
+		    		grabbedUnit.hurt(1);
 		    	}
 		    	
 		    	// Second touch.
@@ -171,7 +171,7 @@ public class DisplayMessageActivity extends ActionBarActivity {
 		    		secondGrabbedAbility = null;
 	    		}
 	    		if(secondGrabbedUnit != null && secondGrabbedUnit.getKillable()) {
-	    			secondGrabbedUnit.die();
+	    			secondGrabbedUnit.hurt(1);
 	    		}
 		    }
 	    	else if(grabbedAbility != null) {
