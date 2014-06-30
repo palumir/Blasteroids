@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.util.Log;
 
 import com.DJG.fd.DisplayMessageActivity;
 import com.DJG.fd.R;
@@ -86,6 +87,7 @@ public class Blackhole {
 	
 	public static void removeBlackhole(int pos) {
 		synchronized(BlackholesLock) {
+			allBlackholes.get(pos).unSuckIn();
 			allBlackholes.remove(pos);
 		}
 	}
@@ -122,10 +124,7 @@ public class Blackhole {
 				float yDistanceBlackhole = (BlackholeY - u.getY());
 				float xDistanceBlackhole = (BlackholeX - u.getX());
 				float distanceXYBlackhole = (float)Math.sqrt(yDistanceBlackhole*yDistanceBlackhole + xDistanceBlackhole*xDistanceBlackhole);
-				if((int)(System.currentTimeMillis() - b.getStartTime()) > b.getDuration() - 500) {
-					b.unSuckIn(u);
-				}
-				else if(!u.getSuckedIn() && distanceXYBlackhole <= BlackholeRadius + u.getRadius() && !DisplayMessageActivity.isOffScreen(u.getX(), u.getY())) {
+				if(!u.getSuckedIn() && distanceXYBlackhole <= BlackholeRadius + u.getRadius() && !DisplayMessageActivity.isOffScreen(u.getX(), u.getY())) {
 					b.suckIn(u);
 					break;
 				}
@@ -133,18 +132,25 @@ public class Blackhole {
 		}
 	}
 	
-	public void unSuckIn(Unit u) {
-		u.suckedIn(false);
-		u.moveNormally(DisplayMessageActivity.getScreenWidth()/2, DisplayMessageActivity.getScreenHeight()/2);
-		u.setSpinSpeed(u.getOldSpinSpeed());
-		u.setMoveSpeed(u.getOldMoveSpeed());
+	public void unSuckIn() {
+		synchronized(Unit.onScreenUnitsLock) {
+			for(int j = 0; j < Unit.onScreenUnits.size(); j++) {
+				Unit u = Unit.onScreenUnits.get(j);
+				if(u.getSuckedIn()) {
+					u.suckedIn(false);
+					u.moveNormally(DisplayMessageActivity.getScreenWidth()/2, DisplayMessageActivity.getScreenHeight()/2);
+					u.setSpinSpeed(0);
+					u.setMoveSpeed(u.getOldMoveSpeed());
+				}
+			}
+		}
 	}
 	
 	public void suckIn(Unit u) {
 		u.suckedIn(true);
-		u.setSpinSpeed(1);
-		u.setMoveSpeed(0.2f);
-		u.moveNormally(this.getX(),this.getY());
+		u.setSpinSpeed(0.2f);
+		u.setMoveSpeed(0.3f);
+		u.moveNormally(this.getX(),this.getY()); // Don't suck them in for now!
 	}
 	
 	public int getDuration() {

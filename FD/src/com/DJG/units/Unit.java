@@ -7,8 +7,10 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.util.Log;
 
+import com.DJG.abilities.Ability;
 import com.DJG.abilities.Blackhole;
 import com.DJG.abilities.Bomb;
+import com.DJG.abilities.Drop;
 import com.DJG.abilities.KnockBack;
 import com.DJG.abilities.Slow;
 import com.DJG.fd.DisplayMessageActivity;
@@ -39,12 +41,16 @@ public class Unit {
 	private float xMomentum=0;
 	private float yMomentum=0;
 	
+	// Animator
+	private UnitAnimation unitAnimation = null;
+	
 	// Combat information:
 	private boolean suckedIn = false;
 	private boolean killable = false;
 	
 	// Drawing information:
 	private String shape;
+	private String metaType;
 	public int color;
 	private Bitmap bmp;
 	
@@ -69,6 +75,7 @@ public class Unit {
 		shape = u.getShape();
 		spinSpeed = 0;
 		bmp = u.getBMP();
+		metaType = u.getMetaType();
 		// Stats
 		maxHitPoints = u.getMaxHitPoints();
 		currentHitPoints = maxHitPoints;
@@ -99,6 +106,7 @@ public class Unit {
 		shape = u.getShape();
 		spinSpeed = spin;
 		bmp = u.getBMP();
+		metaType = u.getMetaType();
 		// Stats
 		maxHitPoints = u.getMaxHitPoints();
 		currentHitPoints = maxHitPoints;
@@ -117,6 +125,10 @@ public class Unit {
 		synchronized(allUnitsLock) {
 			addUnit(this);
 		}
+	}
+	
+	public String getMetaType() {
+		return metaType;
 	}
 	
 	public void freeze(long time) {
@@ -230,6 +242,7 @@ public class Unit {
 				return foundUnit;
 			}
 		}
+		
 		
 		public static int getUnitPos(Unit thisUnit) {
 			synchronized(allUnitsLock) {
@@ -434,8 +447,23 @@ public class Unit {
 		return oldSpinSpeed;
 	}
 	
+	public UnitAnimation getUnitAnimation() {
+		if(unitAnimation == null) {
+			return null;
+		}
+		return unitAnimation;
+	}
+	
 	public float getOldMoveSpeed() {
 		return oldMoveSpeed;
+	}
+	
+	public void animate(String type) {
+		this.unitAnimation = new UnitAnimation(this, type);
+	}
+	
+	public void unAnimate() {
+		this.unitAnimation = null;
 	}
 		
 	public static void updateUnits() {
@@ -446,8 +474,12 @@ public class Unit {
 		synchronized(Unit.onScreenUnitsLock) {
 			for(int j = 0; j < onScreenUnits.size(); j++) {
 				Unit u = onScreenUnits.get(j);
-				if(u.getName() != "Fortress") {
-					// Check if we have hit a bomb.
+				
+				// Animate?
+				UnitAnimation.animateUnit(u);
+				
+				if(u.getName() != "Fortress" && u.getMetaType() == "Unit") {
+					// Check if we have hit any abilities.
 					Bomb.checkIfHitBomb(u);
 					Slow.checkIfHitSlow(u);
 					Blackhole.checkIfHitBlackhole(u);
@@ -509,7 +541,23 @@ public class Unit {
 		}
 	}
 	
+	public void despawn() {
+		// Kill the old unit.
+		Bomb b = new Bomb(this.getX(),this.getY(),50,250);
+		dontDrawUnit(this);
+		killUnit(this);
+		Wave.killUnit(this);
+	}
+	
 	public void die() {
+		
+		// Give an ability, if it's an ability drop dying.
+		if(getMetaType() == "Ability Drop") {
+			Ability.giveAbility(getType());
+		}
+		
+		// Drop an ability maybe?
+		Drop.potentiallyDropItem(this);
 		
 		// Do special things for special units.
 		if(type=="Fire Asteroid") {

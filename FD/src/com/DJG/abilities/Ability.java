@@ -9,6 +9,7 @@ import android.media.MediaPlayer;
 
 import com.DJG.fd.DisplayMessageActivity;
 import com.DJG.fd.R;
+import com.DJG.units.Unit;
 
 public class Ability {
 	
@@ -97,6 +98,7 @@ public class Ability {
 		equippedAbilities.add(new Ability("Bomb",0,1,3,R.raw.small_3_second_explosion,"B",Bomb.bombBMP,32));
 		equippedAbilities.add(new Ability("Slow",1,1,3,-1,"S",Slow.slowBMP,32));
 		equippedAbilities.add(new Ability("Blackhole",2,1,3,-1,"S",Blackhole.BlackholeBMP,32));
+		Drop.initAbilityDrops();
 		//equippedAbilities.add(new Ability("KnockBack", 2, 8000, 5, -1, "K", Color.WHITE));
 	}
 	
@@ -114,6 +116,15 @@ public class Ability {
 	
 	public Bitmap getBMP() {
 		return bmp;
+	}
+	
+	public static void giveAbility(String type) {
+		for(int j = 0; j < equippedAbilities.size(); j++) {
+			Ability a = equippedAbilities.get(j);
+			if(a.getType() == type) {
+				a.uses++;
+			}
+		}
 	}
 	
 	public static void drawAbilities(Canvas canvas, Paint myPaint) {
@@ -186,20 +197,20 @@ public class Ability {
 			
 			if(this.getType() == "Bomb") {
 				synchronized(Bomb.bombsLock) {
-					Bomb newBomb = new Bomb(xSpawn,ySpawn,250,1500); // Default explosion for now. Make upgradable.
+					Bomb newBomb = new Bomb(xSpawn,ySpawn,350,1250); // Default explosion for now. Make upgradable.
 				}
 			}
 			if(this.getType() == "Slow") {
 				synchronized(Slow.SlowsLock) {
-					Slow newSlow = new Slow(xSpawn,ySpawn,350,1000); // Default slow.
+					Slow newSlow = new Slow(xSpawn,ySpawn,500,850); // Default slow.
 				}
 			}
 			if(this.getType() == "Blackhole") {
 				synchronized(Blackhole.BlackholesLock) {
-					Blackhole newBlackhole = new Blackhole(xSpawn,ySpawn,150,15000); // Default slow.
+					Blackhole newBlackhole = new Blackhole(xSpawn,ySpawn,200,11000); // Default slow.
 				}
 			}
-			if(this.getType() == "KnockBack"){
+			if(this.getType() == "KnockBack") {
 				synchronized (KnockBack.knockBacksLock) {
 					KnockBack newKnockBack = new KnockBack(xSpawn, ySpawn, 450, 2000);
 				}

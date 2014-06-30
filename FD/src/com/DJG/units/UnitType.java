@@ -71,8 +71,20 @@ public class UnitType {
 		type = newType;
 		radius = newRadius;
 		moveSpeed = newMoveSpeed;
+		metaType = "Unit";
 		killable = isKillable;
 		bitmap = DisplayMessageActivity.makeTransparent(BitmapFactory.decodeResource(DisplayMessageActivity.survContext.getResources(), newBitMapLink));
+		maxHitPoints = newHP;
+		damage = newDamage;
+	}
+	
+	public UnitType(String newType, String newMetaType, int newRadius, float newMoveSpeed, boolean isKillable, Bitmap newBitMap, int newHP, int newDamage) {
+		type = newType;
+		radius = newRadius;
+		moveSpeed = newMoveSpeed;
+		metaType = newMetaType;
+		killable = isKillable;
+		bitmap = newBitMap;
 		maxHitPoints = newHP;
 		damage = newDamage;
 	}
@@ -80,6 +92,7 @@ public class UnitType {
 	public UnitType(String newType, int newRadius, float newMoveSpeed, boolean isKillable, int newColor, String newShape, int newHP, int newDamage) {
 		type = newType;
 		radius = newRadius;
+		metaType = "Unit";
 		moveSpeed = newMoveSpeed;
 		shape = newShape;
 		killable = isKillable;
@@ -95,6 +108,7 @@ public class UnitType {
 	
 	//UI stuff
 	private int color;
+	private String metaType;
 	private String shape;
 	private Bitmap bitmap;
 	
@@ -103,6 +117,9 @@ public class UnitType {
 	private int damage;
 	private float moveSpeed;
 	
+	public static void addUnitType(UnitType u) {
+		allUnitTypes.add(u);
+	}
 	
 	public boolean getKillable() {
 		return killable;
@@ -122,6 +139,10 @@ public class UnitType {
  
 	public int getMaxHitPoints(){
 		return maxHitPoints;
+	}
+	
+	public String getMetaType() {
+		return metaType;
 	}
 	
 	public Bitmap getBMP() {

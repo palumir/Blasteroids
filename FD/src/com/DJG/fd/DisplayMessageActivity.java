@@ -281,7 +281,7 @@ public class DisplayMessageActivity extends ActionBarActivity {
 	          Paint myPaint = new Paint();
 	          
 	          // Draw background.
-	          	drawBackground(canvas, myPaint);
+	          drawBackground(canvas, myPaint);
 	          
 	          // Draw our text.
 	          drawText(canvas, myPaint);
