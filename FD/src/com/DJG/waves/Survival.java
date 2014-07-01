@@ -68,6 +68,7 @@ public class Survival {
 			x=0;
 			dist=100;
 			while(x < waveNumber+1) { 
+				genInfo.add(new GeneratorInfo("Spawner", 1, spawnSystem.Spawner, 0));
 				genInfo.add(new GeneratorInfo(fireorice(), cap(r.nextInt(waveNumber*2+x+1)/3+1,100),spawnSystem.FullRandom,r.nextInt(2), dist));
 				genInfo.add(new GeneratorInfo(fireorice(), cap(r.nextInt(waveNumber/4+x+1),100),spawnSystem.FullRandom,r.nextInt(2), dist));
 				genInfo.add(new GeneratorInfo("Fire Asteroid", cap(r.nextInt(waveNumber/3+x+1),100),spawnSystem.FullRandom,r.nextInt(4), dist));

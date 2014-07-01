@@ -123,6 +123,7 @@ public class WaveGenerator {
 					xy = new XY(0, screenHeight/2);
 					w.add(new UnitSpawner("Any name", g.unitType, xy.x, xy.y, w));
 				}
+				break;
 			default:
 				for (int i = 0; i<g.unitNumbers; i++){
 					 xy = getRandomXY(g.startingDifference);
