@@ -11,7 +11,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.MotionEventCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Display;
 import android.view.LayoutInflater;
@@ -24,6 +23,7 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.DJG.abilities.Ability;
+import com.DJG.fd.touchevents.TouchEvent;
 import com.DJG.units.Unit;
 import com.DJG.units.UnitType;
 import com.DJG.waves.Wave;
@@ -65,16 +65,6 @@ public class DisplayMessageActivity extends ActionBarActivity {
 	private Thread gameThread;
 	private volatile static boolean gameOver;
 	
-	// Grabbed units (two, one for each hand);
-	public static Ability grabbedAbility = null;
-	public static float grabbedAbilityX;
-	public static float grabbedAbilityY;
-	public static Ability secondGrabbedAbility = null;
-	public static float secondGrabbedAbilityX;
-	public static float secondGrabbedAbilityY;
-	private static Unit grabbedUnit = null;
-	private static Unit secondGrabbedUnit = null;
-	
 	// The current view.
 	private static View currentView;
 	private static int screenHeight;
@@ -96,93 +86,7 @@ public class DisplayMessageActivity extends ActionBarActivity {
 	
 	@Override
 	public boolean onTouchEvent(MotionEvent event) { 		
-		
-		float pos1 = event.getX(event.findPointerIndex(event.getPointerId(0)));
-		float pos2 = event.getY(event.findPointerIndex(event.getPointerId(0)));
-    	int action = MotionEventCompat.getActionMasked(event);
-    	
-		// Respond to a single touch event
-	    if(event.getPointerCount() <= 1) {
-	    	if(action == android.view.MotionEvent.ACTION_DOWN) {
-	    		if(grabbedAbility == null) {
-	    			grabbedAbility = Ability.getAbilityAt(pos1,pos2);
-	    		}
-	    		grabbedAbilityX = pos1;
-	    		grabbedAbilityY = pos2;
-	    		grabbedUnit = Unit.getUnitAt(pos1,pos2);
-	    	}
-	    	else if(action == android.view.MotionEvent.ACTION_UP) {
-	    		if(grabbedAbility != null && grabbedAbility != Ability.getAbilityAt(pos1,pos2)) {
-	    			grabbedAbility.useAbility(pos1,pos2);
-	    		}
-	    		if(grabbedAbility != null) {
-	    			grabbedAbility = null;	    			
-	    		}
-	    		if(grabbedUnit != null && grabbedUnit.getKillable()) {
-	    			grabbedUnit.hurt(1);
-	    		}
-	    	}
-	    	else if(grabbedAbility != null) {
-	    		grabbedAbilityX = pos1;
-	    		grabbedAbilityY = pos2;
-	    	}
-	    }
-	    
-	    // Respond to a multitouch event.
-	    if(event.getPointerCount() > 1) {
-			float pos1Second = event.getX(event.findPointerIndex(event.getPointerId(1)));
-			float pos2Second = event.getY(event.findPointerIndex(event.getPointerId(1)));
-			
-		    if(action == android.view.MotionEvent.ACTION_POINTER_DOWN) {
-		    	// First touch.
-		    	if(grabbedAbility == null) {
-		    		grabbedAbility = Ability.getAbilityAt(pos1,pos2);
-		    	}
-	    		grabbedAbilityX = pos1;
-	    		grabbedAbilityY = pos2;
-		    	grabbedUnit = Unit.getUnitAt(pos1,pos2);
-		    	
-		    	// Second touch.
-		    	if(secondGrabbedAbility == null) {
-		    		secondGrabbedAbility = Ability.getAbilityAt(pos1Second,pos2Second);
-		    	}
-	    		secondGrabbedAbilityX = pos1Second;
-	    		secondGrabbedAbilityY = pos2Second;
-		    	secondGrabbedUnit = Unit.getUnitAt(pos1Second,pos2Second);
-		    }
-		    else if(action == android.view.MotionEvent.ACTION_POINTER_UP) {
-		    	
-		    	// First touch.
-		    	if(grabbedAbility != null && grabbedAbility != Ability.getAbilityAt(pos1,pos2)) {
-		    		grabbedAbility.useAbility(pos1,pos2);
-		    	}
-		    	if(grabbedAbility != null) {
-		    		grabbedAbility = null;
-		    	}
-		    	if(grabbedUnit != null && grabbedUnit.getKillable()) {
-		    		grabbedUnit.hurt(1);
-		    	}
-		    	
-		    	// Second touch.
-	    		if(secondGrabbedAbility != null && secondGrabbedAbility != Ability.getAbilityAt(pos1Second,pos2Second)) {
-		    		secondGrabbedAbility.useAbility(pos1Second,pos2Second);
-		    	}
-	    		if(secondGrabbedAbility != null) {
-		    		secondGrabbedAbility = null;
-	    		}
-	    		if(secondGrabbedUnit != null && secondGrabbedUnit.getKillable()) {
-	    			secondGrabbedUnit.hurt(1);
-	    		}
-		    }
-	    	else if(grabbedAbility != null) {
-	    		grabbedAbilityX = pos1;
-	    		grabbedAbilityY = pos2;
-	    	}
-	    	else if(secondGrabbedAbility != null) {
-	    		secondGrabbedAbilityX = pos1Second;
-	    		secondGrabbedAbilityY = pos2Second;
-	    	}
-	    }
+		TouchEvent.respondToTouchEvent(event);
 	    return true;
 	}
 	

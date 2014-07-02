@@ -9,6 +9,7 @@ import android.media.MediaPlayer;
 
 import com.DJG.fd.DisplayMessageActivity;
 import com.DJG.fd.R;
+import com.DJG.fd.touchevents.TouchEvent;
 import com.DJG.units.Unit;
 
 public class Ability {
@@ -133,11 +134,11 @@ public class Ability {
       	myPaint.setTextSize(50);
       	
       	// Draw the abilities on fingers.
-      	if(DisplayMessageActivity.grabbedAbility != null && DisplayMessageActivity.grabbedAbility.getUses() > 0) {
-			canvas.drawBitmap(DisplayMessageActivity.grabbedAbility.getBMP(), DisplayMessageActivity.grabbedAbilityX-DisplayMessageActivity.grabbedAbility.getRadius(), DisplayMessageActivity.grabbedAbilityY - DisplayMessageActivity.grabbedAbility.getRadius(), null);
+      	if(TouchEvent.grabbedAbility != null && TouchEvent.grabbedAbility.getUses() > 0) {
+			canvas.drawBitmap(TouchEvent.grabbedAbility.getBMP(), TouchEvent.grabbedAbilityX-TouchEvent.grabbedAbility.getRadius(), TouchEvent.grabbedAbilityY - TouchEvent.grabbedAbility.getRadius(), null);
       	}
-      	if(DisplayMessageActivity.secondGrabbedAbility != null && DisplayMessageActivity.secondGrabbedAbility.getUses() > 0) {
-			canvas.drawBitmap(DisplayMessageActivity.secondGrabbedAbility.getBMP(), DisplayMessageActivity.secondGrabbedAbilityX-DisplayMessageActivity.secondGrabbedAbility.getRadius(), DisplayMessageActivity.secondGrabbedAbilityY - DisplayMessageActivity.secondGrabbedAbility.getRadius(), null);
+      	if(TouchEvent.secondGrabbedAbility != null && TouchEvent.secondGrabbedAbility.getUses() > 0) {
+			canvas.drawBitmap(TouchEvent.secondGrabbedAbility.getBMP(), TouchEvent.secondGrabbedAbilityX-TouchEvent.secondGrabbedAbility.getRadius(), TouchEvent.secondGrabbedAbilityY - TouchEvent.secondGrabbedAbility.getRadius(), null);
       	}
       	
       	synchronized(abilitiesLock) {
@@ -267,6 +268,13 @@ public class Ability {
 			KnockBack.clearKnockBacks();
 			equippedAbilities.clear();
 		}
+	}
+	
+	public static void checkIfHitAbility(Unit u) {
+		Bomb.checkIfHitBomb(u);
+		Slow.checkIfHitSlow(u);
+		Blackhole.checkIfHitBlackhole(u);
+		KnockBack.checkIfHitKnockBack(u);
 	}
 	
 	public static int getAbilityPos(Ability thisAbility) {

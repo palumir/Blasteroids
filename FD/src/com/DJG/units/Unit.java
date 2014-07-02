@@ -480,10 +480,7 @@ public class Unit {
 				
 				if(u.getName() != "Fortress" && u.getMetaType() == "Unit") {
 					// Check if we have hit any abilities.
-					Bomb.checkIfHitBomb(u);
-					Slow.checkIfHitSlow(u);
-					Blackhole.checkIfHitBlackhole(u);
-					KnockBack.checkIfHitKnockBack(u);
+					Ability.checkIfHitAbility(u);
 				}
 			}
 		}
