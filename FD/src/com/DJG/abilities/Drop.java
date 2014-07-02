@@ -17,11 +17,25 @@ public class Drop {
 	}
 	
 	public static void potentiallyDropItem(Unit u) {
-		if(r.nextInt(60) == 1) {
+		if(r.nextInt(2) == 1) {
 			if(u.getMetaType() == "Unit") {
 				Ability abilityToDrop = Ability.getEquippedAbilities().get(r.nextInt(Ability.getEquippedAbilities().size()));
 				Unit v = new Unit("Ability Drop",abilityToDrop.getType(),u.getX(),u.getY());
 				v.animate("Bob");
+			}
+		}
+	}
+	
+	public static void dropRespond(String type) {
+		if(type == "Fire Fingers") {
+			FireFingers.startFireFingers(30000);
+		}
+		else {
+			for(int j = 0; j < Ability.getEquippedAbilities().size(); j++) {
+				Ability a = Ability.getEquippedAbilities().get(j);
+				if(a.getType() == type) {
+					a.increaseUses();
+				}
 			}
 		}
 	}

@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Paint.Style;
 import android.media.MediaPlayer;
 
 import com.DJG.fd.DisplayMessageActivity;
@@ -47,6 +48,11 @@ public class Ability {
 		symbol = newSymbol;
 		iconColor = newIconColor;
 		switch(slot){
+		case -1:
+			// Don't show it on the screen.
+			x = -1000;
+			y = -1000;
+			break;
 		case 0:
 			x = DisplayMessageActivity.getScreenWidth()-50;
 			y = DisplayMessageActivity.getScreenHeight()-50;
@@ -67,16 +73,20 @@ public class Ability {
 		}
 	}
 	
-	public Ability(String newType, int newSlot, int newCoolDown, int newUses, int soundID, String newSymbol, Bitmap newBMP, int newRadius) {
+	public Ability(String newType, int newSlot, int newCoolDown, int newUses, int soundID, Bitmap newBMP, int newRadius) {
 		coolDown = newCoolDown;
 		if(soundID!=-1)  mpPlacement = MediaPlayer.create(DisplayMessageActivity.survContext, soundID); 
 		slot = newSlot;
 		type = newType;
 		uses = newUses;
-		symbol = newSymbol;
 		iconColor = Color.WHITE;
 		bmp = newBMP;
 		switch(slot){
+		case -1:
+			// Don't show it on the screen.
+			x = -1000;
+			y = -1000;
+			break;
 		case 0:
 			x = DisplayMessageActivity.getScreenWidth()-100;
 			radius = newRadius;
@@ -96,9 +106,10 @@ public class Ability {
 	
 	public static void initAbilities() {
 		equippedAbilities = new ArrayList<Ability>();
-		equippedAbilities.add(new Ability("Bomb",0,1,3,R.raw.small_3_second_explosion,"B",Bomb.bombBMP,32));
-		equippedAbilities.add(new Ability("Slow",1,1,3,-1,"S",Slow.slowBMP,32));
-		equippedAbilities.add(new Ability("Blackhole",2,1,3,-1,"S",Blackhole.BlackholeBMP,32));
+		equippedAbilities.add(new Ability("Bomb",0,1,3,R.raw.small_3_second_explosion,Bomb.bombBMP,32));
+		equippedAbilities.add(new Ability("Slow",1,1,3,-1,Slow.slowBMP,32));
+		equippedAbilities.add(new Ability("Blackhole",2,1,3,-1,Blackhole.BlackholeBMP,32));
+		equippedAbilities.add(new Ability("Fire Fingers",-1,1,3,-1,Blackhole.BlackholeBMP,32));
 		Drop.initAbilityDrops();
 		//equippedAbilities.add(new Ability("KnockBack", 2, 8000, 5, -1, "K", Color.WHITE));
 	}
@@ -119,13 +130,8 @@ public class Ability {
 		return bmp;
 	}
 	
-	public static void giveAbility(String type) {
-		for(int j = 0; j < equippedAbilities.size(); j++) {
-			Ability a = equippedAbilities.get(j);
-			if(a.getType() == type) {
-				a.uses++;
-			}
-		}
+	public void increaseUses() {
+		uses++;
 	}
 	
 	public static void drawAbilities(Canvas canvas, Paint myPaint) {
@@ -146,6 +152,8 @@ public class Ability {
       			if(a.getBMP() != null) {
       				canvas.drawBitmap(a.getBMP(), a.getX()-a.getRadius(), a.getY() - a.getRadius(), null);
 	  				myPaint.setColor(Color.WHITE);
+	  				myPaint.setStyle(Style.FILL);
+	  				myPaint.setStrokeWidth(1);
  	  				myPaint.setTextSize(35);
 	  				canvas.drawText(a.getUses() + "",a.getX()-a.getRadius()+20,a.getY() - a.getRadius() +100,myPaint);
       			}
@@ -154,7 +162,7 @@ public class Ability {
     	  				myPaint.setStyle(Paint.Style.FILL);
     	  				canvas.drawRect(a.getX() - +a.getRadius(), a.getY() + ((float)a.getRadius())*(1-a.getCDPercentRemaining()) - +a.getRadius(), a.getX(), a.getY(), myPaint );
     	  				myPaint.setColor(Color.RED);
-    	  				myPaint.setTextSize(23);
+    	  				myPaint.setTextSize(14);
     	  				canvas.drawText(a.getUses() + "",a.getX()+4-a.getRadius(),a.getY()+22-a.getRadius(),myPaint);
     	  				myPaint.setColor(Color.WHITE);
     	  				myPaint.setTextSize(50);
@@ -179,6 +187,7 @@ public class Ability {
 		Slow.updateSlows();
 		Blackhole.updateBlackholes();
 		KnockBack.updateknockBacks();
+		FireFingers.updateFireFingers();
 	}
 	
 	public void playPlaceSound() {
@@ -198,12 +207,12 @@ public class Ability {
 			
 			if(this.getType() == "Bomb") {
 				synchronized(Bomb.bombsLock) {
-					Bomb newBomb = new Bomb(xSpawn,ySpawn,350,1250); // Default explosion for now. Make upgradable.
+					Bomb newBomb = new Bomb(xSpawn,ySpawn,400,1250); // Default explosion for now. Make upgradable.
 				}
 			}
 			if(this.getType() == "Slow") {
 				synchronized(Slow.SlowsLock) {
-					Slow newSlow = new Slow(xSpawn,ySpawn,500,850); // Default slow.
+					Slow newSlow = new Slow(xSpawn,ySpawn,600,850); // Default slow.
 				}
 			}
 			if(this.getType() == "Blackhole") {

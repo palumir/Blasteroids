@@ -190,6 +190,9 @@ public class DisplayMessageActivity extends ActionBarActivity {
 	          // Draw our text.
 	          drawText(canvas, myPaint);
   	        
+	          // Draw earth.
+	          Unit.drawEarth(canvas,myPaint);
+	          
      	      // Draw ability slots/icons.
        	      Ability.drawAbilities(canvas, myPaint);
   	        	

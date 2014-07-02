@@ -391,20 +391,26 @@ public class Unit {
 		onScreenUnits.clear();
 	}
 	
+	public static void drawEarth(Canvas canvas, Paint myPaint) {
+        synchronized(onScreenUnitsLock) {
+			for(int j = 0; j < onScreenUnits.size(); j++) {
+				Unit currentUnit = onScreenUnits.get(j);
+      	  		if(currentUnit.getName() == "Fortress" && !DisplayMessageActivity.getLost()) {
+      	  			myPaint.setStrokeWidth(1);
+      	  			myPaint.setStyle(Paint.Style.STROKE);
+      	  			myPaint.setColor(currentUnit.color);
+    	        	// Draw Earth!
+      	  			canvas.drawBitmap(currentUnit.getBMP(), currentUnit.getX()-currentUnit.getRadius(), currentUnit.getY() - currentUnit.getRadius(), null);
+      	  		}
+        	}
+        }
+	}
+	
 	public static void drawUnits(Canvas canvas, Paint myPaint) {
         synchronized(onScreenUnitsLock) {
 			for(int j = 0; j < onScreenUnits.size(); j++) {
 				Unit currentUnit = onScreenUnits.get(j);
-  	        myPaint.setStyle(Paint.Style.FILL);
-      	  	myPaint.setStrokeWidth(23);
-      	  	if(currentUnit.getName() == "Fortress" && !DisplayMessageActivity.getLost()) {
-      		  	myPaint.setStrokeWidth(1);
-      		  	myPaint.setStyle(Paint.Style.STROKE);
-      	  		myPaint.setColor(currentUnit.color);
-    	        	// Draw Earth!
-   	        	 canvas.drawBitmap(currentUnit.getBMP(), currentUnit.getX()-currentUnit.getRadius(), currentUnit.getY() - currentUnit.getRadius(), null);
-      	  	}
-      	  	else if(currentUnit.getName() != "Fortress") {
+      	  	if(currentUnit.getName() != "Fortress") {
       	  		// What shape do we draw?
       	  		myPaint.setColor(currentUnit.color);
       	  		if(currentUnit.getBMP() != null) {
@@ -550,7 +556,7 @@ public class Unit {
 		
 		// Give an ability, if it's an ability drop dying.
 		if(getMetaType() == "Ability Drop") {
-			Ability.giveAbility(getType());
+			Drop.dropRespond(getType());
 		}
 		
 		// Drop an ability maybe?
