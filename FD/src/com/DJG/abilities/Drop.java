@@ -17,7 +17,7 @@ public class Drop {
 	}
 	
 	public static void potentiallyDropItem(Unit u) {
-		if(r.nextInt(2) == 1) {
+		if(r.nextInt(100) == 1) {
 			if(u.getMetaType() == "Unit") {
 				Ability abilityToDrop = Ability.getEquippedAbilities().get(r.nextInt(Ability.getEquippedAbilities().size()));
 				Unit v = new Unit("Ability Drop",abilityToDrop.getType(),u.getX(),u.getY());

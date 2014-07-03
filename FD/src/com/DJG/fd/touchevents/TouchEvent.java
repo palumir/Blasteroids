@@ -1,6 +1,7 @@
 package com.DJG.fd.touchevents;
 
 import android.support.v4.view.MotionEventCompat;
+import android.util.Log;
 import android.view.MotionEvent;
 
 import com.DJG.abilities.Ability;
@@ -43,26 +44,57 @@ public class TouchEvent {
 		float pos2 = event.getY(event.findPointerIndex(event.getPointerId(0)));
     	int action = MotionEventCompat.getActionMasked(event);
     	
+    	if(grabbedAbility != null) {
+    		Log.d("First Ability","Not Null");
+    	}
+    	if(secondGrabbedAbility != null) {
+    		Log.d("Second Ability","Not Null");
+    	}
+    	
 		// Respond to a single touch event
 	    if(event.getPointerCount() <= 1) {
-	    	if(action == android.view.MotionEvent.ACTION_DOWN) {
-	    		if(grabbedAbility == null) {
-	    			grabbedAbility = Ability.getAbilityAt(pos1,pos2);
-	    		}
-	    		grabbedAbilityX = pos1;
-	    		grabbedAbilityY = pos2;
-	    	}
-	    	else if(action == android.view.MotionEvent.ACTION_UP) {
-	    		if(grabbedAbility != null && grabbedAbility != Ability.getAbilityAt(pos1,pos2)) {
-	    			grabbedAbility.useAbility(pos1,pos2);
-	    		}
-	    		if(grabbedAbility != null) {
-	    			grabbedAbility = null;	    			
-	    		}
-	    	}
-	    	else if(grabbedAbility != null) {
-	    		grabbedAbilityX = pos1;
-	    		grabbedAbilityY = pos2;
+	    
+	    	if(!(grabbedAbility == null && secondGrabbedAbility != null)) {
+		    	if(action == android.view.MotionEvent.ACTION_DOWN) {
+		    		if(grabbedAbility == null) {
+		    			grabbedAbility = Ability.getAbilityAt(pos1,pos2);
+		    		}
+		    		grabbedAbilityX = pos1;
+		    		grabbedAbilityY = pos2;
+		    	}
+		    	else if(action == android.view.MotionEvent.ACTION_UP) {
+		    		if(grabbedAbility != null && grabbedAbility != Ability.getAbilityAt(pos1,pos2)) {
+		    			grabbedAbility.useAbility(pos1,pos2);
+		    		}
+		    		if(grabbedAbility != null) {
+		    			grabbedAbility = null;	    			
+		    		}
+		    	}
+		    	else if(grabbedAbility != null) {
+		    		grabbedAbilityX = pos1;
+		    		grabbedAbilityY = pos2;
+		    	}
+		    	}
+	    	else {
+		    	if(action == android.view.MotionEvent.ACTION_DOWN) {
+		    		if(secondGrabbedAbility == null) {
+		    			secondGrabbedAbility = Ability.getAbilityAt(pos1,pos2);
+		    		}
+		    		secondGrabbedAbilityX = pos1;
+		    		secondGrabbedAbilityY = pos2;
+		    	}
+		    	else if(action == android.view.MotionEvent.ACTION_UP) {
+		    		if(secondGrabbedAbility != null && secondGrabbedAbility != Ability.getAbilityAt(pos1,pos2)) {
+		    			secondGrabbedAbility.useAbility(pos1,pos2);
+		    		}
+		    		if(secondGrabbedAbility != null) {
+		    			secondGrabbedAbility = null;	    			
+		    		}
+		    	}
+		    	else if(secondGrabbedAbility != null) {
+		    		secondGrabbedAbilityX = pos1;
+		    		secondGrabbedAbilityY = pos2;
+		    	}
 	    	}
 	    }
 	    
@@ -73,18 +105,22 @@ public class TouchEvent {
 			
 		    if(action == android.view.MotionEvent.ACTION_POINTER_DOWN) {
 		    	// First touch.
-		    	if(grabbedAbility == null) {
+		    	if(grabbedAbility == null && event.getActionIndex() == event.getPointerId(0)) {
 		    		grabbedAbility = Ability.getAbilityAt(pos1,pos2);
 		    	}
-	    		grabbedAbilityX = pos1;
-	    		grabbedAbilityY = pos2;
+		    	if(event.getActionIndex() == event.getPointerId(0)) {
+		    		grabbedAbilityX = pos1;
+		    		grabbedAbilityY = pos2;
+		    	}
 		    	
 		    	// Second touch.
-		    	if(secondGrabbedAbility == null) {
+		    	if(secondGrabbedAbility == null && event.getActionIndex() == event.getPointerId(1)) {
 		    		secondGrabbedAbility = Ability.getAbilityAt(pos1Second,pos2Second);
 		    	}
-	    		secondGrabbedAbilityX = pos1Second;
-	    		secondGrabbedAbilityY = pos2Second;
+		    	if(event.getActionIndex() == event.getPointerId(1)) {
+		    		secondGrabbedAbilityX = pos1Second;
+		    		secondGrabbedAbilityY = pos2Second;
+		    	}
 		    }
 		    else if(action == android.view.MotionEvent.ACTION_POINTER_UP) {
 		    	
@@ -104,11 +140,11 @@ public class TouchEvent {
 		    		secondGrabbedAbility = null;
 	    		}
 		    }
-	    	else if(grabbedAbility != null) {
+	    	if(grabbedAbility != null) {
 	    		grabbedAbilityX = pos1;
 	    		grabbedAbilityY = pos2;
 	    	}
-	    	else if(secondGrabbedAbility != null) {
+	    	if(secondGrabbedAbility != null) {
 	    		secondGrabbedAbilityX = pos1Second;
 	    		secondGrabbedAbilityY = pos2Second;
 	    	}
@@ -121,12 +157,26 @@ public class TouchEvent {
     	int action = MotionEventCompat.getActionMasked(event);
 		// Respond to a single touch event
 	    if(event.getPointerCount() <= 1) {
-	    	if(action == android.view.MotionEvent.ACTION_DOWN) {
-	    		grabbedUnit = Unit.getUnitAt(pos1,pos2);
+	    	if(!(grabbedUnit == null && secondGrabbedUnit != null)) {
+	    		if(action == android.view.MotionEvent.ACTION_DOWN) {
+	    			grabbedUnit = Unit.getUnitAt(pos1,pos2);
+	    		}
+	    		else if(action == android.view.MotionEvent.ACTION_UP) {
+	    			if(grabbedUnit != null && grabbedUnit.getKillable()) {
+	    				grabbedUnit.hurt(1);
+	    				grabbedUnit = null;
+	    			}
+	    		}
 	    	}
-	    	else if(action == android.view.MotionEvent.ACTION_UP) {
-	    		if(grabbedUnit != null && grabbedUnit.getKillable()) {
-	    			grabbedUnit.hurt(1);
+	    	else {
+	    		if(action == android.view.MotionEvent.ACTION_DOWN) {
+	    			secondGrabbedUnit = Unit.getUnitAt(pos1,pos2);
+	    		}
+	    		else if(action == android.view.MotionEvent.ACTION_UP) {
+	    			if(secondGrabbedUnit != null && secondGrabbedUnit.getKillable()) {
+	    				secondGrabbedUnit.hurt(1);
+	    				secondGrabbedUnit = null;
+	    			}
 	    		}
 	    	}
 	    }
@@ -136,16 +186,23 @@ public class TouchEvent {
 			float pos1Second = event.getX(event.findPointerIndex(event.getPointerId(1)));
 			float pos2Second = event.getY(event.findPointerIndex(event.getPointerId(1)));
 			
+			
 		    if(action == android.view.MotionEvent.ACTION_POINTER_DOWN) {
-		    	grabbedUnit = Unit.getUnitAt(pos1,pos2);
-		    	secondGrabbedUnit = Unit.getUnitAt(pos1Second,pos2Second);
+		    	if(event.getActionIndex() == event.getPointerId(0)){
+		    		grabbedUnit = Unit.getUnitAt(pos1,pos2);
+		    	}
+		    	if(event.getActionIndex() == event.getPointerId(1)) {
+		    		secondGrabbedUnit = Unit.getUnitAt(pos1Second,pos2Second);
+		    	}
 		    }
 		    else if(action == android.view.MotionEvent.ACTION_POINTER_UP) {
 		    	if(grabbedUnit != null && grabbedUnit.getKillable() && event.getActionIndex() == event.getPointerId(0)) {
 		    		grabbedUnit.hurt(1);
+		    		grabbedUnit = null;
 		    	}
 	    		if(secondGrabbedUnit != null && secondGrabbedUnit.getKillable() && event.getActionIndex() == event.getPointerId(1)) {
 	    			secondGrabbedUnit.hurt(1);
+	    			secondGrabbedUnit = null;
 	    		}
 		    }
 	    }
