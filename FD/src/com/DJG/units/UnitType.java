@@ -36,6 +36,7 @@ public class UnitType {
 		allUnitTypes.add(new UnitType("Healer",20,1.5f, true, Color.GREEN,"Plus", 2, -10));
 		allUnitTypes.add(new UnitType("Spawner", 200, 0, true, Color.MAGENTA,"Square",2,0));
 		
+		
 		// Cthulu
 		allUnitTypes.add(new UnitType("Cthulu Head",100,1f,true,Color.RED,"Square", 1, 0));
 		allUnitTypes.add(new UnitType("Cthulu Lazer Arm",100,1f,true,Color.RED,"Square", 1, 0));
@@ -43,6 +44,10 @@ public class UnitType {
 		
 		// The Earth. Called Castle for... some reason.
 		allUnitTypes.add(new UnitType("Castle",50,0f,false,R.drawable.earth, 100,0)); // CASTLES DON'T MOVE OKAY?
+	
+		//Planets
+		allUnitTypes.add(new UnitType("Earth", 50, 0f, false, R.drawable.earth,100,0));
+		allUnitTypes.add(new UnitType("Mars", 50, 0f, false, R.drawable.mars, 150, 0));
 	}
 	
 	public static UnitType getUnitType(String searchType) {

@@ -14,6 +14,7 @@ import com.DJG.abilities.Drop;
 import com.DJG.abilities.KnockBack;
 import com.DJG.abilities.Slow;
 import com.DJG.fd.DisplayMessageActivity;
+import com.DJG.planets.Planet;
 import com.DJG.waves.Wave;
 
 public class Unit {
@@ -161,6 +162,8 @@ public class Unit {
 	}
 	
 	public void moveUnit() {
+		Planet planet = (Planet) getUnit("Fortress");
+		float gravity = planet.getGravity(); 
 			if(timeFrozen != 0 && System.currentTimeMillis() - timeFrozen > frozenDuration) {
 				isFrozen = false;
 				this.bmp = this.oldbmp;
@@ -168,7 +171,7 @@ public class Unit {
 			if(!isFrozen) {
 				float yDistance = (yNew - y);
 				float xDistance = (xNew - x);
-				float step = moveSpeed;
+				float step = moveSpeed*gravity;
 				float distanceXY = (float)Math.sqrt(yDistance*yDistance + xDistance*xDistance); // It should take this many frames to get there.
 			
 				// The unit needs to be drawn if it's on screen.
