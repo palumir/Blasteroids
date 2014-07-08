@@ -12,7 +12,9 @@ import com.DJG.fd.touchevents.TouchEvent;
 public class FireFingers {
 	// General ability attributes.
 	private static long startTime;
-	private static long duration = 3000;
+	private static long duration = 15000;
+	private static int radius = 140;
+	private static int explosionDuration = 550;
 	
 	// Bitmap
 	public static Bitmap fireBMP = GameActivity.makeTransparent(BitmapFactory.decodeResource(GameActivity.survContext.getResources(), R.drawable.fire));
@@ -20,12 +22,12 @@ public class FireFingers {
 	public static void startFireFingers(int newDuration) {
 		TouchEvent.setTouchType("Fire Fingers");
 		startTime = GameActivity.getGameTime();
-		duration = newDuration;
+		setDuration(newDuration);
 	}
 	
 	public static void updateFireFingers() {
 		// End fire fingers!
-		if(GameActivity.getGameTime() - startTime > duration) {
+		if(GameActivity.getGameTime() - startTime > getDuration()) {
 			TouchEvent.setTouchType("Normal");
 		}
 	}
@@ -40,7 +42,7 @@ public class FireFingers {
 	    	}
 	    	if(action == android.view.MotionEvent.ACTION_UP) {
 		    	if(TouchEvent.getTouchType() == "Fire Fingers") {
-					Bomb b = new Bomb(pos1,pos2,200,500);
+					Bomb b = new Bomb(pos1,pos2,radius,explosionDuration);
 		    	}
 	    	}
 	    }
@@ -54,13 +56,21 @@ public class FireFingers {
 		    else if(action == MotionEvent.ACTION_POINTER_UP) {
 		    	if(TouchEvent.getTouchType() == "Fire Fingers") {
 		    		if(event.getActionIndex() == event.getPointerId(0)) {
-		    			Bomb b1 = new Bomb(pos1,pos2,200,500);
+		    			Bomb b1 = new Bomb(pos1,pos2,radius,explosionDuration);
 		    		}
 		    		if(event.getActionIndex() == event.getPointerId(1)) {
-						Bomb b2 = new Bomb(pos1Second,pos2Second,200,500);
+						Bomb b2 = new Bomb(pos1Second,pos2Second,radius,explosionDuration);
 		    		}
 		    	}
 		    }
 	    }
+	}
+
+	public static long getDuration() {
+		return duration;
+	}
+
+	public static void setDuration(long duration) {
+		FireFingers.duration = duration;
 	}
 }

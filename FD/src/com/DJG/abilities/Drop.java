@@ -27,10 +27,10 @@ public class Drop {
 	
 	public static void dropRespond(String type) {
 		if(type == "Fire Fingers") {
-			FireFingers.startFireFingers(30000);
+			FireFingers.startFireFingers((int)FireFingers.getDuration());
 		}
 		if(type == "Nuke") {
-			Nuke newNuke = new Nuke(GameActivity.getScreenWidth()/2,GameActivity.getScreenHeight()/2,GameActivity.getScreenHeight()*2,4000); // Default explosion for now. Make upgradable.
+			Nuke newNuke = new Nuke(GameActivity.getScreenWidth()/2,GameActivity.getScreenHeight()/2,GameActivity.getScreenHeight()*2,6000); // Default explosion for now. Make upgradable.
 		}
 		else {
 			for(int j = 0; j < Ability.getEquippedAbilities().size(); j++) {

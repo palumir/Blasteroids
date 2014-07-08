@@ -110,6 +110,7 @@ public class Ability {
 		equippedAbilities.add(new Ability("Slow",1,1,3,-1,Slow.slowBMP,32));
 		equippedAbilities.add(new Ability("Blackhole",2,1,3,-1,Blackhole.BlackholeBMP,32));
 		equippedAbilities.add(new Ability("Fire Fingers",-1,1,3,-1,FireFingers.fireBMP,32));
+		equippedAbilities.add(new Ability("Nuke",-1,1,3,-1,Nuke.NukeBMP,32));
 		Drop.initAbilityDrops();
 		//equippedAbilities.add(new Ability("KnockBack", 2, 8000, 5, -1, "K", Color.WHITE));
 	}

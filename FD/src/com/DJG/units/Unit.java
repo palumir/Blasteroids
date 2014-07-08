@@ -1,6 +1,7 @@
 package com.DJG.units;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -297,12 +298,20 @@ public class Unit {
 			}
 		}
 		
+	public static boolean isGreaterThan(String a, String b) {
+		String[] order = {"Asteroid","Ice Asteroid","Cat","Fire Asteroid"};
+		int posA = Arrays.asList(order).indexOf(a);
+		int posB = Arrays.asList(order).indexOf(b);
+		return posA > posB;
+	}
+		
 	
 	// Get the selected unit at the coordinates.
 	public static Unit getUnitAt(float x, float y) {
 		synchronized(onScreenUnitsLock) {
 			
-			ArrayList<Unit> closeUnits = new ArrayList<Unit>();
+			Unit closestUnit = null;
+			Float closestDistance = 100000f;
 			
 			// Get all the close units.
 			for(int j = 0; j < onScreenUnits.size(); j++) {
@@ -310,45 +319,26 @@ public class Unit {
 				float yDistance = (u.getY() - y);
 				float xDistance = (u.getX() - x);
 				float distanceXY = (float)Math.sqrt(yDistance*yDistance + xDistance*xDistance);
-				if(distanceXY <= 50 + u.getRadius() && u.getName() != "Fortress" && u.getRadius() <= 50) {
-					closeUnits.add(u);
+				if(distanceXY <= 60 + u.getRadius() && u.getName() != "Fortress" && u.getRadius() <= 51) {
+					if(	(closestUnit == null) ||
+						(distanceXY < closestDistance && u.getType() == closestUnit.getType()) ||
+						(isGreaterThan(u.getType(),closestUnit.getType()))) {
+						closestUnit = u;
+						closestDistance = distanceXY;
+					}
 				}
-				if(distanceXY <= 10 + u.getRadius() && u.getName() != "Fortress" && u.getRadius() > 50) {
-					closeUnits.add(u);
+				if(distanceXY <= 10 + u.getRadius() && u.getName() != "Fortress" && u.getRadius() > 51) {
+					if(	(closestUnit == null) ||
+							(distanceXY < closestDistance && u.getType() == closestUnit.getType()) ||
+							(isGreaterThan(u.getType(),closestUnit.getType()))) {
+						closestUnit = u;
+						closestDistance = distanceXY;
+					}
 				}
 			}
 			
-			// Kill the pressed one with highest preference
-			for(int j = 0; j < closeUnits.size(); j++) {
-				Unit u = closeUnits.get(j);
-				if(u.getType() == "Fire Asteroid") {
-					return u;
-				}
-			}
-			for(int j = 0; j < closeUnits.size(); j++) {
-				Unit u = closeUnits.get(j);
-				if(u.getType() == "Cat") {
-					return u;
-				}
-			}
-			for(int j = 0; j < closeUnits.size(); j++) {
-				Unit u = closeUnits.get(j);
-				if(u.getType() == "Ice Asteroid") {
-					return u;
-				}
-			}
-			for(int j = 0; j < closeUnits.size(); j++) {
-				Unit u = closeUnits.get(j);
-				if(u.getType() == "Asteroid") {
-					return u;
-				}
-			}
-			if(closeUnits.size() != 0) {
-				Unit defaultUnit = closeUnits.get(0);
-				return defaultUnit;
-			}
 			
-			return null;
+			return closestUnit;
 		}
 	}
 	
