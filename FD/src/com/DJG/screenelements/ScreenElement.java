@@ -1,6 +1,10 @@
-package com.DJG.fd;
+package com.DJG.screenelements;
 
 import java.util.ArrayList;
+
+import com.DJG.fd.GameActivity;
+import com.DJG.fd.R;
+import com.DJG.fd.R.drawable;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;

@@ -14,13 +14,13 @@ public class MainActivity extends ActionBarActivity {
 
 	public final static String EXTRA_MESSAGE = "com.DJG.fd.MESSAGE";
 	
-	public void sendMessage(View view) {
+	public void startGame(View view) {
 		Intent intent = new Intent(this, GameActivity.class);
 		startActivity(intent);
 	}
 	
-	public void campaignSelector(View view){
-		Intent intent = new Intent(this, CampaignSelector.class);
+	public void openStore(View view) {
+		Intent intent = new Intent(this, Store.class);
 		startActivity(intent);
 	}
 	

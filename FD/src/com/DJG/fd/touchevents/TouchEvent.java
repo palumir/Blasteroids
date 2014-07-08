@@ -6,7 +6,7 @@ import android.view.MotionEvent;
 import com.DJG.abilities.Ability;
 import com.DJG.abilities.FireFingers;
 import com.DJG.fd.GameActivity;
-import com.DJG.fd.ScreenElement;
+import com.DJG.screenelements.ScreenElement;
 import com.DJG.units.Unit;
 
 public class TouchEvent {

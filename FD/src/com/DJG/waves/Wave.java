@@ -38,7 +38,7 @@ public class Wave extends ArrayList<Unit> {
 	private static boolean isFirst;
 	private static long waveEndedTime;
 	public final static Object currentWaveLock = new Object(); // A lock so we don't fuck up the currentWave.
-	private static int currentWaveNumber;
+	private static double currentWaveNumber;
 	private static boolean waveSent = false;
 	private static Random r = new Random();
 	private static int waveWaitTime = 1000;
@@ -54,10 +54,14 @@ public class Wave extends ArrayList<Unit> {
 		sendWave(waveStart);
 	}
 	
+	public static double getWaveNumber() {
+		return currentWaveNumber;
+	}
+	
 	public static void setWave(int n) {
 		currentWaveNumber = n;
 	}
-	
+
 	public static void setCurrentWave(Wave w) {
 		currentWave = w;
 	}
@@ -76,14 +80,14 @@ public class Wave extends ArrayList<Unit> {
 		sendWave(waveStartNumber);
 	}
 
-	static void sendCampaignWave(int waveNumber) {
+	static void sendCampaignWave(double waveNumber) {
 		Wave myWave = new Wave();
 		currentWave = myWave;
 		boolean isBoss = false;
 		HashMap<String, UnitPattern> unitMap = new HashMap<String, UnitPattern>();
 		ArrayList<GeneratorInfo> genInfo = new ArrayList<GeneratorInfo>();
 		waveWaitTime = 1500;
-		switch(waveNumber){
+		switch((int)waveNumber){
 		case 0:
 			genInfo.add(new GeneratorInfo("Cat", 4, spawnSystem.FullRandom));
 			genInfo.add(new GeneratorInfo("Asteroid", 4, spawnSystem.FullRandom));
@@ -169,12 +173,12 @@ public class Wave extends ArrayList<Unit> {
 			genInfo.add(new GeneratorInfo("Splitter Huge", 1,spawnSystem.FullRandom));
 			break;
 		default:
-			genInfo.add(new GeneratorInfo("Asteroid", r.nextInt(waveNumber) +1,spawnSystem.FullRandom));
-			genInfo.add(new GeneratorInfo("Fire Asteroid", r.nextInt(waveNumber*5+1)/4,spawnSystem.FullRandom));
-			genInfo.add(new GeneratorInfo("Cat", r.nextInt(waveNumber/4+1),spawnSystem.FullRandom));
-			genInfo.add(new GeneratorInfo("Healer", r.nextInt(waveNumber/25+1),spawnSystem.FullRandom));
-			genInfo.add(new GeneratorInfo("Cheetah", r.nextInt(waveNumber/9+1),spawnSystem.FullRandom));
-			genInfo.add(new GeneratorInfo("FullHealer", r.nextInt(waveNumber/50+1),spawnSystem.FullRandom));
+			genInfo.add(new GeneratorInfo("Asteroid", r.nextInt((int)waveNumber) +1,spawnSystem.FullRandom));
+			genInfo.add(new GeneratorInfo("Fire Asteroid", r.nextInt((int)waveNumber*5+1)/4,spawnSystem.FullRandom));
+			genInfo.add(new GeneratorInfo("Cat", r.nextInt((int)waveNumber/4+1),spawnSystem.FullRandom));
+			genInfo.add(new GeneratorInfo("Healer", r.nextInt((int)waveNumber/25+1),spawnSystem.FullRandom));
+			genInfo.add(new GeneratorInfo("Cheetah", r.nextInt((int)waveNumber/9+1),spawnSystem.FullRandom));
+			genInfo.add(new GeneratorInfo("FullHealer", r.nextInt((int)waveNumber/50+1),spawnSystem.FullRandom));
 			break;
 		}
 		isBossWave = isBoss;
@@ -227,7 +231,7 @@ public class Wave extends ArrayList<Unit> {
 		return whatToSend;
 	}
 	
-	static void sendWave(int waveNumber){
+	static void sendWave(double waveNumber){
 		if(GameActivity.getMode() == "Campaign") {
 			sendCampaignWave(waveNumber);
 		}
@@ -314,7 +318,7 @@ public class Wave extends ArrayList<Unit> {
 		}
 	}
 	
-	public static int getCurrentWaveNumber() {
+	public static double getCurrentWaveNumber() {
 		return currentWaveNumber;
 	}
 	

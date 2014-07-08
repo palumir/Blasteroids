@@ -24,21 +24,25 @@
         </activity>
         <activity
             android:name="com.DJG.fd.GameActivity"
-            android:screenOrientation="portrait"
             android:label="@string/title_activity_display_message"
-            android:parentActivityName="com.DJG.fd.MainActivity" >
+            android:parentActivityName="com.DJG.fd.MainActivity"
+            android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.DJG.fd.MainActivity" />
         </activity>
-         <activity
+        <activity
             android:name="com.DJG.fd.CampaignSelector"
-            android:screenOrientation="portrait"
             android:label="@string/title_activity_display_message"
-            android:parentActivityName="com.DJG.fd.MainActivity" >
+            android:parentActivityName="com.DJG.fd.MainActivity"
+            android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.DJG.fd.MainActivity" />
+        </activity>
+        <activity
+            android:name="com.DJG.fd.Store"
+            android:label="@string/title_activity_store" >
         </activity>
     </application>
 
