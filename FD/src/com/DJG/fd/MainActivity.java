@@ -15,7 +15,7 @@ public class MainActivity extends ActionBarActivity {
 	public final static String EXTRA_MESSAGE = "com.DJG.fd.MESSAGE";
 	
 	public void sendMessage(View view) {
-		Intent intent = new Intent(this, DisplayMessageActivity.class);
+		Intent intent = new Intent(this, GameActivity.class);
 		startActivity(intent);
 	}
 	

@@ -985,14 +985,17 @@ containing a value of this type.
         public static final int blackhole=0x7f020058;
         public static final int bomb=0x7f020059;
         public static final int earth=0x7f02005a;
-        public static final int fire_asteroid=0x7f02005b;
-        public static final int frozen_asteroid=0x7f02005c;
-        public static final int ic_launcher=0x7f02005d;
-        public static final int ice_asteroid=0x7f02005e;
-        public static final int mars=0x7f02005f;
-        public static final int satelite=0x7f020060;
-        public static final int snowflake=0x7f020061;
-        public static final int stars=0x7f020062;
+        public static final int fire=0x7f02005b;
+        public static final int fire_asteroid=0x7f02005c;
+        public static final int frozen_asteroid=0x7f02005d;
+        public static final int ic_launcher=0x7f02005e;
+        public static final int ice_asteroid=0x7f02005f;
+        public static final int mars=0x7f020060;
+        public static final int nuke=0x7f020061;
+        public static final int pause=0x7f020062;
+        public static final int satelite=0x7f020063;
+        public static final int snowflake=0x7f020064;
+        public static final int stars=0x7f020065;
     }
     public static final class id {
         public static final int action_bar=0x7f06001c;
@@ -1112,16 +1115,16 @@ containing a value of this type.
         public static final int abc_search_dropdown_item_icons_2line=0x7f030015;
         public static final int abc_search_view=0x7f030016;
         public static final int activity_campaign_selector=0x7f030017;
-        public static final int activity_display_message=0x7f030018;
+        public static final int activity_game=0x7f030018;
         public static final int activity_main=0x7f030019;
         public static final int fragment_campaign_selector=0x7f03001a;
-        public static final int fragment_display_message=0x7f03001b;
+        public static final int fragment_game=0x7f03001b;
         public static final int fragment_main=0x7f03001c;
         public static final int support_simple_spinner_dropdown_item=0x7f03001d;
     }
     public static final class menu {
         public static final int campaign_selector=0x7f0d0000;
-        public static final int display_message=0x7f0d0001;
+        public static final int game=0x7f0d0001;
         public static final int main=0x7f0d0002;
     }
     public static final class raw {

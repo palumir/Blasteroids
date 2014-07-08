@@ -13,7 +13,7 @@ import com.DJG.abilities.Bomb;
 import com.DJG.abilities.Drop;
 import com.DJG.abilities.KnockBack;
 import com.DJG.abilities.Slow;
-import com.DJG.fd.DisplayMessageActivity;
+import com.DJG.fd.GameActivity;
 import com.DJG.planets.Planet;
 import com.DJG.waves.Wave;
 
@@ -133,7 +133,7 @@ public class Unit {
 	}
 	
 	public void freeze(long time) {
-		timeFrozen = System.currentTimeMillis();
+		timeFrozen = GameActivity.getGameTime();
 		frozenDuration = time;
 		if(!isFrozen) {
 			oldbmp = this.getBMP();
@@ -164,7 +164,7 @@ public class Unit {
 	public void moveUnit() {
 		Planet planet = (Planet) getUnit("Fortress");
 		float gravity = planet.getGravity(); 
-			if(timeFrozen != 0 && System.currentTimeMillis() - timeFrozen > frozenDuration) {
+			if(timeFrozen != 0 && GameActivity.getGameTime() - timeFrozen > frozenDuration) {
 				isFrozen = false;
 				this.bmp = this.oldbmp;
 			}
@@ -175,7 +175,7 @@ public class Unit {
 				float distanceXY = (float)Math.sqrt(yDistance*yDistance + xDistance*xDistance); // It should take this many frames to get there.
 			
 				// The unit needs to be drawn if it's on screen.
-				if(!DisplayMessageActivity.isCloseOffScreen(x,y) && !onScreen) {
+				if(!GameActivity.isCloseOffScreen(x,y) && !onScreen) {
 					setOnScreen();
 				}
 				
@@ -379,9 +379,9 @@ public class Unit {
 		if(distanceXYUnit <= castleRadius + u.getRadius()) {
 			u.attacks(castle);
 			u.die();
-			DisplayMessageActivity.castleHP = "Health " + castle.getHP();
+			GameActivity.castleHP = "Health " + castle.getHP();
 			if(castle.isDead()){
-				DisplayMessageActivity.setLost();
+				GameActivity.setLost();
 			}
 		}
 		else {
@@ -398,7 +398,7 @@ public class Unit {
         synchronized(onScreenUnitsLock) {
 			for(int j = 0; j < onScreenUnits.size(); j++) {
 				Unit currentUnit = onScreenUnits.get(j);
-      	  		if(currentUnit.getName() == "Fortress" && !DisplayMessageActivity.getLost()) {
+      	  		if(currentUnit.getName() == "Fortress" && !GameActivity.getLost()) {
       	  			myPaint.setStrokeWidth(1);
       	  			myPaint.setStyle(Paint.Style.STROKE);
       	  			myPaint.setColor(currentUnit.color);
@@ -439,7 +439,7 @@ public class Unit {
 	}
 	
 	public static void destroyPlanet() {
-		Bomb b = new Bomb(DisplayMessageActivity.getScreenWidth()/2, DisplayMessageActivity.getScreenHeight()/2,DisplayMessageActivity.getScreenHeight()/2+1,DisplayMessageActivity.getLoseDuration());
+		Bomb b = new Bomb(GameActivity.getScreenWidth()/2, GameActivity.getScreenHeight()/2,GameActivity.getScreenHeight()/2+1,GameActivity.getLoseDuration());
 	}
 	
 	public void setSpinSpeed(float s) {
@@ -478,7 +478,7 @@ public class Unit {
 	public static void updateUnits() {
 		// Where is the castle?
 		Unit castle = getUnit("Fortress");
-		DisplayMessageActivity.castleHP = "Health " + castle.getHP();
+		GameActivity.castleHP = "Health " + castle.getHP();
 		
 		synchronized(Unit.onScreenUnitsLock) {
 			for(int j = 0; j < onScreenUnits.size(); j++) {

@@ -1,8 +1,12 @@
 package com.DJG.abilities;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v4.view.MotionEventCompat;
 import android.view.MotionEvent;
 
+import com.DJG.fd.GameActivity;
+import com.DJG.fd.R;
 import com.DJG.fd.touchevents.TouchEvent;
 
 public class FireFingers {
@@ -10,15 +14,18 @@ public class FireFingers {
 	private static long startTime;
 	private static long duration = 3000;
 	
+	// Bitmap
+	public static Bitmap fireBMP = GameActivity.makeTransparent(BitmapFactory.decodeResource(GameActivity.survContext.getResources(), R.drawable.fire));
+	
 	public static void startFireFingers(int newDuration) {
 		TouchEvent.setTouchType("Fire Fingers");
-		startTime = System.currentTimeMillis();
+		startTime = GameActivity.getGameTime();
 		duration = newDuration;
 	}
 	
 	public static void updateFireFingers() {
 		// End fire fingers!
-		if(System.currentTimeMillis() - startTime > duration) {
+		if(GameActivity.getGameTime() - startTime > duration) {
 			TouchEvent.setTouchType("Normal");
 		}
 	}

@@ -1,6 +1,6 @@
 package com.DJG.planets;
 
-import com.DJG.fd.DisplayMessageActivity;
+import com.DJG.fd.GameActivity;
 import com.DJG.units.Unit;
 import com.DJG.waves.Wave;
 
@@ -34,8 +34,8 @@ public abstract class Planet extends Unit {
 	
 	//A method to spawn defenders. Likely overriden
 	private void spawnDefenders(){
-		int screenHeight = DisplayMessageActivity.getScreenHeight();
-		int screenWidth = DisplayMessageActivity.getScreenWidth();
+		int screenHeight = GameActivity.getScreenHeight();
+		int screenWidth = GameActivity.getScreenWidth();
 		int radius = radiusOfDefenders;
 		double currentDegree = 0;
 		double degreeChange = (double) 360/numOfDefenders;

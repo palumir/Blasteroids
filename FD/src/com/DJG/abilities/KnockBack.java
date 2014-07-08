@@ -6,7 +6,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 
-import com.DJG.fd.DisplayMessageActivity;
+import com.DJG.fd.GameActivity;
 import com.DJG.units.Unit;
 
 public class KnockBack {
@@ -35,7 +35,7 @@ public class KnockBack {
 		maxStroke = 120;
 		blastRadius = newBlastRadius;
 		duration = newDuration;
-		startTime = System.currentTimeMillis();
+		startTime = GameActivity.getGameTime();
 		synchronized(allKnockBacks) {
 			addKnockBack(this);
 		}
@@ -44,10 +44,10 @@ public class KnockBack {
 	public void updateKnockBack(int knockBackPos) {
 		synchronized(knockBacksLock) {
 		if(this != null) {
-			double percentDone = (double)(System.currentTimeMillis() - startTime)/(double)duration;
+			double percentDone = (double)(GameActivity.getGameTime() - startTime)/(double)duration;
 			radius = (int)(blastRadius*percentDone);
 			stroke = (int)(maxStroke*(1 - percentDone));
-			long currentTime = System.currentTimeMillis();
+			long currentTime = GameActivity.getGameTime();
 			if((int)(currentTime - startTime) > duration) {
 					removeKnockBack(knockBackPos);
 			}
@@ -101,7 +101,7 @@ public class KnockBack {
 				float yDistanceKnockBack = (knockBackY - u.getY());
 				float xDistanceKnockBack = (knockBackX - u.getX());
 				float distanceXYKnockBack = (float)Math.sqrt(yDistanceKnockBack*yDistanceKnockBack + xDistanceKnockBack*xDistanceKnockBack);
-				if(distanceXYKnockBack <= knockBackRadius + u.getRadius() && !DisplayMessageActivity.isOffScreen(u.getX(),u.getY())) {
+				if(distanceXYKnockBack <= knockBackRadius + u.getRadius() && !GameActivity.isOffScreen(u.getX(),u.getY())) {
 					
 					u.knockBackFrom((int)x, (int)y, 70);
 					break;

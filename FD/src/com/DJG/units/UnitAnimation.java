@@ -1,6 +1,6 @@
 package com.DJG.units;
 
-import android.util.Log;
+import com.DJG.fd.GameActivity;
 
 public class UnitAnimation {
 	
@@ -16,7 +16,7 @@ public class UnitAnimation {
 	private String direction;
 	
 	public UnitAnimation(Unit u, String myType) {
-		animateStartTime = System.currentTimeMillis();
+		animateStartTime = GameActivity.getGameTime();
 		type = myType;
 		animatedUnit = u;
 		if(type == "Bob") {
@@ -40,7 +40,7 @@ public class UnitAnimation {
 		
 		if(currAn != null) {
 			
-			if(System.currentTimeMillis() - currAn.getAnimateStartTime() > currAn.getDuration() && currAn.getDuration() > 0) {
+			if(GameActivity.getGameTime() - currAn.getAnimateStartTime() > currAn.getDuration() && currAn.getDuration() > 0) {
 				u.despawn();
 			}
 			

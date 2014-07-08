@@ -6,7 +6,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.util.Log;
 
-import com.DJG.fd.DisplayMessageActivity;
+import com.DJG.fd.GameActivity;
 import com.DJG.fd.R;
 
 public class UnitType {
@@ -19,7 +19,7 @@ public class UnitType {
 	public static Bitmap frozenBMP;
 	
 	public static void initUnitTypes() {
-		frozenBMP = DisplayMessageActivity.makeTransparent(BitmapFactory.decodeResource(DisplayMessageActivity.survContext.getResources(), R.drawable.frozen_asteroid));
+		frozenBMP = GameActivity.makeTransparent(BitmapFactory.decodeResource(GameActivity.survContext.getResources(), R.drawable.frozen_asteroid));
 		allUnitTypes = new ArrayList<UnitType>();
 		
 		// Basic Units
@@ -78,7 +78,7 @@ public class UnitType {
 		moveSpeed = newMoveSpeed;
 		metaType = "Unit";
 		killable = isKillable;
-		bitmap = DisplayMessageActivity.makeTransparent(BitmapFactory.decodeResource(DisplayMessageActivity.survContext.getResources(), newBitMapLink));
+		bitmap = GameActivity.makeTransparent(BitmapFactory.decodeResource(GameActivity.survContext.getResources(), newBitMapLink));
 		maxHitPoints = newHP;
 		damage = newDamage;
 	}

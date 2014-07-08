@@ -23,7 +23,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.DJG.fd.DisplayMessageActivity"
+            android:name="com.DJG.fd.GameActivity"
             android:screenOrientation="portrait"
             android:label="@string/title_activity_display_message"
             android:parentActivityName="com.DJG.fd.MainActivity" >

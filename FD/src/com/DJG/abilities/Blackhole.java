@@ -9,7 +9,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.Log;
 
-import com.DJG.fd.DisplayMessageActivity;
+import com.DJG.fd.GameActivity;
 import com.DJG.fd.R;
 import com.DJG.units.Unit;
 
@@ -24,7 +24,7 @@ public class Blackhole {
 	private int duration = 3000;
 	
 	// Bitmap
-	public static Bitmap BlackholeBMP = DisplayMessageActivity.makeTransparent(BitmapFactory.decodeResource(DisplayMessageActivity.survContext.getResources(), R.drawable.blackhole));
+	public static Bitmap BlackholeBMP = GameActivity.makeTransparent(BitmapFactory.decodeResource(GameActivity.survContext.getResources(), R.drawable.blackhole));
 
 	// Well, where is the ability?!
 	private float x;
@@ -42,7 +42,7 @@ public class Blackhole {
 		maxStroke = 30;
 		blastRadius = newBlastRadius;
 		duration = newDuration;
-		startTime = System.currentTimeMillis();
+		startTime = GameActivity.getGameTime();
 		synchronized(allBlackholes) {
 			addBlackhole(this);
 		}
@@ -51,12 +51,12 @@ public class Blackhole {
 	public void updateBlackhole(int BlackholePos) {
 		synchronized(BlackholesLock) {
 		if(this != null) {
-			double percentDone = (double)(System.currentTimeMillis() - startTime)/(double)duration;
+			double percentDone = (double)(GameActivity.getGameTime() - startTime)/(double)duration;
 			if(radius<blastRadius) {
 				radius += 10;
 			}
 			stroke = 1;
-			long currentTime = System.currentTimeMillis();
+			long currentTime = GameActivity.getGameTime();
 			if((int)(currentTime - startTime) > duration) {
 					removeBlackhole(BlackholePos);
 			}
@@ -124,7 +124,7 @@ public class Blackhole {
 				float yDistanceBlackhole = (BlackholeY - u.getY());
 				float xDistanceBlackhole = (BlackholeX - u.getX());
 				float distanceXYBlackhole = (float)Math.sqrt(yDistanceBlackhole*yDistanceBlackhole + xDistanceBlackhole*xDistanceBlackhole);
-				if(!u.getSuckedIn() && distanceXYBlackhole <= BlackholeRadius + u.getRadius() && !DisplayMessageActivity.isOffScreen(u.getX(), u.getY())) {
+				if(!u.getSuckedIn() && distanceXYBlackhole <= BlackholeRadius + u.getRadius() && !GameActivity.isOffScreen(u.getX(), u.getY())) {
 					b.suckIn(u);
 					break;
 				}
@@ -138,7 +138,7 @@ public class Blackhole {
 				Unit u = Unit.onScreenUnits.get(j);
 				if(u.getSuckedIn()) {
 					u.suckedIn(false);
-					u.moveNormally(DisplayMessageActivity.getScreenWidth()/2, DisplayMessageActivity.getScreenHeight()/2);
+					u.moveNormally(GameActivity.getScreenWidth()/2, GameActivity.getScreenHeight()/2);
 					u.setSpinSpeed(0);
 					u.setMoveSpeed(u.getOldMoveSpeed());
 				}

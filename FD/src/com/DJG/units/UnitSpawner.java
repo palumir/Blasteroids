@@ -2,6 +2,7 @@ package com.DJG.units;
 
 import java.util.ArrayList;
 
+import com.DJG.fd.GameActivity;
 import com.DJG.waves.Wave;
 
 
@@ -49,13 +50,13 @@ public class UnitSpawner extends Unit {
 	}
 	
 	public boolean canSpawnNewUnits(){
-		return (System.currentTimeMillis() - lastSpawn)> spawnCoolDown;		
+		return (GameActivity.getGameTime() - lastSpawn)> spawnCoolDown;		
 	}
 	
 	public Boolean spawnNewUnits(){
 		if(canSpawnNewUnits()){
 			spawn();
-			lastSpawn = System.currentTimeMillis();
+			lastSpawn = GameActivity.getGameTime();
 			return true;
 		} else {
 			return false;

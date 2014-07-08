@@ -8,7 +8,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 
-import com.DJG.fd.DisplayMessageActivity;
+import com.DJG.fd.GameActivity;
 import com.DJG.fd.R;
 import com.DJG.units.Unit;
 
@@ -38,7 +38,7 @@ public class CastableAbility {
 		y = newY;
 		blastRadius = newBlastRadius;
 		duration = newDuration;
-		startTime = System.currentTimeMillis();
+		startTime = GameActivity.getGameTime();
 	}
 	
 	public void updateCastableAbility(int CastableAbilityPos) {

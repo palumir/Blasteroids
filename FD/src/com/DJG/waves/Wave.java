@@ -5,7 +5,7 @@ import java.util.Random;
 
 import android.util.Log;
 
-import com.DJG.fd.DisplayMessageActivity;
+import com.DJG.fd.GameActivity;
 import com.DJG.generators.GeneratorInfo;
 import com.DJG.generators.GeneratorInfo.spawnSystem;
 import com.DJG.generators.WaveGenerator;
@@ -228,7 +228,7 @@ public class Wave extends ArrayList<Unit> {
 	}
 	
 	static void sendWave(int waveNumber){
-		if(DisplayMessageActivity.getMode() == "Campaign") {
+		if(GameActivity.getMode() == "Campaign") {
 			sendCampaignWave(waveNumber);
 		}
 		else {
@@ -256,14 +256,14 @@ public class Wave extends ArrayList<Unit> {
 			
 			// Record when it first becomes empty.
 			if(currentWave.isEmpty() && isFirst) {
-				waveEndedTime = System.currentTimeMillis();
+				waveEndedTime = GameActivity.getGameTime();
 				isFirst = false;
 			}
 			
 			// Send the next wave if the current one is empty and it has been two seconds!
-			if(currentWave.isEmpty() && System.currentTimeMillis() - waveEndedTime > waveWaitTime) {
+			if(currentWave.isEmpty() && GameActivity.getGameTime() - waveEndedTime > waveWaitTime) {
 				currentWaveNumber++;
-				DisplayMessageActivity.levelText = "Wave " + (currentWaveNumber+1);
+				GameActivity.levelText = "Wave " + (currentWaveNumber+1);
 				sendWave(currentWaveNumber);
 				waveSent = false;
 				isFirst = true;
@@ -285,8 +285,8 @@ public class Wave extends ArrayList<Unit> {
 	
 	private void attackCastle() {
 		// Get the height, width, and a new random number generator.
-		int screenWidth = DisplayMessageActivity.getScreenWidth();
-		int screenHeight = DisplayMessageActivity.getScreenHeight();
+		int screenWidth = GameActivity.getScreenWidth();
+		int screenHeight = GameActivity.getScreenHeight();
 		synchronized(currentWaveLock) {
 			for(Unit u : this) {
 				u.moveNormally(screenWidth/2,screenHeight/2);

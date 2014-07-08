@@ -4,7 +4,7 @@ import java.util.Random;
 
 import android.util.Log;
 
-import com.DJG.fd.DisplayMessageActivity;
+import com.DJG.fd.GameActivity;
 import com.DJG.generators.GeneratorInfo.spawnSystem;
 import com.DJG.generators.GeneratorInfo.unitOrder;
 import com.DJG.units.Unit;
@@ -38,8 +38,8 @@ public class WaveGenerator {
 	private int circleRadius = 0;
 	
 	public WaveGenerator(){
-		 screenWidth = DisplayMessageActivity.getScreenWidth();
-		 screenHeight = DisplayMessageActivity.getScreenHeight();
+		 screenWidth = GameActivity.getScreenWidth();
+		 screenHeight = GameActivity.getScreenHeight();
 	}
 
 	public Wave generateWave(ArrayList<GeneratorInfo> genInfo){

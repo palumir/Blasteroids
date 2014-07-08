@@ -8,7 +8,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 
-import com.DJG.fd.DisplayMessageActivity;
+import com.DJG.fd.GameActivity;
 import com.DJG.fd.R;
 import com.DJG.units.Unit;
 
@@ -23,7 +23,7 @@ public class Slow {
 	private int duration = 3000;
 	
 	// Bitmap
-	public static Bitmap slowBMP = DisplayMessageActivity.makeTransparent(BitmapFactory.decodeResource(DisplayMessageActivity.survContext.getResources(), R.drawable.snowflake));
+	public static Bitmap slowBMP = GameActivity.makeTransparent(BitmapFactory.decodeResource(GameActivity.survContext.getResources(), R.drawable.snowflake));
 
 	// Well, where is the ability?!
 	private float x;
@@ -41,7 +41,7 @@ public class Slow {
 		maxStroke = 30;
 		blastRadius = newBlastRadius;
 		duration = newDuration;
-		startTime = System.currentTimeMillis();
+		startTime = GameActivity.getGameTime();
 		synchronized(allSlows) {
 			addSlow(this);
 		}
@@ -50,10 +50,10 @@ public class Slow {
 	public void updateSlow(int SlowPos) {
 		synchronized(SlowsLock) {
 		if(this != null) {
-			double percentDone = (double)(System.currentTimeMillis() - startTime)/(double)duration;
+			double percentDone = (double)(GameActivity.getGameTime() - startTime)/(double)duration;
 			radius = (int)(blastRadius*percentDone);
 			stroke = (int)(maxStroke*(1 - percentDone));
-			long currentTime = System.currentTimeMillis();
+			long currentTime = GameActivity.getGameTime();
 			if((int)(currentTime - startTime) > duration) {
 					removeSlow(SlowPos);
 			}
@@ -120,7 +120,7 @@ public class Slow {
 				float yDistanceSlow = (SlowY - u.getY());
 				float xDistanceSlow = (SlowX - u.getX());
 				float distanceXYSlow = (float)Math.sqrt(yDistanceSlow*yDistanceSlow + xDistanceSlow*xDistanceSlow);
-				if(distanceXYSlow <= SlowRadius + u.getRadius() && !DisplayMessageActivity.isOffScreen(u.getX(), u.getY())) {
+				if(distanceXYSlow <= SlowRadius + u.getRadius() && !GameActivity.isOffScreen(u.getX(), u.getY())) {
 					u.freeze(5000);
 					break;
 				}

@@ -1,11 +1,12 @@
 package com.DJG.fd.touchevents;
 
 import android.support.v4.view.MotionEventCompat;
-import android.util.Log;
 import android.view.MotionEvent;
 
 import com.DJG.abilities.Ability;
 import com.DJG.abilities.FireFingers;
+import com.DJG.fd.GameActivity;
+import com.DJG.fd.ScreenElement;
 import com.DJG.units.Unit;
 
 public class TouchEvent {
@@ -24,13 +25,18 @@ public class TouchEvent {
 	public static float secondGrabbedAbilityY;
 	public static Unit grabbedUnit = null;
 	public static Unit secondGrabbedUnit = null;
+	public static ScreenElement grabbedScreenElement = null;
+	public static ScreenElement secondGrabbedScreenElement = null;
 	
 	public static void respondToTouchEvent(MotionEvent event) { 
 		if(touchType != "Normal") {
 			specialTouch(event);
 		}
-		respondToAbilityTouch(event);
-		respondToUnitTouch(event);
+		respondToScreenElementTouch(event);
+		if(!GameActivity.paused) {
+			respondToAbilityTouch(event);
+			respondToUnitTouch(event);
+		}
 	}
 	
 	static void specialTouch(MotionEvent event) {
@@ -39,17 +45,67 @@ public class TouchEvent {
 		}
 	}
 	
+	static void respondToScreenElementTouch(MotionEvent event) {
+		float pos1 = event.getX(event.findPointerIndex(event.getPointerId(0)));
+		float pos2 = event.getY(event.findPointerIndex(event.getPointerId(0)));
+    	int action = MotionEventCompat.getActionMasked(event);
+		// Respond to a single touch event
+	    if(event.getPointerCount() <= 1) {
+	    	if(!(grabbedScreenElement == null && secondGrabbedScreenElement != null)) {
+	    		if(action == android.view.MotionEvent.ACTION_DOWN) {
+	    			grabbedScreenElement = ScreenElement.getScreenElementAt(pos1,pos2);
+	    		}
+	    		else if(action == android.view.MotionEvent.ACTION_UP) {
+	    			if(grabbedScreenElement != null) {
+	    				grabbedScreenElement.respondToTouch();
+	    				grabbedScreenElement = null;
+	    			}
+	    		}
+	    	}
+	    	else {
+	    		if(action == android.view.MotionEvent.ACTION_DOWN) {
+	    			secondGrabbedScreenElement = ScreenElement.getScreenElementAt(pos1,pos2);
+	    		}
+	    		else if(action == android.view.MotionEvent.ACTION_UP) {
+	    			if(secondGrabbedScreenElement != null) {
+	    				secondGrabbedScreenElement.respondToTouch();
+	    				secondGrabbedScreenElement = null;
+	    			}
+	    		}
+	    	}
+	    }
+	    
+	    // Respond to a multitouch event.
+	    if(event.getPointerCount() > 1) {
+			float pos1Second = event.getX(event.findPointerIndex(event.getPointerId(1)));
+			float pos2Second = event.getY(event.findPointerIndex(event.getPointerId(1)));
+			
+			
+		    if(action == android.view.MotionEvent.ACTION_POINTER_DOWN) {
+		    	if(event.getActionIndex() == event.getPointerId(0)){
+		    		grabbedScreenElement = ScreenElement.getScreenElementAt(pos1,pos2);
+		    	}
+		    	if(event.getActionIndex() == event.getPointerId(1)) {
+		    		secondGrabbedScreenElement = ScreenElement.getScreenElementAt(pos1Second,pos2Second);
+		    	}
+		    }
+		    else if(action == android.view.MotionEvent.ACTION_POINTER_UP) {
+		    	if(grabbedScreenElement != null && event.getActionIndex() == event.getPointerId(0)) {
+		    		grabbedScreenElement.respondToTouch();
+		    		grabbedScreenElement = null;
+		    	}
+	    		if(secondGrabbedScreenElement != null && event.getActionIndex() == event.getPointerId(1)) {
+	    			secondGrabbedScreenElement.respondToTouch();
+	    			secondGrabbedScreenElement = null;
+	    		}
+		    }
+	    }
+	}
+	
 	static void respondToAbilityTouch(MotionEvent event) {
 		float pos1 = event.getX(event.findPointerIndex(event.getPointerId(0)));
 		float pos2 = event.getY(event.findPointerIndex(event.getPointerId(0)));
     	int action = MotionEventCompat.getActionMasked(event);
-    	
-    	if(grabbedAbility != null) {
-    		Log.d("First Ability","Not Null");
-    	}
-    	if(secondGrabbedAbility != null) {
-    		Log.d("Second Ability","Not Null");
-    	}
     	
 		// Respond to a single touch event
 	    if(event.getPointerCount() <= 1) {
@@ -61,7 +117,7 @@ public class TouchEvent {
 		    		}
 		    		grabbedAbilityX = pos1;
 		    		grabbedAbilityY = pos2;
-		    	}
+		    	}	
 		    	else if(action == android.view.MotionEvent.ACTION_UP) {
 		    		if(grabbedAbility != null && grabbedAbility != Ability.getAbilityAt(pos1,pos2)) {
 		    			grabbedAbility.useAbility(pos1,pos2);

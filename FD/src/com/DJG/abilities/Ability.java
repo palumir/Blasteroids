@@ -8,7 +8,7 @@ import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.media.MediaPlayer;
 
-import com.DJG.fd.DisplayMessageActivity;
+import com.DJG.fd.GameActivity;
 import com.DJG.fd.R;
 import com.DJG.fd.touchevents.TouchEvent;
 import com.DJG.units.Unit;
@@ -41,7 +41,7 @@ public class Ability {
 	
 	public Ability(String newType, int newSlot, int newCoolDown, int newUses, int soundID, String newSymbol, int newIconColor) {
 		coolDown = newCoolDown;
-		if(soundID!=-1)  mpPlacement = MediaPlayer.create(DisplayMessageActivity.survContext, soundID); 
+		if(soundID!=-1)  mpPlacement = MediaPlayer.create(GameActivity.survContext, soundID); 
 		slot = newSlot;
 		type = newType;
 		uses = newUses;
@@ -54,18 +54,18 @@ public class Ability {
 			y = -1000;
 			break;
 		case 0:
-			x = DisplayMessageActivity.getScreenWidth()-50;
-			y = DisplayMessageActivity.getScreenHeight()-50;
+			x = GameActivity.getScreenWidth()-50;
+			y = GameActivity.getScreenHeight()-50;
 			radius = 80;
 			break;
 		case 1:
-			x = DisplayMessageActivity.getScreenWidth()-150;
-			y = DisplayMessageActivity.getScreenHeight()-50;
+			x = GameActivity.getScreenWidth()-150;
+			y = GameActivity.getScreenHeight()-50;
 			radius = 80;
 			break;
 		case 2:
-			x = DisplayMessageActivity.getScreenWidth()-250;
-			y = DisplayMessageActivity.getScreenHeight()-50;
+			x = GameActivity.getScreenWidth()-250;
+			y = GameActivity.getScreenHeight()-50;
 			radius = 80;
 			break;
 		default:
@@ -75,7 +75,7 @@ public class Ability {
 	
 	public Ability(String newType, int newSlot, int newCoolDown, int newUses, int soundID, Bitmap newBMP, int newRadius) {
 		coolDown = newCoolDown;
-		if(soundID!=-1)  mpPlacement = MediaPlayer.create(DisplayMessageActivity.survContext, soundID); 
+		if(soundID!=-1)  mpPlacement = MediaPlayer.create(GameActivity.survContext, soundID); 
 		slot = newSlot;
 		type = newType;
 		uses = newUses;
@@ -88,19 +88,19 @@ public class Ability {
 			y = -1000;
 			break;
 		case 0:
-			x = DisplayMessageActivity.getScreenWidth()-100;
+			x = GameActivity.getScreenWidth()-100;
 			radius = newRadius;
 			break;
 		case 1:
-			x = DisplayMessageActivity.getScreenWidth()-200;
+			x = GameActivity.getScreenWidth()-200;
 			break;
 		case 2:
-			x = DisplayMessageActivity.getScreenWidth()-300;
+			x = GameActivity.getScreenWidth()-300;
 			break;
 		default:
 			break;
 		}
-		y = DisplayMessageActivity.getScreenHeight()-100;
+		y = GameActivity.getScreenHeight()-100;
 		radius = newRadius;
 	}
 	
@@ -109,7 +109,7 @@ public class Ability {
 		equippedAbilities.add(new Ability("Bomb",0,1,3,R.raw.small_3_second_explosion,Bomb.bombBMP,32));
 		equippedAbilities.add(new Ability("Slow",1,1,3,-1,Slow.slowBMP,32));
 		equippedAbilities.add(new Ability("Blackhole",2,1,3,-1,Blackhole.BlackholeBMP,32));
-		equippedAbilities.add(new Ability("Fire Fingers",-1,1,3,-1,Blackhole.BlackholeBMP,32));
+		equippedAbilities.add(new Ability("Fire Fingers",-1,1,3,-1,FireFingers.fireBMP,32));
 		Drop.initAbilityDrops();
 		//equippedAbilities.add(new Ability("KnockBack", 2, 8000, 5, -1, "K", Color.WHITE));
 	}
@@ -233,16 +233,16 @@ public class Ability {
 			return 1;
 		}
 		else {
-			return (float)(System.currentTimeMillis() - coolDownTime)/coolDown;
+			return (float)(GameActivity.getGameTime() - coolDownTime)/coolDown;
 		}
 	}
 	
 	public void putOnCoolDown() {
-		coolDownTime = System.currentTimeMillis();
+		coolDownTime = GameActivity.getGameTime();
 	}
 	
 	public boolean isOffCoolDown() {
-		return (System.currentTimeMillis() - coolDownTime > coolDown);
+		return (GameActivity.getGameTime() - coolDownTime > coolDown);
 	}
 	
 	public int getCoolDown() {

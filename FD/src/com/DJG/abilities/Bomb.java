@@ -8,7 +8,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 
-import com.DJG.fd.DisplayMessageActivity;
+import com.DJG.fd.GameActivity;
 import com.DJG.fd.R;
 import com.DJG.units.Unit;
 
@@ -19,7 +19,7 @@ public class Bomb {
 	public final static Object bombsLock = new Object(); // A lock so we don't fuck up the bombs
 	
 	// Bitmap
-	public static Bitmap bombBMP = DisplayMessageActivity.makeTransparent(BitmapFactory.decodeResource(DisplayMessageActivity.survContext.getResources(), R.drawable.bomb));
+	public static Bitmap bombBMP = GameActivity.makeTransparent(BitmapFactory.decodeResource(GameActivity.survContext.getResources(), R.drawable.bomb));
 	
 	// General ability attributes. Bombs are static at the moment.
 	private long startTime;
@@ -41,7 +41,7 @@ public class Bomb {
 		maxStroke = 100;
 		blastRadius = newBlastRadius;
 		duration = newDuration;
-		startTime = System.currentTimeMillis();
+		startTime = GameActivity.getGameTime();
 		synchronized(allBombs) {
 			addBomb(this);
 		}
@@ -50,10 +50,10 @@ public class Bomb {
 	public void updateBomb(int bombPos) {
 		synchronized(bombsLock) {
 		if(this != null) {
-			double percentDone = (double)(System.currentTimeMillis() - startTime)/(double)duration;
+			double percentDone = (double)(GameActivity.getGameTime() - startTime)/(double)duration;
 			radius = (int)(blastRadius*percentDone);
 			stroke = (int)(maxStroke*(1 - percentDone));
-			long currentTime = System.currentTimeMillis();
+			long currentTime = GameActivity.getGameTime();
 			if((int)(currentTime - startTime) > duration) {
 					removeBomb(bombPos);
 			}
@@ -107,7 +107,7 @@ public class Bomb {
 				float yDistanceBomb = (bombY - u.getY());
 				float xDistanceBomb = (bombX - u.getX());
 				float distanceXYBomb = (float)Math.sqrt(yDistanceBomb*yDistanceBomb + xDistanceBomb*xDistanceBomb);
-				if(distanceXYBomb <= bombRadius + u.getRadius() && !DisplayMessageActivity.isOffScreen(u.getX(),u.getY())) {
+				if(distanceXYBomb <= bombRadius + u.getRadius() && !GameActivity.isOffScreen(u.getX(),u.getY())) {
 					u.die();
 					break;
 				}
