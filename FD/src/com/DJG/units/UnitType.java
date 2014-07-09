@@ -48,6 +48,12 @@ public class UnitType {
 		//Planets
 		allUnitTypes.add(new UnitType("Earth", 50, 0f, false, R.drawable.earth,100,0));
 		allUnitTypes.add(new UnitType("Mars", 50, 0f, false, R.drawable.mars, 150, 0));
+		allUnitTypes.add(new UnitType("Saturn", 50, 0f, false, R.drawable.saturn, 150, 0));
+		allUnitTypes.add(new UnitType("Jupiter", 50, 0f, false, R.drawable.jupitier, 80, 0));
+		
+		//Defensive units
+		allUnitTypes.add(new UnitType("Fire Defender", 50, 0f,true, R.drawable.fire_asteroid, 1, 0));
+		allUnitTypes.add(new UnitType("Mars Moon", 50, 0f, true, R.drawable.asteroid, 2, 0));
 	}
 	
 	public static UnitType getUnitType(String searchType) {

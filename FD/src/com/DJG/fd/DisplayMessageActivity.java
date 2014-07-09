@@ -25,7 +25,7 @@ import android.view.WindowManager;
 import com.DJG.abilities.Ability;
 import com.DJG.fd.touchevents.TouchEvent;
 import com.DJG.planets.Mars;
-import com.DJG.planets.Planet;
+import com.DJG.planets.*;
 import com.DJG.units.Unit;
 import com.DJG.units.UnitType;
 import com.DJG.waves.Wave;
@@ -280,7 +280,7 @@ public class DisplayMessageActivity extends ActionBarActivity {
 		lostTime = 0;
 		screenWidth = display.getWidth();
 		screenHeight = display.getHeight();
-	    Planet p = new Mars("Fortress","Mars",screenWidth/2,screenHeight/2);
+	    Planet p = new Jupiter("Fortress",screenWidth/2,screenHeight/2);
 	    p.setOnScreen();
 	    Wave.initWaves(levelStart);
 	    Ability.initAbilities();

@@ -8,9 +8,9 @@ public abstract class Planet extends Unit {
 	
 	protected float gravity;
 	private float multipler;
-	private String defenderName;
-	private int numOfDefenders;
-	private int radiusOfDefenders;
+	protected String defenderName;
+	protected int numOfDefenders;
+	protected int radiusOfDefenders;
 	
 	public Planet(String newName, String newType, float xSpawn, float ySpawn){
 		super(newName, newType, xSpawn, ySpawn);
@@ -20,7 +20,7 @@ public abstract class Planet extends Unit {
 	//Action to do after each wave
 	//Currently set to 0
 	public void afterWave(){
-		
+		spawnDefenders();
 	}
 	
 	//Gravity. Increases how fast units move to the planet
@@ -32,8 +32,12 @@ public abstract class Planet extends Unit {
 		return multipler;
 	}
 	
+	public void onCollison(){
+		//Do nothing, override this
+	}
+	
 	//A method to spawn defenders. Likely overriden
-	private void spawnDefenders(){
+	protected void spawnDefenders(){
 		int screenHeight = DisplayMessageActivity.getScreenHeight();
 		int screenWidth = DisplayMessageActivity.getScreenWidth();
 		int radius = radiusOfDefenders;
@@ -43,7 +47,7 @@ public abstract class Planet extends Unit {
 			int x = (int) (screenWidth/2 + radius*Math.cos(Math.toRadians(currentDegree))); 
 			int y = (int) (screenHeight/2 + radius*Math.sin(Math.toRadians(currentDegree)));
 			currentDegree += degreeChange;
-			Wave.addToCurrentWave(new Unit("New name", defenderName, x, y, 10));
+			Wave.addToCurrentWave(new Unit("New name", defenderName, x, y, 5));
 		}
 		
 	}
