@@ -14,13 +14,15 @@ import android.util.Log;
 
 public class ScreenElement {
 	// Static button stuff
-	public static Bitmap pauseBMP = GameActivity.makeTransparent(BitmapFactory.decodeResource(GameActivity.survContext.getResources(), R.drawable.pause));
+	public static Bitmap pauseBMP = GameActivity.makeTransparent(BitmapFactory.decodeResource(GameActivity.gameContext.getResources(), R.drawable.pause));
+	public static Bitmap buttonTest = GameActivity.makeTransparent(BitmapFactory.decodeResource(GameActivity.gameContext.getResources(), R.drawable.buttontest));
 	
 	// Global stuff.
 	public static ArrayList<ScreenElement> allScreenElements = new ArrayList<ScreenElement>();
 	public static Object allScreenElementsLock = new Object();
 	
 	// ScreenElement General Information:
+	private String activity = "Game";
 	private String name;
 	private String type;     // Chose not to simply store this as a ScreenElementType incase we want to modify individual
 						     // fields to be unique values. In other words, we may want to change an Ogre to be
@@ -30,7 +32,9 @@ public class ScreenElement {
 	private float y;     
 	private float xNew;
 	private float yNew;
-	private int radius;
+	private int height;
+	private int width;
+	public float oldX;
 
 	// Combat information:
 	private boolean killable = false;
@@ -45,7 +49,7 @@ public class ScreenElement {
 	private int maxHitPoints;
 	private int damage;
 
-	public ScreenElement(String newName, String newType, float xSpawn, float ySpawn, int newRadius) {
+	public ScreenElement(String newName, String newType, float xSpawn, float ySpawn, int newWidth, int newHeight) {
 		
 		// Set it's coordinates.
 		name = newName;
@@ -54,11 +58,32 @@ public class ScreenElement {
 		y = ySpawn;
 		xNew = xSpawn;
 		yNew = ySpawn;
-		radius = newRadius;
+		width = newWidth;
+		height = newHeight;
 		
 		if(name == "Pause") {
 			bmp = pauseBMP;
 		}
+		
+		// Add it to the list of ScreenElements to be drawn.
+		synchronized(allScreenElementsLock) {
+			addScreenElement(this);
+		}
+	}
+	
+	public ScreenElement(String newName, String newType, float xSpawn, float ySpawn, int newWidth, int newHeight, Bitmap newBMP, String newActivity) {
+		
+		// Set it's coordinates.
+		activity = newActivity;
+		name = newName;
+		type = newType;
+		x = xSpawn;
+		y = ySpawn;
+		xNew = xSpawn;
+		yNew = ySpawn;
+		width = newWidth;
+		height = newHeight;
+		bmp = newBMP;
 		
 		// Add it to the list of ScreenElements to be drawn.
 		synchronized(allScreenElementsLock) {
@@ -128,39 +153,23 @@ public class ScreenElement {
 			}
 		}
 		
+		
+		public void setOldX() {
+			oldX = x;
+		}
 	
 	// Get the selected ScreenElement at the coordinates.
 	public static ScreenElement getScreenElementAt(float x, float y) {
 		synchronized(allScreenElementsLock) {
 			
-			ArrayList<ScreenElement> closeScreenElements = new ArrayList<ScreenElement>();
-			
 			// Get all the close ScreenElements.
 			for(int j = 0; j < allScreenElements.size(); j++) {
 				ScreenElement u = allScreenElements.get(j);
-				float yDistance = (u.getY() - y);
-				float xDistance = (u.getX() - x);
-				float distanceXY = (float)Math.sqrt(yDistance*yDistance + xDistance*xDistance);
-				if(distanceXY <= 50 + u.getRadius() && u.getRadius() <= 50) {
-					closeScreenElements.add(u);
-				}
-				if(distanceXY <= 10 + u.getRadius() && u.getRadius() > 50) {
-					closeScreenElements.add(u);
-				}
-			}
-			
-			// Kill the pressed one with highest preference
-			for(int j = 0; j < closeScreenElements.size(); j++) {
-				ScreenElement u = closeScreenElements.get(j);
-				if(u.getType() == "Fire Asteroid") {
+				if(x > u.getX() - 50 && x < u.getX() + u.getWidth() + 50 && y > u.getY() - 50 && y < u.getY() + u.getHeight() + 50) {
 					return u;
 				}
 			}
-			if(closeScreenElements.size() != 0) {
-				ScreenElement defaultScreenElement = closeScreenElements.get(0);
-				return defaultScreenElement;
-			}
-			
+		
 			return null;
 		}
 	}
@@ -173,18 +182,18 @@ public class ScreenElement {
 		allScreenElements.clear();
 	}
 	
-	public static void drawScreenElements(Canvas canvas, Paint myPaint) {
+	public void draw(Canvas canvas, Paint myPaint) {
+		 canvas.drawBitmap(this.getBMP(), this.getX()-this.getWidth(), this.getY() - this.getHeight(), null);
+	}
+	
+	public static void drawScreenElements(Canvas canvas, Paint myPaint, String activity) {
         synchronized(allScreenElementsLock) {
 			for(int j = 0; j < allScreenElements.size(); j++) {
 				ScreenElement currentScreenElement = allScreenElements.get(j);
       	  		// What shape do we draw?
       	  		myPaint.setColor(currentScreenElement.color);
-      	  		if(currentScreenElement.getBMP() != null) {
-      	  			 canvas.drawBitmap(currentScreenElement.getBMP(), currentScreenElement.getX()-currentScreenElement.getRadius(), currentScreenElement.getY() - currentScreenElement.getRadius(), null);
-      	  		}
-      	  		else if(currentScreenElement.getType() == "Button") {
-      	  			Log.d("Drawong Bitton","Ok");
-    	              canvas.drawRect(currentScreenElement.getX()-currentScreenElement.getRadius(), currentScreenElement.getY()-currentScreenElement.getRadius(), currentScreenElement.getX() + currentScreenElement.getRadius(), currentScreenElement.getY() + currentScreenElement.getRadius(), myPaint );
+      	  		if(currentScreenElement.getBMP() != null && currentScreenElement.getActivity() == activity) {
+      	  			currentScreenElement.draw(canvas, myPaint);
       	  		}
         	}
         }
@@ -201,7 +210,6 @@ public class ScreenElement {
 	
 	public void respondToTouch() {
 		if(this.getName() == "Pause") {
-			Log.d("GOGO","HELLO");
 			if(!GameActivity.paused) {
 				try {
 					GameActivity.paused = true;
@@ -257,6 +265,10 @@ public class ScreenElement {
 		return shape;
 	}
 	
+	public String getActivity() {
+		return activity;
+	}
+	
 	public float getX() {
 		return x;
 	}
@@ -273,11 +285,12 @@ public class ScreenElement {
 		return yNew;
 	}
 	
-	public int getRadius() {
-		return radius;
+	public int getHeight() {
+		return height;
 	}
 	
-	public void setRadius(int newRadius) {
-		radius = newRadius;
+	public int getWidth() {
+		return width;
 	}
+
 }

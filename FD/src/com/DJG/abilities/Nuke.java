@@ -19,7 +19,7 @@ public class Nuke {
 	public final static Object NukesLock = new Object(); // A lock so we don't fuck up the Nukes
 	
 	// Bitmap
-	public static Bitmap NukeBMP = GameActivity.makeTransparent(BitmapFactory.decodeResource(GameActivity.survContext.getResources(), R.drawable.nuke));
+	public static Bitmap NukeBMP = GameActivity.makeTransparent(BitmapFactory.decodeResource(GameActivity.gameContext.getResources(), R.drawable.nuke));
 	
 	// General ability attributes. Nukes are static at the moment.
 	private long startTime;

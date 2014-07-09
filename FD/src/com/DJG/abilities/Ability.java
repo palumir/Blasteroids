@@ -17,7 +17,7 @@ public class Ability {
 	
 	// All abilities
 	private static ArrayList<Ability> equippedAbilities;
-	private static ArrayList<Ability> allAbilities;
+	public static ArrayList<Ability> allAbilities;
 	public final static Object allAbilitiesLock = new Object();
 	public final static Object abilitiesLock = new Object(); // A lock so we don't fuck up the abilities
 	
@@ -46,7 +46,7 @@ public class Ability {
 	
 	public Ability(String newType, int newSlot, int newCoolDown, int newUses, int soundID, String newSymbol, int newIconColor) {
 		coolDown = newCoolDown;
-		if(soundID!=-1)  mpPlacement = MediaPlayer.create(GameActivity.survContext, soundID); 
+		if(soundID!=-1)  mpPlacement = MediaPlayer.create(GameActivity.gameContext, soundID); 
 		slot = newSlot;
 		type = newType;
 		uses = newUses;
@@ -81,7 +81,7 @@ public class Ability {
 	public Ability(String newType, int newSlot, int newCoolDown, int newUses, int soundID, Bitmap newBMP, int newRadius, String newDesc) {
 		coolDown = newCoolDown;
 		description = newDesc;
-		if(soundID!=-1)  mpPlacement = MediaPlayer.create(GameActivity.survContext, soundID); 
+		if(soundID!=-1)  mpPlacement = MediaPlayer.create(GameActivity.gameContext, soundID); 
 		slot = newSlot;
 		type = newType;
 		uses = newUses;

@@ -19,7 +19,7 @@ public class UnitType {
 	public static Bitmap frozenBMP;
 	
 	public static void initUnitTypes() {
-		frozenBMP = GameActivity.makeTransparent(BitmapFactory.decodeResource(GameActivity.survContext.getResources(), R.drawable.frozen_asteroid));
+		frozenBMP = GameActivity.makeTransparent(BitmapFactory.decodeResource(GameActivity.gameContext.getResources(), R.drawable.frozen_asteroid));
 		allUnitTypes = new ArrayList<UnitType>();
 		
 		// Basic Units
@@ -74,7 +74,7 @@ public class UnitType {
 		moveSpeed = newMoveSpeed;
 		metaType = "Unit";
 		killable = isKillable;
-		bitmap = GameActivity.makeTransparent(BitmapFactory.decodeResource(GameActivity.survContext.getResources(), newBitMapLink));
+		bitmap = GameActivity.makeTransparent(BitmapFactory.decodeResource(GameActivity.gameContext.getResources(), newBitMapLink));
 		maxHitPoints = newHP;
 		damage = newDamage;
 	}
