@@ -6,13 +6,13 @@ import android.view.MotionEvent;
 import com.DJG.abilities.Ability;
 import com.DJG.abilities.FireFingers;
 import com.DJG.fd.GameActivity;
-import com.DJG.fd.ScreenElement;
+import com.DJG.screenelements.ScreenElement;
 import com.DJG.units.Unit;
 
 public class TouchEvent {
 	
 	// What type of touch is it?
-	private static String touchType = "Fire Fingers";
+	private static String touchType = "Normal";
 	
 	// Grabbed units (two, one for each hand);
 	public static int action1 = 0;

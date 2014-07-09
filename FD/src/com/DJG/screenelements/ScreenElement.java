@@ -1,6 +1,10 @@
-package com.DJG.fd;
+package com.DJG.screenelements;
 
 import java.util.ArrayList;
+
+import com.DJG.fd.GameActivity;
+import com.DJG.fd.R;
+import com.DJG.fd.R.drawable;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -26,7 +30,8 @@ public class ScreenElement {
 	private float y;     
 	private float xNew;
 	private float yNew;
-	private int radius;
+	private int width;
+	private int height;
 
 	// Combat information:
 	private boolean killable = false;
@@ -41,7 +46,7 @@ public class ScreenElement {
 	private int maxHitPoints;
 	private int damage;
 
-	public ScreenElement(String newName, String newType, float xSpawn, float ySpawn, int newRadius) {
+	public ScreenElement(String newName, String newType, float xSpawn, float ySpawn, int newWidth, int newHeight) {
 		
 		// Set it's coordinates.
 		name = newName;
@@ -50,7 +55,8 @@ public class ScreenElement {
 		y = ySpawn;
 		xNew = xSpawn;
 		yNew = ySpawn;
-		radius = newRadius;
+		width = newWidth;
+		height = newHeight;
 		
 		if(name == "Pause") {
 			bmp = pauseBMP;
@@ -129,37 +135,17 @@ public class ScreenElement {
 	public static ScreenElement getScreenElementAt(float x, float y) {
 		synchronized(allScreenElementsLock) {
 			
-			ArrayList<ScreenElement> closeScreenElements = new ArrayList<ScreenElement>();
-			
 			// Get all the close ScreenElements.
 			for(int j = 0; j < allScreenElements.size(); j++) {
 				ScreenElement u = allScreenElements.get(j);
-				float yDistance = (u.getY() - y);
-				float xDistance = (u.getX() - x);
-				float distanceXY = (float)Math.sqrt(yDistance*yDistance + xDistance*xDistance);
-				if(distanceXY <= 50 + u.getRadius() && u.getRadius() <= 50) {
-					closeScreenElements.add(u);
-				}
-				if(distanceXY <= 10 + u.getRadius() && u.getRadius() > 50) {
-					closeScreenElements.add(u);
-				}
-			}
-			
-			// Kill the pressed one with highest preference
-			for(int j = 0; j < closeScreenElements.size(); j++) {
-				ScreenElement u = closeScreenElements.get(j);
-				if(u.getType() == "Fire Asteroid") {
+				if(x > u.getX() - 50 && x < u.getX() + u.getWidth() + 50 && y > u.getY() - 50 && y < u.getY() + u.getHeight() + 50)
 					return u;
 				}
-			}
-			if(closeScreenElements.size() != 0) {
-				ScreenElement defaultScreenElement = closeScreenElements.get(0);
-				return defaultScreenElement;
 			}
 			
 			return null;
 		}
-	}
+	
 	public static int numScreenElements() {
 		return allScreenElements.size();
 	}
@@ -176,11 +162,7 @@ public class ScreenElement {
       	  		// What shape do we draw?
       	  		myPaint.setColor(currentScreenElement.color);
       	  		if(currentScreenElement.getBMP() != null) {
-      	  			 canvas.drawBitmap(currentScreenElement.getBMP(), currentScreenElement.getX()-currentScreenElement.getRadius(), currentScreenElement.getY() - currentScreenElement.getRadius(), null);
-      	  		}
-      	  		else if(currentScreenElement.getType() == "Button") {
-      	  			Log.d("Drawong Bitton","Ok");
-    	              canvas.drawRect(currentScreenElement.getX()-currentScreenElement.getRadius(), currentScreenElement.getY()-currentScreenElement.getRadius(), currentScreenElement.getX() + currentScreenElement.getRadius(), currentScreenElement.getY() + currentScreenElement.getRadius(), myPaint );
+      	  			 canvas.drawBitmap(currentScreenElement.getBMP(), currentScreenElement.getX()-currentScreenElement.getWidth(), currentScreenElement.getY() - currentScreenElement.getHeight(), null);
       	  		}
         	}
         }
@@ -197,7 +179,6 @@ public class ScreenElement {
 	
 	public void respondToTouch() {
 		if(this.getName() == "Pause") {
-			Log.d("GOGO","HELLO");
 			if(!GameActivity.paused) {
 				try {
 					GameActivity.paused = true;
@@ -269,11 +250,11 @@ public class ScreenElement {
 		return yNew;
 	}
 	
-	public int getRadius() {
-		return radius;
+	public int getHeight() {
+		return height;
 	}
 	
-	public void setRadius(int newRadius) {
-		radius = newRadius;
+	public int getWidth() {
+		return width;
 	}
 }

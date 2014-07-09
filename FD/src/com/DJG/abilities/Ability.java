@@ -17,6 +17,8 @@ public class Ability {
 	
 	// All abilities
 	private static ArrayList<Ability> equippedAbilities;
+	private static ArrayList<Ability> allAbilities;
+	public final static Object allAbilitiesLock = new Object();
 	public final static Object abilitiesLock = new Object(); // A lock so we don't fuck up the abilities
 	
 	// General information
@@ -38,6 +40,9 @@ public class Ability {
 	private int uses;
 	private String symbol;
 	private int iconColor;
+	
+	// Shop information
+	private String description;
 	
 	public Ability(String newType, int newSlot, int newCoolDown, int newUses, int soundID, String newSymbol, int newIconColor) {
 		coolDown = newCoolDown;
@@ -73,8 +78,9 @@ public class Ability {
 		}
 	}
 	
-	public Ability(String newType, int newSlot, int newCoolDown, int newUses, int soundID, Bitmap newBMP, int newRadius) {
+	public Ability(String newType, int newSlot, int newCoolDown, int newUses, int soundID, Bitmap newBMP, int newRadius, String newDesc) {
 		coolDown = newCoolDown;
+		description = newDesc;
 		if(soundID!=-1)  mpPlacement = MediaPlayer.create(GameActivity.survContext, soundID); 
 		slot = newSlot;
 		type = newType;
@@ -105,14 +111,20 @@ public class Ability {
 	}
 	
 	public static void initAbilities() {
+		// All abilities
+		allAbilities = new ArrayList<Ability>();
+		allAbilities.add(new Ability("Bomb",0,1,3,R.raw.small_3_second_explosion,Bomb.bombBMP,32,"A bomb."));
+		allAbilities.add(new Ability("Slow",1,1,3,-1,Slow.slowBMP,32,"A slow."));
+		allAbilities.add(new Ability("Blackhole",2,1,3,-1,Blackhole.BlackholeBMP,32,"A blackhole."));
+		allAbilities.add(new Ability("Fire Fingers",-1,1,3,-1,FireFingers.fireBMP,32,"Fire Fingers"));
+		
+		// All droppable abilities/equippable abilities.
 		equippedAbilities = new ArrayList<Ability>();
-		equippedAbilities.add(new Ability("Bomb",0,1,3,R.raw.small_3_second_explosion,Bomb.bombBMP,32));
-		equippedAbilities.add(new Ability("Slow",1,1,3,-1,Slow.slowBMP,32));
-		equippedAbilities.add(new Ability("Blackhole",2,1,3,-1,Blackhole.BlackholeBMP,32));
-		equippedAbilities.add(new Ability("Fire Fingers",-1,1,3,-1,FireFingers.fireBMP,32));
-		equippedAbilities.add(new Ability("Nuke",-1,1,3,-1,Nuke.NukeBMP,32));
+		equippedAbilities.add(new Ability("Bomb",0,1,3,R.raw.small_3_second_explosion,Bomb.bombBMP,32,"A bomb."));
+		equippedAbilities.add(new Ability("Slow",1,1,3,-1,Slow.slowBMP,32,"A slow."));
+		equippedAbilities.add(new Ability("Blackhole",2,1,3,-1,Blackhole.BlackholeBMP,32,"A blackhole."));
+		equippedAbilities.add(new Ability("Fire Fingers",-1,1,3,-1,FireFingers.fireBMP,32,"Fire Fingers"));
 		Drop.initAbilityDrops();
-		//equippedAbilities.add(new Ability("KnockBack", 2, 8000, 5, -1, "K", Color.WHITE));
 	}
 	
 	public static ArrayList<Ability> getEquippedAbilities() {

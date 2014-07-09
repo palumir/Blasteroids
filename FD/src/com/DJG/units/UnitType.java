@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.util.Log;
 
 import com.DJG.fd.GameActivity;
 import com.DJG.fd.R;
+import com.DJG.planets.Planet;
 
 public class UnitType {
 	
@@ -41,13 +41,9 @@ public class UnitType {
 		allUnitTypes.add(new UnitType("Cthulu Head",100,1f,true,Color.RED,"Square", 1, 0));
 		allUnitTypes.add(new UnitType("Cthulu Lazer Arm",100,1f,true,Color.RED,"Square", 1, 0));
 		allUnitTypes.add(new UnitType("Cthulu Rocket Arm",100,1f,true,Color.RED,"Circle", 1, 0));
-		
-		// The Earth. Called Castle for... some reason.
-		allUnitTypes.add(new UnitType("Castle",50,0f,false,R.drawable.earth, 100,0)); // CASTLES DON'T MOVE OKAY?
 	
 		//Planets
-		allUnitTypes.add(new UnitType("Earth", 50, 0f, false, R.drawable.earth,100,0));
-		allUnitTypes.add(new UnitType("Mars", 50, 0f, false, R.drawable.mars, 150, 0));
+		Planet.initPlanetTypes();
 	}
 	
 	public static UnitType getUnitType(String searchType) {

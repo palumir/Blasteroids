@@ -26,6 +26,8 @@ import com.DJG.abilities.Ability;
 import com.DJG.fd.touchevents.TouchEvent;
 import com.DJG.planets.Earth;
 import com.DJG.planets.Planet;
+import com.DJG.screenelements.ScreenElement;
+import com.DJG.secrets.JenkinsSecrets;
 import com.DJG.units.Unit;
 import com.DJG.units.UnitType;
 import com.DJG.waves.Wave;
@@ -297,7 +299,7 @@ public class GameActivity extends ActionBarActivity {
 
 		// Spawn pause button
 		pauseButton = new ScreenElement("Pause", "Button", screenWidth - 40,
-				40, 22);
+				40, 22, 22);
 
 		// Spawn the planet.
 		Planet p = new Earth("Fortress", "Earth", screenWidth / 2,
@@ -341,7 +343,7 @@ public class GameActivity extends ActionBarActivity {
 		if ((Wave.getCurrentWaveNumber() + 1) > currHighScore) {
 			Editor editor = prefs.edit();
 			editor.putInt("highScoreSurvival",
-					(Wave.getCurrentWaveNumber() + 1));
+					(int)(Wave.getCurrentWaveNumber() + 1));
 			highScoreText = "New high score!";
 			previousHighScoreText = "Previous: Wave " + currHighScore + ".";
 			editor.commit();
@@ -352,6 +354,7 @@ public class GameActivity extends ActionBarActivity {
 		Unit.destroyAllUnits(); // Don't request the lock because the caller is
 								// already locking it.
 		Wave.destroyWaves();
+		ScreenElement.destroyAllScreenElements();
 		Ability.clearAbilities();
 	}
 	
@@ -370,6 +373,8 @@ public class GameActivity extends ActionBarActivity {
 				Wave.sendWaves();
 			}
 	
+			JenkinsSecrets.updateSecrets();
+			
 			// Update abilities.
 			Ability.updateAbilities();
 	

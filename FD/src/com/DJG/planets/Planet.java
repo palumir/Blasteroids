@@ -1,7 +1,9 @@
 package com.DJG.planets;
 
 import com.DJG.fd.GameActivity;
+import com.DJG.fd.R;
 import com.DJG.units.Unit;
+import com.DJG.units.UnitType;
 import com.DJG.waves.Wave;
 
 public abstract class Planet extends Unit {
@@ -30,6 +32,11 @@ public abstract class Planet extends Unit {
 	
 	public double multipler(){
 		return multipler;
+	}
+	
+	public static void initPlanetTypes() {
+		UnitType.addUnitType(new UnitType("Earth",50,0f,false,R.drawable.earth, 100,0)); 
+		UnitType.addUnitType(new UnitType("Mars",50,0f,false,R.drawable.mars, 100,0));
 	}
 	
 	//A method to spawn defenders. Likely overriden
