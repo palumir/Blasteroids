@@ -23,7 +23,7 @@ public class Slow {
 	private int duration = 3000;
 	
 	// Bitmap
-	public static Bitmap slowBMP = GameActivity.makeTransparent(BitmapFactory.decodeResource(GameActivity.survContext.getResources(), R.drawable.snowflake));
+	public static Bitmap slowBMP = GameActivity.makeTransparent(BitmapFactory.decodeResource(GameActivity.gameContext.getResources(), R.drawable.snowflake));
 
 	// Well, where is the ability?!
 	private float x;

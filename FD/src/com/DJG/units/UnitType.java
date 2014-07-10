@@ -19,7 +19,7 @@ public class UnitType {
 	public static Bitmap frozenBMP;
 	
 	public static void initUnitTypes() {
-		frozenBMP = GameActivity.makeTransparent(BitmapFactory.decodeResource(GameActivity.survContext.getResources(), R.drawable.frozen_asteroid));
+		frozenBMP = GameActivity.makeTransparent(BitmapFactory.decodeResource(GameActivity.gameContext.getResources(), R.drawable.frozen_asteroid));
 		allUnitTypes = new ArrayList<UnitType>();
 		
 		// Basic Units
@@ -29,9 +29,9 @@ public class UnitType {
 		allUnitTypes.add(new UnitType("Cat",50,3f, true, R.drawable.satelite, 1, 10));
 		allUnitTypes.add(new UnitType("Cheetah",25,6f,true,Color.YELLOW,"Square", 1, 15));
 		allUnitTypes.add(new UnitType("Splitter Huge",200,1f,true,Color.RED,"Square", 1, 200));
-		allUnitTypes.add(new UnitType("Splitter Big",100,0.5f,true,Color.YELLOW,"Square", 1, 100));
-		allUnitTypes.add(new UnitType("Splitter Medium",50,0.25f,true,Color.CYAN,"Square", 1, 25));
-		allUnitTypes.add(new UnitType("Splitter Small",25,0.1f,true,Color.BLUE,"Square", 1, 10));
+		allUnitTypes.add(new UnitType("Splitter Big",100,0.5f,true,R.drawable.splitter_big, 1, 100));
+		allUnitTypes.add(new UnitType("Splitter Medium",50,0.25f,true,R.drawable.splitter_medium, 1, 25));
+		allUnitTypes.add(new UnitType("Splitter Small",25,0.1f,true,R.drawable.splitter_small, 1, 10));
 		allUnitTypes.add(new UnitType("FullHealer",40,1f, true, Color.GREEN,"Plus", 2, -100));
 		allUnitTypes.add(new UnitType("Healer",20,1.5f, true, Color.GREEN,"Plus", 2, -10));
 		allUnitTypes.add(new UnitType("Spawner", 200, 0, true, Color.MAGENTA,"Square",2,0));
@@ -74,7 +74,7 @@ public class UnitType {
 		moveSpeed = newMoveSpeed;
 		metaType = "Unit";
 		killable = isKillable;
-		bitmap = GameActivity.makeTransparent(BitmapFactory.decodeResource(GameActivity.survContext.getResources(), newBitMapLink));
+		bitmap = GameActivity.makeTransparent(BitmapFactory.decodeResource(GameActivity.gameContext.getResources(), newBitMapLink));
 		maxHitPoints = newHP;
 		damage = newDamage;
 	}

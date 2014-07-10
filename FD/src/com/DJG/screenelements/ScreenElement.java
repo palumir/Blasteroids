@@ -14,13 +14,15 @@ import android.util.Log;
 
 public class ScreenElement {
 	// Static button stuff
-	public static Bitmap pauseBMP = GameActivity.makeTransparent(BitmapFactory.decodeResource(GameActivity.survContext.getResources(), R.drawable.pause));
+	public static Bitmap pauseBMP = GameActivity.makeTransparent(BitmapFactory.decodeResource(GameActivity.gameContext.getResources(), R.drawable.pause));
+	public static Bitmap buttonTest = GameActivity.makeTransparent(BitmapFactory.decodeResource(GameActivity.gameContext.getResources(), R.drawable.buttontest));
 	
 	// Global stuff.
 	public static ArrayList<ScreenElement> allScreenElements = new ArrayList<ScreenElement>();
 	public static Object allScreenElementsLock = new Object();
 	
 	// ScreenElement General Information:
+	private String activity = "Game";
 	private String name;
 	private String type;     // Chose not to simply store this as a ScreenElementType incase we want to modify individual
 						     // fields to be unique values. In other words, we may want to change an Ogre to be
@@ -30,8 +32,9 @@ public class ScreenElement {
 	private float y;     
 	private float xNew;
 	private float yNew;
-	private int width;
 	private int height;
+	private int width;
+	public float oldX;
 
 	// Combat information:
 	private boolean killable = false;
@@ -61,6 +64,26 @@ public class ScreenElement {
 		if(name == "Pause") {
 			bmp = pauseBMP;
 		}
+		
+		// Add it to the list of ScreenElements to be drawn.
+		synchronized(allScreenElementsLock) {
+			addScreenElement(this);
+		}
+	}
+	
+	public ScreenElement(String newName, String newType, float xSpawn, float ySpawn, int newWidth, int newHeight, Bitmap newBMP, String newActivity) {
+		
+		// Set it's coordinates.
+		activity = newActivity;
+		name = newName;
+		type = newType;
+		x = xSpawn;
+		y = ySpawn;
+		xNew = xSpawn;
+		yNew = ySpawn;
+		width = newWidth;
+		height = newHeight;
+		bmp = newBMP;
 		
 		// Add it to the list of ScreenElements to be drawn.
 		synchronized(allScreenElementsLock) {
@@ -130,6 +153,10 @@ public class ScreenElement {
 			}
 		}
 		
+		
+		public void setOldX() {
+			oldX = x;
+		}
 	
 	// Get the selected ScreenElement at the coordinates.
 	public static ScreenElement getScreenElementAt(float x, float y) {
@@ -138,13 +165,13 @@ public class ScreenElement {
 			// Get all the close ScreenElements.
 			for(int j = 0; j < allScreenElements.size(); j++) {
 				ScreenElement u = allScreenElements.get(j);
-				if(x > u.getX() - 50 && x < u.getX() + u.getWidth() + 50 && y > u.getY() - 50 && y < u.getY() + u.getHeight() + 50)
+				if(x > u.getX() - 50 && x < u.getX() + u.getWidth() + 50 && y > u.getY() - 50 && y < u.getY() + u.getHeight() + 50) {
 					return u;
 				}
 			}
-			
 			return null;
 		}
+	}
 	
 	public static int numScreenElements() {
 		return allScreenElements.size();
@@ -155,14 +182,18 @@ public class ScreenElement {
 		allScreenElements.clear();
 	}
 	
-	public static void drawScreenElements(Canvas canvas, Paint myPaint) {
+	public void draw(Canvas canvas, Paint myPaint) {
+		 canvas.drawBitmap(this.getBMP(), this.getX()-this.getWidth(), this.getY() - this.getHeight(), null);
+	}
+	
+	public static void drawScreenElements(Canvas canvas, Paint myPaint, String activity) {
         synchronized(allScreenElementsLock) {
 			for(int j = 0; j < allScreenElements.size(); j++) {
 				ScreenElement currentScreenElement = allScreenElements.get(j);
       	  		// What shape do we draw?
       	  		myPaint.setColor(currentScreenElement.color);
-      	  		if(currentScreenElement.getBMP() != null) {
-      	  			 canvas.drawBitmap(currentScreenElement.getBMP(), currentScreenElement.getX()-currentScreenElement.getWidth(), currentScreenElement.getY() - currentScreenElement.getHeight(), null);
+      	  		if(currentScreenElement.getBMP() != null && currentScreenElement.getActivity() == activity) {
+      	  			currentScreenElement.draw(canvas, myPaint);
       	  		}
         	}
         }
@@ -234,6 +265,10 @@ public class ScreenElement {
 		return shape;
 	}
 	
+	public String getActivity() {
+		return activity;
+	}
+	
 	public float getX() {
 		return x;
 	}
@@ -257,4 +292,5 @@ public class ScreenElement {
 	public int getWidth() {
 		return width;
 	}
+
 }

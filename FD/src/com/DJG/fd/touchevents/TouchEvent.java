@@ -1,11 +1,13 @@
 package com.DJG.fd.touchevents;
 
 import android.support.v4.view.MotionEventCompat;
+import android.util.Log;
 import android.view.MotionEvent;
 
 import com.DJG.abilities.Ability;
 import com.DJG.abilities.FireFingers;
 import com.DJG.fd.GameActivity;
+import com.DJG.screenelements.Combo;
 import com.DJG.screenelements.ScreenElement;
 import com.DJG.units.Unit;
 
@@ -28,7 +30,41 @@ public class TouchEvent {
 	public static ScreenElement grabbedScreenElement = null;
 	public static ScreenElement secondGrabbedScreenElement = null;
 	
-	public static void respondToTouchEvent(MotionEvent event) { 
+	public static float startComboX = 0;
+	public static float moveBy = 0;
+	public static int leftorright = 0;
+	public static float curFingerPos = 0;
+	
+	public static void respondToStoreTouchEvent(MotionEvent event) {
+		float pos1 = event.getX(event.findPointerIndex(event.getPointerId(0)));
+		float pos2 = event.getY(event.findPointerIndex(event.getPointerId(0)));
+    	int action = MotionEventCompat.getActionMasked(event);
+    	Combo touchedCombo = Combo.getComboWithin(pos1,pos2);
+    	if(touchedCombo != null) {
+    		if(action == android.view.MotionEvent.ACTION_DOWN) {
+    			touchedCombo.setOldX();
+        		startComboX = pos1;
+    		}
+    		else if(action == android.view.MotionEvent.ACTION_UP) {
+        		startComboX = 0;
+        		moveBy = 0;
+        		curFingerPos = 0;
+        		leftorright = 0;
+    		}
+    		else {
+    			curFingerPos = pos1;
+    			if((pos1 - startComboX) - moveBy > 0) {
+    				leftorright = 1;
+    			}
+    			else {
+    				leftorright = -1;
+    			}
+    			moveBy = pos1 - startComboX;
+    		}
+    	}
+	}
+	
+	public static void respondToGameTouchEvent(MotionEvent event) { 
 		if(touchType != "Normal") {
 			specialTouch(event);
 		}

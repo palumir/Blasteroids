@@ -17,7 +17,7 @@ public class FireFingers {
 	private static int explosionDuration = 550;
 	
 	// Bitmap
-	public static Bitmap fireBMP = GameActivity.makeTransparent(BitmapFactory.decodeResource(GameActivity.survContext.getResources(), R.drawable.fire));
+	public static Bitmap fireBMP = GameActivity.makeTransparent(BitmapFactory.decodeResource(GameActivity.gameContext.getResources(), R.drawable.fire));
 	
 	public static void startFireFingers(int newDuration) {
 		TouchEvent.setTouchType("Fire Fingers");

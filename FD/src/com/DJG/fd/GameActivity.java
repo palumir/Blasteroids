@@ -70,7 +70,7 @@ public class GameActivity extends ActionBarActivity {
 	// The current game thread.
 	private static String mode = "Survival";
 	private static long gameTime = 0;
-	public static Context survContext;
+	public static Context gameContext;
 	public static Thread gameThread;
 	private volatile static boolean gameOver;
 
@@ -101,7 +101,7 @@ public class GameActivity extends ActionBarActivity {
 
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
-		TouchEvent.respondToTouchEvent(event);
+		TouchEvent.respondToGameTouchEvent(event);
 		return true;
 	}
 
@@ -122,7 +122,7 @@ public class GameActivity extends ActionBarActivity {
 		currentView = v;
 
 		if (doOnce) {
-			survContext = this.getApplicationContext();
+			gameContext = this.getApplicationContext();
 			gameOver = false;
 			levelText = "Wave " + (Wave.getCurrentWaveNumber() + 1);
 			highScoreText = "";
@@ -206,7 +206,7 @@ public class GameActivity extends ActionBarActivity {
 			drawText(canvas, myPaint);
 
 			// Draw screen elements (buttons, etc.)
-			ScreenElement.drawScreenElements(canvas, myPaint);
+			ScreenElement.drawScreenElements(canvas, myPaint, "Game");
 
 			// Draw earth.
 			Unit.drawEarth(canvas, myPaint);
@@ -220,6 +220,10 @@ public class GameActivity extends ActionBarActivity {
 			// Draw abilities.
 			Ability.drawAbilityAnimations(canvas, myPaint);
 		}
+	}
+	
+	public static void setContext(Context c) {
+		gameContext = c;
 	}
 
 	@Override
@@ -309,6 +313,14 @@ public class GameActivity extends ActionBarActivity {
 		Ability.initAbilities();
 	}
 
+	public static void setScreenWidth(int i) {
+		screenWidth = i;
+	}
+	
+	public static void setScreenHeight(int i) {
+		screenHeight = i;
+	}
+	
 	void checkIfLost() {
 		if (GameActivity.getLost()
 				&& (gameTime

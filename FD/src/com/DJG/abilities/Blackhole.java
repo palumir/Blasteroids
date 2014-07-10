@@ -24,7 +24,7 @@ public class Blackhole {
 	private int duration = 3000;
 	
 	// Bitmap
-	public static Bitmap BlackholeBMP = GameActivity.makeTransparent(BitmapFactory.decodeResource(GameActivity.survContext.getResources(), R.drawable.blackhole));
+	public static Bitmap BlackholeBMP = GameActivity.makeTransparent(BitmapFactory.decodeResource(GameActivity.gameContext.getResources(), R.drawable.blackhole));
 
 	// Well, where is the ability?!
 	private float x;

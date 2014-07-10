@@ -19,7 +19,7 @@ public class Bomb {
 	public final static Object bombsLock = new Object(); // A lock so we don't fuck up the bombs
 	
 	// Bitmap
-	public static Bitmap bombBMP = GameActivity.makeTransparent(BitmapFactory.decodeResource(GameActivity.survContext.getResources(), R.drawable.bomb));
+	public static Bitmap bombBMP = GameActivity.makeTransparent(BitmapFactory.decodeResource(GameActivity.gameContext.getResources(), R.drawable.bomb));
 	
 	// General ability attributes. Bombs are static at the moment.
 	private long startTime;
