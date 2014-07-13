@@ -2,19 +2,19 @@ package com.DJG.screenelements;
 
 import java.util.ArrayList;
 
-import com.DJG.fd.GameActivity;
-import com.DJG.fd.R;
-import com.DJG.fd.R.drawable;
-
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.util.Log;
+
+import com.DJG.abilities.Coin;
+import com.DJG.fd.GameActivity;
+import com.DJG.fd.R;
 
 public class ScreenElement {
 	// Static button stuff
 	public static Bitmap pauseBMP = GameActivity.makeTransparent(BitmapFactory.decodeResource(GameActivity.gameContext.getResources(), R.drawable.pause));
+	public static Bitmap healthBMP = GameActivity.makeTransparent(BitmapFactory.decodeResource(GameActivity.gameContext.getResources(), R.drawable.health));
 	public static Bitmap buttonTest = GameActivity.makeTransparent(BitmapFactory.decodeResource(GameActivity.gameContext.getResources(), R.drawable.buttontest));
 	
 	// Global stuff.
@@ -49,7 +49,7 @@ public class ScreenElement {
 	private int maxHitPoints;
 	private int damage;
 
-	public ScreenElement(String newName, String newType, float xSpawn, float ySpawn, int newWidth, int newHeight) {
+	public ScreenElement(String newName, String newType, float xSpawn, float ySpawn, int newWidth, int newHeight, Bitmap newBMP) {
 		
 		// Set it's coordinates.
 		name = newName;
@@ -60,10 +60,7 @@ public class ScreenElement {
 		yNew = ySpawn;
 		width = newWidth;
 		height = newHeight;
-		
-		if(name == "Pause") {
-			bmp = pauseBMP;
-		}
+		bmp = newBMP;
 		
 		// Add it to the list of ScreenElements to be drawn.
 		synchronized(allScreenElementsLock) {

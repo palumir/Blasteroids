@@ -35,8 +35,8 @@ public abstract class Planet extends Unit {
 	}
 	
 	public static void initPlanetTypes() {
-		UnitType.addUnitType(new UnitType("Earth",50,0f,false,R.drawable.earth, 100,0)); 
-		UnitType.addUnitType(new UnitType("Mars",50,0f,false,R.drawable.mars, 100,0));
+		UnitType.addUnitType(new UnitType("Earth",50,0f,false,R.drawable.earth, 100,0,"Planet")); 
+		UnitType.addUnitType(new UnitType("Mars",50,0f,false,R.drawable.mars, 100,0,"Planet"));
 	}
 	
 	//A method to spawn defenders. Likely overriden

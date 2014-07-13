@@ -16,7 +16,7 @@ public class Drop {
 	}
 	
 	public static void potentiallyDropItem(Unit u) {
-		if(r.nextInt(100) == 1) {
+		if(r.nextInt(80) == 1) {
 			if(u.getMetaType() == "Unit") {
 				Ability abilityToDrop = Ability.getEquippedAbilities().get(r.nextInt(Ability.getEquippedAbilities().size()));
 				Unit v = new Unit("Ability Drop",abilityToDrop.getType(),u.getX(),u.getY());
@@ -31,6 +31,9 @@ public class Drop {
 		}
 		if(type == "Nuke") {
 			Nuke newNuke = new Nuke(GameActivity.getScreenWidth()/2,GameActivity.getScreenHeight()/2,GameActivity.getScreenHeight()*2,6000); // Default explosion for now. Make upgradable.
+		}
+		if(type == "Coin") {
+			GameActivity.coins++;
 		}
 		else {
 			for(int j = 0; j < Ability.getEquippedAbilities().size(); j++) {

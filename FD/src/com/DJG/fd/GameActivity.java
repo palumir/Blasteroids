@@ -23,6 +23,7 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.DJG.abilities.Ability;
+import com.DJG.abilities.Coin;
 import com.DJG.fd.touchevents.TouchEvent;
 import com.DJG.planets.Earth;
 import com.DJG.planets.Planet;
@@ -64,7 +65,7 @@ public class GameActivity extends ActionBarActivity {
 	private Canvas bgCanvas;
 
 	// Shared data.
-	static SharedPreferences prefs;
+	public static SharedPreferences prefs;
 	public static int bgColor = Color.BLACK;
 
 	// The current game thread.
@@ -81,12 +82,18 @@ public class GameActivity extends ActionBarActivity {
 
 	// Some game buttons.
 	private static ScreenElement pauseButton;
+	private static ScreenElement healthSymbol;
+	private static ScreenElement coinSymbol;
 
 	// Text, that's all.
 	public static String levelText;
 	public static String castleHP;
 	public static String highScoreText;
 	public static String previousHighScoreText;
+	public static String coinsText;
+	
+	// Temporary
+	public static int coins = 0;
 
 	// Is the game paused?
 	public static boolean paused = false;
@@ -96,7 +103,7 @@ public class GameActivity extends ActionBarActivity {
 	public static double lostTime;
 	public static int loseDuration = 2500;
 
-	// List of all units. This list is constantly redrawn.
+	// Just do it once.
 	public static boolean doOnce = true;
 
 	@Override
@@ -124,14 +131,13 @@ public class GameActivity extends ActionBarActivity {
 		if (doOnce) {
 			gameContext = this.getApplicationContext();
 			gameOver = false;
-			levelText = "Wave " + (Wave.getCurrentWaveNumber() + 1);
+			levelText = "Wave " + (int)(Wave.getCurrentWaveNumber() + 1);
 			highScoreText = "";
 			previousHighScoreText = "";
-			castleHP = "Health ";
+			castleHP = "";
 			initGame(levelStart);
 			playGame();
 			doOnce = false;
-		} else {
 		}
 	}
 
@@ -141,9 +147,10 @@ public class GameActivity extends ActionBarActivity {
 		myPaint.setTextSize(50);
 		myPaint.setColor(Color.WHITE);
 		canvas.drawText(levelText, 50f, 50f, myPaint);
+		canvas.drawText(coinsText, 260f, (float) (screenHeight - 50), myPaint);
 		canvas.drawText(highScoreText, 50f, 100f, myPaint);
 		canvas.drawText(previousHighScoreText, 50f, 150f, myPaint);
-		canvas.drawText(castleHP, 50f, (float) (screenHeight - 50), myPaint);
+		canvas.drawText(castleHP, 100f, (float) (screenHeight - 50), myPaint);
 	}
 
 	public static boolean isOffScreen(float x, float y) {
@@ -303,14 +310,22 @@ public class GameActivity extends ActionBarActivity {
 
 		// Spawn pause button
 		pauseButton = new ScreenElement("Pause", "Button", screenWidth - 40,
-				40, 22, 22);
+				40, 22, 22, ScreenElement.pauseBMP);
+
+		// Health symbol
+		healthSymbol = new ScreenElement("Health", "Button", 70f,
+				(screenHeight - 68), 25, 25, ScreenElement.healthBMP);
+		
+		// Coin symbol
+		coinSymbol = new ScreenElement("Coin", "Button", 230f,
+				(screenHeight - 68), 25, 25, Coin.CoinBMP);
 
 		// Spawn the planet.
 		Planet p = new Earth("Fortress", "Earth", screenWidth / 2,
 				screenHeight / 2);
 		p.setOnScreen();
 		Wave.initWaves(levelStart);
-		Ability.initAbilities();
+		Ability.initAbilities(prefs);
 	}
 
 	public static void setScreenWidth(int i) {
@@ -351,6 +366,8 @@ public class GameActivity extends ActionBarActivity {
 		doOnce = true;
 		levelText = "Wave " + (Wave.getCurrentWaveNumber() + 1)
 				+ " defeated you.";
+		castleHP = "";
+		coinsText = "";
 		int currHighScore = prefs.getInt("highScoreSurvival", 0);
 		if ((Wave.getCurrentWaveNumber() + 1) > currHighScore) {
 			Editor editor = prefs.edit();

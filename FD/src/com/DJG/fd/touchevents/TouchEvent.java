@@ -30,11 +30,6 @@ public class TouchEvent {
 	public static ScreenElement grabbedScreenElement = null;
 	public static ScreenElement secondGrabbedScreenElement = null;
 	
-	public static float startComboX = 0;
-	public static float moveBy = 0;
-	public static int leftorright = 0;
-	public static float curFingerPos = 0;
-	
 	public static void respondToStoreTouchEvent(MotionEvent event) {
 		float pos1 = event.getX(event.findPointerIndex(event.getPointerId(0)));
 		float pos2 = event.getY(event.findPointerIndex(event.getPointerId(0)));
@@ -43,23 +38,23 @@ public class TouchEvent {
     	if(touchedCombo != null) {
     		if(action == android.view.MotionEvent.ACTION_DOWN) {
     			touchedCombo.setOldX();
-        		startComboX = pos1;
+        		touchedCombo.startComboX = pos1;
     		}
     		else if(action == android.view.MotionEvent.ACTION_UP) {
-        		startComboX = 0;
-        		moveBy = 0;
-        		curFingerPos = 0;
-        		leftorright = 0;
+    			touchedCombo.startComboX = 0;
+    			touchedCombo.moveBy = 0;
+    			touchedCombo.curFingerPos = 0;
+    			touchedCombo.leftorright = 0;
     		}
     		else {
-    			curFingerPos = pos1;
-    			if((pos1 - startComboX) - moveBy > 0) {
-    				leftorright = 1;
+    			touchedCombo.curFingerPos = pos1;
+    			if((pos1 - touchedCombo.startComboX) - touchedCombo.moveBy > 0) {
+    				touchedCombo.leftorright = 1;
     			}
     			else {
-    				leftorright = -1;
+    				touchedCombo.leftorright = -1;
     			}
-    			moveBy = pos1 - startComboX;
+    			touchedCombo.moveBy = pos1 - touchedCombo.startComboX;
     		}
     	}
 	}

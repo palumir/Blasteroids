@@ -14,6 +14,10 @@ public class Combo extends ArrayList<ScreenElement> {
 	public int comboTop;
 	public int comboBot;
 	public int oldX = 0;
+	public float startComboX = 0;
+	public float moveBy = 0;
+	public int leftorright = 0;
+	public float curFingerPos = 0;
 	
 	public Combo(int top, int bot) {
 		comboTop = top;
@@ -55,24 +59,24 @@ public class Combo extends ArrayList<ScreenElement> {
 	}
 	
 	public static void updateCombos() {
-		if(TouchEvent.startComboX != 0) {
 			int step = 10;
 			for(Combo c : allCombos) {
 				for(ScreenElement s : c) {
-					if(s.getX() >= s.oldX + TouchEvent.moveBy && TouchEvent.leftorright > 0) {
-					}
-					else if(s.getX() <= s.oldX + TouchEvent.moveBy && TouchEvent.leftorright < 0) {
-					}
-					else if(TouchEvent.leftorright > 0){
-						s.moveInstantly(s.getX() + step, s.getY());
-					}
-					else if(TouchEvent.leftorright < 0){
-						s.moveInstantly(s.getX() - step, s.getY());
+					if(c.startComboX != 0) {
+						if(s.getX() >= s.oldX + c.moveBy && c.leftorright > 0) {
+						}
+						else if(s.getX() <= s.oldX + c.moveBy && c.leftorright < 0) {
+						}
+						else if(c.leftorright > 0){
+							s.moveInstantly(s.getX() + step, s.getY());
+						}
+						else if(c.leftorright < 0){
+							s.moveInstantly(s.getX() - step, s.getY());
+						}
 					}
 				}
 			}
 		}
-	}
 	
 	public int getTop() {
 		return comboTop;

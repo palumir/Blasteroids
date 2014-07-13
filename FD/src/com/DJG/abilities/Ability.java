@@ -1,6 +1,9 @@
 package com.DJG.abilities;
 import java.util.ArrayList;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -12,14 +15,18 @@ import com.DJG.fd.GameActivity;
 import com.DJG.fd.R;
 import com.DJG.fd.touchevents.TouchEvent;
 import com.DJG.units.Unit;
+import com.DJG.waves.Wave;
 
 public class Ability {
+	private static SharedPreferences prefs;
 	
 	// All abilities
+	private static ArrayList<Ability> allAbilities;
 	private static ArrayList<Ability> equippedAbilities;
-	public static ArrayList<Ability> allAbilities;
-	public final static Object allAbilitiesLock = new Object();
+	public static ArrayList<Ability> upgradeableAbilities;
+	public final static Object upgradeableAbilitiesLock = new Object();
 	public final static Object abilitiesLock = new Object(); // A lock so we don't fuck up the abilities
+	public final static Object allAbilitiesLock = new Object();
 	
 	// General information
 	private String type;
@@ -40,6 +47,7 @@ public class Ability {
 	private int uses;
 	private String symbol;
 	private int iconColor;
+	private boolean equipped = false;
 	
 	// Shop information
 	private String description;
@@ -87,6 +95,8 @@ public class Ability {
 		uses = newUses;
 		iconColor = Color.WHITE;
 		bmp = newBMP;
+		equipped = (prefs.getInt(newType + "_equipped", 0) == 1);
+		
 		switch(slot){
 		case -1:
 			// Don't show it on the screen.
@@ -110,25 +120,55 @@ public class Ability {
 		radius = newRadius;
 	}
 	
-	public static void initAbilities() {
-		// All abilities
-		allAbilities = new ArrayList<Ability>();
-		allAbilities.add(new Ability("Bomb",0,1,3,R.raw.small_3_second_explosion,Bomb.bombBMP,32,"A bomb."));
-		allAbilities.add(new Ability("Slow",1,1,3,-1,Slow.slowBMP,32,"A slow."));
-		allAbilities.add(new Ability("Blackhole",2,1,3,-1,Blackhole.BlackholeBMP,32,"A blackhole."));
-		allAbilities.add(new Ability("Fire Fingers",-1,1,3,-1,FireFingers.fireBMP,32,"Fire Fingers"));
+	public static void initAbilities(SharedPreferences shared) {
+		
+		prefs = shared;
+		
+		// If they have no abilities, give them a bomb!
+		if(prefs.getInt("Bomb_equipped", -99) == -99) {
+			Editor editor = prefs.edit();
+			editor.putInt("Bomb_equipped",1);
+			editor.commit();
+		}
+		
+		// Load all abilities that you can upgrade
+		upgradeableAbilities = new ArrayList<Ability>();
+		upgradeableAbilities.add(new Ability("Bomb",0,1,3,R.raw.small_3_second_explosion,Bomb.bombBMP,32,"A bomb."));
+		upgradeableAbilities.add(new Ability("Slow",0,1,3,-1,Slow.slowBMP,32,"A slow."));
+		upgradeableAbilities.add(new Ability("Blackhole",0,1,3,-1,Blackhole.BlackholeBMP,32,"A blackhole."));
+		upgradeableAbilities.add(new Ability("Fire Fingers",-1,1,3,-1,FireFingers.fireBMP,32,"Fire Fingers"));
+		upgradeableAbilities.add(new Ability("Nuke",-1,1,3,-1,Nuke.NukeBMP,32,"Nuke"));
+		upgradeableAbilities.add(new Ability("Coin",-1,1,3,-1,Coin.CoinBMP,25,"Coin"));
 		
 		// All droppable abilities/equippable abilities.
-		equippedAbilities = new ArrayList<Ability>();
-		equippedAbilities.add(new Ability("Bomb",0,1,3,R.raw.small_3_second_explosion,Bomb.bombBMP,32,"A bomb."));
-		equippedAbilities.add(new Ability("Slow",1,1,3,-1,Slow.slowBMP,32,"A slow."));
-		equippedAbilities.add(new Ability("Blackhole",2,1,3,-1,Blackhole.BlackholeBMP,32,"A blackhole."));
-		equippedAbilities.add(new Ability("Fire Fingers",-1,1,3,-1,FireFingers.fireBMP,32,"Fire Fingers"));
+		initUserAbilities();
 		Drop.initAbilityDrops();
+	}
+	
+	static void initUserAbilities() {
+		equippedAbilities = new ArrayList<Ability>();
+		synchronized(upgradeableAbilitiesLock) {
+			int curSlot = 0;
+			for(Ability a : upgradeableAbilities) {
+				if(a.equipped){
+					a.setSlot(curSlot);
+					equippedAbilities.add(a);
+					curSlot++;
+				}
+				// The ability is passive!
+				else if(a.slot == -1) {
+					equippedAbilities.add(a);
+				}
+			}
+		}
 	}
 	
 	public static ArrayList<Ability> getEquippedAbilities() {
 		return equippedAbilities;
+	}
+	
+	public void setSlot(int newSlot) {
+		slot = newSlot;
 	}
 	
 	public String getSymbol() {
@@ -191,6 +231,8 @@ public class Ability {
 	public static void drawAbilityAnimations(Canvas canvas, Paint myPaint) {
       	Bomb.drawBombs(canvas, myPaint);
       	Slow.drawSlows(canvas, myPaint);
+      	Nuke.drawNukes(canvas,myPaint);
+      	Coin.drawCoins(canvas,myPaint);
       	Blackhole.drawBlackholes(canvas, myPaint);
       	KnockBack.drawKnockBacks(canvas, myPaint);
 	}
@@ -198,6 +240,8 @@ public class Ability {
 	public static void updateAbilities() {
 		Bomb.updateBombs();
 		Slow.updateSlows();
+		Nuke.updateNukes();
+		Coin.updateCoins();
 		Blackhole.updateBlackholes();
 		KnockBack.updateknockBacks();
 		FireFingers.updateFireFingers();
@@ -226,6 +270,11 @@ public class Ability {
 			if(this.getType() == "Slow") {
 				synchronized(Slow.SlowsLock) {
 					Slow newSlow = new Slow(xSpawn,ySpawn,600,850); // Default slow.
+				}
+			}
+			if(this.getType() == "Nuke") {
+				synchronized(Nuke.NukesLock) {
+					Nuke nuke = new Nuke(xSpawn,ySpawn,2000,3000); // Default slow.
 				}
 			}
 			if(this.getType() == "Blackhole") {
@@ -286,6 +335,8 @@ public class Ability {
 		synchronized(abilitiesLock) {
 			Bomb.clearBombs();
 			Slow.clearSlows();
+			Coin.clearCoins();
+			Nuke.clearNukes();
 			Blackhole.clearBlackholes();
 			KnockBack.clearKnockBacks();
 			equippedAbilities.clear();
@@ -294,6 +345,7 @@ public class Ability {
 	
 	public static void checkIfHitAbility(Unit u) {
 		Bomb.checkIfHitBomb(u);
+		Nuke.checkIfHitNuke(u);
 		Slow.checkIfHitSlow(u);
 		Blackhole.checkIfHitBlackhole(u);
 		KnockBack.checkIfHitKnockBack(u);

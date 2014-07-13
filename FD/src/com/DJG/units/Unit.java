@@ -369,7 +369,7 @@ public class Unit {
 		if(distanceXYUnit <= castleRadius + u.getRadius()) {
 			u.attacks(castle);
 			u.die();
-			GameActivity.castleHP = "Health " + castle.getHP();
+			GameActivity.castleHP = "" + castle.getHP();
 			if(castle.isDead()){
 				GameActivity.setLost();
 			}
@@ -468,7 +468,7 @@ public class Unit {
 	public static void updateUnits() {
 		// Where is the castle?
 		Unit castle = getUnit("Fortress");
-		GameActivity.castleHP = "Health " + castle.getHP();
+		GameActivity.castleHP = "" + castle.getHP();
 		
 		synchronized(Unit.onScreenUnitsLock) {
 			for(int j = 0; j < onScreenUnits.size(); j++) {

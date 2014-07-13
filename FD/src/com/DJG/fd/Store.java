@@ -1,12 +1,16 @@
 package com.DJG.fd;
 
+import java.util.Random;
+
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -25,6 +29,19 @@ import com.DJG.units.UnitType;
 
 public class Store extends ActionBarActivity {
 	
+	SharedPreferences prefs;
+	
+	// Just do it once.
+	public static boolean doOnce = true;
+	
+	// Background
+	private Bitmap background;
+	private Canvas bgCanvas;
+	
+	// Just a random
+	static Random r = new Random();
+	
+	// Thread
 	private static Thread storeThread;
 	private static View currentView;
 	
@@ -40,11 +57,15 @@ public class Store extends ActionBarActivity {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		prefs = this.getSharedPreferences("flickOffGame", Context.MODE_PRIVATE);
 		View v = new storeView(this);
 		setContentView(v);
 		currentView = v;
-		initStore();
-		runStore();
+		if(doOnce) {
+			initStore();
+			runStore();
+			doOnce = false;
+		}
 	}
 
 	@Override
@@ -84,6 +105,34 @@ public class Store extends ActionBarActivity {
 		}
 	}
 	
+	void drawBackground(Canvas canvas, Paint myPaint) {
+		canvas.drawColor(GameActivity.bgColor);
+		if (bgCanvas == null) {
+			background = Bitmap.createBitmap(GameActivity.getScreenWidth(),
+					GameActivity.getScreenHeight(), Bitmap.Config.ARGB_8888);
+			bgCanvas = new Canvas(background);
+			myPaint.setStrokeWidth(1);
+			myPaint.setColor(Color.WHITE);
+			int x = 0;
+			while (x < GameActivity.getScreenWidth()) {
+				int y = 0;
+				int n = 0;
+				while (y < GameActivity.getScreenHeight()) {
+					if (r.nextInt(GameActivity.getScreenHeight()) == 0) {
+						n++;
+						bgCanvas.drawPoint(x, y, myPaint);
+					}
+					if (n > 10) {
+						break;
+					}
+					y++;
+				}
+				x++;
+			}
+		}
+		canvas.drawBitmap(background, 0, 0, myPaint);
+	}
+	
 	private class storeView extends View {
 
 		public storeView(Context context) {
@@ -99,6 +148,7 @@ public class Store extends ActionBarActivity {
 	}
 	
 	void drawStore(Canvas canvas, Paint myPaint) {
+		drawBackground(canvas,myPaint);
 		Combo.drawCombos(canvas, myPaint, "Store");
 	}
 	
@@ -109,20 +159,23 @@ public class Store extends ActionBarActivity {
 		Display display = getWindowManager().getDefaultDisplay();
 		GameActivity.setScreenWidth(display.getWidth());
 		GameActivity.setScreenHeight(display.getHeight());
-		Ability.initAbilities();
+		Ability.initAbilities(prefs);
 		
-		synchronized(Ability.allAbilitiesLock) {
+		synchronized(Ability.upgradeableAbilitiesLock) {
 			int seperation = 0;
-			int top = GameActivity.getScreenHeight()/2 - 50;
-			int bot = GameActivity.getScreenHeight()/2 + 300;
-			Combo c = new Combo(top, bot);
-			for(int j = 0; j < Ability.allAbilities.size(); j++){
-				Ability a = Ability.allAbilities.get(j);
+			int start = GameActivity.getScreenHeight()/4;
+			int top = start - 50;
+			int bot = start + 300;
+			Combo c1 = new Combo(top, bot);
+			
+			// Abilities slider
+			for(int j = 0; j < Ability.upgradeableAbilities.size(); j++){
+				Ability a = Ability.upgradeableAbilities.get(j);
 				ScreenElement abilityIcon = new ScreenElement(
 						"Buy",
 						"Button",
 						GameActivity.getScreenWidth()/2 + seperation,
-						GameActivity.getScreenHeight()/2,
+						start,
 						80,
 						43,
 						a.getBMP(),
@@ -132,14 +185,49 @@ public class Store extends ActionBarActivity {
 						"Buy",
 						"Button",
 						GameActivity.getScreenWidth()/2 + seperation,
-						GameActivity.getScreenHeight()/2 + 200,
+						start + 200,
 						80,
 						43,
 						ScreenElement.buttonTest,
 						"Store"
 						);
-				c.add(abilityIcon);
-				c.add(buyButton);
+				c1.add(abilityIcon);
+				c1.add(buyButton);
+				seperation = seperation + 300;
+			}
+		}
+		
+		int seperation = 0;
+		int start = GameActivity.getScreenHeight()/2;
+		int top = start - 50;
+		int bot = start + 300;
+		Combo c2 = new Combo(top, bot);
+		// Planet slider
+		for(int j = 0; j < UnitType.getAllUnitTypes().size(); j++){
+			UnitType u = UnitType.getAllUnitTypes().get(j);
+			if(u.getMetaType() == "Planet") { 
+				ScreenElement planetIcon = new ScreenElement(
+						"Buy",
+						"Button",
+						GameActivity.getScreenWidth()/2 + seperation,
+						start,
+						80,
+						43,
+						u.getBMP(),
+						"Store"
+						);
+				ScreenElement buyButton = new ScreenElement(
+						"Buy",
+						"Button",
+						GameActivity.getScreenWidth()/2 + seperation,
+						start + 200,
+						80,
+						43,
+						ScreenElement.buttonTest,
+						"Store"
+						);
+				c2.add(planetIcon);
+				c2.add(buyButton);
 				seperation = seperation + 300;
 			}
 		}

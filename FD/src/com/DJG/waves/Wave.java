@@ -267,7 +267,7 @@ public class Wave extends ArrayList<Unit> {
 			// Send the next wave if the current one is empty and it has been two seconds!
 			if(currentWave.isEmpty() && GameActivity.getGameTime() - waveEndedTime > waveWaitTime) {
 				currentWaveNumber++;
-				GameActivity.levelText = "Wave " + (currentWaveNumber+1);
+				GameActivity.levelText = "Wave " + (int)(currentWaveNumber+1);
 				sendWave(currentWaveNumber);
 				waveSent = false;
 				isFirst = true;

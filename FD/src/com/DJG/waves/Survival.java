@@ -68,10 +68,13 @@ public class Survival {
 		if(waveNumber%2 == 0) {
 			x=0;
 			dist=100;
+			if(waveNumber > 10) {
+				genInfo.add(new GeneratorInfo("Splitter Big", cap(r.nextInt(waveNumber/12+1),100), spawnSystem.FullRandom, 0, r.nextInt(waveNumber*100)));
+			}
+			if(waveNumber > 20) {
+				genInfo.add(new GeneratorInfo("Splitter Huge", cap(r.nextInt(waveNumber/12+1),100), spawnSystem.FullRandom, 0, r.nextInt(waveNumber*100)));
+			}
 			while(x < waveNumber+1) { 
-				if(waveNumber > 10) {
-					genInfo.add(new GeneratorInfo("Splitter Big", cap(r.nextInt(waveNumber/12+1),100), spawnSystem.FullRandom));
-				}
 				genInfo.add(new GeneratorInfo(fireorice(), cap(r.nextInt(waveNumber*2+x+1)/3+1,100),spawnSystem.FullRandom,r.nextInt(2), dist));
 				genInfo.add(new GeneratorInfo(fireorice(), cap(r.nextInt(waveNumber/4+x+1),100),spawnSystem.FullRandom,r.nextInt(2), dist));
 				genInfo.add(new GeneratorInfo("Fire Asteroid", cap(r.nextInt(waveNumber/3+x+1),100),spawnSystem.FullRandom,r.nextInt(4), dist));
