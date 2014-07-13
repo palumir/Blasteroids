@@ -91,9 +91,6 @@ public class GameActivity extends ActionBarActivity {
 	public static String highScoreText;
 	public static String previousHighScoreText;
 	public static String coinsText;
-	
-	// Temporary
-	public static int coins = 0;
 
 	// Is the game paused?
 	public static boolean paused = false;
@@ -161,8 +158,8 @@ public class GameActivity extends ActionBarActivity {
 	}
 
 	public static boolean isCloseOffScreen(float x, float y) {
-		if (x < -50 || x > getScreenWidth() + 50 || y < -50
-				|| y > getScreenHeight() + 50) {
+		if (x < -200 || x > getScreenWidth() + 200 || y < -200
+				|| y > getScreenHeight() + 200) {
 			return true;
 		}
 		return false;

@@ -2,6 +2,7 @@ package com.DJG.abilities;
 
 import java.util.ArrayList;
 
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -10,9 +11,10 @@ import android.graphics.Paint;
 
 import com.DJG.fd.GameActivity;
 import com.DJG.fd.R;
-import com.DJG.units.Unit;
 
 public class Coin {
+	
+	private static int coins = 0;
 	
 	// Static information.
 	private static ArrayList<Coin> allCoins = new ArrayList<Coin>();
@@ -47,6 +49,15 @@ public class Coin {
 		}
 	}
 	
+	public static int getCoins() {
+		return Ability.getPrefs().getInt("flickOff_numCoins", 0);
+	}
+	
+	public static void increaseCoins() {
+		Ability.getEditor().putInt("flickOff_numCoins",getCoins() + 1);
+		Ability.getEditor().commit();
+	}
+	
 	public void updateCoin(int CoinPos) {
 		synchronized(CoinsLock) {
 		if(this != null) {
@@ -62,7 +73,7 @@ public class Coin {
 	}
 	
 	public static void updateCoins() {
-		GameActivity.coinsText = GameActivity.coins + "";
+		GameActivity.coinsText = getCoins() + "";
 	}
 	
 	public long getStartTime() {

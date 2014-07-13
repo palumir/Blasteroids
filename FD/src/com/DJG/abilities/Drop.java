@@ -33,7 +33,7 @@ public class Drop {
 			Nuke newNuke = new Nuke(GameActivity.getScreenWidth()/2,GameActivity.getScreenHeight()/2,GameActivity.getScreenHeight()*2,6000); // Default explosion for now. Make upgradable.
 		}
 		if(type == "Coin") {
-			GameActivity.coins++;
+			Coin.increaseCoins();
 		}
 		else {
 			for(int j = 0; j < Ability.getEquippedAbilities().size(); j++) {

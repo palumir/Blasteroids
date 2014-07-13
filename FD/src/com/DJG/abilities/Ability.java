@@ -19,6 +19,7 @@ import com.DJG.waves.Wave;
 
 public class Ability {
 	private static SharedPreferences prefs;
+	private static Editor editor;
 	
 	// All abilities
 	private static ArrayList<Ability> allAbilities;
@@ -95,7 +96,7 @@ public class Ability {
 		uses = newUses;
 		iconColor = Color.WHITE;
 		bmp = newBMP;
-		equipped = (prefs.getInt(newType + "_equipped", 0) == 1);
+		equipped = (getPrefs().getInt(newType + "_equipped", 0) == 1);
 		
 		switch(slot){
 		case -1:
@@ -122,13 +123,13 @@ public class Ability {
 	
 	public static void initAbilities(SharedPreferences shared) {
 		
-		prefs = shared;
+		setPrefs(shared);
+		setEditor(getPrefs().edit());
 		
 		// If they have no abilities, give them a bomb!
-		if(prefs.getInt("Bomb_equipped", -99) == -99) {
-			Editor editor = prefs.edit();
-			editor.putInt("Bomb_equipped",1);
-			editor.commit();
+		if(getPrefs().getInt("Bomb_equipped", -99) == -99) {
+			getEditor().putInt("Bomb_equipped",1);
+			getEditor().commit();
 		}
 		
 		// Load all abilities that you can upgrade
@@ -380,5 +381,21 @@ public class Ability {
 				
 				return null;
 			}
+		}
+
+		public static SharedPreferences getPrefs() {
+			return prefs;
+		}
+
+		public static void setPrefs(SharedPreferences prefs) {
+			Ability.prefs = prefs;
+		}
+
+		public static Editor getEditor() {
+			return editor;
+		}
+
+		public static void setEditor(Editor editor) {
+			Ability.editor = editor;
 		}
 }
