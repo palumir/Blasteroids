@@ -995,14 +995,16 @@ containing a value of this type.
         public static final int health=0x7f020062;
         public static final int ic_launcher=0x7f020063;
         public static final int ice_asteroid=0x7f020064;
-        public static final int mars=0x7f020065;
-        public static final int nuke=0x7f020066;
-        public static final int pause=0x7f020067;
-        public static final int satelite=0x7f020068;
-        public static final int snowflake=0x7f020069;
-        public static final int splitter_big=0x7f02006a;
-        public static final int splitter_medium=0x7f02006b;
-        public static final int splitter_small=0x7f02006c;
+        public static final int jupitier=0x7f020065;
+        public static final int mars=0x7f020066;
+        public static final int nuke=0x7f020067;
+        public static final int pause=0x7f020068;
+        public static final int satelite=0x7f020069;
+        public static final int saturn=0x7f02006a;
+        public static final int snowflake=0x7f02006b;
+        public static final int splitter_big=0x7f02006c;
+        public static final int splitter_medium=0x7f02006d;
+        public static final int splitter_small=0x7f02006e;
     }
     public static final class id {
         public static final int action_bar=0x7f06001c;

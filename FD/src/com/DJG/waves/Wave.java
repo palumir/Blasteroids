@@ -9,6 +9,8 @@ import com.DJG.fd.GameActivity;
 import com.DJG.generators.GeneratorInfo;
 import com.DJG.generators.GeneratorInfo.spawnSystem;
 import com.DJG.generators.WaveGenerator;
+import com.DJG.planets.Planet;
+import com.DJG.planets.Saturn;
 import com.DJG.units.Unit;
 
 class XY {
@@ -76,7 +78,7 @@ public class Wave extends ArrayList<Unit> {
 		isFirst = true;
 		waveGenerator = new WaveGenerator();
 		// Start at what wave?
-		waveStartNumber = 15;
+		waveStartNumber = 1;
 		currentWaveNumber = waveStartNumber;
 		sendWave(waveStartNumber);
 	}
@@ -263,6 +265,7 @@ public class Wave extends ArrayList<Unit> {
 			if(currentWave.isEmpty() && isFirst) {
 				waveEndedTime = GameActivity.getGameTime();
 				isFirst = false;
+
 			}
 			
 			// Send the next wave if the current one is empty and it has been two seconds!
@@ -270,8 +273,11 @@ public class Wave extends ArrayList<Unit> {
 				currentWaveNumber++;
 				GameActivity.levelText = "Wave " + (int)(currentWaveNumber+1);
 				sendWave(currentWaveNumber);
+				Planet planet = (Planet) Unit.getUnit("Fortress");
+				planet.afterWave();
 				waveSent = false;
 				isFirst = true;
+				
 			}
 			
 			if(!isBossWave) {
@@ -281,6 +287,7 @@ public class Wave extends ArrayList<Unit> {
 					waveSent = true; // Efficiency.
 				}
 			}
+		
 		}
 	}
 

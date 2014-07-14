@@ -247,6 +247,18 @@ public class Unit {
 			}
 		}
 		
+		public static ArrayList<Unit> getMoons(){
+			ArrayList<Unit> moons = new ArrayList<Unit>();
+			synchronized (onScreenUnitsLock) {
+				for(int j = 0; j < onScreenUnits.size(); j++) {
+					Unit u = onScreenUnits.get(j);
+					if(u.getType().endsWith("Moon")){
+						moons.add(u);
+					}
+				}
+			}
+			return moons;
+		}
 		
 		public static int getUnitPos(Unit thisUnit) {
 			synchronized(allUnitsLock) {
@@ -373,10 +385,27 @@ public class Unit {
 			if(castle.isDead()){
 				GameActivity.setLost();
 			}
+			Planet p = (Planet) castle;
+			p.onCollison();
 		}
 		else {
 			u.moveUnit();
 		}
+	}
+	
+	static void checkIfHitMoon(ArrayList<Unit> moons, Unit u){
+		for(Unit m : moons){
+			float moonX = m.getX();
+			float moonY = m.getY();
+			float yDistanceUnit = (moonY - u.getY());
+			float xDistanceUnit = (moonX - u.getX());
+			float distanceXYUnit = (float)Math.sqrt(yDistanceUnit*yDistanceUnit + xDistanceUnit*xDistanceUnit);
+			if(distanceXYUnit <= m.getRadius() + u.getRadius()) {
+				u.hurt(1);
+				m.hurt(1);
+			}
+		}
+		
 	}
 	
 	public static void destroyAllUnits() {
@@ -485,6 +514,7 @@ public class Unit {
 		}
 		
 		synchronized(Unit.allUnits) {
+			ArrayList<Unit> moons = getMoons();
 			for(int j = 0; j < allUnits.size(); j++) {
 				Unit u = allUnits.get(j);
 				if(u instanceof UnitSpawner){
@@ -493,6 +523,9 @@ public class Unit {
 				if(u.getName() != "Fortress") {
 					// Check if we have hit the castle.
 					checkIfHitCastleOrMove(castle, u);
+				}
+				if(!u.getType().endsWith("Moon")){
+						checkIfHitMoon(moons, u);
 				}
 			}
 		}
@@ -556,7 +589,7 @@ public class Unit {
 		Drop.potentiallyDropItem(this);
 		
 		// Do special things for special units.
-		if(type=="Fire Asteroid") {
+		if(type.startsWith("Fire")) {
 			Bomb b = new Bomb(this.getX(),this.getY(),100,500);
 		}
 		if(type=="Ice Asteroid") {

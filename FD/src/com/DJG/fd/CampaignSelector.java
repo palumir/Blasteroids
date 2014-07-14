@@ -18,7 +18,7 @@ public class CampaignSelector extends ActionBarActivity {
 	public void sendMessage(View view) {
 		Intent intent = new Intent(this, GameActivity.class);
 		Bundle b = new Bundle();
-		b.putInt("level", 5);
+		b.putInt("level", 0);
 		intent.putExtras(b);
 		startActivity(intent);
 	}
