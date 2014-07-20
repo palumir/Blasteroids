@@ -42,6 +42,7 @@ public class Unit {
 	private float oldSpinSpeed;
 	private float xMomentum=0;
 	private float yMomentum=0;
+	private float fixedRadius=0;
 	
 	// Animator
 	private UnitAnimation unitAnimation = null;
@@ -91,6 +92,7 @@ public class Unit {
 		y = ySpawn;
 		xNew = xSpawn;
 		yNew = ySpawn;
+		
 		
 		// Add it to the list of units to be drawn.
 		synchronized(allUnitsLock) {
@@ -146,6 +148,12 @@ public class Unit {
 	public void moveNormally(float xGo, float yGo) {
 		xNew = xGo;
 		yNew = yGo;
+		//fix the radius, if it has no move speed
+		if(moveSpeed==0){
+			float yDistance = (yNew - y);
+		 	float xDistance = (xNew - x);
+		 	fixedRadius = (float)Math.sqrt(yDistance*yDistance + xDistance*xDistance);
+		}
 	}
 	
 	public void moveInstantly(float xGo, float yGo) {
@@ -210,6 +218,17 @@ public class Unit {
 				 	x = x + spinSpeed*yDistance/(distanceXY);
 				 	y = y + spinSpeed*(0-xDistance)/(distanceXY);
 				}
+				//Refix the radius
+				if(fixedRadius!=0){
+					yDistance = (yNew - y);
+				 	xDistance = (xNew - x);
+				 	distanceXY = (float)Math.sqrt(yDistance*yDistance + xDistance*xDistance);
+				 	float ratio = fixedRadius/distanceXY;
+				 	float goalX = ratio*xDistance;
+				 	float goalY = ratio*yDistance;
+				 	x = xNew - goalX;
+				 	y = yNew -  goalY;
+				}
 				
 			
 				// Just move it if it's close.
@@ -218,11 +237,13 @@ public class Unit {
 					y = yNew;
 					}
 			}
-			//Move based on Momentum, fozen units can move
-			x += xMomentum;
-			y += yMomentum;
-			xMomentum -= xMomentum/16;
-			yMomentum -= yMomentum/16;
+			//Move based on Momentum, fozen units can move. Fixed radius not affected for now
+			if(fixedRadius==0){
+				x += xMomentum;
+				y += yMomentum;
+				xMomentum -= xMomentum/16;
+				yMomentum -= yMomentum/16;
+			}
 			
 	}
 	
