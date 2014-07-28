@@ -65,7 +65,7 @@ public class Survival {
 		HashMap<String, UnitPattern> unitMap = new HashMap<String, UnitPattern>();
 		ArrayList<GeneratorInfo> genInfo = new ArrayList<GeneratorInfo>();
 		Wave.setWaitTime(1500);
-		/*if(waveNumber%2 == 0) {
+		if(waveNumber%2 == 0) {
 			x=0;
 			dist=100;
 			if(waveNumber > 10) {
@@ -208,24 +208,6 @@ public class Survival {
 				}
 			break;
 			}
-		}*/
-		
-		x=0;
-		dist=200;
-		while(x < waveNumber+1) { 
-			genInfo.add(new GeneratorInfo(fireorice(), cap(r.nextInt(waveNumber*2+x+1)/3+1,100),spawnSystem.Circle,r.nextInt(2), dist));
-			genInfo.add(new GeneratorInfo("Fire Asteroid", cap(r.nextInt(waveNumber*10+x+1),100)/4+1,spawnSystem.Circle,r.nextInt(2), dist+150));
-			genInfo.add(new GeneratorInfo("Ice Asteroid", cap(r.nextInt(waveNumber/3+x/5+1),100),spawnSystem.FullRandom,r.nextInt(4), dist));
-			genInfo.add(new GeneratorInfo("Splitter Medium", cap(r.nextInt(2+x/5),100),spawnSystem.FullRandom,r.nextInt(2), (int)dist/2+100));
-			genInfo.add(new GeneratorInfo("Healer", cap(r.nextInt(waveNumber/25+1),100),spawnSystem.FullRandom,r.nextInt(2), dist));
-			genInfo.add(new GeneratorInfo("FullHealer", cap(r.nextInt(waveNumber/50+1),100),spawnSystem.FullRandom,r.nextInt(2), dist));
-			if(300 - waveNumber<100) {
-				dist += 100;
-			}
-			else {
-				dist += 300 - 2*waveNumber;
-			}
-			x = x + 5;
 		}
 		
 		Wave.setCurrentWave(Wave.waveGenerator.generateWave(genInfo));

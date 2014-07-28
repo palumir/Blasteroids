@@ -38,8 +38,8 @@ public abstract class Planet extends Unit {
 	public static void initPlanetTypes() {
 		UnitType.addUnitType(new UnitType("Earth",50,0f,false,R.drawable.earth, 100,0,"Planet")); 
 		UnitType.addUnitType(new UnitType("Mars",50,0f,false,R.drawable.mars, 100,0,"Planet"));
-		UnitType.addUnitType(new UnitType("Saturn", 50, 0f, false, R.drawable.saturn, 150, 0));
-		UnitType.addUnitType(new UnitType("Jupiter", 50, 0f, false, R.drawable.jupitier, 80, 0));
+		UnitType.addUnitType(new UnitType("Saturn", 50, 0f, false, R.drawable.saturn, 150, 0,"Planet"));
+		UnitType.addUnitType(new UnitType("Jupiter", 50, 0f, false, R.drawable.jupitier, 80, 0,"Planet"));
 	}
 	
 

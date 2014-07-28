@@ -317,7 +317,7 @@ public class GameActivity extends ActionBarActivity {
 				(screenHeight - 68), 25, 25, Coin.CoinBMP);
 
 		// Spawn the planet.
-		Planet p = new Mars("Fortress",screenWidth / 2, screenHeight / 2);
+		Planet p = new Jupiter("Fortress",screenWidth / 2, screenHeight / 2);
 		p.setOnScreen();
 		Wave.initWaves(levelStart);
 		Ability.initAbilities(prefs);

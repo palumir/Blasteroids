@@ -47,6 +47,22 @@ public class Bomb {
 		}
 	}
 	
+	public Bomb(float newX, float newY, int newBlastRadius, int newDuration, String setColor) {
+		x = newX;
+		y = newY;
+		color = Color.YELLOW;
+		if(setColor=="Red") {
+			color = Color.RED;
+		}
+		maxStroke = 100;
+		blastRadius = newBlastRadius;
+		duration = newDuration;
+		startTime = GameActivity.getGameTime();
+		synchronized(allBombs) {
+			addBomb(this);
+		}
+	}
+	
 	public void updateBomb(int bombPos) {
 		synchronized(bombsLock) {
 		if(this != null) {
