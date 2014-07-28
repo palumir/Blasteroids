@@ -5,9 +5,10 @@ import java.util.ArrayList;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
+import android.util.Log;
 
-import com.DJG.abilities.Coin;
 import com.DJG.fd.GameActivity;
 import com.DJG.fd.R;
 
@@ -43,11 +44,36 @@ public class ScreenElement {
 	private String shape;
 	public int color;
 	private Bitmap bmp;
+	private int textsize;
 	
 	// ScreenElement Stats
 	private int currentHitPoints;
 	private int maxHitPoints;
 	private int damage;
+	
+	public ScreenElement(
+			String newType,
+			String newText,
+			float xSpawn,
+			float ySpawn,
+			String newActivity
+			) {
+		// Set it's coordinates.
+		name = newText;
+		type = newType;
+		x = xSpawn;
+		y = ySpawn;
+		xNew = xSpawn;
+		yNew = ySpawn;
+		activity = newActivity;
+		color = Color.WHITE;
+		textsize = 50;
+		
+		// Add it to the list of ScreenElements to be drawn.
+		synchronized(allScreenElementsLock) {
+			addScreenElement(this);
+		}
+	}
 
 	public ScreenElement(String newName, String newType, float xSpawn, float ySpawn, int newWidth, int newHeight, Bitmap newBMP) {
 		
@@ -180,7 +206,16 @@ public class ScreenElement {
 	}
 	
 	public void draw(Canvas canvas, Paint myPaint) {
-		 canvas.drawBitmap(this.getBMP(), this.getX()-this.getWidth(), this.getY() - this.getHeight(), null);
+		if(this.type == "Text") {
+			myPaint.setStyle(Paint.Style.FILL);
+			myPaint.setStrokeWidth(3);
+			myPaint.setTextSize(this.textsize);
+			myPaint.setColor(this.color);
+			canvas.drawText(this.name, this.x, this.y, myPaint);
+		}
+		else if(this.bmp != null) {
+			canvas.drawBitmap(this.getBMP(), this.getX()-this.getWidth(), this.getY() - this.getHeight(), null);
+		}
 	}
 	
 	public static void drawScreenElements(Canvas canvas, Paint myPaint, String activity) {
@@ -189,7 +224,7 @@ public class ScreenElement {
 				ScreenElement currentScreenElement = allScreenElements.get(j);
       	  		// What shape do we draw?
       	  		myPaint.setColor(currentScreenElement.color);
-      	  		if(currentScreenElement.getBMP() != null && currentScreenElement.getActivity() == activity) {
+      	  		if(currentScreenElement.getActivity() == activity) {
       	  			currentScreenElement.draw(canvas, myPaint);
       	  		}
         	}
@@ -240,6 +275,14 @@ public class ScreenElement {
 	
 	public int getCurrentHitPoitns(){
 		return currentHitPoints;
+	}
+	
+	public void setTextSize(int s) {
+		textsize = s;
+	}
+	
+	public void setColor(int c) {
+		color = c;
 	}
 	
 	public int getMaxHitPoints(){

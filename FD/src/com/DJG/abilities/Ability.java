@@ -52,44 +52,12 @@ public class Ability {
 	
 	// Shop information
 	private String description;
+	private int cost;
 	
-	public Ability(String newType, int newSlot, int newCoolDown, int newUses, int soundID, String newSymbol, int newIconColor) {
+	public Ability(String newType, int newSlot, int newCoolDown, int newUses, int soundID, Bitmap newBMP, int newRadius, String newDesc, int newCost) {
 		coolDown = newCoolDown;
-		if(soundID!=-1)  mpPlacement = MediaPlayer.create(GameActivity.gameContext, soundID); 
-		slot = newSlot;
-		type = newType;
-		uses = newUses;
-		symbol = newSymbol;
-		iconColor = newIconColor;
-		switch(slot){
-		case -1:
-			// Don't show it on the screen.
-			x = -1000;
-			y = -1000;
-			break;
-		case 0:
-			x = GameActivity.getScreenWidth()-50;
-			y = GameActivity.getScreenHeight()-50;
-			radius = 80;
-			break;
-		case 1:
-			x = GameActivity.getScreenWidth()-150;
-			y = GameActivity.getScreenHeight()-50;
-			radius = 80;
-			break;
-		case 2:
-			x = GameActivity.getScreenWidth()-250;
-			y = GameActivity.getScreenHeight()-50;
-			radius = 80;
-			break;
-		default:
-			break;
-		}
-	}
-	
-	public Ability(String newType, int newSlot, int newCoolDown, int newUses, int soundID, Bitmap newBMP, int newRadius, String newDesc) {
-		coolDown = newCoolDown;
-		description = newDesc;
+		setCost(newCost);
+		setDescription(newDesc);
 		if(soundID!=-1)  mpPlacement = MediaPlayer.create(GameActivity.gameContext, soundID); 
 		slot = newSlot;
 		type = newType;
@@ -134,12 +102,12 @@ public class Ability {
 		
 		// Load all abilities that you can upgrade
 		upgradeableAbilities = new ArrayList<Ability>();
-		upgradeableAbilities.add(new Ability("Bomb",0,1,3,R.raw.small_3_second_explosion,Bomb.bombBMP,32,"A bomb."));
-		upgradeableAbilities.add(new Ability("Slow",0,1,3,-1,Slow.slowBMP,32,"A slow."));
-		upgradeableAbilities.add(new Ability("Blackhole",0,1,3,-1,Blackhole.BlackholeBMP,32,"A blackhole."));
-		upgradeableAbilities.add(new Ability("Fire Fingers",-1,1,3,-1,FireFingers.fireBMP,32,"Fire Fingers"));
-		upgradeableAbilities.add(new Ability("Nuke",-1,1,3,-1,Nuke.NukeBMP,32,"Nuke"));
-		upgradeableAbilities.add(new Ability("Coin",-1,1,3,-1,Coin.CoinBMP,25,"Coin"));
+		upgradeableAbilities.add(new Ability("Bomb",0,1,3,R.raw.small_3_second_explosion,Bomb.bombBMP,32,"A bomb.",0));
+		upgradeableAbilities.add(new Ability("Slow",0,1,3,-1,Slow.slowBMP,32,"A slow.",15));
+		upgradeableAbilities.add(new Ability("Blackhole",0,1,3,-1,Blackhole.BlackholeBMP,32,"A blackhole.",25));
+		upgradeableAbilities.add(new Ability("Fire Fingers",-1,1,3,-1,FireFingers.fireBMP,32,"Fire Fingers",0));
+		upgradeableAbilities.add(new Ability("Nuke",-1,1,3,-1,Nuke.NukeBMP,32,"Nuke",0));
+		upgradeableAbilities.add(new Ability("Coin",-1,1,3,-1,Coin.CoinBMP,25,"Coin",0));
 		
 		// All droppable abilities/equippable abilities.
 		initUserAbilities();
@@ -397,5 +365,21 @@ public class Ability {
 
 		public static void setEditor(Editor editor) {
 			Ability.editor = editor;
+		}
+
+		public int getCost() {
+			return cost;
+		}
+
+		public void setCost(int cost) {
+			this.cost = cost;
+		}
+
+		public String getDescription() {
+			return description;
+		}
+
+		public void setDescription(String description) {
+			this.description = description;
 		}
 }

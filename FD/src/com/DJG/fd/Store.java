@@ -22,6 +22,7 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.DJG.abilities.Ability;
+import com.DJG.abilities.Coin;
 import com.DJG.fd.touchevents.TouchEvent;
 import com.DJG.screenelements.Combo;
 import com.DJG.screenelements.ScreenElement;
@@ -142,7 +143,6 @@ public class Store extends ActionBarActivity {
 		@Override
 		protected void onDraw(Canvas canvas) {
 			Paint myPaint = new Paint();
-			
 			drawStore(canvas, myPaint);
 		}
 	}
@@ -163,7 +163,7 @@ public class Store extends ActionBarActivity {
 		
 		synchronized(Ability.upgradeableAbilitiesLock) {
 			int seperation = 0;
-			int start = GameActivity.getScreenHeight()/4;
+			int start = GameActivity.getScreenHeight()/4 - GameActivity.getScreenHeight()/16;
 			int top = start - 50;
 			int bot = start + 300;
 			Combo c1 = new Combo(top, bot);
@@ -181,6 +181,31 @@ public class Store extends ActionBarActivity {
 						a.getBMP(),
 						"Store"
 						);
+				ScreenElement coinIcon = new ScreenElement(
+						"Coin",
+						"Button",
+						GameActivity.getScreenWidth()/2 + seperation + 50,
+						start,
+						55,
+						42,
+						Coin.CoinBMP,
+						"Store"
+						);
+				ScreenElement costButton = new ScreenElement(
+						"Text",
+						""+a.getCost(),
+						GameActivity.getScreenWidth()/2 + seperation + 50,
+						start,
+						"Store"
+						);
+				ScreenElement descButton = new ScreenElement(
+						"Text",
+						""+a.getDescription(),
+						GameActivity.getScreenWidth()/2 + seperation - 50,
+						start+100,
+						"Store"
+						);
+				descButton.setTextSize(35);
 				ScreenElement buyButton = new ScreenElement(
 						"Buy",
 						"Button",
@@ -192,13 +217,16 @@ public class Store extends ActionBarActivity {
 						"Store"
 						);
 				c1.add(abilityIcon);
+				c1.add(coinIcon);
+				c1.add(costButton);
+				c1.add(descButton);
 				c1.add(buyButton);
 				seperation = seperation + 300;
 			}
 		}
 		
 		int seperation = 0;
-		int start = GameActivity.getScreenHeight()/2;
+		int start = GameActivity.getScreenHeight()/2 + GameActivity.getScreenHeight()/16;
 		int top = start - 50;
 		int bot = start + 300;
 		Combo c2 = new Combo(top, bot);
