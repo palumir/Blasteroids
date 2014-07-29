@@ -8,6 +8,7 @@ import android.view.MotionEvent;
 import com.DJG.fd.GameActivity;
 import com.DJG.fd.R;
 import com.DJG.fd.touchevents.TouchEvent;
+import com.DJG.screenelements.ScreenElement;
 
 public class FireFingers {
 	// General ability attributes.
@@ -15,6 +16,7 @@ public class FireFingers {
 	private static long duration = 15000;
 	private static int radius = 140;
 	private static int explosionDuration = 550;
+	public static ScreenElement timer;
 	
 	// Bitmap
 	public static Bitmap fireBMP = GameActivity.makeTransparent(BitmapFactory.decodeResource(GameActivity.gameContext.getResources(), R.drawable.fire));
@@ -27,9 +29,16 @@ public class FireFingers {
 	
 	public static void updateFireFingers() {
 		// End fire fingers!
+		if(timer!=null) {
+			timer.setName("Bomb Fingers " + (getDuration() - (GameActivity.getGameTime() - startTime))/1000);
+		}
 		if(GameActivity.getGameTime() - startTime > getDuration()) {
 			TouchEvent.setTouchType("Normal");
 		}
+	}
+	
+	public static void setScreenElement(ScreenElement s) {
+		timer = s;
 	}
 	
 	public static void respondToTouch(MotionEvent event) {

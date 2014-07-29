@@ -9,8 +9,11 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.Log;
 
+import com.DJG.abilities.Bomb;
 import com.DJG.fd.GameActivity;
 import com.DJG.fd.R;
+import com.DJG.units.UnitAnimation;
+import com.DJG.waves.Wave;
 
 public class ScreenElement {
 	// Static button stuff
@@ -36,6 +39,7 @@ public class ScreenElement {
 	private int height;
 	private int width;
 	public float oldX;
+	private ScreenElementAnimation s;
 
 	// Combat information:
 	private boolean killable = false;
@@ -59,7 +63,7 @@ public class ScreenElement {
 			String newActivity
 			) {
 		// Set it's coordinates.
-		name = newText;
+		setName(newText);
 		type = newType;
 		x = xSpawn;
 		y = ySpawn;
@@ -78,7 +82,7 @@ public class ScreenElement {
 	public ScreenElement(String newName, String newType, float xSpawn, float ySpawn, int newWidth, int newHeight, Bitmap newBMP) {
 		
 		// Set it's coordinates.
-		name = newName;
+		setName(newName);
 		type = newType;
 		x = xSpawn;
 		y = ySpawn;
@@ -98,7 +102,7 @@ public class ScreenElement {
 		
 		// Set it's coordinates.
 		activity = newActivity;
-		name = newName;
+		setName(newName);
 		type = newType;
 		x = xSpawn;
 		y = ySpawn;
@@ -196,6 +200,11 @@ public class ScreenElement {
 		}
 	}
 	
+	public void despawn() {
+		// Kill the old unit.
+		killScreenElement(this);
+	}
+	
 	public static int numScreenElements() {
 		return allScreenElements.size();
 	}
@@ -211,7 +220,7 @@ public class ScreenElement {
 			myPaint.setStrokeWidth(3);
 			myPaint.setTextSize(this.textsize);
 			myPaint.setColor(this.color);
-			canvas.drawText(this.name, this.x, this.y, myPaint);
+			canvas.drawText(this.getName(), this.x, this.y, myPaint);
 		}
 		else if(this.bmp != null) {
 			canvas.drawBitmap(this.getBMP(), this.getX()-this.getWidth(), this.getY() - this.getHeight(), null);
@@ -231,11 +240,15 @@ public class ScreenElement {
         }
 	}
 	
+	public void unAnimate() {
+		this.s = null;
+	}
+	
 	public static void updateScreenElements() {
 		synchronized(ScreenElement.allScreenElements) {
 			for(int j = 0; j < allScreenElements.size(); j++) {
 				ScreenElement u = allScreenElements.get(j);
-				
+				ScreenElementAnimation.animateScreenElement(u);
 			}
 		}
 	}
@@ -257,6 +270,10 @@ public class ScreenElement {
 				}
 			}
 		}
+	}
+	
+	public void animate(String type, int duration) {
+		this.s = new ScreenElementAnimation(this, type, duration);
 	}
 	
 	// Methods to get values
@@ -331,6 +348,18 @@ public class ScreenElement {
 	
 	public int getWidth() {
 		return width;
+	}
+
+	public ScreenElementAnimation getS() {
+		return s;
+	}
+
+	public void setS(ScreenElementAnimation s) {
+		this.s = s;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 }

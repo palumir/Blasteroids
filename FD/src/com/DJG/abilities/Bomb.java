@@ -54,6 +54,9 @@ public class Bomb {
 		if(setColor=="Red") {
 			color = Color.RED;
 		}
+		if(setColor=="White") {
+			color = Color.WHITE;
+		}
 		maxStroke = 100;
 		blastRadius = newBlastRadius;
 		duration = newDuration;

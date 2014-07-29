@@ -1,6 +1,7 @@
 package com.DJG.abilities;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -17,6 +18,7 @@ public class Nuke {
 	// Static information.
 	private static ArrayList<Nuke> allNukes = new ArrayList<Nuke>();
 	public final static Object NukesLock = new Object(); // A lock so we don't fuck up the Nukes
+	private static Random r = new Random();
 	
 	// Bitmap
 	public static Bitmap NukeBMP = GameActivity.makeTransparent(BitmapFactory.decodeResource(GameActivity.gameContext.getResources(), R.drawable.nuke));
@@ -38,7 +40,7 @@ public class Nuke {
 		x = newX;
 		y = newY;
 		color = Color.YELLOW;
-		maxStroke = 100;
+		maxStroke = 0;
 		blastRadius = newBlastRadius;
 		duration = newDuration;
 		startTime = GameActivity.getGameTime();
@@ -50,9 +52,13 @@ public class Nuke {
 	public void updateNuke(int NukePos) {
 		synchronized(NukesLock) {
 		if(this != null) {
-			double percentDone = (double)(GameActivity.getGameTime() - startTime)/(double)duration;
-			radius = (int)(blastRadius*percentDone);
-			stroke = (int)(maxStroke*(1 - percentDone));
+			if(r.nextInt(100) < 12) {
+				String color = "Yellow";
+				if(r.nextInt(4) == 1) {
+					color = "White";
+				}
+				Bomb b = new Bomb(r.nextInt(GameActivity.getScreenWidth()),r.nextInt(GameActivity.getScreenHeight()),r.nextInt(175) + 100,r.nextInt(600) + 600,color);
+			}
 			long currentTime = GameActivity.getGameTime();
 			if((int)(currentTime - startTime) > duration) {
 					removeNuke(NukePos);

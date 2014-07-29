@@ -603,7 +603,7 @@ public class Unit {
 		
 		// Give an ability, if it's an ability drop dying.
 		if(getMetaType() == "Ability Drop") {
-			Drop.dropRespond(getType());
+			Drop.dropRespond(getType(), this.getX(), this.getY());
 		}
 		
 		// Drop an ability maybe?

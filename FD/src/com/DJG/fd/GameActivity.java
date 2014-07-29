@@ -208,12 +208,12 @@ public class GameActivity extends ActionBarActivity {
 			// Draw our text.
 			drawText(canvas, myPaint);
 
-			// Draw screen elements (buttons, etc.)
-			ScreenElement.drawScreenElements(canvas, myPaint, "Game");
-
 			// Draw earth.
 			Unit.drawEarth(canvas, myPaint);
 
+			// Draw screen elements (buttons, etc.)
+			ScreenElement.drawScreenElements(canvas, myPaint, "Game");
+			
 			// Draw ability slots/icons.
 			Ability.drawAbilities(canvas, myPaint);
 
@@ -397,6 +397,8 @@ public class GameActivity extends ActionBarActivity {
 				Wave.sendWaves();
 			}
 	
+			ScreenElement.updateScreenElements();
+			
 			JenkinsSecrets.updateSecrets();
 			
 			// Update abilities.
