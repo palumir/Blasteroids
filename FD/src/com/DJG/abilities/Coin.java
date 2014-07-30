@@ -58,6 +58,11 @@ public class Coin {
 		Ability.getEditor().commit();
 	}
 	
+	public static void increaseCoins(int n) {
+		Ability.getEditor().putInt("flickOff_numCoins",getCoins() + n);
+		Ability.getEditor().commit();
+	}
+	
 	public void updateCoin(int CoinPos) {
 		synchronized(CoinsLock) {
 		if(this != null) {

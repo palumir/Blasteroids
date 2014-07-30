@@ -37,10 +37,23 @@ public class TouchEvent {
     	Combo touchedCombo = Combo.getComboWithin(pos1,pos2);
     	if(touchedCombo != null) {
     		if(action == android.view.MotionEvent.ACTION_DOWN) {
+    			grabbedScreenElement = ScreenElement.getScreenElementAt(pos1,pos2);
     			touchedCombo.setOldX();
         		touchedCombo.startComboX = pos1;
     		}
     		else if(action == android.view.MotionEvent.ACTION_UP) {
+    			// Respond to a purchase.
+    			if(grabbedScreenElement != null && grabbedScreenElement==ScreenElement.getScreenElementAt(pos1,pos2) && grabbedScreenElement.getType() == "Button" && grabbedScreenElement.getName() == "Buy") {
+    				Log.d("Equip","ggggg");
+    				Ability attachedAbility = grabbedScreenElement.getAttachedAbility();
+    				attachedAbility.buy();
+    			}
+    			// Respond to equip
+    			else if(grabbedScreenElement != null && grabbedScreenElement==ScreenElement.getScreenElementAt(pos1,pos2) && grabbedScreenElement.getType() == "Button" && grabbedScreenElement.getName() == "Equip") {
+    				Log.d("Equip","EQuip");
+    				Ability attachedAbility = grabbedScreenElement.getAttachedAbility();
+    				//attachedAbility.equip();
+    			}
     			touchedCombo.startComboX = 0;
     			touchedCombo.moveBy = 0;
     			touchedCombo.curFingerPos = 0;

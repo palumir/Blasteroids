@@ -7,13 +7,10 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.util.Log;
 
-import com.DJG.abilities.Bomb;
+import com.DJG.abilities.Ability;
 import com.DJG.fd.GameActivity;
 import com.DJG.fd.R;
-import com.DJG.units.UnitAnimation;
-import com.DJG.waves.Wave;
 
 public class ScreenElement {
 	// Static button stuff
@@ -54,6 +51,9 @@ public class ScreenElement {
 	private int currentHitPoints;
 	private int maxHitPoints;
 	private int damage;
+	
+	// Store stuff
+	private Ability attachedAbility = null;
 	
 	public ScreenElement(
 			String newType,
@@ -253,6 +253,10 @@ public class ScreenElement {
 		}
 	}
 	
+	public void attachAbility(Ability a) {
+		setAttachedAbility(a);
+	}
+	
 	public void respondToTouch() {
 		if(this.getName() == "Pause") {
 			if(!GameActivity.paused) {
@@ -360,6 +364,18 @@ public class ScreenElement {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public Ability getAttachedAbility() {
+		return attachedAbility;
+	}
+
+	public void setAttachedAbility(Ability attachedAbility) {
+		this.attachedAbility = attachedAbility;
+	}
+
+	public int getColor() {
+		return color;
 	}
 
 }

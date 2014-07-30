@@ -16,16 +16,16 @@ public class UnitType {
 	private static ArrayList<UnitType> allUnitTypes;
 	
 	// Frozen BMP
-	public static Bitmap frozenBMP;
+	private Bitmap frozenBMP;
 	
 	public static void initUnitTypes() {
-		frozenBMP = GameActivity.makeTransparent(BitmapFactory.decodeResource(GameActivity.gameContext.getResources(), R.drawable.frozen_asteroid));
-		setAllUnitTypes(new ArrayList<UnitType>());
+		
+		allUnitTypes = new ArrayList<UnitType>();
 		
 		// Basic Units
-		getAllUnitTypes().add(new UnitType("Asteroid",30,1f, true, R.drawable.asteroid, 1, 10));
-		getAllUnitTypes().add(new UnitType("Fire Asteroid",30,1f,true, R.drawable.fire_asteroid, 1, 20));
-		getAllUnitTypes().add(new UnitType("Ice Asteroid",30,1f,true, R.drawable.ice_asteroid, 1, 10));
+		getAllUnitTypes().add(new UnitType("Asteroid",30,1f, true, R.drawable.asteroid, R.drawable.frozen_asteroid, 1, 10,"Unit"));
+		getAllUnitTypes().add(new UnitType("Fire Asteroid",30,1f,true, R.drawable.fire_asteroid, R.drawable.frozen_asteroid, 1, 10,"Unit"));
+		getAllUnitTypes().add(new UnitType("Ice Asteroid",30,1f,true, R.drawable.ice_asteroid, R.drawable.frozen_asteroid, 1, 10,"Unit"));
 		getAllUnitTypes().add(new UnitType("Cat",50,3f, true, R.drawable.satelite, 1, 10));
 		getAllUnitTypes().add(new UnitType("Splitter Huge",200,2f,true,Color.RED,"Square", 1, 200));
 		getAllUnitTypes().add(new UnitType("Splitter Big",100,1.5f,true,R.drawable.splitter_big, 1, 100));
@@ -34,7 +34,6 @@ public class UnitType {
 		getAllUnitTypes().add(new UnitType("FullHealer",40,1f, true, Color.GREEN,"Plus", 2, -100));
 		getAllUnitTypes().add(new UnitType("Healer",20,1.5f, true, Color.GREEN,"Plus", 2, -10));
 		getAllUnitTypes().add(new UnitType("Spawner", 200, 0, true, Color.MAGENTA,"Square",2,0));
-		
 		
 		// Cthulu
 		getAllUnitTypes().add(new UnitType("Cthulu Head",100,1f,true,Color.RED,"Square", 1, 0));
@@ -83,6 +82,18 @@ public class UnitType {
 		damage = newDamage;
 	}
 	
+	public UnitType(String newType, int newRadius, float newMoveSpeed, boolean isKillable, int newBitMapLink, int newFrozenBMPLink, int newHP, int newDamage, String newMetaType) {
+		type = newType;
+		radius = newRadius;
+		moveSpeed = newMoveSpeed;
+		metaType = newMetaType;
+		killable = isKillable;
+		bitmap = GameActivity.makeTransparent(BitmapFactory.decodeResource(GameActivity.gameContext.getResources(), newBitMapLink));
+		setFrozenBMP(GameActivity.makeTransparent(BitmapFactory.decodeResource(GameActivity.gameContext.getResources(), newFrozenBMPLink)));
+		maxHitPoints = newHP;
+		damage = newDamage;
+	}
+	
 	public UnitType(String newType, int newRadius, float newMoveSpeed, boolean isKillable, int newBitMapLink, int newHP, int newDamage, String newMetaType) {
 		type = newType;
 		radius = newRadius;
@@ -90,11 +101,13 @@ public class UnitType {
 		metaType = newMetaType;
 		killable = isKillable;
 		bitmap = GameActivity.makeTransparent(BitmapFactory.decodeResource(GameActivity.gameContext.getResources(), newBitMapLink));
+		setFrozenBMP(bitmap);
 		maxHitPoints = newHP;
 		damage = newDamage;
 	}
 	
 	public UnitType(String newType, String newMetaType, int newRadius, float newMoveSpeed, boolean isKillable, Bitmap newBitMap, int newHP, int newDamage) {
+		setFrozenBMP(bitmap);
 		type = newType;
 		radius = newRadius;
 		moveSpeed = newMoveSpeed;
@@ -183,5 +196,13 @@ public class UnitType {
 
 	public static void setAllUnitTypes(ArrayList<UnitType> allUnitTypes) {
 		UnitType.allUnitTypes = allUnitTypes;
+	}
+
+	public Bitmap getFrozenBMP() {
+		return frozenBMP;
+	}
+
+	public void setFrozenBMP(Bitmap frozenBMP) {
+		this.frozenBMP = frozenBMP;
 	}
 }

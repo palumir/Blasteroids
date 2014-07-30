@@ -11,6 +11,7 @@ import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -173,7 +174,7 @@ public class Store extends ActionBarActivity {
 				Ability a = Ability.upgradeableAbilities.get(j);
 				ScreenElement abilityIcon = new ScreenElement(
 						"Buy",
-						"Button",
+						"Icon",
 						GameActivity.getScreenWidth()/2 + seperation,
 						start,
 						80,
@@ -183,7 +184,7 @@ public class Store extends ActionBarActivity {
 						);
 				ScreenElement coinIcon = new ScreenElement(
 						"Coin",
-						"Button",
+						"Icon",
 						GameActivity.getScreenWidth()/2 + seperation + 50,
 						start,
 						55,
@@ -216,7 +217,20 @@ public class Store extends ActionBarActivity {
 						ScreenElement.buttonTest,
 						"Store"
 						);
+				ScreenElement equipButton = new ScreenElement(
+						"Equip",
+						"Button",
+						GameActivity.getScreenWidth()/2 + seperation,
+						start + 300,
+						80,
+						43,
+						ScreenElement.buttonTest,
+						"Store"
+						);
+				equipButton.attachAbility(a);
+				buyButton.attachAbility(a);
 				c1.add(abilityIcon);
+				c1.add(equipButton);
 				c1.add(coinIcon);
 				c1.add(costButton);
 				c1.add(descButton);
@@ -226,7 +240,7 @@ public class Store extends ActionBarActivity {
 		}
 		
 		int seperation = 0;
-		int start = GameActivity.getScreenHeight()/2 + GameActivity.getScreenHeight()/16;
+		int start = GameActivity.getScreenHeight()/2 + GameActivity.getScreenHeight()/14;
 		int top = start - 50;
 		int bot = start + 300;
 		Combo c2 = new Combo(top, bot);

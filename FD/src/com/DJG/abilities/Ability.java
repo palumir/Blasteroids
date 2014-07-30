@@ -1,7 +1,6 @@
 package com.DJG.abilities;
 import java.util.ArrayList;
 
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.graphics.Bitmap;
@@ -10,12 +9,12 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.media.MediaPlayer;
+import android.util.Log;
 
 import com.DJG.fd.GameActivity;
 import com.DJG.fd.R;
 import com.DJG.fd.touchevents.TouchEvent;
 import com.DJG.units.Unit;
-import com.DJG.waves.Wave;
 
 public class Ability {
 	private static SharedPreferences prefs;
@@ -25,6 +24,8 @@ public class Ability {
 	private static ArrayList<Ability> allAbilities;
 	private static ArrayList<Ability> equippedAbilities;
 	public static ArrayList<Ability> upgradeableAbilities;
+	public static ArrayList<Ability> purchasedAbilities;
+	public final static Object purchasedAbilitiesLock = new Object();
 	public final static Object upgradeableAbilitiesLock = new Object();
 	public final static Object abilitiesLock = new Object(); // A lock so we don't fuck up the abilities
 	public final static Object allAbilitiesLock = new Object();
@@ -48,7 +49,7 @@ public class Ability {
 	private int uses;
 	private String symbol;
 	private int iconColor;
-	private boolean equipped = false;
+	private boolean purchased = false;
 	
 	// Shop information
 	private String description;
@@ -64,7 +65,7 @@ public class Ability {
 		uses = newUses;
 		iconColor = Color.WHITE;
 		bmp = newBMP;
-		equipped = (getPrefs().getInt(newType + "_equipped", 0) == 1);
+		purchased = (getPrefs().getInt(newType + "_equipped", 0) == 1);
 		
 		switch(slot){
 		case -1:
@@ -94,9 +95,10 @@ public class Ability {
 		setPrefs(shared);
 		setEditor(getPrefs().edit());
 		
+		
 		// If they have no abilities, give them a bomb!
-		if(getPrefs().getInt("Bomb_equipped", -99) == -99) {
-			getEditor().putInt("Bomb_equipped",1);
+		if(getPrefs().getInt("Bomb_purchased", -99) == -99) {
+			getEditor().putInt("Bomb_purchased",1);
 			getEditor().commit();
 		}
 		
@@ -106,12 +108,33 @@ public class Ability {
 		upgradeableAbilities.add(new Ability("Slow",0,1,3,-1,Slow.slowBMP,32,"A slow.",15));
 		upgradeableAbilities.add(new Ability("Blackhole",0,1,3,-1,Blackhole.BlackholeBMP,32,"A blackhole.",25));
 		upgradeableAbilities.add(new Ability("Fire Fingers",-1,1,3,-1,FireFingers.fireBMP,32,"Fire Fingers",0));
-		upgradeableAbilities.add(new Ability("Nuke",-1,1,3,-1,Nuke.NukeBMP,32,"Nuke",0));
+		upgradeableAbilities.add(new Ability("Nuke",0,1,3,-1,Nuke.NukeBMP,32,"Nuke",0));
 		upgradeableAbilities.add(new Ability("Coin",-1,1,3,-1,Coin.CoinBMP,25,"Coin",0));
 		
 		// All droppable abilities/equippable abilities.
+		initPurchasedAbilities();
 		initUserAbilities();
 		Drop.initAbilityDrops();
+	}
+	
+	public void buy() {
+		if(getPrefs().getInt(getType() + "_purchased", -99) == -99) {
+			getEditor().putInt(getType() + "_purchased",1);
+			Coin.increaseCoins((-1)*getCost());
+			getEditor().commit();
+		}
+	}
+	
+	static void initPurchasedAbilities() {
+		purchasedAbilities = new ArrayList<Ability>();
+		synchronized(purchasedAbilitiesLock) {
+			int curSlot = 0;
+			for(Ability a : upgradeableAbilities) {
+				if(a.purchased){
+					purchasedAbilities.add(a);
+				}
+			}
+		}
 	}
 	
 	static void initUserAbilities() {
@@ -119,11 +142,18 @@ public class Ability {
 		synchronized(upgradeableAbilitiesLock) {
 			int curSlot = 0;
 			for(Ability a : upgradeableAbilities) {
-				if(a.equipped){
-					a.setSlot(curSlot);
-					equippedAbilities.add(a);
-					curSlot++;
-				}
+					if(getPrefs().getString("Slot1","Bomb") == a.getType()) {
+						equippedAbilities.add(a);
+						a.setSlot(0);
+					}
+					if(getPrefs().getString("Slot2","None") == a.getType()) {
+						equippedAbilities.add(a);
+						a.setSlot(1);
+					}
+					if(getPrefs().getString("Slot3","None") == a.getType()) {
+						equippedAbilities.add(a);
+						a.setSlot(2);
+					}
 				// The ability is passive!
 				else if(a.slot == -1) {
 					equippedAbilities.add(a);
@@ -138,6 +168,25 @@ public class Ability {
 	
 	public void setSlot(int newSlot) {
 		slot = newSlot;
+		switch(slot){
+		case -1:
+			// Don't show it on the screen.
+			x = -1000;
+			y = -1000;
+			break;
+		case 0:
+			x = GameActivity.getScreenWidth()-100;
+			break;
+		case 1:
+			x = GameActivity.getScreenWidth()-200;
+			break;
+		case 2:
+			x = GameActivity.getScreenWidth()-300;
+			break;
+		default:
+			break;
+		}
+		y = GameActivity.getScreenHeight()-100;
 	}
 	
 	public String getSymbol() {

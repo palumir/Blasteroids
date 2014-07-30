@@ -2,6 +2,7 @@ package com.DJG.abilities;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.support.v4.view.MotionEventCompat;
 import android.view.MotionEvent;
 
@@ -30,6 +31,12 @@ public class FireFingers {
 	public static void updateFireFingers() {
 		// End fire fingers!
 		if(timer!=null) {
+			if(timer.getColor() == Color.RED) {
+				timer.setColor(Color.YELLOW);
+			}
+			else {
+				timer.setColor(Color.RED);
+			}
 			timer.setName("Bomb Fingers " + (getDuration() - (GameActivity.getGameTime() - startTime))/1000);
 		}
 		if(GameActivity.getGameTime() - startTime > getDuration()) {

@@ -52,6 +52,7 @@ public class Unit {
 	private boolean killable = false;
 	
 	// Drawing information:
+	private Bitmap frozenBMP;
 	private String shape;
 	private String metaType;
 	public int color;
@@ -78,6 +79,7 @@ public class Unit {
 		shape = u.getShape();
 		spinSpeed = 0;
 		bmp = u.getBMP();
+		frozenBMP = u.getFrozenBMP();
 		metaType = u.getMetaType();
 		// Stats
 		maxHitPoints = u.getMaxHitPoints();
@@ -116,6 +118,7 @@ public class Unit {
 		currentHitPoints = maxHitPoints;
 		damage = u.getDamage();
 		color = u.getColor();
+		frozenBMP = u.getFrozenBMP();
 		
 		// Set it's coordinates.
 		name = newName;
@@ -140,7 +143,7 @@ public class Unit {
 		frozenDuration = time;
 		if(!isFrozen) {
 			oldbmp = this.getBMP();
-			bmp = UnitType.frozenBMP;
+			bmp = this.frozenBMP;
 		}
 		isFrozen = true;
 	}
