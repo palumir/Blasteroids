@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.util.Log;
 
 import com.DJG.abilities.Ability;
 import com.DJG.fd.GameActivity;
@@ -67,6 +68,8 @@ public class ScreenElement {
 		type = newType;
 		x = xSpawn;
 		y = ySpawn;
+		width = 50;
+		height = 50;
 		xNew = xSpawn;
 		yNew = ySpawn;
 		activity = newActivity;
@@ -220,6 +223,14 @@ public class ScreenElement {
 			myPaint.setStrokeWidth(3);
 			myPaint.setTextSize(this.textsize);
 			myPaint.setColor(this.color);
+			canvas.drawText(this.getName(), this.x, this.y, myPaint);
+		}
+		else if(this.type == "Slot1" || this.type == "Slot2" || this.type == "Slot3") {
+			myPaint.setStyle(Paint.Style.FILL);
+			myPaint.setStrokeWidth(3);
+			myPaint.setTextSize(this.textsize);
+			myPaint.setColor(this.color);
+			canvas.drawRect(this.x, this.y, this.x+50, this.y+50, myPaint);
 			canvas.drawText(this.getName(), this.x, this.y, myPaint);
 		}
 		else if(this.bmp != null) {

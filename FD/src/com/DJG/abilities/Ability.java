@@ -107,6 +107,7 @@ public class Ability {
 		upgradeableAbilities.add(new Ability("Bomb",0,1,3,R.raw.small_3_second_explosion,Bomb.bombBMP,32,"A bomb.",0));
 		upgradeableAbilities.add(new Ability("Slow",0,1,3,-1,Slow.slowBMP,32,"A slow.",15));
 		upgradeableAbilities.add(new Ability("Blackhole",0,1,3,-1,Blackhole.BlackholeBMP,32,"A blackhole.",25));
+		upgradeableAbilities.add(new Ability("Turret",0,1,3,-1,Turret.TurretBMP,32,"A turret.",25));
 		upgradeableAbilities.add(new Ability("Fire Fingers",-1,1,3,-1,FireFingers.fireBMP,32,"Fire Fingers",0));
 		upgradeableAbilities.add(new Ability("Nuke",-1,1,3,-1,Nuke.NukeBMP,32,"Nuke",0));
 		upgradeableAbilities.add(new Ability("Coin",-1,1,3,-1,Coin.CoinBMP,25,"Coin",0));
@@ -125,6 +126,12 @@ public class Ability {
 		}
 	}
 	
+	public void equip(String equipSlot) {
+		getEditor().putString(equipSlot, getType());
+		getEditor().commit();
+		initUserAbilities();
+	}
+	
 	static void initPurchasedAbilities() {
 		purchasedAbilities = new ArrayList<Ability>();
 		synchronized(purchasedAbilitiesLock) {
@@ -140,19 +147,18 @@ public class Ability {
 	static void initUserAbilities() {
 		equippedAbilities = new ArrayList<Ability>();
 		synchronized(upgradeableAbilitiesLock) {
-			int curSlot = 0;
 			for(Ability a : upgradeableAbilities) {
-					if(getPrefs().getString("Slot1","Bomb") == a.getType()) {
-						equippedAbilities.add(a);
+					if(getPrefs().getString("Slot1","Bomb").equals(a.getType())) {
 						a.setSlot(0);
-					}
-					if(getPrefs().getString("Slot2","None") == a.getType()) {
 						equippedAbilities.add(a);
+					}
+					else if(getPrefs().getString("Slot2","None").equals(a.getType())) {
 						a.setSlot(1);
-					}
-					if(getPrefs().getString("Slot3","None") == a.getType()) {
 						equippedAbilities.add(a);
+					}
+					else if(getPrefs().getString("Slot3","None").equals(a.getType())) {
 						a.setSlot(2);
+						equippedAbilities.add(a);
 					}
 				// The ability is passive!
 				else if(a.slot == -1) {
@@ -252,6 +258,7 @@ public class Ability {
       	Nuke.drawNukes(canvas,myPaint);
       	Coin.drawCoins(canvas,myPaint);
       	Blackhole.drawBlackholes(canvas, myPaint);
+      	Turret.drawTurrets(canvas,myPaint);
       	KnockBack.drawKnockBacks(canvas, myPaint);
 	}
 
@@ -261,6 +268,7 @@ public class Ability {
 		Nuke.updateNukes();
 		Coin.updateCoins();
 		Blackhole.updateBlackholes();
+		Turret.updateTurrets();
 		KnockBack.updateknockBacks();
 		FireFingers.updateFireFingers();
 	}
@@ -298,6 +306,11 @@ public class Ability {
 			if(this.getType() == "Blackhole") {
 				synchronized(Blackhole.BlackholesLock) {
 					Blackhole newBlackhole = new Blackhole(xSpawn,ySpawn,200,11000); // Default slow.
+				}
+			}
+			if(this.getType() == "Turret") {
+				synchronized(Turret.TurretsLock) {
+					Turret newTurret = new Turret(xSpawn,ySpawn,300,30000); // Default slow.
 				}
 			}
 			if(this.getType() == "KnockBack") {
@@ -356,6 +369,7 @@ public class Ability {
 			Coin.clearCoins();
 			Nuke.clearNukes();
 			Blackhole.clearBlackholes();
+			Turret.clearTurrets();
 			KnockBack.clearKnockBacks();
 			equippedAbilities.clear();
 		}
@@ -366,6 +380,7 @@ public class Ability {
 		Nuke.checkIfHitNuke(u);
 		Slow.checkIfHitSlow(u);
 		Blackhole.checkIfHitBlackhole(u);
+		Turret.checkIfHitTurret(u);
 		KnockBack.checkIfHitKnockBack(u);
 	}
 	

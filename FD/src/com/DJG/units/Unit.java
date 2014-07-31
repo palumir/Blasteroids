@@ -44,6 +44,9 @@ public class Unit {
 	private float yMomentum=0;
 	private float fixedRadius=0;
 	
+	// Projectile Information
+	private Unit target = null;
+	
 	// Animator
 	private UnitAnimation unitAnimation = null;
 	
@@ -134,6 +137,10 @@ public class Unit {
 		}
 	}
 	
+	public void fixate(Unit u) {
+		target = u;
+	}
+	
 	public String getMetaType() {
 		return metaType;
 	}
@@ -174,6 +181,12 @@ public class Unit {
 	}
 	
 	public void moveUnit() {
+		// If the unit is a projectile, follow the unit.
+		if(target!=null) {
+			xNew = target.getX();
+			yNew = target.getY();
+		}
+		
 		Planet planet = (Planet) getUnit("Fortress");
 		float gravity = planet.getGravity(); 
 			if(timeFrozen != 0 && GameActivity.getGameTime() - timeFrozen > frozenDuration) {

@@ -35,41 +35,54 @@ public class TouchEvent {
 		float pos2 = event.getY(event.findPointerIndex(event.getPointerId(0)));
     	int action = MotionEventCompat.getActionMasked(event);
     	Combo touchedCombo = Combo.getComboWithin(pos1,pos2);
-    	if(touchedCombo != null) {
     		if(action == android.view.MotionEvent.ACTION_DOWN) {
     			grabbedScreenElement = ScreenElement.getScreenElementAt(pos1,pos2);
-    			touchedCombo.setOldX();
-        		touchedCombo.startComboX = pos1;
+    			if(touchedCombo!=null) {
+    				touchedCombo.setOldX();
+    				touchedCombo.startComboX = pos1;
+    			}
     		}
     		else if(action == android.view.MotionEvent.ACTION_UP) {
-    			// Respond to a purchase.
-    			if(grabbedScreenElement != null && grabbedScreenElement==ScreenElement.getScreenElementAt(pos1,pos2) && grabbedScreenElement.getType() == "Button" && grabbedScreenElement.getName() == "Buy") {
-    				Log.d("Equip","ggggg");
-    				Ability attachedAbility = grabbedScreenElement.getAttachedAbility();
-    				attachedAbility.buy();
-    			}
-    			// Respond to equip
-    			else if(grabbedScreenElement != null && grabbedScreenElement==ScreenElement.getScreenElementAt(pos1,pos2) && grabbedScreenElement.getType() == "Button" && grabbedScreenElement.getName() == "Equip") {
-    				Log.d("Equip","EQuip");
-    				Ability attachedAbility = grabbedScreenElement.getAttachedAbility();
-    				//attachedAbility.equip();
-    			}
-    			touchedCombo.startComboX = 0;
-    			touchedCombo.moveBy = 0;
-    			touchedCombo.curFingerPos = 0;
-    			touchedCombo.leftorright = 0;
-    		}
-    		else {
-    			touchedCombo.curFingerPos = pos1;
-    			if((pos1 - touchedCombo.startComboX) - touchedCombo.moveBy > 0) {
-    				touchedCombo.leftorright = 1;
+    			ScreenElement touchedElement = ScreenElement.getScreenElementAt(pos1, pos2);
+    			if(touchedElement == null) {
+    				grabbedAbility = null;
     			}
     			else {
-    				touchedCombo.leftorright = -1;
+    				// Respond to an actual equip
+    				if(grabbedScreenElement != null && grabbedScreenElement==touchedElement && grabbedScreenElement.getType().contains("Slot") && grabbedAbility != null) {
+    					grabbedScreenElement.setName(grabbedAbility.getType());
+    					grabbedAbility.equip(grabbedScreenElement.getType());
+    				}
+	    			// Respond to a purchase.
+    				else if(grabbedScreenElement != null && grabbedScreenElement==touchedElement && grabbedScreenElement.getType() == "Button" && grabbedScreenElement.getName() == "Buy") {
+	    				Ability attachedAbility = grabbedScreenElement.getAttachedAbility();
+	    				attachedAbility.buy();
+	    			}
+	    			// Respond to equip click
+	    			else if(grabbedScreenElement != null && grabbedScreenElement==touchedElement && grabbedScreenElement.getType() == "Button" && grabbedScreenElement.getName() == "Equip") {
+	    				Ability attachedAbility = grabbedScreenElement.getAttachedAbility();
+	    				grabbedAbility = attachedAbility;
+	    			}
     			}
-    			touchedCombo.moveBy = pos1 - touchedCombo.startComboX;
+    			if(touchedCombo!=null) {
+	    			touchedCombo.startComboX = 0;
+	    			touchedCombo.moveBy = 0;
+	    			touchedCombo.curFingerPos = 0;
+	    			touchedCombo.leftorright = 0;
+    			}
     		}
-    	}
+    		else {
+    			if(touchedCombo!=null) {
+	    			touchedCombo.curFingerPos = pos1;
+	    			if((pos1 - touchedCombo.startComboX) - touchedCombo.moveBy > 0) {
+	    				touchedCombo.leftorright = 1;
+	    			}
+	    			else {
+	    				touchedCombo.leftorright = -1;
+	    			}
+	    			touchedCombo.moveBy = pos1 - touchedCombo.startComboX;
+	    		}
+    		}
 	}
 	
 	public static void respondToGameTouchEvent(MotionEvent event) { 
@@ -249,6 +262,25 @@ public class TouchEvent {
 	    		secondGrabbedAbilityY = pos2Second;
 	    	}
 	    }
+	}
+	
+	public static void purgeTouch() {
+		// What type of touch is it?
+		touchType = "Normal";
+		
+		// Grabbed units (two, one for each hand);
+		action1 = 0;
+		action2 = 0;
+		grabbedAbility = null;
+		grabbedAbilityX = -100;
+		grabbedAbilityY = -100;
+		secondGrabbedAbility = null;
+		secondGrabbedAbilityX = -100;
+	    secondGrabbedAbilityY = -100;
+		grabbedUnit = null;
+		secondGrabbedUnit = null;
+		grabbedScreenElement = null;
+		secondGrabbedScreenElement = null;
 	}
 	
 	static void respondToUnitTouch(MotionEvent event) {

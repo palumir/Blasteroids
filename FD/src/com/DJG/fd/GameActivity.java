@@ -123,6 +123,7 @@ public class GameActivity extends ActionBarActivity {
 		View v = new gameView(this);
 		setContentView(v);
 		currentView = v;
+		TouchEvent.purgeTouch();
 
 		if (doOnce) {
 			gameContext = this.getApplicationContext();
