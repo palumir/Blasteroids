@@ -20,9 +20,11 @@ import com.DJG.waves.Wave;
 
 public class Unit {
 	// Global stuff.
+	public static ArrayList<Unit> projectiles = new ArrayList<Unit>();
+	public final static Object projectilesLock = new Object();
 	public static ArrayList<Unit> allUnits = new ArrayList<Unit>();
 	public static ArrayList<Unit> onScreenUnits = new ArrayList<Unit>();
-	public final static Object onScreenUnitsLock = new ArrayList<Unit>();
+	public final static Object onScreenUnitsLock = new Object();
 	public final static Object allUnitsLock = new Object(); // A lock so we don't fuck up the allUnits
 	
 	// Unit General Information:
@@ -46,6 +48,7 @@ public class Unit {
 	
 	// Projectile Information
 	private Unit target = null;
+	private boolean isAttacked = false;
 	
 	// Animator
 	private UnitAnimation unitAnimation = null;
@@ -102,6 +105,11 @@ public class Unit {
 		// Add it to the list of units to be drawn.
 		synchronized(allUnitsLock) {
 			addUnit(this);
+		}
+		if(metaType == "Projectile") {
+			synchronized(projectilesLock) {
+				projectiles.add(this);
+			}
 		}
 	}
 	
@@ -347,6 +355,25 @@ public class Unit {
 			}
 		}
 		
+		public static void killProj(Unit u) {
+			if(projectiles.size()!=0){
+				synchronized(projectilesLock) {
+					int foundUnit = 0;
+					for(int j = 0; j < projectiles.size(); j++) {
+						Unit v = projectiles.get(j);
+						if(u == v) {
+							break;
+						}
+						foundUnit++;
+					}
+					if(foundUnit < projectiles.size()) {
+						projectiles.get(foundUnit).target.isAttacked = false;
+						projectiles.remove(foundUnit);
+					}
+				}
+			}
+		}
+		
 	public static boolean isGreaterThan(String a, String b) {
 		String[] order = {"Asteroid","Ice Asteroid","Cat","Fire Asteroid"};
 		int posA = Arrays.asList(order).indexOf(a);
@@ -403,7 +430,7 @@ public class Unit {
 		return allUnits.size();
 	}
 	
-	static void checkIfHitCastleOrMove(Unit castle, Unit u) {
+	static void checkIfHitCastle(Unit castle, Unit u) {
 		float castleY = 0;
 		float castleX = 0;
 		float castleRadius = 0;
@@ -415,7 +442,7 @@ public class Unit {
 		float yDistanceUnit = (castleY - u.getY());
 		float xDistanceUnit = (castleX - u.getX());
 		float distanceXYUnit = (float)Math.sqrt(yDistanceUnit*yDistanceUnit + xDistanceUnit*xDistanceUnit);
-		if(distanceXYUnit <= castleRadius + u.getRadius()) {
+		if(distanceXYUnit <= castleRadius + u.getRadius() && u.getMetaType() == "Unit") {
 			u.attacks(castle);
 			u.die();
 			GameActivity.castleHP = "" + castle.getHP();
@@ -426,8 +453,26 @@ public class Unit {
 			p.onCollison();
 		}
 		else {
-			u.moveUnit();
 		}
+	}
+	
+	static void moveUnit(Unit u) {
+		u.moveUnit();
+	}
+	
+	static void checkIfHitProjectile(Unit u) {
+        synchronized(projectilesLock) {
+			for(int j = 0; j < projectiles.size(); j++) {
+				Unit currentProj = projectiles.get(j);
+				float yDistanceUnit = (currentProj.getY() - u.getY());
+				float xDistanceUnit = (currentProj.getX() - u.getX());
+				float distanceXYUnit = (float)Math.sqrt(yDistanceUnit*yDistanceUnit + xDistanceUnit*xDistanceUnit);
+      	  		if(distanceXYUnit <= currentProj.getRadius() + u.getRadius() && u.getMetaType() == "Unit" && u.getName() != "Fortress") {
+      	  			currentProj.die();
+      	  			u.die();
+      	  		}
+        	}
+        }
 	}
 	
 	static void checkIfHitMoon(ArrayList<Unit> moons, Unit u){
@@ -540,8 +585,17 @@ public class Unit {
 			for(int j = 0; j < onScreenUnits.size(); j++) {
 				Unit u = onScreenUnits.get(j);
 				
+				// Kill projectiles with dead units
+				if(u.getMetaType() == "Projectile" && u.target.isDead()) {
+					u.die();
+				}
+				
 				// Animate?
 				UnitAnimation.animateUnit(u);
+				
+				if(u.getName() != "Fortress") {
+					checkIfHitCastle(castle, u);	
+				}
 				
 				if(u.getName() != "Fortress" && u.getMetaType() == "Unit") {
 					// Check if we have hit any abilities.
@@ -559,11 +613,14 @@ public class Unit {
 				}
 				if(u.getName() != "Fortress") {
 					// Check if we have hit the castle.
-					checkIfHitCastleOrMove(castle, u);
+					moveUnit(u);			
+					
+					// Check if we hit a projectile.
+					checkIfHitProjectile(u);
 				}
-				if(!u.getType().endsWith("Moon")){
+				/*if(!u.getType().endsWith("Moon")){
 						checkIfHitMoon(moons, u);
-				}
+				}*/
 			}
 		}
 	}
@@ -654,10 +711,15 @@ public class Unit {
 			Wave.currentWaveAttackCastle();
 		}
 		
+		if(metaType == "Projectile") {
+			killProj(this);
+		}
+		
 		// Kill the old unit.
 		dontDrawUnit(this);
 		killUnit(this);
 		Wave.killUnit(this);
+		currentHitPoints = -1;
 	}
 	
 	public void setMomentum(int x, int y){
@@ -736,5 +798,13 @@ public class Unit {
 	
 	public void setRadius(int newRadius) {
 		radius = newRadius;
+	}
+
+	public boolean isAttacked() {
+		return isAttacked;
+	}
+
+	public void setAttacked(boolean isAttacked) {
+		this.isAttacked = isAttacked;
 	}
 }

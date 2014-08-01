@@ -310,7 +310,7 @@ public class Ability {
 			}
 			if(this.getType() == "Turret") {
 				synchronized(Turret.TurretsLock) {
-					Turret newTurret = new Turret(xSpawn,ySpawn,300,30000); // Default slow.
+					Turret newTurret = new Turret(xSpawn,ySpawn,350,20000); // Default slow.
 				}
 			}
 			if(this.getType() == "KnockBack") {
