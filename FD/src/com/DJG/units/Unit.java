@@ -2,12 +2,10 @@ package com.DJG.units;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.util.Log;
-
 import com.DJG.abilities.Ability;
 import com.DJG.abilities.Blackhole;
 import com.DJG.abilities.Bomb;
@@ -188,14 +186,13 @@ public class Unit {
 		}
 	}
 	
-	public void moveUnit() {
+	public void moveUnit(Planet planet) {
 		// If the unit is a projectile, follow the unit.
 		if(target!=null) {
 			xNew = target.getX();
 			yNew = target.getY();
 		}
 		
-		Planet planet = (Planet) getUnit("Fortress");
 		float gravity = planet.getGravity(); 
 			if(timeFrozen != 0 && GameActivity.getGameTime() - timeFrozen > frozenDuration) {
 				isFrozen = false;
@@ -431,34 +428,32 @@ public class Unit {
 	}
 	
 	static void checkIfHitCastle(Unit castle, Unit u) {
-		float castleY = 0;
-		float castleX = 0;
-		float castleRadius = 0;
-		if(castle!=null) {
-			castleY = castle.getY();
-			castleX = castle.getX();
-			castleRadius = castle.getRadius();
-		}
-		float yDistanceUnit = (castleY - u.getY());
-		float xDistanceUnit = (castleX - u.getX());
-		float distanceXYUnit = (float)Math.sqrt(yDistanceUnit*yDistanceUnit + xDistanceUnit*xDistanceUnit);
-		if(distanceXYUnit <= castleRadius + u.getRadius() && u.getMetaType() == "Unit") {
-			u.attacks(castle);
-			u.die();
-			GameActivity.castleHP = "" + castle.getHP();
-			if(castle.isDead()){
-				GameActivity.setLost();
+		if(u.getMetaType() == "Unit") {
+			float castleY = 0;
+			float castleX = 0;
+			float castleRadius = 0;
+			if(castle!=null) {
+				castleY = castle.getY();
+				castleX = castle.getX();
+				castleRadius = castle.getRadius();
 			}
-			Planet p = (Planet) castle;
-			p.onCollison();
-		}
-		else {
-		}
+			float yDistanceUnit = (castleY - u.getY());
+			float xDistanceUnit = (castleX - u.getX());
+			float distanceXYUnit = (float)Math.sqrt(yDistanceUnit*yDistanceUnit + xDistanceUnit*xDistanceUnit);
+			if(distanceXYUnit <= castleRadius + u.getRadius()) {
+				u.attacks(castle);
+				u.die();
+				GameActivity.castleHP = "" + castle.getHP();
+				if(castle.isDead()){
+					GameActivity.setLost();
+				}
+				Planet p = (Planet) castle;
+				p.onCollison();
+			}
+			else {
+			}
 	}
-	
-	static void moveUnit(Unit u) {
-		u.moveUnit();
-	}
+}
 	
 	static void checkIfHitProjectile(Unit u) {
         synchronized(projectilesLock) {
@@ -578,7 +573,7 @@ public class Unit {
 		
 	public static void updateUnits() {
 		// Where is the castle?
-		Unit castle = getUnit("Fortress");
+		Planet castle = GameActivity.getFortress();
 		GameActivity.castleHP = "" + castle.getHP();
 		
 		synchronized(Unit.onScreenUnitsLock) {
@@ -605,7 +600,8 @@ public class Unit {
 		}
 		
 		synchronized(Unit.allUnits) {
-			ArrayList<Unit> moons = getMoons();
+			//ArrayList<Unit> moons = getMoons(); IAN FIX THIS SHIT ITS INEFFICIENT
+			Planet fort = GameActivity.getFortress();
 			for(int j = 0; j < allUnits.size(); j++) {
 				Unit u = allUnits.get(j);
 				if(u instanceof UnitSpawner){
@@ -613,17 +609,19 @@ public class Unit {
 				}
 				if(u.getName() != "Fortress") {
 					// Check if we have hit the castle.
-					moveUnit(u);			
+					u.moveUnit(fort);			
 					
 					// Check if we hit a projectile.
 					checkIfHitProjectile(u);
 				}
 				/*if(!u.getType().endsWith("Moon")){
-						checkIfHitMoon(moons, u);
+				 * 		
+						checkIfHitMoon(moons, u); // SO IS THIS.
 				}*/
 			}
 		}
-	}
+		}
+
 	
 	//Methods involving stats
 	public Boolean isDead(){

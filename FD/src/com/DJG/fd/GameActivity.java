@@ -58,6 +58,9 @@ public class GameActivity extends ActionBarActivity {
 
 	// Just a random
 	static Random r = new Random();
+	
+	// The castle of course
+	private static Planet fortress;
 
 	// Background
 	private Bitmap background;
@@ -319,6 +322,7 @@ public class GameActivity extends ActionBarActivity {
 
 		// Spawn the planet.
 		Planet p = new Jupiter("Fortress",screenWidth / 2, screenHeight / 2);
+		setFortress(p);
 		p.setOnScreen();
 		Wave.initWaves(levelStart);
 		Ability.initAbilities(prefs);
@@ -408,6 +412,14 @@ public class GameActivity extends ActionBarActivity {
 			// Update units.
 			Unit.updateUnits();
 		}
+	}
+
+	public static Planet getFortress() {
+		return fortress;
+	}
+
+	public void setFortress(Planet fortress) {
+		this.fortress = fortress;
 	}
 
 }
