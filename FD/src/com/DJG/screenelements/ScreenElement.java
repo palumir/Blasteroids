@@ -68,8 +68,8 @@ public class ScreenElement {
 		type = newType;
 		x = xSpawn;
 		y = ySpawn;
-		width = 50;
-		height = 50;
+		setWidth(50);
+		setHeight(50);
 		xNew = xSpawn;
 		yNew = ySpawn;
 		activity = newActivity;
@@ -91,8 +91,8 @@ public class ScreenElement {
 		y = ySpawn;
 		xNew = xSpawn;
 		yNew = ySpawn;
-		width = newWidth;
-		height = newHeight;
+		setWidth(newWidth);
+		setHeight(newHeight);
 		bmp = newBMP;
 		
 		// Add it to the list of ScreenElements to be drawn.
@@ -111,8 +111,8 @@ public class ScreenElement {
 		y = ySpawn;
 		xNew = xSpawn;
 		yNew = ySpawn;
-		width = newWidth;
-		height = newHeight;
+		setWidth(newWidth);
+		setHeight(newHeight);
 		bmp = newBMP;
 		
 		// Add it to the list of ScreenElements to be drawn.
@@ -228,10 +228,15 @@ public class ScreenElement {
 		else if(this.type == "Slot1" || this.type == "Slot2" || this.type == "Slot3") {
 			myPaint.setStyle(Paint.Style.FILL);
 			myPaint.setStrokeWidth(3);
-			myPaint.setTextSize(this.textsize);
+			myPaint.setTextSize(30);
 			myPaint.setColor(this.color);
-			canvas.drawRect(this.x, this.y, this.x+50, this.y+50, myPaint);
-			canvas.drawText(this.getName(), this.x, this.y, myPaint);
+			canvas.drawText(this.getName(), this.x, this.y-5, myPaint);
+			myPaint.setStrokeWidth(1);
+			myPaint.setStyle(Paint.Style.STROKE);
+			canvas.drawRect(this.x, this.y, this.x+70, this.y+70, myPaint);
+			if(this.getName() != null) {
+				canvas.drawBitmap(Ability.getAbility(this.getName()).getBMP(), this.getX()+3, this.getY()+3, null);
+			}
 		}
 		else if(this.bmp != null) {
 			canvas.drawBitmap(this.getBMP(), this.getX()-this.getWidth(), this.getY() - this.getHeight(), null);
@@ -265,6 +270,7 @@ public class ScreenElement {
 	}
 	
 	public void attachAbility(Ability a) {
+		Log.d("AttachedAbility",a.getType());
 		setAttachedAbility(a);
 	}
 	
@@ -387,6 +393,14 @@ public class ScreenElement {
 
 	public int getColor() {
 		return color;
+	}
+
+	public void setWidth(int width) {
+		this.width = width;
+	}
+
+	public void setHeight(int height) {
+		this.height = height;
 	}
 
 }

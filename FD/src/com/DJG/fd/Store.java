@@ -164,13 +164,15 @@ public class Store extends ActionBarActivity {
 		
 		Combo slots = new Combo(0,0);
 		int slotsY = (int) ((int)GameActivity.getScreenHeight()*0.9);
-		ScreenElement slot1 = new ScreenElement(
-				"Slot1",
-				Ability.getPrefs().getString("Slot1","Bomb"),
+		ScreenElement slot3 = new ScreenElement(
+				"Slot3",
+				Ability.getPrefs().getString("Slot3","Bomb"),
 				GameActivity.getScreenWidth()/5,
 				slotsY,
 				"Store"
 				);
+		slot3.setWidth(70);
+		slot3.setHeight(75);
 		ScreenElement slot2 = new ScreenElement(
 				"Slot2",
 				Ability.getPrefs().getString("Slot2","None"),
@@ -178,13 +180,17 @@ public class Store extends ActionBarActivity {
 				slotsY,
 				"Store"
 				);
-		ScreenElement slot3 = new ScreenElement(
-				"Slot3",
-				Ability.getPrefs().getString("Slot3","None"),
+		slot2.setWidth(70);
+		slot2.setHeight(75);
+		ScreenElement slot1 = new ScreenElement(
+				"Slot1",
+				Ability.getPrefs().getString("Slot1","None"),
 				3*GameActivity.getScreenWidth()/5,
 				slotsY,
 				"Store"
 				);
+		slot1.setWidth(70);
+		slot1.setHeight(75);
 		slots.add(slot1);
 		slots.add(slot2);
 		slots.add(slot3);

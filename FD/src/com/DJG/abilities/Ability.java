@@ -21,7 +21,6 @@ public class Ability {
 	private static Editor editor;
 	
 	// All abilities
-	private static ArrayList<Ability> allAbilities;
 	private static ArrayList<Ability> equippedAbilities;
 	public static ArrayList<Ability> upgradeableAbilities;
 	public static ArrayList<Ability> purchasedAbilities;
@@ -396,6 +395,18 @@ public class Ability {
 			return foundAbility;
 		}
 	}
+	
+	public static Ability getAbility(String name) {
+		synchronized(upgradeableAbilitiesLock) {
+			for(Ability a : upgradeableAbilities) {
+				if(a.getType().equals(name)) {
+					return a;
+				}
+			}
+			return null;
+		}
+	}
+	
 	// Get the selected unit at the coordinates.
 		public static Ability getAbilityAt(float x, float y) {
 			synchronized(abilitiesLock) {
