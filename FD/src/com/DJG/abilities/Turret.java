@@ -22,11 +22,11 @@ public class Turret {
 	// General ability attributes. Turrets are static at the moment.
 	private long startTime;
 	private int duration = 3000;
-	private int attackCooldown = 1000;
+	private int attackCooldown = 100;
 	private double lastAttackTime = 0;
 	
 	// Bitmap
-	public static Bitmap TurretBMP = GameActivity.makeTransparent(BitmapFactory.decodeResource(GameActivity.gameContext.getResources(), R.drawable.satelite));
+	public static Bitmap TurretBMP = GameActivity.makeTransparent(BitmapFactory.decodeResource(GameActivity.gameContext.getResources(), R.drawable.fasteroid));
 
 	// Well, where is the ability?!
 	private float x;
@@ -110,7 +110,7 @@ public class Turret {
 				myPaint.setColor(s.getColor());
 	        	myPaint.setStrokeWidth(s.getStroke());
 	        	canvas.drawCircle(s.getX(),s.getY(),s.getRadius(), myPaint);
-				canvas.drawBitmap(Turret.TurretBMP, s.getX()-50, s.getY() - 50, null);
+				canvas.drawBitmap(Turret.TurretBMP, s.getX()-32, s.getY() - 32, null);
     	  }
     	}
 	}
@@ -128,7 +128,7 @@ public class Turret {
 				float yDistanceTurret = (TurretY - u.getY());
 				float xDistanceTurret = (TurretX - u.getX());
 				float distanceXYTurret = (float)Math.sqrt(yDistanceTurret*yDistanceTurret + xDistanceTurret*xDistanceTurret);
-				if(b.attackIsOffCooldown()) {
+				if(b.attackIsOffCooldown() && distanceXYTurret < TurretRadius && !u.isAttacked()) {
 					b.attack(u);
 					break;
 				}
@@ -138,7 +138,9 @@ public class Turret {
 	
 	public void attack(Unit u) {
 		lastAttackTime = GameActivity.getGameTime();
-		u.die();
+		u.setAttacked(true);
+		Unit m = new Unit("Any Name","Bullet",getX(),getY());
+		m.fixate(u);
 	}
 	
 	public boolean attackIsOffCooldown() {
@@ -149,7 +151,7 @@ public class Turret {
 		synchronized(Unit.onScreenUnitsLock) {
 			for(int j = 0; j < Unit.onScreenUnits.size(); j++) {
 				Unit u = Unit.onScreenUnits.get(j);
-				if(u.getSuckedIn()) {
+				if(u.getSuckedIn()) { 
 					u.suckedIn(false);
 					u.moveNormally(GameActivity.getScreenWidth()/2, GameActivity.getScreenHeight()/2);
 					u.setSpinSpeed(0);

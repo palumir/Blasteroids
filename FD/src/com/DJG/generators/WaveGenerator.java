@@ -155,25 +155,25 @@ public class WaveGenerator {
 	
 	private XY northLine(int startingDifference){
 		int x = screenWidth/2;
-		int y = 150 - 100*northTracker - startingDifference;
+		int y = 150 - 50*northTracker - startingDifference;
 		northTracker++;
 		XY xy = new XY(x,y);
 		return xy;
 	}
 	private XY eastLine(int startingDifference){
-		int x = screenWidth + 100*eastTracker + startingDifference;
+		int x = screenWidth + 50*eastTracker + startingDifference;
 		int y =  screenHeight/2 +1;
 		eastTracker++;
 		return new XY(x,y);
 	}
 	private XY southLine(int startingDifference){
 		int x = screenWidth/2;
-		int y = -150 + screenHeight + 100*southTracker + startingDifference;
+		int y = -150 + screenHeight + 50*southTracker + startingDifference;
 		southTracker++;
 		return new  XY(x,y);
 	}
 	private XY westLine(int startingDifference){
-		int x = 0 - 100*westTracker - startingDifference;
+		int x = 0 - 50*westTracker - startingDifference;
 		int y = screenHeight/2;
 		westTracker++;
 		return new  XY(x,y);
