@@ -107,7 +107,7 @@ public class Unit {
 		yNew = ySpawn;
 
 		// Add it to the list of units to be drawn.
-		synchronized (allUnitsLock) {
+		synchronized(allUnitsLock) {
 			addUnit(this);
 		}
 		if (metaType == "Projectile") {
@@ -145,7 +145,7 @@ public class Unit {
 		yNew = ySpawn;
 
 		// Add it to the list of units to be drawn.
-		synchronized (allUnitsLock) {
+		synchronized(allUnitsLock) {
 			addUnit(this);
 		}
 	}
@@ -257,9 +257,6 @@ public class Unit {
 				float ratio = fixedRadius / distanceXY;
 				float goalX = ratio * xDistance;
 				float goalY = ratio * yDistance;
-				if(isMoon()){
-					Log.i("moon", x + " " +fixedRadius + " " + yNew);
-				}
 				x = xNew - goalX;
 				y = yNew - goalY;
 			}
@@ -279,9 +276,6 @@ public class Unit {
 			yMomentum -= yMomentum / 16;
 		}
 
-		if(isMoon()){
-		//	Log.i("moon info","" + x + "  " + y);
-		}
 	
 	}
 
@@ -314,7 +308,6 @@ public class Unit {
 		synchronized (moonsLock) {
 			moons.add(u);
 			addUnit(u);
-			Log.i("moon info", u.getX() + " " + u.getY());
 			u.setOnScreen();
 		}
 	}
