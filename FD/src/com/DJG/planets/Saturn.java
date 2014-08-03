@@ -6,7 +6,7 @@ public class Saturn extends Planet {
 	public Saturn(String newName, float xSpawn, float ySpawn){
 		super(newName, "Saturn", xSpawn, ySpawn);
 		gravity = 1f;
-		defenderName = "Fire Defender";
+		defenderName = "Fire Defender Moon";
 		radiusOfDefenders = 200;
 		numOfDefenders = 8;
 	}

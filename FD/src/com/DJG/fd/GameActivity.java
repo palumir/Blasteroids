@@ -114,7 +114,7 @@ public class GameActivity extends ActionBarActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		Bundle b = getIntent().getExtras();
-		int levelStart = 2;
+		int levelStart = 0;
 		if (b != null) {
 			levelStart = b.getInt("level");
 		}
@@ -321,7 +321,7 @@ public class GameActivity extends ActionBarActivity {
 				(screenHeight - 68), 25, 25, Coin.CoinBMP);
 
 		// Spawn the planet.
-		Planet p = new Jupiter("Fortress",screenWidth / 2, screenHeight / 2);
+		Planet p = new Mars("Fortress",screenWidth / 2, screenHeight / 2);
 		setFortress(p);
 		p.setOnScreen();
 		Wave.initWaves(levelStart);
