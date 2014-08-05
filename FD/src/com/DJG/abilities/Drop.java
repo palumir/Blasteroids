@@ -19,7 +19,7 @@ public class Drop {
 	}
 	
 	public static void potentiallyDropItem(Unit u) {
-		if(r.nextInt(75) == 1) {
+		if(r.nextInt(2) == 1) {
 			if(u.getMetaType() == "Unit") {
 				Ability abilityToDrop = Ability.getEquippedAbilities().get(r.nextInt(Ability.getEquippedAbilities().size()));
 				Unit v = new Unit("Ability Drop",abilityToDrop.getType(),u.getX(),u.getY());
@@ -43,6 +43,21 @@ public class Drop {
 			newS.setColor(Color.RED);
 			FireFingers.setScreenElement(newS);
 			newS.animate("Bob", (int)FireFingers.getDuration());
+		}
+		if(type == "Lazer Fingers") {
+			if(LazerFingers.timer!=null) {
+				LazerFingers.timer.despawn();
+			}
+			LazerFingers.startLazerFingers((int)LazerFingers.getDuration());
+			ScreenElement newF = new ScreenElement(
+					"Text",
+					"Lazer Fingers " + (int)LazerFingers.getDuration()/1000,
+					x-200,
+					y,
+					"Game");
+			newF.setColor(Color.RED);
+			LazerFingers.setScreenElement(newF);
+			newF.animate("Bob", (int)LazerFingers.getDuration());
 		}
 		if(type == "Nuke") {
 			Nuke newNuke = new Nuke(GameActivity.getScreenWidth()/2,GameActivity.getScreenHeight()/2,GameActivity.getScreenHeight()*2,6000); // Default explosion for now. Make upgradable.

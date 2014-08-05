@@ -106,8 +106,9 @@ public class Ability {
 		upgradeableAbilities.add(new Ability("Bomb",0,1,3,R.raw.small_3_second_explosion,Bomb.bombBMP,32,"A bomb.",0));
 		upgradeableAbilities.add(new Ability("Slow",0,1,3,-1,Slow.slowBMP,32,"A slow.",15));
 		upgradeableAbilities.add(new Ability("Blackhole",0,1,3,-1,Blackhole.BlackholeBMP,32,"A blackhole.",25));
-		upgradeableAbilities.add(new Ability("Turret",0,1,3,-1,Turret.TurretBMP,32,"A turret.",25));
+		upgradeableAbilities.add(new Ability("Turret",0,1,3,-1,Turret.TurretBMP,32,"A turret.",30));
 		upgradeableAbilities.add(new Ability("Fire Fingers",-1,1,3,-1,FireFingers.fireBMP,32,"Fire Fingers",0));
+		upgradeableAbilities.add(new Ability("Lazer Fingers",-1,1,3,-1,LazerFingers.lazerBMP,32,"Lazer Fingers",0));
 		upgradeableAbilities.add(new Ability("Nuke",-1,1,3,-1,Nuke.NukeBMP,32,"Nuke",0));
 		upgradeableAbilities.add(new Ability("Coin",-1,1,3,-1,Coin.CoinBMP,25,"Coin",0));
 		
@@ -118,17 +119,28 @@ public class Ability {
 	}
 	
 	public void buy() {
-		if(getPrefs().getInt(getType() + "_purchased", -99) == -99) {
+		if(getPrefs().getInt(getType() + "_purchased", -99) == -99 && Coin.getCoins() >= getCost()) {
 			getEditor().putInt(getType() + "_purchased",1);
 			Coin.increaseCoins((-1)*getCost());
 			getEditor().commit();
 		}
+		else if(!(getPrefs().getInt(getType() + "_purchased", -99) == -99)) {
+			// You already purchased that!
+		}
+		else if(!(Coin.getCoins() >= getCost())) {
+			// You don't have enough coins for that!
+		}
 	}
 	
 	public void equip(String equipSlot) {
-		getEditor().putString(equipSlot, getType());
-		getEditor().commit();
-		initUserAbilities();
+		if(getPrefs().getInt(getType() + "_purchased", -99) == 1) {
+			getEditor().putString(equipSlot, getType());
+			getEditor().commit();
+			initUserAbilities();
+		}
+		else {
+			// You do not have that ability purchased.
+		}
 	}
 	
 	static void initPurchasedAbilities() {
@@ -223,6 +235,10 @@ public class Ability {
 			canvas.drawBitmap(TouchEvent.secondGrabbedAbility.getBMP(), TouchEvent.secondGrabbedAbilityX-TouchEvent.secondGrabbedAbility.getRadius(), TouchEvent.secondGrabbedAbilityY - TouchEvent.secondGrabbedAbility.getRadius(), null);
       	}
       	
+      	if(TouchEvent.lazerFingers) {
+      		LazerFingers.drawLazerFingers(canvas, myPaint);
+      	}
+      	
       	synchronized(abilitiesLock) {
       		for(Ability a : Ability.getEquippedAbilities()) {
       			if(a.getBMP() != null) {
@@ -270,6 +286,7 @@ public class Ability {
 		Turret.updateTurrets();
 		KnockBack.updateknockBacks();
 		FireFingers.updateFireFingers();
+		LazerFingers.updateLazerFingers();
 	}
 	
 	public void playPlaceSound() {
@@ -381,6 +398,7 @@ public class Ability {
 		Blackhole.checkIfHitBlackhole(u);
 		Turret.checkIfHitTurret(u);
 		KnockBack.checkIfHitKnockBack(u);
+		LazerFingers.checkIfHitLazer(u);
 	}
 	
 	public static int getAbilityPos(Ability thisAbility) {
@@ -396,6 +414,7 @@ public class Ability {
 		}
 	}
 	
+<<<<<<< HEAD
 	public static Ability getAbility(String name) {
 		synchronized(upgradeableAbilitiesLock) {
 			for(Ability a : upgradeableAbilities) {
@@ -407,6 +426,9 @@ public class Ability {
 		}
 	}
 	
+=======
+
+>>>>>>> 7d8d86f107f3c3f3147424a679da9c2ec268129f
 	// Get the selected unit at the coordinates.
 		public static Ability getAbilityAt(float x, float y) {
 			synchronized(abilitiesLock) {
