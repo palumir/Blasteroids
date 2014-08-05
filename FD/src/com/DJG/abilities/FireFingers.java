@@ -23,7 +23,7 @@ public class FireFingers {
 	public static Bitmap fireBMP = GameActivity.makeTransparent(BitmapFactory.decodeResource(GameActivity.gameContext.getResources(), R.drawable.fire));
 	
 	public static void startFireFingers(int newDuration) {
-		TouchEvent.setTouchType("Fire Fingers");
+		TouchEvent.fireFingers = true;
 		startTime = GameActivity.getGameTime();
 		setDuration(newDuration);
 	}
@@ -40,7 +40,7 @@ public class FireFingers {
 			timer.setName("Bomb Fingers " + (getDuration() - (GameActivity.getGameTime() - startTime))/1000);
 		}
 		if(GameActivity.getGameTime() - startTime > getDuration()) {
-			TouchEvent.setTouchType("Normal");
+				TouchEvent.fireFingers = false;
 		}
 	}
 	
@@ -57,7 +57,7 @@ public class FireFingers {
 	    	if(action == android.view.MotionEvent.ACTION_DOWN) {
 	    	}
 	    	if(action == android.view.MotionEvent.ACTION_UP) {
-		    	if(TouchEvent.getTouchType() == "Fire Fingers") {
+		    	if(TouchEvent.fireFingers) {
 					Bomb b = new Bomb(pos1,pos2,radius,explosionDuration);
 		    	}
 	    	}
@@ -70,7 +70,7 @@ public class FireFingers {
 		    if(action == MotionEvent.ACTION_POINTER_DOWN) {
 		    }
 		    else if(action == MotionEvent.ACTION_POINTER_UP) {
-		    	if(TouchEvent.getTouchType() == "Fire Fingers") {
+		    	if(TouchEvent.fireFingers) {
 		    		if(event.getActionIndex() == event.getPointerId(0)) {
 		    			Bomb b1 = new Bomb(pos1,pos2,radius,explosionDuration);
 		    		}

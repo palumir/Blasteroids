@@ -2,15 +2,15 @@ package com.DJG.units;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.util.Log;
+
 import com.DJG.abilities.Ability;
-import com.DJG.abilities.Blackhole;
 import com.DJG.abilities.Bomb;
 import com.DJG.abilities.Drop;
-import com.DJG.abilities.KnockBack;
+import com.DJG.abilities.LazerFingers;
 import com.DJG.abilities.Slow;
 import com.DJG.fd.GameActivity;
 import com.DJG.planets.Planet;
@@ -647,7 +647,6 @@ public class Unit {
 				if (u.getName() != "Fortress") {
 					checkIfHitCastle(castle, u);
 				}
-
 				if (u.getName() != "Fortress" && u.getMetaType() == "Unit") {
 					// Check if we have hit any abilities.
 					Ability.checkIfHitAbility(u);

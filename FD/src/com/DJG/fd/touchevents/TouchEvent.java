@@ -1,11 +1,11 @@
 package com.DJG.fd.touchevents;
 
 import android.support.v4.view.MotionEventCompat;
-import android.util.Log;
 import android.view.MotionEvent;
 
 import com.DJG.abilities.Ability;
 import com.DJG.abilities.FireFingers;
+import com.DJG.abilities.LazerFingers;
 import com.DJG.fd.GameActivity;
 import com.DJG.screenelements.Combo;
 import com.DJG.screenelements.ScreenElement;
@@ -14,7 +14,8 @@ import com.DJG.units.Unit;
 public class TouchEvent {
 	
 	// What type of touch is it?
-	private static String touchType = "Normal";
+	public static boolean lazerFingers = false;
+	public static boolean fireFingers = false;
 	
 	// Grabbed units (two, one for each hand);
 	public static int action1 = 0;
@@ -50,7 +51,9 @@ public class TouchEvent {
     			else {
     				// Respond to an actual equip
     				if(grabbedScreenElement != null && grabbedScreenElement==touchedElement && grabbedScreenElement.getType().contains("Slot") && grabbedAbility != null) {
-    					grabbedScreenElement.setName(grabbedAbility.getType());
+    					if(Ability.getPrefs().getInt(grabbedAbility.getType() + "_purchased", -99) == 1) {
+    						grabbedScreenElement.setName(grabbedAbility.getType());
+    					}
     					grabbedAbility.equip(grabbedScreenElement.getType());
     				}
 	    			// Respond to a purchase.
@@ -86,7 +89,7 @@ public class TouchEvent {
 	}
 	
 	public static void respondToGameTouchEvent(MotionEvent event) { 
-		if(touchType != "Normal") {
+		if(fireFingers || lazerFingers) {
 			specialTouch(event);
 		}
 		respondToScreenElementTouch(event);
@@ -97,8 +100,11 @@ public class TouchEvent {
 	}
 	
 	static void specialTouch(MotionEvent event) {
-		if(touchType == "Fire Fingers") {
+		if(fireFingers) {
 			FireFingers.respondToTouch(event);
+		}
+		if(lazerFingers) {
+			LazerFingers.respondToTouch(event);
 		}
 	}
 	
@@ -266,7 +272,8 @@ public class TouchEvent {
 	
 	public static void purgeTouch() {
 		// What type of touch is it?
-		touchType = "Normal";
+		fireFingers = false;
+		lazerFingers = false;
 		
 		// Grabbed units (two, one for each hand);
 		action1 = 0;
@@ -338,13 +345,5 @@ public class TouchEvent {
 	    		}
 		    }
 	    }
-	}
-	
-	public static String getTouchType() {
-		return touchType;
-	}
-	
-	public static void setTouchType(String s) {
-		touchType = s;
 	}
 }

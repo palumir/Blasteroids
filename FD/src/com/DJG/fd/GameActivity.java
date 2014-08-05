@@ -310,18 +310,18 @@ public class GameActivity extends ActionBarActivity {
 
 		// Spawn pause button
 		pauseButton = new ScreenElement("Pause", "Button", screenWidth - 40,
-				40, 22, 22, ScreenElement.pauseBMP);
-
-		// Health symbol
-		healthSymbol = new ScreenElement("Health", "Button", 70f,
-				(screenHeight - 68), 25, 25, ScreenElement.healthBMP);
-		
+				40, 22, 22, ScreenElement.pauseBMP, "Game");
 		// Coin symbol
 		coinSymbol = new ScreenElement("Coin", "Button", 230f,
-				(screenHeight - 68), 25, 25, Coin.CoinBMP);
+				(screenHeight - 68), 25, 25, Coin.CoinBMP, "Game");
+		
+		// Health symbol
+		healthSymbol = new ScreenElement("Health", "Button", 70f,
+				(screenHeight - 68), 25, 25, ScreenElement.healthBMP, "Game");
+		
 
 		// Spawn the planet.
-		Planet p = new Mars("Fortress",screenWidth / 2, screenHeight / 2);
+		Planet p = new Earth("Fortress",screenWidth / 2, screenHeight / 2);
 		setFortress(p);
 		p.setOnScreen();
 		Wave.initWaves(levelStart);
@@ -383,7 +383,7 @@ public class GameActivity extends ActionBarActivity {
 		Unit.destroyAllUnits(); // Don't request the lock because the caller is
 								// already locking it.
 		Wave.destroyWaves();
-		ScreenElement.destroyAllScreenElements();
+		ScreenElement.destroyAllScreenElements("Game");
 		Ability.clearAbilities();
 	}
 	

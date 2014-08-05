@@ -217,6 +217,18 @@ public class ScreenElement {
 		allScreenElements.clear();
 	}
 	
+	public static void destroyAllScreenElements(String activity) {
+		synchronized(allScreenElementsLock) {
+			for(int i = 0; i < allScreenElements.size(); i++) {
+				ScreenElement s = allScreenElements.get(i);
+				if(s.getActivity().equals(activity)) {
+					allScreenElements.remove(i);
+					i--;
+				}
+			}
+		}
+	}
+	
 	public void draw(Canvas canvas, Paint myPaint) {
 		if(this.type == "Text") {
 			myPaint.setStyle(Paint.Style.FILL);
