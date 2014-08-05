@@ -274,6 +274,7 @@ public class Wave extends ArrayList<Unit> {
 				sendWave(currentWaveNumber);
 				Planet planet = (Planet) Unit.getUnit("Fortress");
 				planet.afterWave();
+				Log.i("Moons:", "" + Unit.moons.size());
 				waveSent = false;
 				isFirst = true;
 				
