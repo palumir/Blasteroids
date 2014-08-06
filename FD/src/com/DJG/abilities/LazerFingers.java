@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Paint.Style;
 import android.support.v4.view.MotionEventCompat;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -18,8 +19,11 @@ import com.DJG.units.Unit;
 public class LazerFingers {
 	// General ability attributes.
 	private static long startTime;
-	private static long duration = 20000;
-	private static int radius = 140;
+	private static long duration = 30000;
+	private static int radius = 10;
+	private static int minRadius = 10;
+	private static int maxRadius = 20;
+	private static String upDown = "Up";
 	private static int explosionDuration = 550;
 	public static ScreenElement timer;
 	
@@ -36,25 +40,50 @@ public class LazerFingers {
 		TouchEvent.lazerFingers = true;
 		startTime = GameActivity.getGameTime();
 		setDuration(newDuration);
-	}
+	}     
 	
 	static void checkIfHitLazer(Unit u) {
 		boolean tf = false;
+		float distance;
+		distance = (float) Math.sqrt((float)(lazerPoint1Y - lazerPoint2Y)*(lazerPoint1Y - lazerPoint2Y) + (lazerPoint1X - lazerPoint2X)*(lazerPoint1X - lazerPoint2X));
+		float yDistance1 = (u.getY() - lazerPoint1Y);
+		float xDistance1 = (u.getX() - lazerPoint1X);
+		float distanceXY1 = (float) Math.sqrt(yDistance1 * yDistance1 + xDistance1
+				* xDistance1);
+		float yDistance2 = (u.getY() - lazerPoint2Y);
+		float xDistance2 = (u.getX() - lazerPoint2X);
+		float distanceXY2 = (float) Math.sqrt(yDistance2 * yDistance2 + xDistance2
+				* xDistance2);
+		
 	    final float EPSILON = 15f;
-	    if (Math.abs(LazerFingers.lazerPoint1X - LazerFingers.lazerPoint2X) < EPSILON) {
-	        // We've a vertical line, thus check only the x-value of the point.
-	        tf = (Math.abs(u.getX() - LazerFingers.lazerPoint1X) < EPSILON);
-	    } else {
-	        float m = (LazerFingers.lazerPoint2Y - LazerFingers.lazerPoint1Y) / (LazerFingers.lazerPoint2X - LazerFingers.lazerPoint1X);
-	        float b = LazerFingers.lazerPoint1Y - m * LazerFingers.lazerPoint1X;
-	        tf = (Math.abs(u.getY() - (m * u.getX() + b)) < EPSILON);
+	    if(distanceXY2 < distance + 50 && distanceXY1 < distance + 50) {
+		    if (Math.abs(LazerFingers.lazerPoint1X - LazerFingers.lazerPoint2X) < EPSILON) {
+		        // We've a vertical line, thus check only the x-value of the point.
+		        tf = (Math.abs(u.getX() - LazerFingers.lazerPoint1X) < EPSILON);
+		    } else {
+		        float m = (LazerFingers.lazerPoint2Y - LazerFingers.lazerPoint1Y) / (LazerFingers.lazerPoint2X - LazerFingers.lazerPoint1X);
+		        float b = LazerFingers.lazerPoint1Y - m * LazerFingers.lazerPoint1X;
+		        tf = (Math.abs(u.getY() - (m * u.getX() + b)) < EPSILON);
+		    }
+			if(tf && !(lazerPoint1X < 0 || lazerPoint2Y < 0 || lazerPoint1Y < 0 || lazerPoint2X < 0)) {
+				u.die();
+			}
 	    }
-		if(tf && !(lazerPoint1X < 0 || lazerPoint2Y < 0 || lazerPoint1Y < 0 || lazerPoint2X < 0)) {
-			u.die();
-		}
 	}
 	
 	public static void updateLazerFingers() { 
+		if(upDown == "Up") {
+			radius++;
+		}
+		if(upDown == "Down") {
+			radius--;
+		}
+		if(radius == minRadius) {
+			upDown = "Up";
+		}
+		if(radius == maxRadius) {
+			upDown = "Down";
+		}
 		// End fire fingers!
 		if(timer!=null) {
 			if(timer.getColor() == Color.RED) {
@@ -82,6 +111,9 @@ public class LazerFingers {
 		if(lazerPoint1X >= 0 && lazerPoint2X >= 0) {
 			myPaint.setStrokeWidth(3);
 			myPaint.setColor(timer.color);
+			myPaint.setStyle(Style.FILL);
+			canvas.drawCircle(lazerPoint1X, lazerPoint1Y, radius, myPaint);
+			canvas.drawCircle(lazerPoint2X, lazerPoint2Y, radius, myPaint);
 			canvas.drawLine(lazerPoint1X, lazerPoint1Y, lazerPoint2X, lazerPoint2Y, myPaint);
 		}
 	}
@@ -92,14 +124,14 @@ public class LazerFingers {
     	int action = MotionEventCompat.getActionMasked(event);
 		// Respond to a single touch event
 	    if(event.getPointerCount() <= 1) {
-	    	
+  			lazerPoint1X = -10000000;
+			lazerPoint1Y = -10000000;
+			lazerPoint2X = -10000000;
+			lazerPoint2Y = -10000000;
 	    	if(action == android.view.MotionEvent.ACTION_DOWN) {
 	    	}
 	    	if(action == android.view.MotionEvent.ACTION_UP) {
-    			lazerPoint1X = -10000000;
-    			lazerPoint1Y = -10000000;
-    			lazerPoint2X = -10000000;
-    			lazerPoint2Y = -10000000;
+ 
 	    	}
 	    }
 	    

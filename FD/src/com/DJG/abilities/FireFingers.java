@@ -58,7 +58,7 @@ public class FireFingers {
 	    	}
 	    	if(action == android.view.MotionEvent.ACTION_UP) {
 		    	if(TouchEvent.fireFingers) {
-					Bomb b = new Bomb(pos1,pos2,radius,explosionDuration, timer.color);
+					Bomb b = new Bomb(pos1,pos2,radius,explosionDuration, Color.RED, Color.YELLOW);
 		    	}
 	    	}
 	    }
@@ -72,10 +72,10 @@ public class FireFingers {
 		    else if(action == MotionEvent.ACTION_POINTER_UP) {
 		    	if(TouchEvent.fireFingers) {
 		    		if(event.getActionIndex() == event.getPointerId(0)) {
-		    			Bomb b1 = new Bomb(pos1,pos2,radius,explosionDuration, timer.color);
+		    			Bomb b1 = new Bomb(pos1,pos2,radius,explosionDuration, Color.RED, Color.YELLOW);
 		    		}
 		    		if(event.getActionIndex() == event.getPointerId(1)) {
-						Bomb b2 = new Bomb(pos1Second,pos2Second,radius,explosionDuration, timer.color);
+						Bomb b2 = new Bomb(pos1Second,pos2Second,radius,explosionDuration, Color.RED, Color.YELLOW);
 		    		}
 		    	}
 		    }

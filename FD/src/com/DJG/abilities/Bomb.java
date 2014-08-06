@@ -32,7 +32,9 @@ public class Bomb {
 	private int blastRadius;
 	private int stroke;
 	private int maxStroke;
-	private int color;
+	private int color = -1;
+	private int color2 = -1;
+	private int color1 = -1;
 	
 	public Bomb(float newX, float newY, int newBlastRadius, int newDuration) {
 		x = newX;
@@ -51,6 +53,21 @@ public class Bomb {
 		x = newX;
 		y = newY;
 		color = newColor;
+		maxStroke = 100;
+		blastRadius = newBlastRadius;
+		duration = newDuration;
+		startTime = GameActivity.getGameTime();
+		synchronized(allBombs) {
+			addBomb(this);
+		}
+	}
+	
+	public Bomb(float newX, float newY, int newBlastRadius, int newDuration, int newColor, int newColor2) {
+		x = newX;
+		y = newY;
+		color = newColor;
+		color1 = newColor;
+		color2 = newColor2;
 		maxStroke = 100;
 		blastRadius = newBlastRadius;
 		duration = newDuration;
@@ -82,6 +99,16 @@ public class Bomb {
 	public void updateBomb(int bombPos) {
 		synchronized(bombsLock) {
 		if(this != null) {
+			
+			if(color2 != -1) {
+				if(color==color2) {
+					color=color1;
+				}
+				else if(color==color1) {
+					color=color2;
+				}
+			}
+			
 			double percentDone = (double)(GameActivity.getGameTime() - startTime)/(double)duration;
 			radius = (int)(blastRadius*percentDone);
 			stroke = (int)(maxStroke*(1 - percentDone));

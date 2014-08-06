@@ -5,12 +5,12 @@ import java.util.Arrays;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 
 import com.DJG.abilities.Ability;
 import com.DJG.abilities.Bomb;
 import com.DJG.abilities.Drop;
-import com.DJG.abilities.LazerFingers;
 import com.DJG.abilities.Slow;
 import com.DJG.fd.GameActivity;
 import com.DJG.planets.Planet;
@@ -716,7 +716,7 @@ public class Unit {
 
 	public void despawn() {
 		// Kill the old unit.
-		Bomb b = new Bomb(this.getX(), this.getY(), 50, 250);
+		Bomb b = new Bomb(this.getX(), this.getY(), 50, 250, Color.RED, Color.YELLOW);
 		dontDrawUnit(this);
 		killUnit(this);
 		Wave.killUnit(this);
@@ -734,7 +734,7 @@ public class Unit {
 
 		// Do special things for special units.
 		if (type.startsWith("Fire")) {
-			Bomb b = new Bomb(this.getX(), this.getY(), 100, 500);
+			Bomb b = new Bomb(this.getX(), this.getY(), 100, 500, Color.RED, Color.YELLOW);
 		}
 		if (type == "Ice Asteroid") {
 			Slow s = new Slow(this.getX(), this.getY(), 200, 1500);

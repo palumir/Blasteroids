@@ -53,11 +53,7 @@ public class Nuke {
 		synchronized(NukesLock) {
 		if(this != null) {
 			if(r.nextInt(100) < 12) {
-				String color = "Yellow";
-				if(r.nextInt(4) == 1) {
-					color = "White";
-				}
-				Bomb b = new Bomb(r.nextInt(GameActivity.getScreenWidth()),r.nextInt(GameActivity.getScreenHeight()),r.nextInt(175) + 100,r.nextInt(600) + 600,color);
+				Bomb b = new Bomb(r.nextInt(GameActivity.getScreenWidth()),r.nextInt(GameActivity.getScreenHeight()),r.nextInt(175) + 100,r.nextInt(600) + 600,Color.WHITE,Color.YELLOW);
 			}
 			long currentTime = GameActivity.getGameTime();
 			if((int)(currentTime - startTime) > duration) {
