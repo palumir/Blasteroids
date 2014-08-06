@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.support.v4.view.MotionEventCompat;
+import android.util.Log;
 import android.view.MotionEvent;
 
 import com.DJG.fd.GameActivity;
@@ -17,16 +18,16 @@ import com.DJG.units.Unit;
 public class LazerFingers {
 	// General ability attributes.
 	private static long startTime;
-	private static long duration = 15000;
+	private static long duration = 20000;
 	private static int radius = 140;
 	private static int explosionDuration = 550;
 	public static ScreenElement timer;
 	
 	// Lazer stuff
-	public static float lazerPoint1X;
-	public static float lazerPoint1Y;
-	public static float lazerPoint2X;
-	public static float lazerPoint2Y;
+	public static float lazerPoint1X = -10000000;
+	public static float lazerPoint1Y = -10000000;
+	public static float lazerPoint2X = -10000000;
+	public static float lazerPoint2Y = -10000000;
 	
 	// Bitmap
 	public static Bitmap lazerBMP = GameActivity.makeTransparent(BitmapFactory.decodeResource(GameActivity.gameContext.getResources(), R.drawable.satelite));
@@ -48,7 +49,7 @@ public class LazerFingers {
 	        float b = LazerFingers.lazerPoint1Y - m * LazerFingers.lazerPoint1X;
 	        tf = (Math.abs(u.getY() - (m * u.getX() + b)) < EPSILON);
 	    }
-		if(tf) {
+		if(tf && !(lazerPoint1X < 0 || lazerPoint2Y < 0 || lazerPoint1Y < 0 || lazerPoint2X < 0)) {
 			u.die();
 		}
 	}
@@ -66,10 +67,10 @@ public class LazerFingers {
 		}
 		if(GameActivity.getGameTime() - startTime > getDuration()) {
 			TouchEvent.lazerFingers = false;
-			lazerPoint1X = -100;
-			lazerPoint1Y = -100;
-			lazerPoint2X = -100;
-			lazerPoint2Y = -100;
+			lazerPoint1X = -10000000;
+			lazerPoint1Y = -10000000;
+			lazerPoint2X = -10000000;
+			lazerPoint2Y = -10000000;
 		}
 	}
 	
@@ -80,7 +81,7 @@ public class LazerFingers {
 	public static void drawLazerFingers(Canvas canvas, Paint myPaint) {
 		if(lazerPoint1X >= 0 && lazerPoint2X >= 0) {
 			myPaint.setStrokeWidth(3);
-			myPaint.setColor(Color.RED);
+			myPaint.setColor(timer.color);
 			canvas.drawLine(lazerPoint1X, lazerPoint1Y, lazerPoint2X, lazerPoint2Y, myPaint);
 		}
 	}
@@ -95,10 +96,10 @@ public class LazerFingers {
 	    	if(action == android.view.MotionEvent.ACTION_DOWN) {
 	    	}
 	    	if(action == android.view.MotionEvent.ACTION_UP) {
-    			lazerPoint1X = -100;
-    			lazerPoint1Y = -100;
-    			lazerPoint2X = -100;
-    			lazerPoint2Y = -100;
+    			lazerPoint1X = -10000000;
+    			lazerPoint1Y = -10000000;
+    			lazerPoint2X = -10000000;
+    			lazerPoint2Y = -10000000;
 	    	}
 	    }
 	    
@@ -107,10 +108,10 @@ public class LazerFingers {
 			float pos1Second = event.getX(event.findPointerIndex(event.getPointerId(1)));
 			float pos2Second = event.getY(event.findPointerIndex(event.getPointerId(1)));
 		    if(action == MotionEvent.ACTION_POINTER_UP) {
-	    			lazerPoint1X = -100;
-	    			lazerPoint1Y = -100;
-	    			lazerPoint2X = -100;
-	    			lazerPoint2Y = -100;
+	    			lazerPoint1X = -10000000;
+	    			lazerPoint1Y = -10000000;
+	    			lazerPoint2X = -10000000;
+	    			lazerPoint2Y = -10000000;
 		    }
 		    if(TouchEvent.lazerFingers){ 
     			lazerPoint1X = pos1;

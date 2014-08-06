@@ -247,7 +247,10 @@ public class ScreenElement {
 			myPaint.setStyle(Paint.Style.STROKE);
 			canvas.drawRect(this.x, this.y, this.x+70, this.y+70, myPaint);
 			if(this.getName() != null) {
-				canvas.drawBitmap(Ability.getAbility(this.getName()).getBMP(), this.getX()+3, this.getY()+3, null);
+				Ability theAbility = Ability.getAbility(this.getName());
+				if(theAbility!=null) {
+					canvas.drawBitmap(theAbility.getBMP(), this.getX()+3, this.getY()+3, null);
+				}
 			}
 		}
 		else if(this.bmp != null) {

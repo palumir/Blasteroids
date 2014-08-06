@@ -414,7 +414,6 @@ public class Ability {
 		}
 	}
 	
-<<<<<<< HEAD
 	public static Ability getAbility(String name) {
 		synchronized(upgradeableAbilitiesLock) {
 			for(Ability a : upgradeableAbilities) {
@@ -426,9 +425,6 @@ public class Ability {
 		}
 	}
 	
-=======
-
->>>>>>> 7d8d86f107f3c3f3147424a679da9c2ec268129f
 	// Get the selected unit at the coordinates.
 		public static Ability getAbilityAt(float x, float y) {
 			synchronized(abilitiesLock) {
