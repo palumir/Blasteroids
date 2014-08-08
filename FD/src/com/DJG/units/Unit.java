@@ -739,40 +739,59 @@ public class Unit {
 		if (type == "Ice Asteroid") {
 			Slow s = new Slow(this.getX(), this.getY(), 200, 1500);
 		}
+		if (type == "MultiClicker 1") {
+			Wave.addToCurrentWave(new Unit("Any Name", "MultiClicker 2", this
+					.getX(), this.getY(), spinSpeed));
+			Wave.currentWaveAttackCastle();
+		}
+		if (type == "MultiClicker 2") {
+			Wave.addToCurrentWave(new Unit("Any Name", "MultiClicker 3", this
+					.getX(), this.getY(), spinSpeed));
+			Wave.currentWaveAttackCastle();
+		}
+		if (type == "MultiClicker 3") {
+			Wave.addToCurrentWave(new Unit("Any Name", "MultiClicker 4", this
+					.getX(), this.getY(), spinSpeed));
+			Wave.currentWaveAttackCastle();
+		}
+		if (type == "MultiClicker 4") {
+			Bomb b = new Bomb(this.getX(), this.getY(), 150, 500, Color.RED, Color.YELLOW);
+		}
+		
 		if (type == "Splitter Huge") {
 			Wave.addToCurrentWave(new Unit("Any Name", "Splitter Big", this
-					.getX(), this.getY()));
+					.getX(), this.getY(), spinSpeed));
 			Wave.addToCurrentWave(new Unit("Any Name", "Splitter Big", this
-					.getX() + this.getRadius() / 2 + 5, this.getY()));
+					.getX() + this.getRadius() / 2 + 5, this.getY(), spinSpeed));
 			Wave.addToCurrentWave(new Unit("Any Name", "Splitter Big", this
-					.getX(), this.getY() + this.getRadius() / 2 + 5));
+					.getX(), this.getY() + this.getRadius() / 2 + 5, spinSpeed));
 			Wave.addToCurrentWave(new Unit("Any Name", "Splitter Big", this
 					.getX() + this.getRadius() / 2 + 5, this.getY()
-					+ this.getRadius() / 2 + 5));
+					+ this.getRadius() / 2 + 5, spinSpeed));
 			Wave.currentWaveAttackCastle();
 		}
 		if (type == "Splitter Big") {
 			Wave.addToCurrentWave(new Unit("Any Name", "Splitter Medium", this
-					.getX(), this.getY()));
+					.getX(), this.getY(), spinSpeed));
 			Wave.addToCurrentWave(new Unit("Any Name", "Splitter Medium", this
-					.getX() + this.getRadius() / 2 + 5, this.getY()));
+					.getX() + this.getRadius() / 2 + 5, this.getY(), spinSpeed));
 			Wave.addToCurrentWave(new Unit("Any Name", "Splitter Medium", this
-					.getX(), this.getY() + this.getRadius() / 2 + 5));
+					.getX(), this.getY() + this.getRadius() / 2 + 5, spinSpeed));
 			Wave.addToCurrentWave(new Unit("Any Name", "Splitter Medium", this
 					.getX() + this.getRadius() / 2 + 5, this.getY()
-					+ this.getRadius() / 2 + 5));
+					+ this.getRadius() / 2 + 5, spinSpeed));
 			Wave.currentWaveAttackCastle();
 		}
 		if (type == "Splitter Medium") {
 			Wave.addToCurrentWave(new Unit("Any Name", "Splitter Small", this
-					.getX(), this.getY()));
+					.getX(), this.getY(), spinSpeed));
 			Wave.addToCurrentWave(new Unit("Any Name", "Splitter Small", this
-					.getX() + this.getRadius() / 2 + 5, this.getY() + 5));
+					.getX() + this.getRadius() / 2 + 5, this.getY() + 5, spinSpeed));
 			Wave.addToCurrentWave(new Unit("Any Name", "Splitter Small", this
-					.getX(), this.getY() + this.getRadius() / 2 + 5));
+					.getX(), this.getY() + this.getRadius() / 2 + 5, spinSpeed));
 			Wave.addToCurrentWave(new Unit("Any Name", "Splitter Small", this
 					.getX() + this.getRadius() / 2 + 5, this.getY()
-					+ this.getRadius() / 2 + 5));
+					+ this.getRadius() / 2 + 5, spinSpeed));
 			Wave.currentWaveAttackCastle();
 		}
 

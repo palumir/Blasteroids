@@ -35,12 +35,18 @@ public class Blackhole {
 	private int maxStroke;
 	private int color;
 	
+	private int maxRadius;
+	private int minRadius;
+	private String upDown = "Up";
+	
 	public Blackhole(float newX, float newY, int newBlastRadius, int newDuration) {
 		x = newX;
 		y = newY;
 		color = Color.MAGENTA;
 		maxStroke = 30;
 		blastRadius = newBlastRadius;
+		minRadius = newBlastRadius;
+		maxRadius = newBlastRadius + 10;
 		duration = newDuration;
 		startTime = GameActivity.getGameTime();
 		synchronized(allBlackholes) {
@@ -54,6 +60,20 @@ public class Blackhole {
 			double percentDone = (double)(GameActivity.getGameTime() - startTime)/(double)duration;
 			if(radius<blastRadius) {
 				radius += 10;
+			}
+			if(radius>=blastRadius) {
+				if(upDown == "Up") {
+					radius++;
+				}
+				if(upDown == "Down") {
+					radius--;
+				}
+				if(radius==maxRadius) {
+					upDown = "Down";
+				}
+				if(radius==minRadius) {
+					upDown = "Up";
+				}
 			}
 			stroke = 1;
 			long currentTime = GameActivity.getGameTime();

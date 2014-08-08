@@ -253,6 +253,22 @@ public class ScreenElement {
 				}
 			}
 		}
+		else if(this.type == "PlanetSlot") {
+			myPaint.setStyle(Paint.Style.FILL);
+			myPaint.setStrokeWidth(3);
+			myPaint.setTextSize(30);
+			myPaint.setColor(this.color);
+			canvas.drawText(this.getName(), this.x, this.y-5, myPaint);
+			myPaint.setStrokeWidth(1);
+			myPaint.setStyle(Paint.Style.STROKE);
+			canvas.drawRect(this.x, this.y, this.x+70, this.y+70, myPaint);
+			if(this.getName() != null) {
+				Ability theAbility = Ability.getAbility(this.getName());
+				if(theAbility!=null) {
+					canvas.drawBitmap(theAbility.getBMP(), this.getX()+3, this.getY()+3, null);
+				}
+			}
+		}
 		else if(this.bmp != null) {
 			canvas.drawBitmap(this.getBMP(), this.getX()-this.getWidth(), this.getY() - this.getHeight(), null);
 		}

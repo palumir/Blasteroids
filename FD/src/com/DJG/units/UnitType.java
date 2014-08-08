@@ -26,16 +26,20 @@ public class UnitType {
 		getAllUnitTypes().add(new UnitType("Asteroid",30,1f, true, R.drawable.asteroid, R.drawable.frozen_asteroid, 1, 10,"Unit"));
 		getAllUnitTypes().add(new UnitType("Fire Asteroid",30,1f,true, R.drawable.fire_asteroid, R.drawable.frozen_asteroid, 1, 10,"Unit"));
 		getAllUnitTypes().add(new UnitType("Ice Asteroid",30,1f,true, R.drawable.ice_asteroid, R.drawable.frozen_asteroid, 1, 10,"Unit"));
-		getAllUnitTypes().add(new UnitType("Cat",50,3f, true, R.drawable.satelite, 1, 10));
-		getAllUnitTypes().add(new UnitType("Splitter Huge",200,2f,true,Color.RED,"Square", 1, 200));
-		getAllUnitTypes().add(new UnitType("Splitter Big",100,1.5f,true,R.drawable.splitter_big, 1, 100));
+		getAllUnitTypes().add(new UnitType("Cat",50,2f, true, R.drawable.satelite, 1, 10));
+		getAllUnitTypes().add(new UnitType("Splitter Huge",200,1.5f,true,R.drawable.splitter_big, 1, 200));
+		getAllUnitTypes().add(new UnitType("Splitter Big",100,1.25f,true,R.drawable.splitter_big, 1, 100));
 		getAllUnitTypes().add(new UnitType("Splitter Medium",50,1f,true,R.drawable.splitter_medium, 1, 25));
-		getAllUnitTypes().add(new UnitType("Splitter Small",25,0.5f,true,R.drawable.splitter_small, 1, 10));
+		getAllUnitTypes().add(new UnitType("Splitter Small",25,0.25f,true,R.drawable.splitter_small, 1, 10));
+		getAllUnitTypes().add(new UnitType("MultiClicker 1",30,1f, true, R.drawable.fasteroid, 1, 10,"Unit"));
+		getAllUnitTypes().add(new UnitType("MultiClicker 2",30,1f, true, R.drawable.splitter_medium, 1, 10,"Unit"));
+		getAllUnitTypes().add(new UnitType("MultiClicker 3",30,1f, true, R.drawable.fasteroid, 1, 10,"Unit"));
+		getAllUnitTypes().add(new UnitType("MultiClicker 4",30,1f, true, R.drawable.splitter_medium, 1, 10,"Unit"));
 		getAllUnitTypes().add(new UnitType("FullHealer",40,1f, true, Color.GREEN,"Plus", 2, -100));
 		getAllUnitTypes().add(new UnitType("Healer",20,1.5f, true, Color.GREEN,"Plus", 2, -10));
 		getAllUnitTypes().add(new UnitType("Spawner", 200, 0, true, Color.MAGENTA,"Square",2,0));
 		
-		// Projectiles
+		// Projectile
 		getAllUnitTypes().add(new UnitType("Bullet",30,10f, true, R.drawable.frozen_asteroid, R.drawable.frozen_asteroid, 1, 0,"Projectile"));
 		
 		// Cthulu
@@ -45,7 +49,6 @@ public class UnitType {
 	
 		//Planets
 		Planet.initPlanetTypes();
-
 		
 		//Defensive units, Will add own class later
 		getAllUnitTypes().add(new UnitType("Fire Defender Moon", 50, 0f,true, R.drawable.fire_asteroid, 1, 0));

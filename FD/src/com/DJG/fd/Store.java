@@ -40,6 +40,9 @@ public class Store extends ActionBarActivity {
 	private Bitmap background;
 	private Canvas bgCanvas;
 	
+	// Coins
+	private String coinsText = "0";
+	
 	// Just a random
 	static Random r = new Random();
 	
@@ -167,7 +170,7 @@ public class Store extends ActionBarActivity {
 		ScreenElement slot3 = new ScreenElement(
 				"Slot3",
 				Ability.getPrefs().getString("Slot3","Bomb"),
-				GameActivity.getScreenWidth()/5,
+				GameActivity.getScreenWidth()/8+60,
 				slotsY,
 				"Store"
 				);
@@ -176,7 +179,7 @@ public class Store extends ActionBarActivity {
 		ScreenElement slot2 = new ScreenElement(
 				"Slot2",
 				Ability.getPrefs().getString("Slot2","None"),
-				2*GameActivity.getScreenWidth()/5,
+				GameActivity.getScreenWidth()/8+180,
 				slotsY,
 				"Store"
 				);
@@ -185,19 +188,34 @@ public class Store extends ActionBarActivity {
 		ScreenElement slot1 = new ScreenElement(
 				"Slot1",
 				Ability.getPrefs().getString("Slot1","None"),
-				3*GameActivity.getScreenWidth()/5,
+				GameActivity.getScreenWidth()/8+320,
 				slotsY,
 				"Store"
 				);
 		slot1.setWidth(70);
 		slot1.setHeight(75);
+		ScreenElement planetSlot = new ScreenElement(
+				"PlanetSlot",
+				Ability.getPrefs().getString("PlanetSlot","None"),
+				GameActivity.getScreenWidth()*6/8,
+				slotsY,
+				"Store"
+				);
+		// Coin symbol
+		ScreenElement coinSymbol = new ScreenElement("Coin", "Button", 60f,
+				(GameActivity.getScreenHeight() - 68), 25, 25, Coin.CoinBMP, "Store");
+		ScreenElement coinsTextSymbol = new ScreenElement(coinsText, "Text", 90f, (float) (GameActivity.getScreenHeight() - 50), "Store");
+		planetSlot.setWidth(70);
+		planetSlot.setHeight(75);
 		slots.add(slot1);
 		slots.add(slot2);
 		slots.add(slot3);
+		slots.add(coinSymbol);
+		slots.add(planetSlot);
 		
 		synchronized(Ability.upgradeableAbilitiesLock) {
 			int seperation = 0;
-			int start = GameActivity.getScreenHeight()/4 - GameActivity.getScreenHeight()/16;
+			int start = GameActivity.getScreenHeight()/5 - GameActivity.getScreenHeight()/16;
 			int top = start - 50;
 			int bot = start + 400;
 			Combo c1 = new Combo(top, bot);
@@ -205,6 +223,7 @@ public class Store extends ActionBarActivity {
 			// Abilities slider
 			for(int j = 0; j < Ability.upgradeableAbilities.size(); j++){
 				Ability a = Ability.upgradeableAbilities.get(j);
+				if(a.getSlot() != -1) {
 				ScreenElement abilityIcon = new ScreenElement(
 						"Buy",
 						"Icon",
@@ -269,11 +288,12 @@ public class Store extends ActionBarActivity {
 				c1.add(descButton);
 				c1.add(buyButton);
 				seperation = seperation + 300;
+				}
 			}
 		}
 		
 		int seperation = 0;
-		int start = GameActivity.getScreenHeight()/2 + GameActivity.getScreenHeight()/14;
+		int start = 2*GameActivity.getScreenHeight()/5 + GameActivity.getScreenHeight()/14;
 		int top = start - 50;
 		int bot = start + 300;
 		Combo c2 = new Combo(top, bot);
@@ -310,6 +330,7 @@ public class Store extends ActionBarActivity {
 	
 	void updateStuff() {
 		Combo.updateCombos();
+		coinsText = "" + Coin.getCoins();
 	}
 	
 	void runStore() {

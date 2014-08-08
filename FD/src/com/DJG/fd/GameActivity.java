@@ -71,7 +71,7 @@ public class GameActivity extends ActionBarActivity {
 	public static int bgColor = Color.BLACK;
 
 	// The current game thread.
-	private static String mode = "Survival";
+	private static String mode = "Campaign";
 	private static long gameTime = 0;
 	public static Context gameContext;
 	public static Thread gameThread;

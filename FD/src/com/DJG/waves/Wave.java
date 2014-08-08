@@ -69,7 +69,7 @@ public class Wave extends ArrayList<Unit> {
 	}
 	
 	public static void setWaitTime(int n) {
-		waveWaitTime = n;
+		setWaveWaitTime(n);
 	}
 	
 	public static void initWaves(int waveStartNumber){
@@ -78,115 +78,9 @@ public class Wave extends ArrayList<Unit> {
 		isFirst = true;
 		waveGenerator = new WaveGenerator();
 		// Start at what wave?
+		waveStartNumber = 0;
 		currentWaveNumber = waveStartNumber;
 		sendWave(waveStartNumber);
-	}
-
-	static void sendCampaignWave(double waveNumber) {
-		Wave myWave = new Wave();
-		currentWave = myWave;
-		boolean isBoss = false;
-		HashMap<String, UnitPattern> unitMap = new HashMap<String, UnitPattern>();
-		ArrayList<GeneratorInfo> genInfo = new ArrayList<GeneratorInfo>();
-		waveWaitTime = 1500;
-		switch((int)waveNumber){
-		case 0:
-			genInfo.add(new GeneratorInfo("Cat", 4, spawnSystem.FullRandom));
-			genInfo.add(new GeneratorInfo("Asteroid", 4, spawnSystem.FullRandom));
-			genInfo.add(new GeneratorInfo("Fire Asteroid", 4, spawnSystem.FullRandom));
-			genInfo.add(new GeneratorInfo("Ice Asteroid", 4, spawnSystem.FullRandom));
-			break;
-		/*case 0: 
-			Cthulu.battleStart();
-			isBoss = true;
-			break;*/
-		case 1:
-			genInfo.add(new GeneratorInfo("Asteroid", 10,spawnSystem.Circle));
-			break;
-		case 2:
-			genInfo.add(new GeneratorInfo("Fire Asteroid", 10,spawnSystem.FullRandom));
-			genInfo.add(new GeneratorInfo("Asteroid", 10,spawnSystem.LineFromEast));
-			genInfo.add(new GeneratorInfo("Fire Asteroid", 10,spawnSystem.FullRandom));
-			genInfo.add(new GeneratorInfo("Asteroid", 10,spawnSystem.LineFromWest));
-			break;
-		case 3:
-			genInfo.add(new GeneratorInfo("Ice Asteroid", 20,spawnSystem.FullRandom));
-			genInfo.add(new GeneratorInfo("Asteroid", 20,spawnSystem.Spiral));
-			break;
-		case 4:
-			genInfo.add(new GeneratorInfo("Asteroid", 12,spawnSystem.Circle));
-			genInfo.add(new GeneratorInfo("Asteroid", 12,spawnSystem.Circle));
-			break;
-		case 5:
-			genInfo.add(new GeneratorInfo("Asteroid", 15,spawnSystem.Spiral));
-			genInfo.add(new GeneratorInfo("Fire Asteroid", 15,spawnSystem.Spiral));
-			genInfo.add(new GeneratorInfo("Asteroid", 5,spawnSystem.Spiral));
-			genInfo.add(new GeneratorInfo("Fire Asteroid", 5,spawnSystem.Spiral));
-			genInfo.add(new GeneratorInfo("Asteroid", 5,spawnSystem.Spiral));
-			genInfo.add(new GeneratorInfo("Fire Asteroid", 5,spawnSystem.Spiral));
-			genInfo.add(new GeneratorInfo("Asteroid", 5,spawnSystem.Spiral));
-			genInfo.add(new GeneratorInfo("Fire Asteroid", 5,spawnSystem.Spiral));
-			genInfo.add(new GeneratorInfo("Asteroid", 5,spawnSystem.Spiral));
-			genInfo.add(new GeneratorInfo("Fire Asteroid", 5,spawnSystem.Spiral));
-			genInfo.add(new GeneratorInfo("Asteroid", 5,spawnSystem.Spiral));
-			genInfo.add(new GeneratorInfo("Fire Asteroid", 5,spawnSystem.Spiral));
-			genInfo.add(new GeneratorInfo("Asteroid", 5,spawnSystem.Spiral));
-			genInfo.add(new GeneratorInfo("Fire Asteroid", 5,spawnSystem.Spiral));
-			genInfo.add(new GeneratorInfo("Asteroid", 5,spawnSystem.Spiral));
-			genInfo.add(new GeneratorInfo("Fire Asteroid", 5,spawnSystem.Spiral));
-			genInfo.add(new GeneratorInfo("Asteroid", 5,spawnSystem.Spiral));
-			genInfo.add(new GeneratorInfo("Fire Asteroid", 5,spawnSystem.Spiral));
-			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.Spiral));
-			genInfo.add(new GeneratorInfo("Fire Asteroid", 5,spawnSystem.Spiral));
-			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.Spiral));
-			genInfo.add(new GeneratorInfo("Fire Asteroid", 1,spawnSystem.Spiral));
-			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.Spiral));
-			genInfo.add(new GeneratorInfo("Fire Asteroid", 1,spawnSystem.Spiral));
-			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.Spiral));
-			genInfo.add(new GeneratorInfo("Fire Asteroid", 1,spawnSystem.Spiral));
-			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.Spiral));
-			genInfo.add(new GeneratorInfo("Fire Asteroid", 1,spawnSystem.Spiral));
-			break;
-		case 6:
-			genInfo.add(new GeneratorInfo("Asteroid", 10,spawnSystem.Circle));
-			genInfo.add(new GeneratorInfo("Asteroid", 10,spawnSystem.LineFromNorth));
-			genInfo.add(new GeneratorInfo("Asteroid", 10,spawnSystem.LineFromSouth));
-			break;
-		case 7:
-			genInfo.add(new GeneratorInfo("Asteroid", 8,spawnSystem.Circle));
-			genInfo.add(new GeneratorInfo("Fire Asteroid", 15,spawnSystem.Circle));
-			genInfo.add(new GeneratorInfo("Asteroid", 8,spawnSystem.LineFromNorth));
-			genInfo.add(new GeneratorInfo("Asteroid", 8,spawnSystem.LineFromSouth));
-			break;
-		case 8:
-			genInfo.add(new GeneratorInfo("Asteroid", 30,spawnSystem.FullRandom));
-			genInfo.add(new GeneratorInfo("Fire Asteroid", 15,spawnSystem.Circle));
-			genInfo.add(new GeneratorInfo("Fire Asteroid", 15,spawnSystem.Circle));
-			genInfo.add(new GeneratorInfo("Fire Asteroid", 15,spawnSystem.Circle));
-			break;
-		case 9:
-			genInfo.add(new GeneratorInfo("Cheetah", 1,spawnSystem.Circle));
-			break;
-		case 10:
-			genInfo.add(new GeneratorInfo("Asteroid", 20,spawnSystem.Circle));
-			genInfo.add(new GeneratorInfo("Asteroid", 10,spawnSystem.Circle));
-			break;
-		case 11:
-			genInfo.add(new GeneratorInfo("Splitter Huge", 1,spawnSystem.FullRandom));
-			break;
-		default:
-			genInfo.add(new GeneratorInfo("Asteroid", r.nextInt((int)waveNumber) +1,spawnSystem.FullRandom));
-			genInfo.add(new GeneratorInfo("Fire Asteroid", r.nextInt((int)waveNumber*5+1)/4,spawnSystem.FullRandom));
-			genInfo.add(new GeneratorInfo("Cat", r.nextInt((int)waveNumber/4+1),spawnSystem.FullRandom));
-			genInfo.add(new GeneratorInfo("Healer", r.nextInt((int)waveNumber/25+1),spawnSystem.FullRandom));
-			genInfo.add(new GeneratorInfo("Cheetah", r.nextInt((int)waveNumber/9+1),spawnSystem.FullRandom));
-			genInfo.add(new GeneratorInfo("FullHealer", r.nextInt((int)waveNumber/50+1),spawnSystem.FullRandom));
-			break;
-		}
-		isBossWave = isBoss;
-		if(!isBoss) {
-			currentWave = waveGenerator.generateWave(genInfo);
-		}
 	}
 	
 	// If the int has already used, don't use it again. If every int between
@@ -222,7 +116,7 @@ public class Wave extends ArrayList<Unit> {
 	}
 	
 	static String fireorice() {
-		int between = r.nextInt(20); 
+		int between = getR().nextInt(20); 
 		String whatToSend = "Asteroid";
 		if(between == 1) {
 			whatToSend = "Fire Asteroid";
@@ -235,7 +129,7 @@ public class Wave extends ArrayList<Unit> {
 	
 	static void sendWave(double waveNumber){
 		if(GameActivity.getMode() == "Campaign") {
-			sendCampaignWave(waveNumber);
+			Campaign.sendCampaignWave(waveNumber);
 		}
 		else {
 			Survival.sendSurvivalWave(waveNumber);
@@ -268,7 +162,7 @@ public class Wave extends ArrayList<Unit> {
 			}
 			
 			// Send the next wave if the current one is empty and it has been two seconds!
-			if(currentWave.isEmpty() && GameActivity.getGameTime() - waveEndedTime > waveWaitTime) {
+			if(currentWave.isEmpty() && GameActivity.getGameTime() - waveEndedTime > getWaveWaitTime()) {
 				currentWaveNumber++;
 				GameActivity.levelText = "Wave " + (int)(currentWaveNumber+1);
 				sendWave(currentWaveNumber);
@@ -280,7 +174,7 @@ public class Wave extends ArrayList<Unit> {
 				
 			}
 			
-			if(!isBossWave) {
+			if(!isBossWave()) {
 				// Tell the wave to attack the castle.
 				if(currentWave.getWaveSent() == false) {
 					currentWave.attackCastle();
@@ -331,7 +225,7 @@ public class Wave extends ArrayList<Unit> {
 	}
 	
 	public int getWaitTime(){
-		return waveWaitTime;
+		return getWaveWaitTime();
 	}
 	
 	public static void killUnit(Unit u) {
@@ -347,5 +241,29 @@ public class Wave extends ArrayList<Unit> {
 						currentWave.remove(foundUnit);
 					}
 				}
+	}
+
+	public static int getWaveWaitTime() {
+		return waveWaitTime;
+	}
+
+	public static void setWaveWaitTime(int waveWaitTime) {
+		Wave.waveWaitTime = waveWaitTime;
+	}
+
+	public static boolean isBossWave() {
+		return isBossWave;
+	}
+
+	public static void setBossWave(boolean isBossWave) {
+		Wave.isBossWave = isBossWave;
+	}
+
+	public static Random getR() {
+		return r;
+	}
+
+	public static void setR(Random r) {
+		Wave.r = r;
 	}
 }

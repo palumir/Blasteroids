@@ -19,7 +19,7 @@ import com.DJG.units.Unit;
 public class LazerFingers {
 	// General ability attributes.
 	private static long startTime;
-	private static long duration = 30000;
+	private static long duration = 20000;
 	private static int radius = 10;
 	private static int minRadius = 10;
 	private static int maxRadius = 20;
@@ -55,7 +55,7 @@ public class LazerFingers {
 		float distanceXY2 = (float) Math.sqrt(yDistance2 * yDistance2 + xDistance2
 				* xDistance2);
 		
-	    final float EPSILON = 15f;
+	    final float EPSILON = 50f;
 	    if(distanceXY2 < distance + 50 && distanceXY1 < distance + 50) {
 		    if (Math.abs(LazerFingers.lazerPoint1X - LazerFingers.lazerPoint2X) < EPSILON) {
 		        // We've a vertical line, thus check only the x-value of the point.

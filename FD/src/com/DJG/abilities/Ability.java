@@ -59,14 +59,14 @@ public class Ability {
 		setCost(newCost);
 		setDescription(newDesc);
 		if(soundID!=-1)  mpPlacement = MediaPlayer.create(GameActivity.gameContext, soundID); 
-		slot = newSlot;
+		setSlot(newSlot);
 		type = newType;
 		uses = newUses;
 		iconColor = Color.WHITE;
 		bmp = newBMP;
 		purchased = (getPrefs().getInt(newType + "_equipped", 0) == 1);
 		
-		switch(slot){
+		switch(getSlot()){
 		case -1:
 			// Don't show it on the screen.
 			x = -1000;
@@ -172,7 +172,7 @@ public class Ability {
 						equippedAbilities.add(a);
 					}
 				// The ability is passive!
-				else if(a.slot == -1) {
+				else if(a.getSlot() == -1) {
 					equippedAbilities.add(a);
 				}
 			}
@@ -474,5 +474,9 @@ public class Ability {
 
 		public void setDescription(String description) {
 			this.description = description;
+		}
+
+		public int getSlot() {
+			return slot;
 		}
 }
