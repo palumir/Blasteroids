@@ -321,7 +321,7 @@ public class GameActivity extends ActionBarActivity {
 		
 
 		// Spawn the planet.
-		Planet p = new Earth("Fortress",screenWidth / 2, screenHeight / 2);
+		Planet p = Planet.getCurrentPlanet(screenWidth/2,screenHeight/2);
 		setFortress(p);
 		p.setOnScreen();
 		Wave.initWaves(levelStart);

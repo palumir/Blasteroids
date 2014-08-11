@@ -11,7 +11,6 @@ import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -25,6 +24,7 @@ import android.view.WindowManager;
 import com.DJG.abilities.Ability;
 import com.DJG.abilities.Coin;
 import com.DJG.fd.touchevents.TouchEvent;
+import com.DJG.planets.Planet;
 import com.DJG.screenelements.Combo;
 import com.DJG.screenelements.ScreenElement;
 import com.DJG.units.UnitType;
@@ -173,7 +173,7 @@ public class Store extends ActionBarActivity {
 		ScreenElement slot3 = new ScreenElement(
 				"Slot3",
 				Ability.getPrefs().getString("Slot3","Bomb"),
-				GameActivity.getScreenWidth()/8+60,
+				GameActivity.getScreenWidth()/8+80,
 				slotsY,
 				"Store"
 				);
@@ -182,7 +182,7 @@ public class Store extends ActionBarActivity {
 		ScreenElement slot2 = new ScreenElement(
 				"Slot2",
 				Ability.getPrefs().getString("Slot2","None"),
-				GameActivity.getScreenWidth()/8+180,
+				GameActivity.getScreenWidth()/8+200,
 				slotsY,
 				"Store"
 				);
@@ -200,21 +200,23 @@ public class Store extends ActionBarActivity {
 		ScreenElement planetSlot = new ScreenElement(
 				"PlanetSlot",
 				Ability.getPrefs().getString("PlanetSlot","None"),
-				GameActivity.getScreenWidth()*6/8,
+				GameActivity.getScreenWidth()*6/8 + 20,
 				slotsY,
 				"Store"
 				);
 		// Coin symbol
 		ScreenElement coinSymbol = new ScreenElement("Coin", "Button", 60f,
 				(GameActivity.getScreenHeight() - 68), 25, 25, Coin.CoinBMP, "Store");
-		coinsTextSymbol = new ScreenElement(coinsText, "Text", 90f, (float) (GameActivity.getScreenHeight() - 50), "Store");
-		planetSlot.setWidth(70);
-		planetSlot.setHeight(75);
+		coinsTextSymbol = new ScreenElement(Coin.getCoins() +" COINS ", "Text", 90f, (float) (GameActivity.getScreenHeight() - 50), "Store");
+		planetSlot.setWidth(105);
+		planetSlot.setHeight(105);
 		slots.add(slot1);
 		slots.add(slot2);
 		slots.add(slot3);
 		slots.add(coinSymbol);
 		slots.add(planetSlot);
+		planetSlot.setAttachedPlanet(Planet.getCurrentPlanet());
+		planetSlot.setName(Planet.getCurrentPlanet().getType());
 		slots.add(coinsTextSymbol);
 		
 		synchronized(Ability.upgradeableAbilitiesLock) {
@@ -299,15 +301,15 @@ public class Store extends ActionBarActivity {
 		int seperation = 0;
 		int start = 2*GameActivity.getScreenHeight()/5 + GameActivity.getScreenHeight()/14;
 		int top = start - 50;
-		int bot = start + 300;
+		int bot = start + 400;
 		Combo c2 = new Combo(top, bot);
 		// Planet slider
-		for(int j = 0; j < UnitType.getAllUnitTypes().size(); j++){
-			UnitType u = UnitType.getAllUnitTypes().get(j);
+		for(int j = 0; j < Planet.getPlanetTypes().size(); j++){
+			UnitType u = Planet.getPlanetTypes().get(j);
 			if(u.getMetaType() == "Planet") { 
-				ScreenElement planetIcon = new ScreenElement(
+				ScreenElement abilityIcon = new ScreenElement(
 						"Buy",
-						"Button",
+						"Icon",
 						GameActivity.getScreenWidth()/2 + seperation,
 						start,
 						80,
@@ -315,6 +317,31 @@ public class Store extends ActionBarActivity {
 						u.getBMP(),
 						"Store"
 						);
+				ScreenElement coinIcon = new ScreenElement(
+						"Coin",
+						"Icon",
+						GameActivity.getScreenWidth()/2 + seperation + 50,
+						start,
+						55,
+						42,
+						Coin.CoinBMP,
+						"Store"
+						);
+				ScreenElement costButton = new ScreenElement(
+						"Text",
+						""+u.getCost(),
+						GameActivity.getScreenWidth()/2 + seperation + 50,
+						start,
+						"Store"
+						);
+				ScreenElement descButton = new ScreenElement(
+						"Text",
+						""+u.getDescription(),
+						GameActivity.getScreenWidth()/2 + seperation - 50,
+						start+100,
+						"Store"
+						);
+				descButton.setTextSize(35);
 				ScreenElement buyButton = new ScreenElement(
 						"Buy",
 						"Button",
@@ -325,7 +352,23 @@ public class Store extends ActionBarActivity {
 						ScreenElement.buttonTest,
 						"Store"
 						);
-				c2.add(planetIcon);
+				ScreenElement equipButton = new ScreenElement(
+						"Equip",
+						"Button",
+						GameActivity.getScreenWidth()/2 + seperation,
+						start + 300,
+						80,
+						43,
+						ScreenElement.buttonTest,
+						"Store"
+						);
+				equipButton.attachPlanet(u);
+				buyButton.attachPlanet(u);
+				c2.add(abilityIcon);
+				c2.add(equipButton);
+				c2.add(coinIcon);
+				c2.add(costButton);
+				c2.add(descButton);
 				c2.add(buyButton);
 				seperation = seperation + 300;
 			}

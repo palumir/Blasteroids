@@ -12,6 +12,7 @@ import android.util.Log;
 import com.DJG.abilities.Ability;
 import com.DJG.fd.GameActivity;
 import com.DJG.fd.R;
+import com.DJG.units.UnitType;
 
 public class ScreenElement {
 	// Static button stuff
@@ -55,6 +56,7 @@ public class ScreenElement {
 	
 	// Store stuff
 	private Ability attachedAbility = null;
+	private UnitType attachedPlanet = null;
 	
 	public ScreenElement(
 			String newType,
@@ -261,11 +263,11 @@ public class ScreenElement {
 			canvas.drawText(this.getName(), this.x, this.y-5, myPaint);
 			myPaint.setStrokeWidth(1);
 			myPaint.setStyle(Paint.Style.STROKE);
-			canvas.drawRect(this.x, this.y, this.x+70, this.y+70, myPaint);
+			canvas.drawRect(this.x, this.y, this.x+105, this.y+105, myPaint);
 			if(this.getName() != null) {
-				Ability theAbility = Ability.getAbility(this.getName());
-				if(theAbility!=null) {
-					canvas.drawBitmap(theAbility.getBMP(), this.getX()+3, this.getY()+3, null);
+				UnitType thePlanet = UnitType.getUnitType(this.getName());
+				if(thePlanet!=null) {
+					canvas.drawBitmap(thePlanet.getBMP(), this.getX()+3, this.getY()+3, null);
 				}
 			}
 		}
@@ -301,8 +303,11 @@ public class ScreenElement {
 	}
 	
 	public void attachAbility(Ability a) {
-		Log.d("AttachedAbility",a.getType());
 		setAttachedAbility(a);
+	}
+	
+	public void attachPlanet(UnitType u) {
+		setAttachedPlanet(u);
 	}
 	
 	public void respondToTouch() {
@@ -432,6 +437,14 @@ public class ScreenElement {
 
 	public void setHeight(int height) {
 		this.height = height;
+	}
+
+	public UnitType getAttachedPlanet() {
+		return attachedPlanet;
+	}
+
+	public void setAttachedPlanet(UnitType attachedPlanet) {
+		this.attachedPlanet = attachedPlanet;
 	}
 
 }

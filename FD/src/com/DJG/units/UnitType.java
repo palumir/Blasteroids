@@ -4,7 +4,10 @@ import java.util.ArrayList;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.util.Log;
 
+import com.DJG.abilities.Ability;
+import com.DJG.abilities.Coin;
 import com.DJG.fd.GameActivity;
 import com.DJG.fd.R;
 import com.DJG.planets.Planet;
@@ -59,7 +62,7 @@ public class UnitType {
 		UnitType foundUnitType = null;
 		synchronized(allUnitTypesLock) {
 			for(UnitType u : getAllUnitTypes()) {
-				if(u.getType() == searchType) {
+				if(u.getType().equals(searchType)) {
 					foundUnitType = u;
 					break;
 				}
@@ -77,6 +80,21 @@ public class UnitType {
 		color = Color.WHITE;
 	}
 	
+	// Store unitType constructor;
+	public UnitType(String newType, int newRadius, float newMoveSpeed, boolean isKillable, int newBitMapLink, int newHP, int newDamage, String newMetaType, int newCost) {
+		type = newType;
+		radius = newRadius;
+		moveSpeed = newMoveSpeed;
+		metaType = "Unit";
+		killable = isKillable;
+		bitmap = GameActivity.makeTransparent(BitmapFactory.decodeResource(GameActivity.gameContext.getResources(), newBitMapLink));
+		maxHitPoints = newHP;
+		damage = newDamage;
+		metaType = newMetaType;
+		setCost(newCost);
+		frozenBMP = bitmap;
+	}
+	
 	public UnitType(String newType, int newRadius, float newMoveSpeed, boolean isKillable, int newBitMapLink, int newHP, int newDamage) {
 		type = newType;
 		radius = newRadius;
@@ -86,6 +104,7 @@ public class UnitType {
 		bitmap = GameActivity.makeTransparent(BitmapFactory.decodeResource(GameActivity.gameContext.getResources(), newBitMapLink));
 		maxHitPoints = newHP;
 		damage = newDamage;
+		frozenBMP = bitmap;
 	}
 	
 	public UnitType(String newType, int newRadius, float newMoveSpeed, boolean isKillable, int newBitMapLink, int newFrozenBMPLink, int newHP, int newDamage, String newMetaType) {
@@ -122,6 +141,7 @@ public class UnitType {
 		bitmap = newBitMap;
 		maxHitPoints = newHP;
 		damage = newDamage;
+		frozenBMP = bitmap;
 	}
 	
 	public UnitType(String newType, int newRadius, float newMoveSpeed, boolean isKillable, int newColor, String newShape, int newHP, int newDamage) {
@@ -134,6 +154,7 @@ public class UnitType {
 		color = newColor;
 		maxHitPoints = newHP;
 		damage = newDamage;
+		frozenBMP = bitmap;
 	}
 	
     // Unit Type fields. WIP: Seperate into sections when there's lots of values.
@@ -152,12 +173,52 @@ public class UnitType {
 	private int damage;
 	private float moveSpeed;
 	
+	// Store stuff
+	private int cost;
+	private String description = "None";
+	
 	public static void addUnitType(UnitType u) {
 		getAllUnitTypes().add(u);
 	}
 	
 	public boolean getKillable() {
 		return killable;
+	}
+	
+	public static ArrayList<UnitType> getAllOf(String s) {
+		synchronized(allUnitTypesLock) {
+			ArrayList a = new ArrayList<UnitType>();
+			for(UnitType u : allUnitTypes) {
+				if(u.getMetaType().equals(s)) {
+					a.add(u);
+				}
+			}
+			return a;
+		}
+	}
+	
+	public void equip() {
+		if(Ability.getPrefs().getInt(getType() + "_purchased", -99) == 1) {
+			Ability.getEditor().putString("currentPlanet", getType());
+			Ability.getEditor().commit();
+		}
+		else {
+			// You do not have that ability purchased.
+		}
+	}
+	
+	public void buy() {
+		if(Ability.getPrefs().getInt(getType() + "_purchased", -99) == -99 && Coin.getCoins() >= getCost()) {
+			Ability.getEditor().putInt(getType() + "_purchased",1);
+			Coin.increaseCoins((-1)*getCost());
+			Ability.getEditor().commit();
+		}
+		else if(!(Ability.getPrefs().getInt(getType() + "_purchased", -99) == -99)) {
+			// You already purchased that!
+		}
+		else if(!(Coin.getCoins() >= getCost())) {
+			// You don't have enough coins for that!
+		}
 	}
 	
 	public String getType() {
@@ -210,5 +271,21 @@ public class UnitType {
 
 	public void setFrozenBMP(Bitmap frozenBMP) {
 		this.frozenBMP = frozenBMP;
+	}
+
+	public int getCost() {
+		return cost;
+	}
+
+	public void setCost(int cost) {
+		this.cost = cost;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 }

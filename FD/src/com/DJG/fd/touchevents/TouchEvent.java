@@ -1,6 +1,7 @@
 package com.DJG.fd.touchevents;
 
 import android.support.v4.view.MotionEventCompat;
+import android.util.Log;
 import android.view.MotionEvent;
 
 import com.DJG.abilities.Ability;
@@ -10,6 +11,7 @@ import com.DJG.fd.GameActivity;
 import com.DJG.screenelements.Combo;
 import com.DJG.screenelements.ScreenElement;
 import com.DJG.units.Unit;
+import com.DJG.units.UnitType;
 
 public class TouchEvent {
 	
@@ -21,6 +23,7 @@ public class TouchEvent {
 	public static int action1 = 0;
 	public static int action2 = 0;
 	public static Ability grabbedAbility = null;
+	public static UnitType grabbedPlanet = null;
 	public static float grabbedAbilityX;
 	public static float grabbedAbilityY;
 	public static Ability secondGrabbedAbility = null;
@@ -47,24 +50,42 @@ public class TouchEvent {
     			ScreenElement touchedElement = ScreenElement.getScreenElementAt(pos1, pos2);
     			if(touchedElement == null) {
     				grabbedAbility = null;
+    				grabbedPlanet = null;
     			}
     			else {
     				// Respond to an actual equip
-    				if(grabbedScreenElement != null && grabbedScreenElement==touchedElement && grabbedScreenElement.getType().contains("Slot") && grabbedAbility != null) {
-    					if(Ability.getPrefs().getInt(grabbedAbility.getType() + "_purchased", -99) == 1) {
-    						grabbedScreenElement.setName(grabbedAbility.getType());
+    				if(grabbedScreenElement != null && grabbedScreenElement==touchedElement && grabbedScreenElement.getType().contains("Slot")) {
+    					if(grabbedAbility!=null && !grabbedScreenElement.getType().equals("PlanetSlot")) {
+	    					if(Ability.getPrefs().getInt(grabbedAbility.getType() + "_purchased", -99) == 1) {
+	    						grabbedScreenElement.setName(grabbedAbility.getType());
+	    					}
+	    					grabbedAbility.equip(grabbedScreenElement.getType());
     					}
-    					grabbedAbility.equip(grabbedScreenElement.getType());
+    					if(grabbedPlanet!=null && grabbedScreenElement.getType().equals("PlanetSlot")) {
+	    					if(Ability.getPrefs().getInt(grabbedPlanet.getType() + "_purchased", -99) == 1) {
+	    						grabbedScreenElement.setName(grabbedPlanet.getType());
+	    					}
+	    					grabbedPlanet.equip();
+    					}
     				}
 	    			// Respond to a purchase.
     				else if(grabbedScreenElement != null && grabbedScreenElement==touchedElement && grabbedScreenElement.getType() == "Button" && grabbedScreenElement.getName() == "Buy") {
 	    				Ability attachedAbility = grabbedScreenElement.getAttachedAbility();
-	    				attachedAbility.buy();
+	    				if(attachedAbility!=null) {
+	    					attachedAbility.buy();
+	    				}
+	    				UnitType attachedPlanet = grabbedScreenElement.getAttachedPlanet();
+	    				if(attachedPlanet!=null) {
+	    					attachedPlanet.buy();
+	    				}
 	    			}
 	    			// Respond to equip click
 	    			else if(grabbedScreenElement != null && grabbedScreenElement==touchedElement && grabbedScreenElement.getType() == "Button" && grabbedScreenElement.getName() == "Equip") {
 	    				Ability attachedAbility = grabbedScreenElement.getAttachedAbility();
 	    				grabbedAbility = attachedAbility;
+	    				UnitType attachedPlanet = grabbedScreenElement.getAttachedPlanet();
+	    				grabbedPlanet = attachedPlanet;
+	    				
 	    			}
     			}
     			if(touchedCombo!=null) {
