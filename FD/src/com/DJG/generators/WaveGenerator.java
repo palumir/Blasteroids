@@ -35,7 +35,7 @@ public class WaveGenerator {
 	private int eastTracker = 0;
 	private int westTracker = 0;
 	private int spiralNumber = 30;
-	private int circleRadius = 0;
+	private int circleRadius = 3;
 	
 	public WaveGenerator(){
 		 screenWidth = GameActivity.getScreenWidth();

@@ -752,6 +752,9 @@ public class Unit {
 		if (type.startsWith("Fire")) {
 			Bomb b = new Bomb(this.getX(), this.getY(), 100, 500, Color.RED, Color.YELLOW);
 		}
+		if (type.equals("Bomb Bullet")) {
+			Bomb b = new Bomb(this.getX(), this.getY(), 100, 500, Color.RED, Color.YELLOW);
+		}
 		if (type == "Ice Asteroid") {
 			Slow s = new Slow(this.getX(), this.getY(), 200, 1500);
 		}

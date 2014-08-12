@@ -172,7 +172,7 @@ public class Store extends ActionBarActivity {
 		int slotsY = (int) ((int)GameActivity.getScreenHeight()*0.9);
 		ScreenElement slot3 = new ScreenElement(
 				"Slot3",
-				Ability.getPrefs().getString("Slot3","Bomb"),
+				Ability.getPrefs().getString("Slot3","None"),
 				GameActivity.getScreenWidth()/8+80,
 				slotsY,
 				"Store"

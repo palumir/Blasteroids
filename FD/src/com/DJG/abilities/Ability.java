@@ -100,6 +100,10 @@ public class Ability {
 			getEditor().putInt("Bomb_purchased",1);
 			getEditor().commit();
 		}
+		if(getPrefs().getString("Slot1","None").equals("None")) {
+			getEditor().putString("Slot1", "Bomb");
+			getEditor().commit();
+		}
 		
 		// Load all abilities that you can upgrade
 		upgradeableAbilities = new ArrayList<Ability>();
@@ -107,6 +111,7 @@ public class Ability {
 		upgradeableAbilities.add(new Ability("Slow",0,1,3,-1,Slow.slowBMP,32,"A slow.",15));
 		upgradeableAbilities.add(new Ability("Blackhole",0,1,3,-1,Blackhole.BlackholeBMP,32,"A blackhole.",25));
 		upgradeableAbilities.add(new Ability("Turret",0,1,3,-1,Turret.TurretBMP,32,"A turret.",30));
+		upgradeableAbilities.add(new Ability("Bomb Turret",0,1,3,-1,BombTurret.BombTurretBMP,32,"A bomb turret.",30));
 		upgradeableAbilities.add(new Ability("Fire Fingers",-1,1,3,-1,FireFingers.fireBMP,32,"Fire Fingers",0));
 		upgradeableAbilities.add(new Ability("Lazer Fingers",-1,1,3,-1,LazerFingers.lazerBMP,32,"Lazer Fingers",0));
 		upgradeableAbilities.add(new Ability("Nuke",-1,1,3,-1,Nuke.NukeBMP,32,"Nuke",0));
@@ -116,6 +121,12 @@ public class Ability {
 		initPurchasedAbilities();
 		initUserAbilities();
 		Drop.initAbilityDrops();
+		
+		// Planet stuff
+		if(Ability.getPrefs().getInt("Earth_purchased", 0) == 0) {
+			Ability.getEditor().putInt("Earth_purchased", 1);
+			Ability.getEditor().commit();
+		}
 	}
 	
 	public void buy() {
@@ -274,6 +285,7 @@ public class Ability {
       	Coin.drawCoins(canvas,myPaint);
       	Blackhole.drawBlackholes(canvas, myPaint);
       	Turret.drawTurrets(canvas,myPaint);
+      	BombTurret.drawBombTurrets(canvas,myPaint);
       	KnockBack.drawKnockBacks(canvas, myPaint);
 	}
 
@@ -284,6 +296,7 @@ public class Ability {
 		Coin.updateCoins();
 		Blackhole.updateBlackholes();
 		Turret.updateTurrets();
+		BombTurret.updateBombTurrets();
 		KnockBack.updateknockBacks();
 		FireFingers.updateFireFingers();
 		LazerFingers.updateLazerFingers();
@@ -327,6 +340,11 @@ public class Ability {
 			if(this.getType() == "Turret") {
 				synchronized(Turret.TurretsLock) {
 					Turret newTurret = new Turret(xSpawn,ySpawn,350,20000); // Default slow.
+				}
+			}
+			if(this.getType() == "Bomb Turret") {
+				synchronized(BombTurret.BombTurretsLock) {
+					BombTurret newBombTurret = new BombTurret(xSpawn,ySpawn,350,20000); // Default slow.
 				}
 			}
 			if(this.getType() == "KnockBack") {
@@ -386,6 +404,7 @@ public class Ability {
 			Nuke.clearNukes();
 			Blackhole.clearBlackholes();
 			Turret.clearTurrets();
+			BombTurret.clearBombTurrets();
 			KnockBack.clearKnockBacks();
 			equippedAbilities.clear();
 		}
@@ -397,6 +416,7 @@ public class Ability {
 		Slow.checkIfHitSlow(u);
 		Blackhole.checkIfHitBlackhole(u);
 		Turret.checkIfHitTurret(u);
+		BombTurret.checkIfHitBombTurret(u);
 		KnockBack.checkIfHitKnockBack(u);
 		LazerFingers.checkIfHitLazer(u);
 	}
