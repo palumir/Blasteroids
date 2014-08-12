@@ -307,8 +307,6 @@ public class Unit {
 	public static void addMoon(Unit u){
 		synchronized (moonsLock) {
 			moons.add(u);
-			addUnit(u);
-			u.setOnScreen();
 		}
 	}
 
@@ -376,6 +374,24 @@ public class Unit {
 				if (foundUnit < projectiles.size()) {
 					projectiles.get(foundUnit).target.isAttacked = false;
 					projectiles.remove(foundUnit);
+				}
+			}
+		}
+	}
+	
+	public static void killMoon(Unit u) {
+		if (moons.size() != 0) {
+			synchronized (moonsLock) {
+				int foundUnit = 0;
+				for (int j = 0; j < moons.size(); j++) {
+					Unit v = moons.get(j);
+					if (u == v) {
+						break;
+					}
+					foundUnit++;
+				}
+				if (foundUnit < moons.size()) {
+					moons.remove(foundUnit);
 				}
 			}
 		}
@@ -797,6 +813,9 @@ public class Unit {
 
 		if (metaType == "Projectile") {
 			killProj(this);
+		}
+		if (isMoon()) {
+			killMoon(this);
 		}
 
 		// Kill the old unit.

@@ -50,7 +50,7 @@ public class Coin {
 	}
 	
 	public static int getCoins() {
-		return Ability.getPrefs().getInt("flickOff_numCoins", 0);
+		return Ability.getPrefs().getInt("flickOff_numCoins", 400);
 	}
 	
 	public static void increaseCoins() {

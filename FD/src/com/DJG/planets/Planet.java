@@ -56,19 +56,19 @@ public abstract class Planet extends Unit {
 	
 	public static Planet getCurrentPlanet(float x, float y) {
 		String planet = Ability.getPrefs().getString("currentPlanet", "Earth");
-		if(planet=="Earth")  {
+		if(planet.equals("Earth"))  {
 			return new Earth("Fortress",x,y);
 		}
-		if(planet=="Mars")  {
+		if(planet.equals("Mars"))  {
 			return new Mars("Fortress",x,y);
 		}
-		if(planet=="Jupiter")  {
+		if(planet.equals("Jupiter"))  {
 			return new Jupiter("Fortress",x,y);
 		}
-		if(planet=="Saturn")  {
+		if(planet.equals("Saturn"))  {
 			return new Saturn("Fortress",x,y);
 		}
-		else return null;
+		else return new Earth("Fortress",x,y);
 	}
 	
 	public static UnitType getCurrentPlanet() {
@@ -82,8 +82,8 @@ public abstract class Planet extends Unit {
 	//A method to spawn defenders. Likely overriden
 	protected void spawnDefenders(){
 	Unit fort = GameActivity.getFortress();
-	float fortX=fort.getX();
-	float fortY = fort.getY();
+	float fortX=fort.getX()+fort.getRadius()/2;
+	float fortY = fort.getY()+fort.getRadius()/2;
 	float screenHeight = GameActivity.getScreenHeight();
 	float screenWidth = GameActivity.getScreenWidth();
 		int radius = radiusOfDefenders;

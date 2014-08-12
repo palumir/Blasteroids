@@ -11,6 +11,7 @@ import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -39,13 +40,7 @@ public class Store extends ActionBarActivity {
 	// Background
 	private Bitmap background;
 	private Canvas bgCanvas;
-	
-	// Static
-	private static ScreenElement coinsTextSymbol;
-	
-	// Coins
-	private String coinsText = "0";
-	
+
 	// Just a random
 	static Random r = new Random();
 	
@@ -156,6 +151,11 @@ public class Store extends ActionBarActivity {
 	
 	void drawStore(Canvas canvas, Paint myPaint) {
 		drawBackground(canvas,myPaint);
+		myPaint.setStyle(Paint.Style.FILL);
+		myPaint.setColor(Color.WHITE);
+		myPaint.setStrokeWidth(3);
+		myPaint.setTextSize(50);
+		canvas.drawText(Coin.getCoins() +"", 90f, (float) (GameActivity.getScreenHeight() - 50), myPaint);
 		Combo.drawCombos(canvas, myPaint, "Store");
 	}
 	
@@ -207,7 +207,6 @@ public class Store extends ActionBarActivity {
 		// Coin symbol
 		ScreenElement coinSymbol = new ScreenElement("Coin", "Button", 60f,
 				(GameActivity.getScreenHeight() - 68), 25, 25, Coin.CoinBMP, "Store");
-		coinsTextSymbol = new ScreenElement(Coin.getCoins() +" COINS ", "Text", 90f, (float) (GameActivity.getScreenHeight() - 50), "Store");
 		planetSlot.setWidth(105);
 		planetSlot.setHeight(105);
 		slots.add(slot1);
@@ -217,7 +216,6 @@ public class Store extends ActionBarActivity {
 		slots.add(planetSlot);
 		planetSlot.setAttachedPlanet(Planet.getCurrentPlanet());
 		planetSlot.setName(Planet.getCurrentPlanet().getType());
-		slots.add(coinsTextSymbol);
 		
 		synchronized(Ability.upgradeableAbilitiesLock) {
 			int seperation = 0;
@@ -377,7 +375,6 @@ public class Store extends ActionBarActivity {
 	
 	void updateStuff() {
 		Combo.updateCombos();
-		coinsTextSymbol.setName("" + Coin.getCoins());
 	}
 	
 	void runStore() {

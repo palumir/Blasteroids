@@ -320,12 +320,12 @@ public class GameActivity extends ActionBarActivity {
 				(screenHeight - 68), 25, 25, ScreenElement.healthBMP, "Game");
 		
 
+		Wave.initWaves(levelStart);
+		Ability.initAbilities(prefs);
 		// Spawn the planet.
 		Planet p = Planet.getCurrentPlanet(screenWidth/2,screenHeight/2);
 		setFortress(p);
 		p.setOnScreen();
-		Wave.initWaves(levelStart);
-		Ability.initAbilities(prefs);
 	}
 
 	public static void setScreenWidth(int i) {

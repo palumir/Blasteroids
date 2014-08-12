@@ -20,7 +20,6 @@ public class Campaign {
 		//// LEVEL ONE ///////////////////////////////////////////////////
 		//////////////////////////////////////////////////////////////////
 		case 1:
-			genInfo.add(new GeneratorInfo("MultiClicker 1", 4, spawnSystem.FullRandom));
 			genInfo.add(new GeneratorInfo("Cat", 4, spawnSystem.FullRandom,0,250));
 			genInfo.add(new GeneratorInfo("Asteroid", 4, spawnSystem.FullRandom));
 			genInfo.add(new GeneratorInfo("Fire Asteroid", 4, spawnSystem.FullRandom));
