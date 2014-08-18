@@ -129,6 +129,56 @@ public class Ability {
 		}
 	}
 	
+	public static Ability getAbilityDrop(String dropType) {
+		if(dropType.equals("Normal")) {
+			synchronized(upgradeableAbilitiesLock) {
+				ArrayList<Ability> aList = new ArrayList<Ability>();
+				for(Ability a : upgradeableAbilities) {
+					if(a.slot!=-1 && a.slot!=0) {
+						aList.add(a);
+					}
+				}
+				return aList.get(Drop.getR().nextInt(aList.size()));
+			}
+		}
+		else if(dropType.equals("Special")) {
+			synchronized(upgradeableAbilitiesLock) {
+				ArrayList<Ability> aList = new ArrayList<Ability>();
+				for(Ability a : upgradeableAbilities) {
+					if(a.slot==-1) {
+						aList.add(a);
+					}
+				}
+				return aList.get(Drop.getR().nextInt(aList.size()));
+			}
+		}
+		return null;
+	}
+	
+	public static int countNormals() {
+		int count = 0;
+		synchronized(upgradeableAbilitiesLock) {
+			for(Ability a : upgradeableAbilities) {
+				if(a.slot!=-1 || a.slot!=0) {
+					count++;
+				}
+			}
+		}
+		return count;
+	}
+	
+	public static int countSpecials() {
+		int count = 0;
+		synchronized(upgradeableAbilitiesLock) {
+			for(Ability a : upgradeableAbilities) {
+				if(a.slot==-1) {
+					count++;
+				}
+			}
+		}
+		return count;
+	}
+	
 	public void buy() {
 		if(getPrefs().getInt(getType() + "_purchased", -99) == -99 && Coin.getCoins() >= getCost()) {
 			getEditor().putInt(getType() + "_purchased",1);

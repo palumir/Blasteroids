@@ -19,9 +19,9 @@ public class Drop {
 	}
 	
 	public static void potentiallyDropItem(Unit u) {
-		if(r.nextInt(150) == 1) {
+		if(getR().nextInt(2) == 1) {
 			if(u.getMetaType() == "Unit") {
-				Ability abilityToDrop = Ability.getEquippedAbilities().get(r.nextInt(Ability.getEquippedAbilities().size()));
+				Ability abilityToDrop = Ability.getAbilityDrop("Normal");
 				Unit v = new Unit("Ability Drop",abilityToDrop.getType(),u.getX(),u.getY());
 				v.animate("Bob");
 			}
@@ -73,5 +73,13 @@ public class Drop {
 				}
 			}
 		}
+	}
+
+	public static Random getR() {
+		return r;
+	}
+
+	public static void setR(Random r) {
+		Drop.r = r;
 	}
 }
