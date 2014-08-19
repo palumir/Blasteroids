@@ -114,7 +114,9 @@ public class Blackhole {
 	
 	public static void clearBlackholes() {
 		synchronized(BlackholesLock) {
-			allBlackholes.clear();
+			if(allBlackholes!=null) {
+				allBlackholes.clear();
+			}
 		}
 	}
 	

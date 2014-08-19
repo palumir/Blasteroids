@@ -750,13 +750,13 @@ public class Unit {
 
 		// Do special things for special units.
 		if (type.startsWith("Fire")) {
-			Bomb b = new Bomb(this.getX(), this.getY(), 100, 500, Color.RED, Color.YELLOW);
+			Bomb b = new Bomb(this.getX(), this.getY(), 115, 400, Color.RED, Color.YELLOW);
 		}
 		if (type.equals("Bomb Bullet")) {
-			Bomb b = new Bomb(this.getX(), this.getY(), 100, 500, Color.RED, Color.YELLOW);
+			Bomb b = new Bomb(this.getX(), this.getY(), 115, 400, Color.RED, Color.YELLOW);
 		}
 		if (type == "Ice Asteroid") {
-			Slow s = new Slow(this.getX(), this.getY(), 200, 1500);
+			Slow s = new Slow(this.getX(), this.getY(), 210, 1000);
 		}
 		if (type == "MultiClicker 1") {
 			Wave.addToCurrentWave(new Unit("Any Name", "MultiClicker 2", this

@@ -35,8 +35,8 @@ public class ScreenElement {
 	private float y;     
 	private float xNew;
 	private float yNew;
-	private int height;
 	private int width;
+	private int height;
 	public float oldX;
 	private ScreenElementAnimation s;
 
@@ -216,19 +216,21 @@ public class ScreenElement {
 	
 	
 	public static void destroyAllScreenElements() {
-		allScreenElements.clear();
+		if(allScreenElements!=null) {
+			allScreenElements.clear();
+		}
 	}
 	
 	public static void destroyAllScreenElements(String activity) {
-		synchronized(allScreenElementsLock) {
-			for(int i = 0; i < allScreenElements.size(); i++) {
-				ScreenElement s = allScreenElements.get(i);
-				if(s.getActivity().equals(activity)) {
-					allScreenElements.remove(i);
-					i--;
+			synchronized(allScreenElementsLock) {
+				for(int i = 0; i < allScreenElements.size(); i++) {
+					ScreenElement s = allScreenElements.get(i);
+					if(s.getActivity() != null && s.getActivity().equals(activity)) {
+						allScreenElements.remove(i);
+						i--;
+					}
 				}
 			}
-		}
 	}
 	
 	public void draw(Canvas canvas, Paint myPaint) {

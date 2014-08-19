@@ -203,7 +203,9 @@ public class Wave extends ArrayList<Unit> {
 	public static void destroyWaves() {
 	currentWaveNumber = 0;
 	 synchronized(Wave.currentWaveLock) {
-		 Wave.getCurrentWave().clear();
+		 if(Wave.getCurrentWave() != null) {
+			 Wave.getCurrentWave().clear();
+		 }
 	 }
 	}
 	

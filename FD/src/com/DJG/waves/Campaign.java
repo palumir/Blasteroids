@@ -7,6 +7,9 @@ import com.DJG.generators.GeneratorInfo;
 import com.DJG.generators.GeneratorInfo.spawnSystem;
 
 public class Campaign {
+	
+	public static int campaignMax = 30;
+	
 	static void sendCampaignWave(double waveNumber) {
 		Wave myWave = new Wave();
 		Wave.setCurrentWave(myWave);

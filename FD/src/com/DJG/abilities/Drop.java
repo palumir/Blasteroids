@@ -19,12 +19,32 @@ public class Drop {
 	}
 	
 	public static void potentiallyDropItem(Unit u) {
-		if(r.nextInt(150) == 1) {
+		Ability abilityToDrop = null;
+		
+		// Drop a coin?
+		if(getR().nextInt(100) == 1) {
 			if(u.getMetaType() == "Unit") {
-				Ability abilityToDrop = Ability.getEquippedAbilities().get(r.nextInt(Ability.getEquippedAbilities().size()));
-				Unit v = new Unit("Ability Drop",abilityToDrop.getType(),u.getX(),u.getY());
-				v.animate("Bob");
+				abilityToDrop = Ability.getAbilityDrop("Coin");
 			}
+		}
+		
+		// Drop a regular ability?
+		if(getR().nextInt(200) == 1) {
+			if(u.getMetaType() == "Unit") {
+				abilityToDrop = Ability.getAbilityDrop("Normal");
+			}
+		}
+		
+		// Drop a special ability?
+		if(getR().nextInt(300) == 1) {
+			if(u.getMetaType() == "Unit") {
+				abilityToDrop = Ability.getAbilityDrop("Special");
+			}
+		}
+	
+		if(abilityToDrop!=null) {
+			Unit v = new Unit("Ability Drop",abilityToDrop.getType(),u.getX(),u.getY());
+			v.animate("Bob");
 		}
 	}
 	
@@ -73,5 +93,13 @@ public class Drop {
 				}
 			}
 		}
+	}
+
+	public static Random getR() {
+		return r;
+	}
+
+	public static void setR(Random r) {
+		Drop.r = r;
 	}
 }

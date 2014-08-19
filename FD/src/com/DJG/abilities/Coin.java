@@ -14,7 +14,7 @@ import com.DJG.fd.R;
 
 public class Coin {
 	
-	private static int coins = 0;
+	private static int coins = -1;
 	
 	// Static information.
 	private static ArrayList<Coin> allCoins = new ArrayList<Coin>();
@@ -50,17 +50,27 @@ public class Coin {
 	}
 	
 	public static int getCoins() {
-		return Ability.getPrefs().getInt("flickOff_numCoins", 400);
+		int defaultCoins = 400;
+		if(coins==-1) {
+			 coins = Ability.getPrefs().getInt("flickOff_numCoins", defaultCoins);
+		}
+		return coins;
 	}
 	
 	public static void increaseCoins() {
 		Ability.getEditor().putInt("flickOff_numCoins",getCoins() + 1);
-		Ability.getEditor().commit();
+		coins++;
 	}
 	
 	public static void increaseCoins(int n) {
 		Ability.getEditor().putInt("flickOff_numCoins",getCoins() + n);
-		Ability.getEditor().commit();
+		coins = coins+n;
+	}
+	
+	public static void coinsSave() {
+		if(Ability.getEditor()!=null) {
+			Ability.getEditor().commit();
+		}
 	}
 	
 	public void updateCoin(int CoinPos) {
@@ -99,7 +109,9 @@ public class Coin {
 	
 	public static void clearCoins() {
 		synchronized(CoinsLock) {
-			allCoins.clear();
+			if(allCoins!=null) {
+				allCoins.clear();
+			}
 		}
 	}
 	

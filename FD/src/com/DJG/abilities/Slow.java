@@ -20,7 +20,7 @@ public class Slow {
 	
 	// General ability attributes. Slows are static at the moment.
 	private long startTime;
-	private int duration = 3000;
+	private int duration = 2000;
 	
 	// Bitmap
 	public static Bitmap slowBMP = GameActivity.makeTransparent(BitmapFactory.decodeResource(GameActivity.gameContext.getResources(), R.drawable.snowflake));
@@ -90,7 +90,9 @@ public class Slow {
 	
 	public static void clearSlows() {
 		synchronized(SlowsLock) {
+			if(allSlows!=null) {
 			allSlows.clear();
+			}
 		}
 	}
 	

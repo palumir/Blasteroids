@@ -37,6 +37,10 @@
             android:label="@string/title_activity_store"
             android:screenOrientation="portrait" >
         </activity>
+        <activity
+            android:name="com.DJG.fd.CampaignActivity"
+            android:label="@string/title_activity_campaign" >
+        </activity>
     </application>
 
 </manifest>

@@ -12,8 +12,15 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="@string/button_send" 
-        android:onClick="startGame"/>
+        android:text="@string/button_camp" 
+        android:onClick="startCampaign"/>
+       
+       <Button
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/button_surv" 
+        android:onClick="startSurvival"/>
        
        <Button
         android:layout_width="0dp"

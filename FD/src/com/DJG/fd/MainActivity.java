@@ -14,8 +14,22 @@ public class MainActivity extends ActionBarActivity {
 
 	public final static String EXTRA_MESSAGE = "com.DJG.fd.MESSAGE";
 	
-	public void startGame(View view) {
+	public void startSurvival(View view) {
+		if(GameActivity.gameContext==null) {
+			GameActivity.gameContext =  this.getApplicationContext();
+		}
+		GameActivity.gameContext =  this.getApplicationContext();
+		GameActivity.setMode("Survival");
 		Intent intent = new Intent(this, GameActivity.class);
+		startActivity(intent);
+	}
+	
+	public void startCampaign(View view) {
+		if(GameActivity.gameContext==null) {
+			GameActivity.gameContext =  this.getApplicationContext();
+		}
+		GameActivity.setMode("Campaign");
+		Intent intent = new Intent(this, CampaignActivity.class);
 		startActivity(intent);
 	}
 	
