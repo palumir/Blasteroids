@@ -3,10 +3,12 @@
 
     <string name="app_name">FD</string>
     <string name="action_settings">Settings</string>
-    <string name="button_send">Play Survival Mode</string>
+    <string name="button_surv">Play Survival Mode</string>
+    <string name="button_camp">Play Campaign Mode</string>
     <string name="button_send2">Store</string>
     <string name="title_activity_display_message">Survival</string>
     <string name="title_activity_store">Store</string>
     <string name="hello_world">Hello world!</string>
+    <string name="title_activity_campaign">CampaignActivity</string>
 
 </resources>

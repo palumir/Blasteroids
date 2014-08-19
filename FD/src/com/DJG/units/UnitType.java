@@ -214,6 +214,7 @@ public class UnitType {
 		if(Ability.getPrefs().getInt(getType() + "_purchased", -99) == -99 && Coin.getCoins() >= getCost()) {
 			Ability.getEditor().putInt(getType() + "_purchased",1);
 			Coin.increaseCoins((-1)*getCost());
+			Coin.coinsSave();
 			Ability.getEditor().commit();
 		}
 		else if(!(Ability.getPrefs().getInt(getType() + "_purchased", -99) == -99)) {

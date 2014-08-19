@@ -127,7 +127,7 @@ public class Survival {
 				genInfo.add(new GeneratorInfo(fireorice(), cap(r.nextInt(waveNumber*2+x+1)/3+1,50),randomWave(),r.nextInt(2), dist));
 				genInfo.add(new GeneratorInfo(morethanlikelyfire(), cap(r.nextInt(waveNumber/4+x+1),50),randomWave(),r.nextInt(2), dist));
 				genInfo.add(new GeneratorInfo(fireorice(), cap(r.nextInt(waveNumber/3+x+1),50),randomWave(),0, dist));
-				genInfo.add(new GeneratorInfo("Cat", cap(r.nextInt(waveNumber/6+1),50),randomWave(),r.nextInt(2), (int)2*dist+100));
+				genInfo.add(new GeneratorInfo("Cat", cap(r.nextInt(waveNumber/6+1),50),randomWave(),r.nextInt(2), (int)1.5*dist+100));
 				genInfo.add(new GeneratorInfo("Healer", cap(r.nextInt(waveNumber/25+1),50),spawnSystem.FullRandom,r.nextInt(2), dist));
 				genInfo.add(new GeneratorInfo("FullHealer", cap(r.nextInt(waveNumber/50+1),50),spawnSystem.FullRandom,r.nextInt(2), dist));
 				if(waveNumber >= 10) {
@@ -174,7 +174,7 @@ public class Survival {
 						dist += 300 - 2*waveNumber;
 					}
 					genInfo.add(new GeneratorInfo(morethanlikelyfire(), cap(x,50),spawnSystem.Spiral));
-					genInfo.add(new GeneratorInfo("Cat", cap(r.nextInt(waveNumber/6+1)+1,50),spawnSystem.FullRandom,0,2*dist+100));
+					genInfo.add(new GeneratorInfo("Cat", cap(r.nextInt(waveNumber/6+1)+1,50),spawnSystem.FullRandom,0,(int)1.5*dist+100));
 					x = x/2;
 				}
 			break;
@@ -186,7 +186,7 @@ public class Survival {
 				while(x < waveNumber+1) { 
 					dist = dist + 350;
 					genInfo.add(new GeneratorInfo(fireorice(), cap(r.nextInt(waveNumber+1),50),spawnSystem.Circle, r.nextInt(2)-1, dist));
-					genInfo.add(new GeneratorInfo("Cat", cap(r.nextInt(waveNumber/7+1),50),spawnSystem.FullRandom,r.nextInt(2)-1,2*dist+100));
+					genInfo.add(new GeneratorInfo("Cat", cap(r.nextInt(waveNumber/7+1),50),spawnSystem.FullRandom,r.nextInt(2)-1,(int)1.5*dist+100));
 					x = x+5;
 				}
 				genInfo.add(new GeneratorInfo("Fire Asteroid", cap(waveNumber+1,50),spawnSystem.LineFromNorth,r.nextInt(2)));
@@ -199,7 +199,7 @@ public class Survival {
 				x=0;
 				dist=200;
 				while(x < waveNumber+1) { 
-					genInfo.add(new GeneratorInfo("Cat", cap(r.nextInt(2+x/5),50),randomWave(),r.nextInt(2), (int)2*dist+100));
+					genInfo.add(new GeneratorInfo("Cat", cap(r.nextInt(2+x/5),50),randomWave(),r.nextInt(2), (int)1.5*dist+100));
 					genInfo.add(new GeneratorInfo("Healer", cap(r.nextInt(waveNumber/25+1),50),spawnSystem.FullRandom,r.nextInt(2), dist));
 					genInfo.add(new GeneratorInfo("FullHealer", cap(r.nextInt(waveNumber/50+1),50),spawnSystem.FullRandom,r.nextInt(2), dist));
 					if(300 - waveNumber<100) {
@@ -223,8 +223,8 @@ public class Survival {
 				dist=200;
 				while(x < Math.ceil(waveNumber/5)) { 
 					if(n%2 == 0) {
-						genInfo.add(new GeneratorInfo("Cat", cap(r.nextInt(waveNumber/2+1)+1,50),spawnSystem.LineFromNorth,r.nextInt(2),2*dist));
-						genInfo.add(new GeneratorInfo("Cat", cap(r.nextInt(waveNumber/2+1)+1,50),spawnSystem.LineFromSouth,r.nextInt(2),2*dist+100));
+						genInfo.add(new GeneratorInfo("Cat", cap(r.nextInt(waveNumber/2+1)+1,50),spawnSystem.LineFromNorth,r.nextInt(2),(int)1.5*dist));
+						genInfo.add(new GeneratorInfo("Cat", cap(r.nextInt(waveNumber/2+1)+1,50),spawnSystem.LineFromSouth,r.nextInt(2),(int)1.5*dist+100));
 							if(r.nextInt(2) == 1) {
 								genInfo.add(new GeneratorInfo(morethanlikelyfire(), cap(r.nextInt(waveNumber/2+1),50),spawnSystem.LineFromWest,2,dist));
 							}
@@ -233,8 +233,8 @@ public class Survival {
 							}
 					}
 					else {
-						genInfo.add(new GeneratorInfo("Cat", cap(r.nextInt(waveNumber/2+1)+1,50),spawnSystem.LineFromEast,r.nextInt(2),2*dist));
-						genInfo.add(new GeneratorInfo("Cat", cap(r.nextInt(waveNumber/2+1)+1,50),spawnSystem.LineFromWest,r.nextInt(2),2*dist+100));
+						genInfo.add(new GeneratorInfo("Cat", cap(r.nextInt(waveNumber/2+1)+1,50),spawnSystem.LineFromEast,r.nextInt(2),dist));
+						genInfo.add(new GeneratorInfo("Cat", cap(r.nextInt(waveNumber/2+1)+1,50),spawnSystem.LineFromWest,r.nextInt(2),dist+75));
 							if(r.nextInt(2) == 1) {
 								genInfo.add(new GeneratorInfo(morethanlikelyfire(), cap(r.nextInt(waveNumber/2+1),50),spawnSystem.LineFromNorth,2,dist));
 							}
@@ -261,7 +261,7 @@ public class Survival {
 					genInfo.add(new GeneratorInfo(fireorice(), cap(r.nextInt(waveNumber*2+x+1)/3+1,50),spawnSystem.Circle,r.nextInt(2), dist));
 					genInfo.add(new GeneratorInfo(morethanlikelyfire(), cap(r.nextInt(waveNumber*10+x+1),50)/4+1,spawnSystem.Circle,r.nextInt(2), dist+150));
 					genInfo.add(new GeneratorInfo(morethanlikelyice(), cap(r.nextInt(waveNumber/3+x/5+1),50),spawnSystem.FullRandom,r.nextInt(4), dist));
-					genInfo.add(new GeneratorInfo("Cat", cap(r.nextInt(2+x/5),50),spawnSystem.FullRandom,r.nextInt(2), (int)2*dist+100));
+					genInfo.add(new GeneratorInfo("Cat", cap(r.nextInt(2+x/5),50),spawnSystem.FullRandom,r.nextInt(2), (int)1.5*dist+100));
 					genInfo.add(new GeneratorInfo("Healer", cap(r.nextInt(waveNumber/25+1),50),spawnSystem.FullRandom,r.nextInt(2), dist));
 					genInfo.add(new GeneratorInfo("FullHealer", cap(r.nextInt(waveNumber/50+1),50),spawnSystem.FullRandom,r.nextInt(2), dist));
 					if(300 - waveNumber<100) {
@@ -285,7 +285,7 @@ public class Survival {
 						dist += 300 - 2*waveNumber;
 					}
 					genInfo.add(new GeneratorInfo(morethanlikelyice(), cap(x,50),spawnSystem.Spiral));
-					genInfo.add(new GeneratorInfo("Cat", cap(r.nextInt(waveNumber/6+1)+1,50),spawnSystem.FullRandom,0,2*dist+100));
+					genInfo.add(new GeneratorInfo("Cat", cap(r.nextInt(waveNumber/6+1)+1,50),spawnSystem.FullRandom,0,(int)1.5*dist+100));
 					x = x/2;
 				}
 			break;

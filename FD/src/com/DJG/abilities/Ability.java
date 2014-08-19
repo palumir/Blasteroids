@@ -22,8 +22,11 @@ public class Ability {
 	
 	// All abilities
 	private static ArrayList<Ability> equippedAbilities;
+	public static Ability coinAbility;
 	public static ArrayList<Ability> upgradeableAbilities;
 	public static ArrayList<Ability> purchasedAbilities;
+	public static ArrayList<Ability> aList;
+	public static ArrayList<Ability> sList;
 	public final static Object purchasedAbilitiesLock = new Object();
 	public final static Object upgradeableAbilitiesLock = new Object();
 	public final static Object abilitiesLock = new Object(); // A lock so we don't fuck up the abilities
@@ -67,6 +70,11 @@ public class Ability {
 		purchased = (getPrefs().getInt(newType + "_equipped", 0) == 1);
 		
 		switch(getSlot()){
+		case -2:
+			// Don't show it on the screen.
+			x = -1000;
+			y = -1000;
+			break;
 		case -1:
 			// Don't show it on the screen.
 			x = -1000;
@@ -115,12 +123,29 @@ public class Ability {
 		upgradeableAbilities.add(new Ability("Fire Fingers",-1,1,3,-1,FireFingers.fireBMP,32,"Fire Fingers",0));
 		upgradeableAbilities.add(new Ability("Lazer Fingers",-1,1,3,-1,LazerFingers.lazerBMP,32,"Lazer Fingers",0));
 		upgradeableAbilities.add(new Ability("Nuke",-1,1,3,-1,Nuke.NukeBMP,32,"Nuke",0));
-		upgradeableAbilities.add(new Ability("Coin",-1,1,3,-1,Coin.CoinBMP,25,"Coin",0));
+		upgradeableAbilities.add(new Ability("Coin",-2,1,3,-1,Coin.CoinBMP,25,"Coin",0));
 		
 		// All droppable abilities/equippable abilities.
 		initPurchasedAbilities();
 		initUserAbilities();
 		Drop.initAbilityDrops();
+		
+		// aList and sList (equipped abilities vs special abilities)
+		aList = new ArrayList<Ability>();
+		for(Ability a : equippedAbilities) {
+			if(a.slot>=0 && a.slot<=3) {
+				aList.add(a);
+			}
+		}
+		sList = new ArrayList<Ability>();
+		for(Ability a : equippedAbilities) {
+			if(a.slot==-1) {
+				sList.add(a);
+			}
+			if(a.slot==-2) {
+				coinAbility = a;
+			}
+		}
 		
 		// Planet stuff
 		if(Ability.getPrefs().getInt("Earth_purchased", 0) == 0) {
@@ -131,26 +156,23 @@ public class Ability {
 	
 	public static Ability getAbilityDrop(String dropType) {
 		if(dropType.equals("Normal")) {
-			synchronized(upgradeableAbilitiesLock) {
-				ArrayList<Ability> aList = new ArrayList<Ability>();
-				for(Ability a : upgradeableAbilities) {
-					if(a.slot!=-1 && a.slot!=0) {
-						aList.add(a);
-					}
+				if(aList.size()==1) {
+					return aList.get(0);
 				}
-				return aList.get(Drop.getR().nextInt(aList.size()));
-			}
+				else {
+					return aList.get(Drop.getR().nextInt(aList.size()));
+				}          
 		}
 		else if(dropType.equals("Special")) {
-			synchronized(upgradeableAbilitiesLock) {
-				ArrayList<Ability> aList = new ArrayList<Ability>();
-				for(Ability a : upgradeableAbilities) {
-					if(a.slot==-1) {
-						aList.add(a);
-					}
+				if(sList.size()==1) {
+					return sList.get(0);
 				}
-				return aList.get(Drop.getR().nextInt(aList.size()));
-			}
+				else {
+					return sList.get(Drop.getR().nextInt(sList.size()));
+				}
+		}
+		else if(dropType.equals("Coin")) {
+			return coinAbility;
 		}
 		return null;
 	}
@@ -159,7 +181,7 @@ public class Ability {
 		int count = 0;
 		synchronized(upgradeableAbilitiesLock) {
 			for(Ability a : upgradeableAbilities) {
-				if(a.slot!=-1 || a.slot!=0) {
+				if(a.slot!=-1 || a.slot!=0 || a.slot!=-2) {
 					count++;
 				}
 			}
@@ -183,6 +205,7 @@ public class Ability {
 		if(getPrefs().getInt(getType() + "_purchased", -99) == -99 && Coin.getCoins() >= getCost()) {
 			getEditor().putInt(getType() + "_purchased",1);
 			Coin.increaseCoins((-1)*getCost());
+			Coin.coinsSave();
 			getEditor().commit();
 		}
 		else if(!(getPrefs().getInt(getType() + "_purchased", -99) == -99)) {
@@ -233,7 +256,7 @@ public class Ability {
 						equippedAbilities.add(a);
 					}
 				// The ability is passive!
-				else if(a.getSlot() == -1) {
+				else if(a.getSlot() <= -1) {
 					equippedAbilities.add(a);
 				}
 			}
@@ -247,6 +270,10 @@ public class Ability {
 	public void setSlot(int newSlot) {
 		slot = newSlot;
 		switch(slot){
+		case -2:
+			x = -1000;
+			y = -1000;
+			break;
 		case -1:
 			// Don't show it on the screen.
 			x = -1000;
@@ -456,7 +483,9 @@ public class Ability {
 			Turret.clearTurrets();
 			BombTurret.clearBombTurrets();
 			KnockBack.clearKnockBacks();
-			equippedAbilities.clear();
+			if(equippedAbilities!=null) {
+				equippedAbilities.clear();
+			}
 		}
 	}
 	

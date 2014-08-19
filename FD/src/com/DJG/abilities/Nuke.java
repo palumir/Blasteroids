@@ -80,7 +80,9 @@ public class Nuke {
 	
 	public static void clearNukes() {
 		synchronized(NukesLock) {
+			if(allNukes!=null) {
 			allNukes.clear();
+			}
 		}
 	}
 	

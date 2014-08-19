@@ -137,7 +137,9 @@ public class Bomb {
 	
 	public static void clearBombs() {
 		synchronized(bombsLock) {
-			allBombs.clear();
+			if(allBombs!=null) {
+				allBombs.clear();
+			}
 		}
 	}
 	

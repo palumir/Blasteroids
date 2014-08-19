@@ -97,7 +97,9 @@ public class Turret {
 	
 	public static void clearTurrets() {
 		synchronized(TurretsLock) {
-			allTurrets.clear();
+			if(allTurrets!=null) {
+				allTurrets.clear();
+			}
 		}
 	}
 	

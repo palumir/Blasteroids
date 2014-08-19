@@ -109,6 +109,81 @@ public class TouchEvent {
     		}
 	}
 	
+	public static void respondToCampaignTouchEvent(MotionEvent event) {
+		float pos1 = event.getX(event.findPointerIndex(event.getPointerId(0)));
+		float pos2 = event.getY(event.findPointerIndex(event.getPointerId(0)));
+    	int action = MotionEventCompat.getActionMasked(event);
+    	Combo touchedCombo = Combo.getComboWithin(pos1,pos2);
+    		if(action == android.view.MotionEvent.ACTION_DOWN) {
+    			grabbedScreenElement = ScreenElement.getScreenElementAt(pos1,pos2);
+    			if(touchedCombo!=null) {
+    				touchedCombo.setOldX();
+    				touchedCombo.startComboX = pos1;
+    			}
+    		}
+    		else if(action == android.view.MotionEvent.ACTION_UP) {
+    			ScreenElement touchedElement = ScreenElement.getScreenElementAt(pos1, pos2);
+    			if(touchedElement == null) {
+    				grabbedAbility = null;
+    				grabbedPlanet = null;
+    			}
+    			else {
+    				// Respond to an actual equip
+    				if(grabbedScreenElement != null && grabbedScreenElement==touchedElement && grabbedScreenElement.getType().contains("Slot")) {
+    					if(grabbedAbility!=null && !grabbedScreenElement.getType().equals("PlanetSlot")) {
+	    					if(Ability.getPrefs().getInt(grabbedAbility.getType() + "_purchased", -99) == 1) {
+	    						grabbedScreenElement.setName(grabbedAbility.getType());
+	    					}
+	    					grabbedAbility.equip(grabbedScreenElement.getType());
+    					}
+    					if(grabbedPlanet!=null && grabbedScreenElement.getType().equals("PlanetSlot")) {
+	    					if(Ability.getPrefs().getInt(grabbedPlanet.getType() + "_purchased", -99) == 1) {
+	    						grabbedScreenElement.setName(grabbedPlanet.getType());
+	    					}
+	    					grabbedPlanet.equip();
+    					}
+    				}
+	    			// Respond to a purchase.
+    				else if(grabbedScreenElement != null && grabbedScreenElement==touchedElement && grabbedScreenElement.getType() == "Button" && grabbedScreenElement.getName() == "Buy") {
+	    				Ability attachedAbility = grabbedScreenElement.getAttachedAbility();
+	    				if(attachedAbility!=null) {
+	    					attachedAbility.buy();
+	    				}
+	    				UnitType attachedPlanet = grabbedScreenElement.getAttachedPlanet();
+	    				if(attachedPlanet!=null) {
+	    					attachedPlanet.buy();
+	    				}
+	    			}
+	    			// Respond to equip click
+	    			else if(grabbedScreenElement != null && grabbedScreenElement==touchedElement && grabbedScreenElement.getType() == "Button" && grabbedScreenElement.getName() == "Equip") {
+	    				Ability attachedAbility = grabbedScreenElement.getAttachedAbility();
+	    				grabbedAbility = attachedAbility;
+	    				UnitType attachedPlanet = grabbedScreenElement.getAttachedPlanet();
+	    				grabbedPlanet = attachedPlanet;
+	    				
+	    			}
+    			}
+    			if(touchedCombo!=null) {
+	    			touchedCombo.startComboX = 0;
+	    			touchedCombo.moveBy = 0;
+	    			touchedCombo.curFingerPos = 0;
+	    			touchedCombo.leftorright = 0;
+    			}
+    		}
+    		else {
+    			if(touchedCombo!=null) {
+	    			touchedCombo.curFingerPos = pos1;
+	    			if((pos1 - touchedCombo.startComboX) - touchedCombo.moveBy > 0) {
+	    				touchedCombo.leftorright = 1;
+	    			}
+	    			else {
+	    				touchedCombo.leftorright = -1;
+	    			}
+	    			touchedCombo.moveBy = pos1 - touchedCombo.startComboX;
+	    		}
+    		}
+	}
+	
 	public static void respondToGameTouchEvent(MotionEvent event) { 
 		if(fireFingers || lazerFingers) {
 			specialTouch(event);

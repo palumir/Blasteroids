@@ -25,7 +25,7 @@ import android.view.WindowManager;
 import com.DJG.abilities.Ability;
 import com.DJG.abilities.Coin;
 import com.DJG.fd.touchevents.TouchEvent;
-import com.DJG.planets.*;
+import com.DJG.planets.Planet;
 import com.DJG.screenelements.ScreenElement;
 import com.DJG.secrets.JenkinsSecrets;
 import com.DJG.units.Unit;
@@ -129,6 +129,7 @@ public class GameActivity extends ActionBarActivity {
 		TouchEvent.purgeTouch();
 
 		if (doOnce) {
+			Coin.coinsSave();
 			gameContext = this.getApplicationContext();
 			gameOver = false;
 			levelText = "Wave " + (int)(Wave.getCurrentWaveNumber() + 1);
@@ -362,6 +363,7 @@ public class GameActivity extends ActionBarActivity {
 	}
 
 	public static void youLose() {
+		Coin.coinsSave();
 		gameOver = true;
 		doOnce = true;
 		levelText = "Wave " + (Wave.getCurrentWaveNumber() + 1)
@@ -413,6 +415,16 @@ public class GameActivity extends ActionBarActivity {
 			Unit.updateUnits();
 		}
 	}
+	
+	public static void reset() {
+		paused = false;
+		gameOver = true;
+		doOnce = true;
+		Unit.destroyAllUnits(); // Don't request the lock because the caller is
+		// already locking it.
+		Wave.destroyWaves();
+		Ability.clearAbilities();
+	}
 
 	public static Planet getFortress() {
 		return fortress;
@@ -420,6 +432,11 @@ public class GameActivity extends ActionBarActivity {
 
 	public void setFortress(Planet fortress) {
 		this.fortress = fortress;
+	}
+
+	public static void setMode(String mode) {
+		GameActivity.reset();
+		GameActivity.mode = mode;
 	}
 
 }
