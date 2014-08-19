@@ -41,8 +41,8 @@ public class UnitType {
 		getAllUnitTypes().add(new UnitType("Spawner", 200, 0, true, Color.MAGENTA,"Square",2,0));
 		
 		// Projectile
-		getAllUnitTypes().add(new UnitType("Bullet",30,10f, true, R.drawable.frozen_asteroid, R.drawable.frozen_asteroid, 1, 0,"Projectile"));
-		getAllUnitTypes().add(new UnitType("Bomb Bullet",30,10f, true, R.drawable.fire_asteroid, R.drawable.fire_asteroid, 1, 0,"Projectile"));
+		getAllUnitTypes().add(new UnitType("Bullet",20,10f, true, R.drawable.bullet, R.drawable.bullet, 1, 0,"Projectile"));
+		getAllUnitTypes().add(new UnitType("Bomb Bullet",20,10f, true, R.drawable.bomb_bullet, R.drawable.bomb_bullet, 1, 0,"Projectile"));
 		
 		// Cthulu
 		getAllUnitTypes().add(new UnitType("Cthulu Head",100,1f,true,Color.RED,"Square", 1, 0));

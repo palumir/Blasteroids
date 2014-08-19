@@ -26,7 +26,7 @@ public class BombTurret {
 	private double lastAttackTime = 0;
 	
 	// Bitmap
-	public static Bitmap BombTurretBMP = GameActivity.makeTransparent(BitmapFactory.decodeResource(GameActivity.gameContext.getResources(), R.drawable.fire_asteroid));
+	public static Bitmap BombTurretBMP = GameActivity.makeTransparent(BitmapFactory.decodeResource(GameActivity.gameContext.getResources(), R.drawable.bomb_turret));
 
 	// Well, where is the ability?!
 	private float x;

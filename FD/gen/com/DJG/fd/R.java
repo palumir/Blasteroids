@@ -984,27 +984,32 @@ containing a value of this type.
         public static final int asteroid=0x7f020057;
         public static final int blackhole=0x7f020058;
         public static final int bomb=0x7f020059;
-        public static final int button=0x7f02005a;
-        public static final int buttontest=0x7f02005b;
-        public static final int coin=0x7f02005c;
-        public static final int earth=0x7f02005d;
-        public static final int fasteroid=0x7f02005e;
-        public static final int fire=0x7f02005f;
-        public static final int fire_asteroid=0x7f020060;
-        public static final int frozen_asteroid=0x7f020061;
-        public static final int health=0x7f020062;
-        public static final int ic_launcher=0x7f020063;
-        public static final int ice_asteroid=0x7f020064;
-        public static final int jupitier=0x7f020065;
-        public static final int mars=0x7f020066;
-        public static final int nuke=0x7f020067;
-        public static final int pause=0x7f020068;
-        public static final int satelite=0x7f020069;
-        public static final int saturn=0x7f02006a;
-        public static final int snowflake=0x7f02006b;
-        public static final int splitter_big=0x7f02006c;
-        public static final int splitter_medium=0x7f02006d;
-        public static final int splitter_small=0x7f02006e;
+        public static final int bomb_bullet=0x7f02005a;
+        public static final int bomb_turret=0x7f02005b;
+        public static final int bullet=0x7f02005c;
+        public static final int button=0x7f02005d;
+        public static final int buttontest=0x7f02005e;
+        public static final int coin=0x7f02005f;
+        public static final int earth=0x7f020060;
+        public static final int fasteroid=0x7f020061;
+        public static final int fire=0x7f020062;
+        public static final int fire_asteroid=0x7f020063;
+        public static final int frozen_asteroid=0x7f020064;
+        public static final int health=0x7f020065;
+        public static final int ic_launcher=0x7f020066;
+        public static final int ice_asteroid=0x7f020067;
+        public static final int jupitier=0x7f020068;
+        public static final int laser_fingers=0x7f020069;
+        public static final int mars=0x7f02006a;
+        public static final int nuke=0x7f02006b;
+        public static final int pause=0x7f02006c;
+        public static final int satelite=0x7f02006d;
+        public static final int saturn=0x7f02006e;
+        public static final int snowflake=0x7f02006f;
+        public static final int splitter_big=0x7f020070;
+        public static final int splitter_medium=0x7f020071;
+        public static final int splitter_small=0x7f020072;
+        public static final int turret=0x7f020073;
     }
     public static final class id {
         public static final int action_bar=0x7f06001c;
@@ -2448,7 +2453,7 @@ containing a value of this type.
          */
         public static final int[] MenuView = {
             0x010100ae, 0x0101012c, 0x0101012d, 0x0101012e,
-            0x0101012f, 0x01010130, 0x01010131, 0x01010435
+            0x0101012f, 0x01010130, 0x01010131, 0x01010438
         };
         /**
           <p>

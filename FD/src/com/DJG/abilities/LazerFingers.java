@@ -34,7 +34,7 @@ public class LazerFingers {
 	public static float lazerPoint2Y = -10000000;
 	
 	// Bitmap
-	public static Bitmap lazerBMP = GameActivity.makeTransparent(BitmapFactory.decodeResource(GameActivity.gameContext.getResources(), R.drawable.satelite));
+	public static Bitmap lazerBMP = GameActivity.makeTransparent(BitmapFactory.decodeResource(GameActivity.gameContext.getResources(), R.drawable.laser_fingers));
 	
 	public static void startLazerFingers(int newDuration) {
 		TouchEvent.lazerFingers = true;
