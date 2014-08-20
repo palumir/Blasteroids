@@ -5,7 +5,6 @@ import com.DJG.generators.WaveGenerator;
 public class GeneratorInfo {
 	public int unitNumbers;
 	public String unitType;
-	//public unitOrder order;
 	public int startingDifference;
 	public int spin;
 	public spawnSystem spawn;

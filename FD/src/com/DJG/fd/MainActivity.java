@@ -24,15 +24,6 @@ public class MainActivity extends ActionBarActivity {
 		startActivity(intent);
 	}
 	
-	public void startCampaign(View view) {
-		if(GameActivity.gameContext==null) {
-			GameActivity.gameContext =  this.getApplicationContext();
-		}
-		GameActivity.setMode("Campaign");
-		Intent intent = new Intent(this, CampaignActivity.class);
-		startActivity(intent);
-	}
-	
 	public void openStore(View view) {
 		Intent intent = new Intent(this, Store.class);
 		startActivity(intent);

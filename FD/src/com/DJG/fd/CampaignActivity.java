@@ -3,6 +3,7 @@ package com.DJG.fd;
 import java.util.Random;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -51,6 +52,10 @@ SharedPreferences prefs;
 	public boolean onTouchEvent(MotionEvent event) {
 		TouchEvent.respondToCampaignTouchEvent(event);
 		return true;
+	}
+	
+	public static void startGame(int level) {
+
 	}
 	
 	@Override
@@ -173,17 +178,16 @@ SharedPreferences prefs;
 			
 			// Campaign Slider
 			for(int j = 0; j<(int)Campaign.campaignMax/10; j++){
-				Log.i("Go","Go");
 				ScreenElement descButton = new ScreenElement(
 						"Text",
-						""+(j+1),
+						"Wave "+(j*10),
 						GameActivity.getScreenWidth()/2 + seperation - 50,
 						start+100,
 						"Campaign"
 						);
 				descButton.setTextSize(35);
 				ScreenElement goButton = new ScreenElement(
-						"Go",
+						"" + (j+1),
 						"Button",
 						GameActivity.getScreenWidth()/2 + seperation,
 						start + 200,
