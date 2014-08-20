@@ -205,6 +205,21 @@ public class ScreenElement {
 		}
 	}
 	
+	// Get the selected ScreenElement at the coordinates.
+	public static ScreenElement getScreenElementAt(float x, float y, String act) {
+		synchronized(allScreenElementsLock) {
+			
+			// Get all the close ScreenElements.
+			for(int j = 0; j < allScreenElements.size(); j++) {
+				ScreenElement u = allScreenElements.get(j);
+				if(x > u.getX() - 50 && x < u.getX() + u.getWidth() + 50 && y > u.getY() - 50 && y < u.getY() + u.getHeight() + 50 && u.getActivity().equals(act)) {
+					return u;
+				}
+			}
+			return null;
+		}
+	}
+	
 	public void despawn() {
 		// Kill the old unit.
 		killScreenElement(this);

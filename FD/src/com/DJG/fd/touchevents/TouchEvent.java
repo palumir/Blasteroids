@@ -38,9 +38,9 @@ public class TouchEvent {
 		float pos1 = event.getX(event.findPointerIndex(event.getPointerId(0)));
 		float pos2 = event.getY(event.findPointerIndex(event.getPointerId(0)));
     	int action = MotionEventCompat.getActionMasked(event);
-    	Combo touchedCombo = Combo.getComboWithin(pos1,pos2);
+    	Combo touchedCombo = Combo.getComboWithin(pos1,pos2,"Store");
     		if(action == android.view.MotionEvent.ACTION_DOWN) {
-    			grabbedScreenElement = ScreenElement.getScreenElementAt(pos1,pos2);
+    			grabbedScreenElement = ScreenElement.getScreenElementAt(pos1,pos2,"Store");
     			if(touchedCombo!=null) {
     				touchedCombo.setOldX();
     				touchedCombo.startComboX = pos1;
@@ -113,9 +113,9 @@ public class TouchEvent {
 		float pos1 = event.getX(event.findPointerIndex(event.getPointerId(0)));
 		float pos2 = event.getY(event.findPointerIndex(event.getPointerId(0)));
     	int action = MotionEventCompat.getActionMasked(event);
-    	Combo touchedCombo = Combo.getComboWithin(pos1,pos2);
+    	Combo touchedCombo = Combo.getComboWithin(pos1,pos2,"Campaign");
     		if(action == android.view.MotionEvent.ACTION_DOWN) {
-    			grabbedScreenElement = ScreenElement.getScreenElementAt(pos1,pos2);
+    			grabbedScreenElement = ScreenElement.getScreenElementAt(pos1,pos2,"Campaign");
     			if(touchedCombo!=null) {
     				touchedCombo.setOldX();
     				touchedCombo.startComboX = pos1;

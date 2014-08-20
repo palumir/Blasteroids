@@ -168,7 +168,7 @@ public class Store extends ActionBarActivity {
 		GameActivity.setScreenHeight(display.getHeight());
 		Ability.initAbilities(prefs);
 		
-		Combo slots = new Combo(0,0);
+		Combo slots = new Combo(0,0,"Store");
 		int slotsY = (int) ((int)GameActivity.getScreenHeight()*0.9);
 		ScreenElement slot3 = new ScreenElement(
 				"Slot3",
@@ -222,7 +222,7 @@ public class Store extends ActionBarActivity {
 			int start = GameActivity.getScreenHeight()/5 - GameActivity.getScreenHeight()/16;
 			int top = start - 50;
 			int bot = start + 400;
-			Combo c1 = new Combo(top, bot);
+			Combo c1 = new Combo(top, bot,"Store");
 			
 			// Abilities slider
 			for(int j = 0; j < Ability.upgradeableAbilities.size(); j++){
@@ -300,7 +300,7 @@ public class Store extends ActionBarActivity {
 		int start = 2*GameActivity.getScreenHeight()/5 + GameActivity.getScreenHeight()/14;
 		int top = start - 50;
 		int bot = start + 400;
-		Combo c2 = new Combo(top, bot);
+		Combo c2 = new Combo(top, bot, "Store");
 		// Planet slider
 		for(int j = 0; j < Planet.getPlanetTypes().size(); j++){
 			UnitType u = Planet.getPlanetTypes().get(j);
@@ -374,7 +374,7 @@ public class Store extends ActionBarActivity {
 	}
 	
 	void updateStuff() {
-		Combo.updateCombos();
+		Combo.updateCombos("Store");
 	}
 	
 	void runStore() {

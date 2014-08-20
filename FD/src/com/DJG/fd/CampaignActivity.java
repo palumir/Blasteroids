@@ -12,7 +12,6 @@ import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -29,6 +28,7 @@ import com.DJG.screenelements.Combo;
 import com.DJG.screenelements.ScreenElement;
 import com.DJG.units.UnitType;
 import com.DJG.waves.Campaign;
+import com.DJG.waves.Wave;
 
 public class CampaignActivity extends ActionBarActivity {
 
@@ -47,6 +47,7 @@ SharedPreferences prefs;
 	// Thread
 	private static Thread CampaignThread;
 	private static View currentView;
+	private static Context currContext;
 	
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
@@ -55,7 +56,14 @@ SharedPreferences prefs;
 	}
 	
 	public static void startGame(int level) {
-
+			if(GameActivity.gameContext==null) {
+				GameActivity.gameContext =  currContext.getApplicationContext();
+			}
+			GameActivity.gameContext =  currContext.getApplicationContext();
+			GameActivity.setMode("Campaign");
+			GameActivity.levelStart = level-10;
+			Intent intent = new Intent(currContext, GameActivity.class);
+			currContext.startActivity(intent);
 	}
 	
 	@Override
@@ -69,6 +77,7 @@ SharedPreferences prefs;
 		setContentView(v);
 		currentView = v;
 		if(doOnce) {
+			currContext = v.getContext();
 			initCampaign();
 			runCampaign();
 			doOnce = false;
@@ -174,7 +183,7 @@ SharedPreferences prefs;
 			int start = GameActivity.getScreenHeight()/5 - GameActivity.getScreenHeight()/16;
 			int top = start - 50;
 			int bot = start + 400;
-			Combo c1 = new Combo(top, bot);
+			Combo c1 = new Combo(top, bot,"Campaign");
 			
 			// Campaign Slider
 			for(int j = 0; j<(int)Campaign.campaignMax/10; j++){
@@ -203,7 +212,7 @@ SharedPreferences prefs;
 	}
 	
 	void updateStuff() {
-		Combo.updateCombos();
+		Combo.updateCombos("Campaign");
 	}
 	
 	void runCampaign() {

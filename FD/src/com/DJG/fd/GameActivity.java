@@ -76,6 +76,7 @@ public class GameActivity extends ActionBarActivity {
 	public static Context gameContext;
 	public static Thread gameThread;
 	private volatile static boolean gameOver;
+	public static int levelStart = 0;
 
 	// The current view.
 	private static View currentView;
@@ -113,11 +114,6 @@ public class GameActivity extends ActionBarActivity {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		Bundle b = getIntent().getExtras();
-		int levelStart = 0;
-		if (b != null) {
-			levelStart = b.getInt("level");
-		}
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
@@ -136,7 +132,7 @@ public class GameActivity extends ActionBarActivity {
 			highScoreText = "";
 			previousHighScoreText = "";
 			castleHP = "";
-			initGame(levelStart);
+			initGame();
 			playGame();
 			doOnce = false;
 		}
@@ -300,7 +296,7 @@ public class GameActivity extends ActionBarActivity {
 		return loseDuration;
 	}
 
-	void initGame(int levelStart) {
+	void initGame() {
 		UnitType.initUnitTypes();
 		// Put the Castle in the middle.
 		Display display = getWindowManager().getDefaultDisplay();
@@ -322,6 +318,7 @@ public class GameActivity extends ActionBarActivity {
 		
 
 		Wave.initWaves(levelStart);
+		levelText = "Wave " + (levelStart + 1);
 		Ability.initAbilities(prefs);
 		// Spawn the planet.
 		Planet p = Planet.getCurrentPlanet(screenWidth/2,screenHeight/2);

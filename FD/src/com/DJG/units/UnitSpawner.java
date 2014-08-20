@@ -32,9 +32,6 @@ public class UnitSpawner extends Unit {
 	public UnitSpawner(String newName, String newType, float xSpawn, float ySpawn, Wave wave){
 		super(newName, newType, xSpawn, ySpawn, 5f);
 		ArrayList<UnitSpawner.SpawnData>units = new ArrayList<UnitSpawner.SpawnData>();
-		units.add(new SpawnData(100, 0, 2, "Asteroid"));
-		units.add(new SpawnData(-100, 0, 0, "Asteroid"));
-		units.add(new SpawnData(0, 100, 2, "Asteroid"));
 		units.add(new SpawnData(0, -100, -4, "Asteroid"));
 		
 		unitsToSpawn = units;

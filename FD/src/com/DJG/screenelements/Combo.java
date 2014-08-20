@@ -13,21 +13,23 @@ public class Combo extends ArrayList<ScreenElement> {
 	
 	public int comboTop;
 	public int comboBot;
+	public String activity;
 	public int oldX = 0;
 	public float startComboX = 0;
 	public float moveBy = 0;
 	public int leftorright = 0;
 	public float curFingerPos = 0;
 	
-	public Combo(int top, int bot) {
+	public Combo(int top, int bot, String s) {
+		activity = s;
 		comboTop = top;
 		comboBot = bot;
 		allCombos.add(this);
 	}
 	
-	public static Combo getComboWithin(float x, float y) {
+	public static Combo getComboWithin(float x, float y, String act) {
 		for(Combo c : allCombos) {
-			if(y<c.getBot() && y>c.getTop()) {
+			if(y<c.getBot() && y>c.getTop() && c.activity.equals(act)) {
 				return c;
 			}
 		}
@@ -58,11 +60,11 @@ public class Combo extends ArrayList<ScreenElement> {
 		}
 	}
 	
-	public static void updateCombos() {
+	public static void updateCombos(String currAct) {
 			int step = 10;
 			for(Combo c : allCombos) {
 				for(ScreenElement s : c) {
-					if(c.startComboX != 0) {
+					if(c.startComboX != 0 && currAct.equals(c.activity)) {
 						if(s.getX() >= s.oldX + c.moveBy && c.leftorright > 0) {
 						}
 						else if(s.getX() <= s.oldX + c.moveBy && c.leftorright < 0) {

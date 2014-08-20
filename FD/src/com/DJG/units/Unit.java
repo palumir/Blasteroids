@@ -54,6 +54,8 @@ public class Unit {
 	// Projectile Information
 	private Unit target = null;
 	private boolean isAttacked = false;
+	private float attackSpeed = 1500;
+	private float lastAttackTime = 0;
 
 	// Animator
 	private UnitAnimation unitAnimation = null;
@@ -340,6 +342,10 @@ public class Unit {
 				}
 			}
 		}
+	}
+	
+	public void shootFort() {
+		
 	}
 
 	public static void killUnit(Unit u) {

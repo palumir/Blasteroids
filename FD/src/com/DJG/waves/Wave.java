@@ -51,9 +51,8 @@ public class Wave extends ArrayList<Unit> {
 		isFirst = true;
 		waveGenerator = new WaveGenerator();
 		// Start at what wave?
-		int waveStart = 0;
-		currentWaveNumber = waveStart;
-		sendWave(waveStart);
+		currentWaveNumber = GameActivity.levelStart;
+		sendWave(currentWaveNumber);
 	}
 	
 	public static double getWaveNumber() {
@@ -78,9 +77,8 @@ public class Wave extends ArrayList<Unit> {
 		isFirst = true;
 		waveGenerator = new WaveGenerator();
 		// Start at what wave?
-		waveStartNumber = 0;
-		currentWaveNumber = waveStartNumber;
-		sendWave(waveStartNumber);
+		currentWaveNumber = GameActivity.levelStart;
+		sendWave(currentWaveNumber);
 	}
 	
 	// If the int has already used, don't use it again. If every int between
