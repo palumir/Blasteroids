@@ -10,7 +10,7 @@ import com.DJG.generators.GeneratorInfo.spawnSystem;
 
 public class Survival {
 	
-	private static Random r = new Random();
+	public static Random r = new Random();
 
 // If the int has already used, don't use it again. If every int between
 	// 0 and top have been used, reset Wave.usedWaves, and use the input as num.
@@ -111,7 +111,7 @@ public class Survival {
 	
 	static void sendSurvivalWave(double dwaveNumber) {
 		int waveNumber = (int)dwaveNumber;
-		int numCases = 7;
+		int numCases = 8;
 		int x = 0;
 		int dist = 0;
 		Integer randomNum = getMyRandom(r.nextInt(numCases),numCases-1);
@@ -128,14 +128,14 @@ public class Survival {
 				genInfo.add(new GeneratorInfo(morethanlikelyfire(), cap(r.nextInt(waveNumber/4+x+1),50),randomWave(),r.nextInt(2), dist));
 				genInfo.add(new GeneratorInfo(fireorice(), cap(r.nextInt(waveNumber/3+x+1),50),randomWave(),0, dist));
 				genInfo.add(new GeneratorInfo("Cat", cap(r.nextInt(waveNumber/6+1),50),randomWave(),r.nextInt(2), (int)1.25*dist+100));
-				genInfo.add(new GeneratorInfo("Spawner", cap(5,50),spawnSystem.FullRandom,r.nextInt(2), (int)1.25*dist+100));
-				genInfo.add(new GeneratorInfo("Healer", cap(r.nextInt(waveNumber/25+1),50),spawnSystem.FullRandom,r.nextInt(2), dist));
-				genInfo.add(new GeneratorInfo("FullHealer", cap(r.nextInt(waveNumber/50+1),50),spawnSystem.FullRandom,r.nextInt(2), dist));
-				if(waveNumber >= 10) {
-					genInfo.add(new GeneratorInfo("Splitter Medium", cap(r.nextInt(waveNumber/6+2),6), randomWave(), r.nextInt(1),dist+r.nextInt(15)));
+				if(waveNumber >= 12) {
+					genInfo.add(new GeneratorInfo("Splitter Medium", cap(r.nextInt(waveNumber/8+2),6), randomWave(), r.nextInt(1),dist+r.nextInt(15)));
 				}
-				if(waveNumber >= 20) {
-					genInfo.add(new GeneratorInfo("Splitter Big", cap(r.nextInt(waveNumber/6+2),6), randomWave(), r.nextInt(1), (int)(1.2f*dist)+r.nextInt(15)));
+				if(waveNumber >= 24) {
+					genInfo.add(new GeneratorInfo("Splitter Big", cap(r.nextInt(waveNumber/20+2),6), randomWave(), r.nextInt(1), (int)(1.2f*dist)+r.nextInt(15)));
+				}
+				if(waveNumber >= 5) {
+					genInfo.add(new GeneratorInfo("Cat Gunner", cap(r.nextInt(waveNumber/8+1),50),randomWave(),0, (int)1.25*dist+100));
 				}
 				if(300 - waveNumber<100) {
 					dist += 100;
@@ -226,6 +226,7 @@ public class Survival {
 					if(n%2 == 0) {
 						genInfo.add(new GeneratorInfo("Cat", cap(r.nextInt(waveNumber/2+1)+1,50),spawnSystem.LineFromNorth,r.nextInt(2),(int)1.25*dist));
 						genInfo.add(new GeneratorInfo("Cat", cap(r.nextInt(waveNumber/2+1)+1,50),spawnSystem.LineFromSouth,r.nextInt(2),(int)1.25*dist+100));
+						genInfo.add(new GeneratorInfo("Cat", cap(r.nextInt(waveNumber/2+1)+1,50),spawnSystem.LineFromEast,r.nextInt(5),dist+75));
 							if(r.nextInt(2) == 1) {
 								genInfo.add(new GeneratorInfo(morethanlikelyfire(), cap(r.nextInt(waveNumber/2+1),50),spawnSystem.LineFromWest,2,dist));
 							}
@@ -236,6 +237,7 @@ public class Survival {
 					else {
 						genInfo.add(new GeneratorInfo("Cat", cap(r.nextInt(waveNumber/2+1)+1,50),spawnSystem.LineFromEast,r.nextInt(2),dist));
 						genInfo.add(new GeneratorInfo("Cat", cap(r.nextInt(waveNumber/2+1)+1,50),spawnSystem.LineFromWest,r.nextInt(2),dist+75));
+						genInfo.add(new GeneratorInfo("Cat", cap(r.nextInt(waveNumber/2+1)+1,50),spawnSystem.LineFromNorth,r.nextInt(5),dist+75));
 							if(r.nextInt(2) == 1) {
 								genInfo.add(new GeneratorInfo(morethanlikelyfire(), cap(r.nextInt(waveNumber/2+1),50),spawnSystem.LineFromNorth,2,dist));
 							}
@@ -289,6 +291,44 @@ public class Survival {
 					genInfo.add(new GeneratorInfo("Cat", cap(r.nextInt(waveNumber/6+1)+1,50),spawnSystem.FullRandom,0,(int)1.25*dist+100));
 					x = x/2;
 				}
+			break;
+			// Mechanical Wave 2
+			case 7:
+				x=0;
+				n = 0;
+				dist=200;
+				while(x < Math.ceil(waveNumber/5)) { 
+					if(n%2 == 0) {
+						genInfo.add(new GeneratorInfo("Cat", cap(r.nextInt(waveNumber/2+1)+1,50),spawnSystem.LineFromNorth,r.nextInt(2),(int)1.25*dist));
+						genInfo.add(new GeneratorInfo("Cat", cap(r.nextInt(waveNumber/2+1)+1,50),spawnSystem.LineFromSouth,r.nextInt(2),(int)1.25*dist+100));
+						genInfo.add(new GeneratorInfo("Cat Gunner", cap(r.nextInt(waveNumber/2+1)+1,50),spawnSystem.Spiral,0,dist+75));
+							if(r.nextInt(2) == 1) {
+								genInfo.add(new GeneratorInfo(morethanlikelyfire(), cap(r.nextInt(waveNumber/2+1),50),spawnSystem.LineFromWest,2,dist));
+							}
+							else { 
+								genInfo.add(new GeneratorInfo(morethanlikelyice(), cap(r.nextInt(waveNumber/2+1),50),spawnSystem.LineFromEast,2,dist));
+							}
+					}
+					else {
+						genInfo.add(new GeneratorInfo("Cat", cap(r.nextInt(waveNumber/2+1)+1,50),spawnSystem.LineFromEast,r.nextInt(2),dist));
+						genInfo.add(new GeneratorInfo("Cat", cap(r.nextInt(waveNumber/2+1)+1,50),spawnSystem.LineFromWest,r.nextInt(2),dist+75));
+						genInfo.add(new GeneratorInfo("Cat Gunner", cap(r.nextInt(waveNumber/2+1)+1,50),spawnSystem.FullRandom,0,dist+75));
+							if(r.nextInt(2) == 1) {
+								genInfo.add(new GeneratorInfo(morethanlikelyfire(), cap(r.nextInt(waveNumber/2+1),50),spawnSystem.LineFromNorth,2,dist));
+							}
+							else { 
+								genInfo.add(new GeneratorInfo(morethanlikelyice(),cap(r.nextInt(waveNumber/2+1),50),spawnSystem.LineFromSouth,2,dist));
+							}
+					}
+					if(300 - waveNumber<100) {
+						dist += 100;
+					}
+					else {
+						dist += 300 - 2*waveNumber;
+					}
+					x = x + 1;
+				}
+				
 			break;
 			}
 		}

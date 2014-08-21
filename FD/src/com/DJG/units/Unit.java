@@ -54,8 +54,9 @@ public class Unit {
 	// Projectile Information
 	private Unit target = null;
 	private boolean isAttacked = false;
-	private float attackSpeed = 1500;
+	private float attackSpeed = 1000;
 	private float lastAttackTime = 0;
+	private boolean inGunnerRange = false;
 
 	// Animator
 	private UnitAnimation unitAnimation = null;
@@ -87,7 +88,7 @@ public class Unit {
 		UnitType u = UnitType.getUnitType(newType);
 		radius = u.getRadius();
 		type = u.getType();
-		moveSpeed = u.getMoveSpeed();
+		setMoveSpeed(u.getMoveSpeed());
 		killable = u.getKillable();
 		shape = u.getShape();
 		spinSpeed = 0;
@@ -125,7 +126,7 @@ public class Unit {
 		UnitType u = UnitType.getUnitType(newType);
 		radius = u.getRadius();
 		type = u.getType();
-		moveSpeed = u.getMoveSpeed();
+		setMoveSpeed(u.getMoveSpeed());
 		killable = u.getKillable();
 		shape = u.getShape();
 		spinSpeed = spin;
@@ -174,7 +175,7 @@ public class Unit {
 		xNew = xGo;
 		yNew = yGo;
 		// fix the radius, if it has no move speed
-		if (moveSpeed == 0) {
+		if (getMoveSpeed() == 0) {
 			float yDistance = (yNew - y);
 			float xDistance = (xNew - x);
 			fixedRadius = (float) Math.sqrt(yDistance * yDistance + xDistance
@@ -212,7 +213,7 @@ public class Unit {
 		if (!isFrozen) {
 			float yDistance = (yNew - y);
 			float xDistance = (xNew - x);
-			float step = moveSpeed * gravity;
+			float step = getMoveSpeed() * gravity;
 			float distanceXY = (float) Math.sqrt(yDistance * yDistance
 					+ xDistance * xDistance); // It should take this many frames
 												// to get there.
@@ -662,6 +663,11 @@ public class Unit {
 				if (u.getMetaType() == "Projectile" && u.target.isDead()) {
 					u.die();
 				}
+				
+				// Gunner? SHOOT THINGS.
+				if(u.getType() == "Cat Gunner") {
+					Gunner.updateGunner(u);
+				}
 
 				// Animate?
 				UnitAnimation.animateUnit(u);
@@ -918,5 +924,33 @@ public class Unit {
 
 	public void setAttacked(boolean isAttacked) {
 		this.isAttacked = isAttacked;
+	}
+
+	public float getLastAttackTime() {
+		return lastAttackTime;
+	}
+
+	public void setLastAttackTime(float lastAttackTime) {
+		this.lastAttackTime = lastAttackTime;
+	}
+
+	public float getAttackSpeed() {
+		return attackSpeed;
+	}
+
+	public void setAttackSpeed(float attackSpeed) {
+		this.attackSpeed = attackSpeed;
+	}
+
+	public float getMoveSpeed() {
+		return moveSpeed;
+	}
+
+	public boolean isInGunnerRange() {
+		return inGunnerRange;
+	}
+
+	public void setInGunnerRange(boolean inGunnerRange) {
+		this.inGunnerRange = inGunnerRange;
 	}
 }

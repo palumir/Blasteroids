@@ -43,6 +43,7 @@ public class UnitType {
 		// Projectile
 		getAllUnitTypes().add(new UnitType("Bullet",20,10f, true, R.drawable.bullet, R.drawable.bullet, 1, 0,"Projectile"));
 		getAllUnitTypes().add(new UnitType("Bomb Bullet",20,10f, true, R.drawable.bomb_bullet, R.drawable.bomb_bullet, 1, 0,"Projectile"));
+		getAllUnitTypes().add(new UnitType("Gunner Bullet",30,1f, true, R.drawable.asteroid, 1, 1,"Unit"));
 		
 		// Cthulu
 		getAllUnitTypes().add(new UnitType("Cthulu Head",100,1f,true,Color.RED,"Square", 1, 0));

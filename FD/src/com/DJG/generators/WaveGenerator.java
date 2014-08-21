@@ -57,7 +57,7 @@ public class WaveGenerator {
 			switch(s){
 			case FullRandom:
 				for (int i = 0; i<g.unitNumbers; i++){
-					xy = getRandomXY(g.startingDifference+screenHeight/2);
+					xy = getRandomXY(g.startingDifference);
 					w.add(new Unit("Any Name",g.unitType,xy.x,xy.y, spinVal));
 				}
 				break;
