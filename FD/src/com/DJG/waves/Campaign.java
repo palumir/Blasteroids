@@ -183,7 +183,7 @@ public class Campaign {
 			genInfo.add(new GeneratorInfo("Splitter Big", 2,spawnSystem.FullRandom,1));
 			break;
 		case 17:
-			genInfo.add(new GeneratorInfo("Cat",20,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Cat",32,spawnSystem.Spiral));
 			break;
 		case 18:
 			genInfo.add(new GeneratorInfo("Cat", 7,spawnSystem.LineFromNorth,2));
@@ -200,7 +200,7 @@ public class Campaign {
 			genInfo.add(new GeneratorInfo("Cat", 7,spawnSystem.LineFromSouth,2,600));
 			break;
 		case 19:
-			genInfo.add(new GeneratorInfo("Fire Asteroid", 60,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Fire Asteroid", 60,spawnSystem.Spiral,5));
 			genInfo.add(new GeneratorInfo("Fire Asteroid", 20,spawnSystem.FullRandom,4,400));
 			genInfo.add(new GeneratorInfo("Fire Asteroid", 20,spawnSystem.FullRandom,4,800));
 			genInfo.add(new GeneratorInfo("Fire Asteroid", 20,spawnSystem.FullRandom,4,1200));
@@ -218,20 +218,20 @@ public class Campaign {
 				//// LEVEL THREE /////////////////////////////////////////////////
 				//////////////////////////////////////////////////////////////////
 				case 21:
-					genInfo.add(new GeneratorInfo("Splitter Medium", 10,spawnSystem.Circle));
+					genInfo.add(new GeneratorInfo("Splitter Medium", 4,spawnSystem.Circle));
 					genInfo.add(new GeneratorInfo("Asteroid", 10,spawnSystem.Circle));
-					genInfo.add(new GeneratorInfo("Splitter Medium", 10,spawnSystem.Circle));
-					genInfo.add(new GeneratorInfo("Splitter Medium", 10,spawnSystem.Circle));
+					genInfo.add(new GeneratorInfo("Splitter Medium", 4,spawnSystem.Circle));
+					genInfo.add(new GeneratorInfo("Splitter Medium", 4,spawnSystem.Circle));
 					genInfo.add(new GeneratorInfo("Fire Asteroid", 10,spawnSystem.Circle));
-					genInfo.add(new GeneratorInfo("Splitter Medium", 10,spawnSystem.Circle));
-					genInfo.add(new GeneratorInfo("Splitter Medium", 10,spawnSystem.Circle));
+					genInfo.add(new GeneratorInfo("Splitter Medium", 4,spawnSystem.Circle));
+					genInfo.add(new GeneratorInfo("Splitter Medium", 4,spawnSystem.Circle));
 					genInfo.add(new GeneratorInfo("Fire Asteroid", 10,spawnSystem.Circle));
-					genInfo.add(new GeneratorInfo("Splitter Medium", 10,spawnSystem.Circle));
+					genInfo.add(new GeneratorInfo("Splitter Medium", 6,spawnSystem.Circle));
 					genInfo.add(new GeneratorInfo("Fire Asteroid", 12,spawnSystem.FullRandom,2,600));
 					genInfo.add(new GeneratorInfo("Fire Asteroid", 12,spawnSystem.FullRandom,2,700));
 					break;
 				case 22:
-					genInfo.add(new GeneratorInfo("Fire Asteroid", 150,spawnSystem.FullRandom));	
+					genInfo.add(new GeneratorInfo("Fire Asteroid", 150,spawnSystem.FullRandom,10));	
 					break;
 				case 23:
 					genInfo.add(new GeneratorInfo("Fire Asteroid", 10,spawnSystem.FullRandom));

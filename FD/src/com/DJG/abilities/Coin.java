@@ -76,9 +76,6 @@ public class Coin {
 	public void updateCoin(int CoinPos) {
 		synchronized(CoinsLock) {
 		if(this != null) {
-			double percentDone = (double)(GameActivity.getGameTime() - startTime)/(double)duration;
-			radius = (int)(blastRadius*percentDone);
-			stroke = (int)(maxStroke*(1 - percentDone));
 			long currentTime = GameActivity.getGameTime();
 			if((int)(currentTime - startTime) > duration) {
 					removeCoin(CoinPos);

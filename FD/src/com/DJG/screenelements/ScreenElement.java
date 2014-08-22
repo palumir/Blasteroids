@@ -7,7 +7,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.util.Log;
 
 import com.DJG.abilities.Ability;
 import com.DJG.fd.GameActivity;
@@ -31,8 +30,8 @@ public class ScreenElement {
 						     // fields to be unique values. In other words, we may want to change an Ogre to be
 	// Position Information: // really big, but we don't want to have to add a new ScreenElementType every time we do that!
 	private boolean onScreen = false;
-	private float x;     
-	private float y;     
+	protected float x;     
+	protected float y;     
 	private float xNew;
 	private float yNew;
 	private int width;
@@ -311,6 +310,7 @@ public class ScreenElement {
 	}
 	
 	public static void updateScreenElements() {
+		FleetingScreenElement.updateFleetingScreenElements();
 		synchronized(ScreenElement.allScreenElements) {
 			for(int j = 0; j < allScreenElements.size(); j++) {
 				ScreenElement u = allScreenElements.get(j);

@@ -36,10 +36,6 @@ public class Store extends ActionBarActivity {
 	
 	// Just do it once.
 	public static boolean doOnce = true;
-	
-	// Background
-	private Bitmap background;
-	private Canvas bgCanvas;
 
 	// Just a random
 	static Random r = new Random();
@@ -110,10 +106,10 @@ public class Store extends ActionBarActivity {
 	
 	void drawBackground(Canvas canvas, Paint myPaint) {
 		canvas.drawColor(GameActivity.bgColor);
-		if (bgCanvas == null) {
-			background = Bitmap.createBitmap(GameActivity.getScreenWidth(),
+		if (GameActivity.bgCanvas == null) {
+			GameActivity.background = Bitmap.createBitmap(GameActivity.getScreenWidth(),
 					GameActivity.getScreenHeight(), Bitmap.Config.ARGB_8888);
-			bgCanvas = new Canvas(background);
+			GameActivity.bgCanvas = new Canvas(GameActivity.background);
 			myPaint.setStrokeWidth(1);
 			myPaint.setColor(Color.WHITE);
 			int x = 0;
@@ -123,7 +119,7 @@ public class Store extends ActionBarActivity {
 				while (y < GameActivity.getScreenHeight()) {
 					if (r.nextInt(GameActivity.getScreenHeight()) == 0) {
 						n++;
-						bgCanvas.drawPoint(x, y, myPaint);
+						GameActivity.bgCanvas.drawPoint(x, y, myPaint);
 					}
 					if (n > 10) {
 						break;
@@ -133,7 +129,7 @@ public class Store extends ActionBarActivity {
 				x++;
 			}
 		}
-		canvas.drawBitmap(background, 0, 0, myPaint);
+		canvas.drawBitmap(GameActivity.background, 0, 0, myPaint);
 	}
 	
 	private class storeView extends View {

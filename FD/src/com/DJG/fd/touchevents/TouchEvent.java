@@ -1,6 +1,7 @@
 package com.DJG.fd.touchevents;
 
 import android.support.v4.view.MotionEventCompat;
+import android.util.Log;
 import android.view.MotionEvent;
 
 import com.DJG.abilities.Ability;

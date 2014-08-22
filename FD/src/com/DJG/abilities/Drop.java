@@ -5,6 +5,7 @@ import java.util.Random;
 import android.graphics.Color;
 
 import com.DJG.fd.GameActivity;
+import com.DJG.screenelements.FleetingScreenElement;
 import com.DJG.screenelements.ScreenElement;
 import com.DJG.units.Unit;
 import com.DJG.units.UnitType;
@@ -19,33 +20,35 @@ public class Drop {
 	}
 	
 	public static void potentiallyDropItem(Unit u) {
-		Ability abilityToDrop = null;
-		
-		// Drop a coin?
-		if(getR().nextInt(100) == 1) {
-			if(u.getMetaType() == "Unit") {
-				abilityToDrop = Ability.getAbilityDrop("Coin");
+		if(!u.getType().equals("Gunner Bullet")) {
+			Ability abilityToDrop = null;
+			
+			// Drop a coin?
+			if(getR().nextInt(250) == 1) {
+				if(u.getMetaType() == "Unit") {
+					abilityToDrop = Ability.getAbilityDrop("Coin");
+				} 
 			}
-		}
-		
-		// Drop a regular ability?
-		if(getR().nextInt(200) == 1) {
-			if(u.getMetaType() == "Unit") {
-				abilityToDrop = Ability.getAbilityDrop("Normal");
+			
+			// Drop a regular ability?
+			if(getR().nextInt(500) == 1) {
+				if(u.getMetaType() == "Unit") {
+					abilityToDrop = Ability.getAbilityDrop("Normal");
+				}
 			}
-		}
-		
-		// Drop a special ability?
-		if(getR().nextInt(300) == 1) {
-			if(u.getMetaType() == "Unit") {
-				abilityToDrop = Ability.getAbilityDrop("Special");
+			
+			// Drop a special ability?
+			if(getR().nextInt(1000) == 1) {
+				if(u.getMetaType() == "Unit") {
+					abilityToDrop = Ability.getAbilityDrop("Special");
+				}
 			}
-		}
-	
-		if(abilityToDrop!=null) {
-			Unit v = new Unit("Ability Drop",abilityToDrop.getType(),u.getX(),u.getY());
-			v.animate("Bob");
-		}
+		
+			if(abilityToDrop!=null) {
+				Unit v = new Unit("Ability Drop",abilityToDrop.getType(),u.getX(),u.getY());
+				v.animate("Bob");
+				}
+			}
 	}
 	
 	public static void dropRespond(String type, float x, float y) {
@@ -83,12 +86,24 @@ public class Drop {
 			Nuke newNuke = new Nuke(GameActivity.getScreenWidth()/2,GameActivity.getScreenHeight()/2,GameActivity.getScreenHeight()*2,6000); // Default explosion for now. Make upgradable.
 		}
 		if(type == "Coin") {
+			FleetingScreenElement newF = new FleetingScreenElement(
+					"+1 Coin",
+					x-125,
+					y,
+					"Game");
+			newF.setColor(Color.YELLOW);
 			Coin.increaseCoins();
 		}
 		else {
 			for(int j = 0; j < Ability.getEquippedAbilities().size(); j++) {
 				Ability a = Ability.getEquippedAbilities().get(j);
 				if(a.getType() == type) {
+					FleetingScreenElement newF = new FleetingScreenElement(
+							"+1 " + a.getType(),
+							x-125,
+							y,
+							"Game");
+					newF.setColor(Color.WHITE);
 					a.increaseUses();
 				}
 			}

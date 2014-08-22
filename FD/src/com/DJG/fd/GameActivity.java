@@ -63,8 +63,8 @@ public class GameActivity extends ActionBarActivity {
 	private static Planet fortress;
 
 	// Background
-	private Bitmap background;
-	private Canvas bgCanvas;
+	static Bitmap background;
+	static Canvas bgCanvas;
 
 	// Shared data.
 	public static SharedPreferences prefs;
@@ -299,11 +299,8 @@ public class GameActivity extends ActionBarActivity {
 	void initGame() {
 		UnitType.initUnitTypes();
 		// Put the Castle in the middle.
-		Display display = getWindowManager().getDefaultDisplay();
 		lost = false;
 		lostTime = 0;
-		screenWidth = display.getWidth();
-		screenHeight = display.getHeight();
 
 		// Spawn pause button
 		pauseButton = new ScreenElement("Pause", "Button", screenWidth - 40,

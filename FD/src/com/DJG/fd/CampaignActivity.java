@@ -28,7 +28,6 @@ import com.DJG.screenelements.Combo;
 import com.DJG.screenelements.ScreenElement;
 import com.DJG.units.UnitType;
 import com.DJG.waves.Campaign;
-import com.DJG.waves.Wave;
 
 public class CampaignActivity extends ActionBarActivity {
 
@@ -36,10 +35,6 @@ SharedPreferences prefs;
 	
 	// Just do it once.
 	public static boolean doOnce = true;
-	
-	// Background
-	private Bitmap background;
-	private Canvas bgCanvas;
 
 	// Just a random
 	static Random r = new Random();
@@ -123,10 +118,10 @@ SharedPreferences prefs;
 	
 	void drawBackground(Canvas canvas, Paint myPaint) {
 		canvas.drawColor(GameActivity.bgColor);
-		if (bgCanvas == null) {
-			background = Bitmap.createBitmap(GameActivity.getScreenWidth(),
+		if (GameActivity.bgCanvas == null) {
+			GameActivity.background = Bitmap.createBitmap(GameActivity.getScreenWidth(),
 					GameActivity.getScreenHeight(), Bitmap.Config.ARGB_8888);
-			bgCanvas = new Canvas(background);
+			GameActivity.bgCanvas = new Canvas(GameActivity.background);
 			myPaint.setStrokeWidth(1);
 			myPaint.setColor(Color.WHITE);
 			int x = 0;
@@ -136,7 +131,7 @@ SharedPreferences prefs;
 				while (y < GameActivity.getScreenHeight()) {
 					if (r.nextInt(GameActivity.getScreenHeight()) == 0) {
 						n++;
-						bgCanvas.drawPoint(x, y, myPaint);
+						GameActivity.bgCanvas.drawPoint(x, y, myPaint);
 					}
 					if (n > 10) {
 						break;
@@ -146,7 +141,7 @@ SharedPreferences prefs;
 				x++;
 			}
 		}
-		canvas.drawBitmap(background, 0, 0, myPaint);
+		canvas.drawBitmap(GameActivity.background, 0, 0, myPaint);
 	}
 	
 	private class CampaignView extends View {
