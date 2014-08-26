@@ -1,7 +1,6 @@
 package com.DJG.fd.touchevents;
 
 import android.support.v4.view.MotionEventCompat;
-import android.util.Log;
 import android.view.MotionEvent;
 
 import com.DJG.abilities.Ability;
@@ -9,6 +8,7 @@ import com.DJG.abilities.FireFingers;
 import com.DJG.abilities.LazerFingers;
 import com.DJG.fd.CampaignActivity;
 import com.DJG.fd.GameActivity;
+import com.DJG.fd.MainActivity;
 import com.DJG.screenelements.Combo;
 import com.DJG.screenelements.ScreenElement;
 import com.DJG.units.Unit;
@@ -34,6 +34,25 @@ public class TouchEvent {
 	public static Unit secondGrabbedUnit = null;
 	public static ScreenElement grabbedScreenElement = null;
 	public static ScreenElement secondGrabbedScreenElement = null;
+	
+	public static void respondToMainTouchevent(MotionEvent event) {
+		float pos1 = event.getX(event.findPointerIndex(event.getPointerId(0)));
+		float pos2 = event.getY(event.findPointerIndex(event.getPointerId(0)));
+    	int action = MotionEventCompat.getActionMasked(event);
+    		if(action == android.view.MotionEvent.ACTION_DOWN) {
+    			grabbedScreenElement = ScreenElement.getScreenElementAt(pos1,pos2,"Main");
+    		}
+    		else if(action == android.view.MotionEvent.ACTION_UP) {
+    			ScreenElement touchedElement = ScreenElement.getScreenElementAt(pos1, pos2,"Main");
+	    			// Respond to a click on a button
+    				if(grabbedScreenElement != null && grabbedScreenElement==touchedElement && grabbedScreenElement.getType().equals("Drawn myButton")) {
+	    				String intentName = grabbedScreenElement.getName();
+	    				MainActivity.startIntent(intentName);
+	    			}
+    		}
+    		else {
+    		}
+	}
 	
 	public static void respondToStoreTouchEvent(MotionEvent event) {
 		float pos1 = event.getX(event.findPointerIndex(event.getPointerId(0)));

@@ -255,6 +255,9 @@ public class ScreenElement {
 			myPaint.setColor(this.color);
 			canvas.drawText(this.getName(), this.x, this.y, myPaint);
 		}
+		else if(this.type == "Drawn Button") {
+			this.draw(canvas,myPaint);
+		}
 		else if(this.type == "Slot1" || this.type == "Slot2" || this.type == "Slot3") {
 			myPaint.setStyle(Paint.Style.FILL);
 			myPaint.setStrokeWidth(3);
