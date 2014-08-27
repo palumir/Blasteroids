@@ -24,8 +24,10 @@ import android.view.WindowManager;
 
 import com.DJG.abilities.Ability;
 import com.DJG.fd.touchevents.TouchEvent;
+import com.DJG.screenelements.Background;
 import com.DJG.screenelements.Combo;
 import com.DJG.screenelements.ScreenElement;
+import com.DJG.screenelements.myButton;
 import com.DJG.units.UnitType;
 import com.DJG.waves.Campaign;
 
@@ -117,31 +119,7 @@ SharedPreferences prefs;
 	}
 	
 	void drawBackground(Canvas canvas, Paint myPaint) {
-		canvas.drawColor(GameActivity.bgColor);
-		if (GameActivity.bgCanvas == null) {
-			GameActivity.background = Bitmap.createBitmap(GameActivity.getScreenWidth(),
-					GameActivity.getScreenHeight(), Bitmap.Config.ARGB_8888);
-			GameActivity.bgCanvas = new Canvas(GameActivity.background);
-			myPaint.setStrokeWidth(1);
-			myPaint.setColor(Color.WHITE);
-			int x = 0;
-			while (x < GameActivity.getScreenWidth()) {
-				int y = 0;
-				int n = 0;
-				while (y < GameActivity.getScreenHeight()) {
-					if (r.nextInt(GameActivity.getScreenHeight()) == 0) {
-						n++;
-						GameActivity.bgCanvas.drawPoint(x, y, myPaint);
-					}
-					if (n > 10) {
-						break;
-					}
-					y++;
-				}
-				x++;
-			}
-		}
-		canvas.drawBitmap(GameActivity.background, 0, 0, myPaint);
+		Background.drawBackground(canvas,myPaint);
 	}
 	
 	private class CampaignView extends View {
@@ -174,35 +152,34 @@ SharedPreferences prefs;
 		GameActivity.setScreenWidth(display.getWidth());
 		GameActivity.setScreenHeight(display.getHeight());
 		Ability.initAbilities(prefs);
-			int seperation = 0;
+			int seperationX = 0;
+			int seperationY = 0;
 			int start = GameActivity.getScreenHeight()/5 - GameActivity.getScreenHeight()/16;
 			int top = start - 50;
 			int bot = start + 400;
-			Combo c1 = new Combo(top, bot,"Campaign");
+			Combo c1 = new Combo(0, 0,"Campaign");
 			
 			// Campaign Slider
+			ScreenElement title =  new ScreenElement("Text","Select a Wave",GameActivity.getScreenWidth()/2 - 200,GameActivity.getScreenHeight()/8,"Campaign");
+			title.setTextSize(62);
+			c1.add(title);
 			for(int j = 0; j<(int)Campaign.campaignMax/10; j++){
+				myButton goButton = new myButton(""+(j+1),GameActivity.getScreenWidth()/6 + seperationX,start + 200 + seperationY,80,43,"Campaign");
 				ScreenElement descButton = new ScreenElement(
 						"Text",
-						"Wave "+(j*10),
-						GameActivity.getScreenWidth()/2 + seperation - 50,
-						start+100,
+						""+(j*10+1),
+						GameActivity.getScreenWidth()/6 + seperationX - 50,
+						start + 200 + seperationY,
 						"Campaign"
 						);
 				descButton.setTextSize(35);
-				ScreenElement goButton = new ScreenElement(
-						"" + (j+1),
-						"Button",
-						GameActivity.getScreenWidth()/2 + seperation,
-						start + 200,
-						80,
-						43,
-						ScreenElement.buttonTest,
-						"Campaign"
-						);
 				c1.add(goButton);
 				c1.add(descButton);
-				seperation = seperation + 300;
+				seperationX = seperationX + 225;
+				if(GameActivity.getScreenWidth()/3 + seperationX > GameActivity.getScreenWidth()) {
+					seperationX = 0;
+					seperationY = seperationY + 100;
+				}
 			}
 	}
 	

@@ -20,6 +20,7 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.DJG.fd.touchevents.TouchEvent;
+import com.DJG.screenelements.Background;
 import com.DJG.screenelements.ScreenElement;
 import com.DJG.screenelements.myButton;
 
@@ -107,7 +108,7 @@ public class MainActivity extends ActionBarActivity {
 		GameActivity.setScreenHeight(display.getHeight());
 		float height = display.getHeight();
 		float width = display.getWidth();
-		ScreenElement title =  new ScreenElement("Text","Blasteroids is sick",width/2 - 200,height/8,"Main");
+		ScreenElement title =  new ScreenElement("Text","Blasteroids",width/2 - 200,height/8,"Main");
 		title.setTextSize(84);
 		myButton campaign = new myButton("Campaign",width/2,height/5,(width - width/1.7f),height/20,"Main");
 		ScreenElement campaignText =  new ScreenElement("Text","Campaign",width/2 - 135,height/4.7f,"Main");
@@ -130,31 +131,7 @@ public class MainActivity extends ActionBarActivity {
 	}
     
 	void drawBackground(Canvas canvas, Paint myPaint) {
-		canvas.drawColor(GameActivity.bgColor);
-		if (GameActivity.bgCanvas == null) {
-			GameActivity.background = Bitmap.createBitmap(GameActivity.getScreenWidth(),
-					GameActivity.getScreenHeight(), Bitmap.Config.ARGB_8888);
-			GameActivity.bgCanvas = new Canvas(GameActivity.background);
-			myPaint.setStrokeWidth(1);
-			myPaint.setColor(Color.WHITE);
-			int x = 0;
-			while (x < GameActivity.getScreenWidth()) {
-				int y = 0;
-				int n = 0;
-				while (y < GameActivity.getScreenHeight()) {
-					if (GameActivity.r.nextInt(GameActivity.getScreenHeight()) == 0) {
-						n++;
-						GameActivity.bgCanvas.drawPoint(x, y, myPaint);
-					}
-					if (n > 10) {
-						break;
-					}
-					y++;
-				}
-				x++;
-			}
-		}
-		canvas.drawBitmap(GameActivity.background, 0, 0, myPaint);
+		Background.drawBackground(canvas,myPaint);
 	}
 	
 	private class mainView extends View {

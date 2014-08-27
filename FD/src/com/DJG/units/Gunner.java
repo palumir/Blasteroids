@@ -10,11 +10,12 @@ public class Gunner {
 		int width = GameActivity.getScreenWidth();
 		float x = u.getX();
 		float y = u.getY();
-		int delta = width/4;
-		return (x >= 0 + delta &&
-				 x <= width - delta &&
-				 y >= 0 + delta &&
-				 y <= height - delta);
+		float yDistance = (height/2 - y);
+		float xDistance = (width/2 - x);
+		float distanceXY = (float) Math.sqrt(yDistance * yDistance
+				+ xDistance * xDistance);
+		int delta = (int) ((int) width/2.4);
+		return (distanceXY <= delta);
 	}
 	
 	public static void updateGunner(Unit u) {

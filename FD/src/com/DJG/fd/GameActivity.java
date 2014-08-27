@@ -12,7 +12,6 @@ import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -26,6 +25,7 @@ import com.DJG.abilities.Ability;
 import com.DJG.abilities.Coin;
 import com.DJG.fd.touchevents.TouchEvent;
 import com.DJG.planets.Planet;
+import com.DJG.screenelements.Background;
 import com.DJG.screenelements.ScreenElement;
 import com.DJG.secrets.JenkinsSecrets;
 import com.DJG.units.Unit;
@@ -57,14 +57,10 @@ public class GameActivity extends ActionBarActivity {
 	}
 
 	// Just a random
-	static Random r = new Random();
+	private static Random r = new Random();
 	
 	// The castle of course
 	private static Planet fortress;
-
-	// Background
-	static Bitmap background;
-	static Canvas bgCanvas;
 
 	// Shared data.
 	public static SharedPreferences prefs;
@@ -166,31 +162,7 @@ public class GameActivity extends ActionBarActivity {
 	}
 
 	void drawBackground(Canvas canvas, Paint myPaint) {
-		canvas.drawColor(bgColor);
-		if (bgCanvas == null) {
-			background = Bitmap.createBitmap(getScreenWidth(),
-					getScreenHeight(), Bitmap.Config.ARGB_8888);
-			bgCanvas = new Canvas(background);
-			myPaint.setStrokeWidth(1);
-			myPaint.setColor(Color.WHITE);
-			int x = 0;
-			while (x < getScreenWidth()) {
-				int y = 0;
-				int n = 0;
-				while (y < getScreenHeight()) {
-					if (r.nextInt(getScreenHeight()) == 0) {
-						n++;
-						bgCanvas.drawPoint(x, y, myPaint);
-					}
-					if (n > 10) {
-						break;
-					}
-					y++;
-				}
-				x++;
-			}
-		}
-		canvas.drawBitmap(background, 0, 0, myPaint);
+		Background.drawBackground(canvas,myPaint);
 	}
 
 	private class gameView extends View {
@@ -431,6 +403,14 @@ public class GameActivity extends ActionBarActivity {
 	public static void setMode(String mode) {
 		GameActivity.reset();
 		GameActivity.mode = mode;
+	}
+
+	public static Random getR() {
+		return r;
+	}
+
+	public static void setR(Random r) {
+		GameActivity.r = r;
 	}
 
 }
