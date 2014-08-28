@@ -115,11 +115,11 @@ public class Ability {
 		
 		// Load all abilities that you can upgrade
 		upgradeableAbilities = new ArrayList<Ability>();
-		upgradeableAbilities.add(new Ability("Bomb",0,1,3,R.raw.small_3_second_explosion,Bomb.bombBMP,32,"A bomb.",0));
-		upgradeableAbilities.add(new Ability("Slow",0,1,3,-1,Slow.slowBMP,32,"A slow.",15));
-		upgradeableAbilities.add(new Ability("Blackhole",0,1,3,-1,Blackhole.BlackholeBMP,32,"A blackhole.",25));
-		upgradeableAbilities.add(new Ability("Turret",0,1,3,-1,Turret.TurretBMP,32,"A turret.",30));
-		upgradeableAbilities.add(new Ability("Bomb Turret",0,1,3,-1,BombTurret.BombTurretBMP,32,"A bomb turret.",30));
+		upgradeableAbilities.add(new Ability("Bomb",0,1,3,R.raw.small_3_second_explosion,Bomb.bombBMP,32,"POW!",0));
+		upgradeableAbilities.add(new Ability("Slow",0,1,3,-1,Slow.slowBMP,32,"Slows in a radius.",15));
+		upgradeableAbilities.add(new Ability("Blackhole",0,1,3,-1,Blackhole.BlackholeBMP,32,"Sucks in asteroids.",25));
+		upgradeableAbilities.add(new Ability("Turret",0,1,3,-1,Turret.TurretBMP,32,"Shoots stuff.",30));
+		upgradeableAbilities.add(new Ability("Bomb Turret",0,1,3,-1,BombTurret.BombTurretBMP,32,"Shoots bombs.",30));
 		upgradeableAbilities.add(new Ability("Fire Fingers",-1,1,3,-1,FireFingers.fireBMP,32,"Fire Fingers",0));
 		upgradeableAbilities.add(new Ability("Lazer Fingers",-1,1,3,-1,LazerFingers.lazerBMP,32,"Lazer Fingers",0));
 		upgradeableAbilities.add(new Ability("Nuke",-1,1,3,-1,Nuke.NukeBMP,32,"Nuke",0));

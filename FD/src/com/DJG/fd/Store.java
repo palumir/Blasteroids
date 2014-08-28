@@ -232,11 +232,11 @@ public class Store extends ActionBarActivity {
 				ScreenElement descButton = new ScreenElement(
 						"Text",
 						""+a.getDescription(),
-						GameActivity.getScreenWidth()/2 + seperation - 50,
+						GameActivity.getScreenWidth()/2 + seperation - 60,
 						start+100,
 						"Store"
 						);
-				descButton.setTextSize(35);
+				descButton.setTextSize(30);
 				myButton buyButton = new myButton("Buy",GameActivity.getScreenWidth()/2 + seperation,start + 200,80,43,"Store");
 				ScreenElement buyButtonText = new ScreenElement(
 						"Text",
@@ -307,11 +307,11 @@ public class Store extends ActionBarActivity {
 				ScreenElement descButton = new ScreenElement(
 						"Text",
 						""+u.getDescription(),
-						GameActivity.getScreenWidth()/2 + seperation - 50,
+						GameActivity.getScreenWidth()/2 + seperation - 60,
 						start+100,
 						"Store"
 						);
-				descButton.setTextSize(35);
+				descButton.setTextSize(30);
 				myButton buyButton = new myButton("Buy",GameActivity.getScreenWidth()/2 + seperation,start + 200,80,43,"Store");
 				ScreenElement buyButtonText = new ScreenElement(
 						"Text",

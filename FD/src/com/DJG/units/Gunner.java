@@ -14,7 +14,7 @@ public class Gunner {
 		float xDistance = (width/2 - x);
 		float distanceXY = (float) Math.sqrt(yDistance * yDistance
 				+ xDistance * xDistance);
-		int delta = (int) ((int) width/2.4);
+		int delta = ((int) width/2 - 20);
 		return (distanceXY <= delta);
 	}
 	

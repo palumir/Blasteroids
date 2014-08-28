@@ -12,6 +12,7 @@ import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -36,6 +37,7 @@ public class GameActivity extends ActionBarActivity {
 
 	// Convert red to transparent in a bitmap
 	public static Bitmap makeTransparent(Bitmap bit) {
+		Log.d("This should be called only at the start","Ok?");
 		int width = bit.getWidth();
 		int height = bit.getHeight();
 		Bitmap myBitmap = Bitmap.createBitmap(width, height,
@@ -293,6 +295,7 @@ public class GameActivity extends ActionBarActivity {
 		Planet p = Planet.getCurrentPlanet(screenWidth/2,screenHeight/2);
 		setFortress(p);
 		p.setOnScreen();
+		p.spawnDefenders();
 	}
 
 	public static void setScreenWidth(int i) {

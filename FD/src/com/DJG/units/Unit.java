@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.util.Log;
 
 import com.DJG.abilities.Ability;
 import com.DJG.abilities.Bomb;
@@ -89,7 +90,7 @@ public class Unit {
 		radius = u.getRadius();
 		type = u.getType();
 		setMoveSpeed(u.getMoveSpeed());
-		killable = u.getKillable();
+		setKillable(u.getKillable());
 		shape = u.getShape();
 		spinSpeed = 0;
 		bmp = u.getBMP();
@@ -127,7 +128,7 @@ public class Unit {
 		radius = u.getRadius();
 		type = u.getType();
 		setMoveSpeed(u.getMoveSpeed());
-		killable = u.getKillable();
+		setKillable(u.getKillable());
 		shape = u.getShape();
 		spinSpeed = spin;
 		bmp = u.getBMP();
@@ -165,8 +166,12 @@ public class Unit {
 		timeFrozen = GameActivity.getGameTime();
 		frozenDuration = time;
 		if (!isFrozen) {
-			oldbmp = this.getBMP();
+			oldbmp = this.getBMP(); 
 			bmp = this.frozenBMP;
+			oldMoveSpeed = moveSpeed;
+			oldSpinSpeed = spinSpeed;
+			moveSpeed = moveSpeed*Slow.slowSpeed;
+			spinSpeed = spinSpeed*Slow.slowSpeed;
 		}
 		isFrozen = true;
 	}
@@ -205,12 +210,15 @@ public class Unit {
 		}
 	
 		float gravity = planet.getGravity();
-		if (timeFrozen != 0
+		if (isFrozen && timeFrozen != 0
 				&& GameActivity.getGameTime() - timeFrozen > frozenDuration) {
 			isFrozen = false;
+			Log.d(this.moveSpeed+"",oldMoveSpeed+"");
+			this.moveSpeed = oldMoveSpeed;
+			this.spinSpeed = oldSpinSpeed;
 			this.bmp = this.oldbmp;
 		}
-		if (!isFrozen) {
+		if (true) {
 			float yDistance = (yNew - y);
 			float xDistance = (xNew - x);
 			float step = getMoveSpeed() * gravity;
@@ -242,6 +250,7 @@ public class Unit {
 					y = y + Math.abs(yDistance / distanceXY) * step;
 				}
 			}
+			
 			// Spin the Unit
 			if (spinSpeed != 0) {
 				yDistance = (yNew - y);
@@ -517,12 +526,11 @@ public class Unit {
 				Unit m = moons.get(j);
 				float yDistanceUnit = (m.getY() - u.getY());
 				float xDistanceUnit = (m.getX() - u.getX());
-				float distanceXYUnit = (float) Math.sqrt(yDistanceUnit
-						* yDistanceUnit + xDistanceUnit * xDistanceUnit);
+				float distanceXYUnit = (float) Math.sqrt(yDistanceUnit * yDistanceUnit + xDistanceUnit * xDistanceUnit);
 				if (distanceXYUnit <= m.getRadius() + u.getRadius()
 						&& u.getMetaType() == "Unit"
 						&& u.getName() != "Fortress") {
-					m.die();
+					Bomb b = new Bomb(u.getX(), u.getY(), 115, 400, Color.WHITE, Color.YELLOW);
 					u.die();
 				}
 			}
@@ -737,7 +745,7 @@ public class Unit {
 
 	public void hurt(int i) {
 		this.currentHitPoints -= i;
-		if (getHP() <= 0 && killable) {
+		if (getHP() <= 0 && isKillable()) {
 			die();
 		}
 	}
@@ -883,7 +891,7 @@ public class Unit {
 	}
 
 	public boolean getKillable() {
-		return killable;
+		return isKillable();
 	}
 
 	public Bitmap getBMP() {
@@ -952,5 +960,13 @@ public class Unit {
 
 	public void setInGunnerRange(boolean inGunnerRange) {
 		this.inGunnerRange = inGunnerRange;
+	}
+
+	public boolean isKillable() {
+		return killable;
+	}
+
+	public void setKillable(boolean killable) {
+		this.killable = killable;
 	}
 }

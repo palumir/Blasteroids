@@ -41,8 +41,17 @@ public class myButton extends ScreenElement {
 	}
 	
 	public void draw(Canvas canvas, Paint myPaint) {
+		myPaint.setStyle(Paint.Style.STROKE);
+		myPaint.setColor(Color.WHITE);
+		myPaint.setStrokeWidth(1);
+		canvas.drawRect(
+				getX() - (width+1),
+				getY() - (height+1),
+				getX() + (width+1),
+				getY() + (height+1),
+				myPaint);
 		myPaint.setStyle(Paint.Style.FILL);
-		myPaint.setColor(Color.RED);
+		myPaint.setColor(Color.BLUE);
 		canvas.drawRect(
 				getX() - width,
 				getY() - height,

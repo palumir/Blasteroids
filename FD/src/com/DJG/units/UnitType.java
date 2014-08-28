@@ -54,8 +54,8 @@ public class UnitType {
 		Planet.initPlanetTypes();
 		
 		//Defensive units, Will add own class later
-		getAllUnitTypes().add(new UnitType("Fire Defender Moon", 50, 0f,true, R.drawable.fire_asteroid, 1, 0));
-		getAllUnitTypes().add(new UnitType("Mars Moon", 50, 0f, true, R.drawable.asteroid, 2, 0));
+		getAllUnitTypes().add(new UnitType("Fire Defender Moon", 50, 0f,true, R.drawable.fire_asteroid, 1, 0,"Moon"));
+		getAllUnitTypes().add(new UnitType("Mars Moon", 50, 0f, true, R.drawable.asteroid, 2, 0,"Moon"));
 	}
 	
 	public static UnitType getUnitType(String searchType) {

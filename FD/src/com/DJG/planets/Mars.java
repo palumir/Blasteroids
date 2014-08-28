@@ -6,10 +6,7 @@ public class Mars extends Planet {
 		gravity = 1f;
 		defenderName = "Mars Moon";
 		radiusOfDefenders = 250;
-		numOfDefenders = 4;
+		numOfDefenders = 1;
 	}
 	
-	public void afterWave(){
-		spawnDefenders();
-	}
 }

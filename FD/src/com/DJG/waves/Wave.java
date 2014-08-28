@@ -164,9 +164,6 @@ public class Wave extends ArrayList<Unit> {
 				currentWaveNumber++;
 				GameActivity.levelText = "Wave " + (int)(currentWaveNumber+1);
 				sendWave(currentWaveNumber);
-				Planet planet = (Planet) Unit.getUnit("Fortress");
-				planet.afterWave();
-				Log.i("Moons:", "" + Unit.moons.size());
 				waveSent = false;
 				isFirst = true;
 				

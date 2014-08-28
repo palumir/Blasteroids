@@ -170,8 +170,8 @@ public class Blackhole {
 	
 	public void suckIn(Unit u) {
 		u.suckedIn(true);
-		u.setSpinSpeed(0.2f);
-		u.setMoveSpeed(0.3f);
+		u.setSpinSpeed(2f);
+		u.setMoveSpeed(u.getMoveSpeed()/2);
 		u.moveNormally(this.getX(),this.getY()); // Don't suck them in for now!
 	}
 	

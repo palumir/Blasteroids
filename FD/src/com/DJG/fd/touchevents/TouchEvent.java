@@ -89,7 +89,7 @@ public class TouchEvent {
     					}
     				}
 	    			// Respond to a purchase.
-    				else if(grabbedScreenElement != null && grabbedScreenElement==touchedElement && grabbedScreenElement.getType() == "Button" && grabbedScreenElement.getName() == "Buy") {
+    				else if(grabbedScreenElement != null && grabbedScreenElement==touchedElement && grabbedScreenElement.getType() == "Drawn myButton" && grabbedScreenElement.getName() == "Buy") {
 	    				Ability attachedAbility = grabbedScreenElement.getAttachedAbility();
 	    				if(attachedAbility!=null) {
 	    					attachedAbility.buy();
@@ -100,7 +100,7 @@ public class TouchEvent {
 	    				}
 	    			}
 	    			// Respond to equip click
-	    			else if(grabbedScreenElement != null && grabbedScreenElement==touchedElement && grabbedScreenElement.getType() == "Button" && grabbedScreenElement.getName() == "Equip") {
+	    			else if(grabbedScreenElement != null && grabbedScreenElement==touchedElement && grabbedScreenElement.getType() == "Drawn myButton" && grabbedScreenElement.getName() == "Equip") {
 	    				Ability attachedAbility = grabbedScreenElement.getAttachedAbility();
 	    				grabbedAbility = attachedAbility;
 	    				UnitType attachedPlanet = grabbedScreenElement.getAttachedPlanet();
