@@ -37,7 +37,6 @@ public class GameActivity extends ActionBarActivity {
 
 	// Convert red to transparent in a bitmap
 	public static Bitmap makeTransparent(Bitmap bit) {
-		Log.d("This should be called only at the start","Ok?");
 		int width = bit.getWidth();
 		int height = bit.getHeight();
 		Bitmap myBitmap = Bitmap.createBitmap(width, height,
@@ -63,6 +62,9 @@ public class GameActivity extends ActionBarActivity {
 	
 	// The castle of course
 	private static Planet fortress;
+	
+	// Paint
+	static Paint myPaint = new Paint();
 
 	// Shared data.
 	public static SharedPreferences prefs;
@@ -164,7 +166,7 @@ public class GameActivity extends ActionBarActivity {
 	}
 
 	void drawBackground(Canvas canvas, Paint myPaint) {
-		Background.drawBackground(canvas,myPaint);
+		Background.drawBackground(canvas,myPaint, "Game");
 	}
 
 	private class gameView extends View {
@@ -175,7 +177,6 @@ public class GameActivity extends ActionBarActivity {
 
 		@Override
 		protected void onDraw(Canvas canvas) {
-			Paint myPaint = new Paint();
 
 			// Draw background.
 			drawBackground(canvas, myPaint);

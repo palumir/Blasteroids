@@ -18,6 +18,9 @@ import com.DJG.planets.Planet;
 import com.DJG.waves.Wave;
 
 public class Unit {
+	
+	static String[] order = { "Asteroid", "Ice Asteroid", "Cat", "Fire Asteroid" };
+	
 	// Global stuff.
 	public static ArrayList<Unit> moons = new ArrayList<Unit>();
 	public final static Object moonsLock = new Object();
@@ -213,7 +216,6 @@ public class Unit {
 		if (isFrozen && timeFrozen != 0
 				&& GameActivity.getGameTime() - timeFrozen > frozenDuration) {
 			isFrozen = false;
-			Log.d(this.moveSpeed+"",oldMoveSpeed+"");
 			this.moveSpeed = oldMoveSpeed;
 			this.spinSpeed = oldSpinSpeed;
 			this.bmp = this.oldbmp;
@@ -230,9 +232,6 @@ public class Unit {
 			if (!GameActivity.isCloseOffScreen(x, y) && !onScreen) {
 				setOnScreen();
 			}
-
-			// Log.d("On Screen",onScreenUnits.size()+"");
-			// Log.d("All",allUnits.size()+"");
 
 			// Move the unit.
 			if (xNew != x || yNew != y) {
@@ -414,7 +413,6 @@ public class Unit {
 	}
 
 	public static boolean isGreaterThan(String a, String b) {
-		String[] order = { "Asteroid", "Ice Asteroid", "Cat", "Fire Asteroid" };
 		int posA = Arrays.asList(order).indexOf(a);
 		int posB = Arrays.asList(order).indexOf(b);
 		return posA > posB;
@@ -491,7 +489,7 @@ public class Unit {
 			if (distanceXYUnit <= castleRadius + u.getRadius()) {
 				u.attacks(castle);
 				u.die();
-				GameActivity.castleHP = "" + castle.getHP();
+				GameActivity.castleHP = Integer.toString(castle.getHP());
 				if (castle.isDead()) {
 					GameActivity.setLost();
 				}
@@ -530,7 +528,9 @@ public class Unit {
 				if (distanceXYUnit <= m.getRadius() + u.getRadius()
 						&& u.getMetaType() == "Unit"
 						&& u.getName() != "Fortress") {
-					Bomb b = new Bomb(u.getX(), u.getY(), 115, 400, Color.WHITE, Color.YELLOW);
+					if(m.getType().contains("Fire")) {
+						Bomb b = new Bomb(u.getX(), u.getY(), 115, 400, Color.WHITE, Color.YELLOW);
+					}
 					u.die();
 				}
 			}
@@ -542,7 +542,7 @@ public class Unit {
 	}
 
 	public static void destroyAllUnits() {
-		allUnits.clear();
+		allUnits.clear(); 
 		onScreenUnits.clear();
 	}
 
@@ -661,7 +661,7 @@ public class Unit {
 	public static void updateUnits() {
 		// Where is the castle?
 		Planet castle = GameActivity.getFortress();
-		GameActivity.castleHP = "" + castle.getHP();
+		GameActivity.castleHP = Integer.toString(castle.getHP());
 
 		synchronized (Unit.onScreenUnitsLock) {
 			for (int j = 0; j < onScreenUnits.size(); j++) {

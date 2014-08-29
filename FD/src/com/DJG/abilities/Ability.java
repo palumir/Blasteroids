@@ -132,13 +132,15 @@ public class Ability {
 		
 		// aList and sList (equipped abilities vs special abilities)
 		aList = new ArrayList<Ability>();
-		for(Ability a : equippedAbilities) {
+  		for(int i = 0; i < Ability.getEquippedAbilities().size(); i++) {
+  			Ability a = Ability.getEquippedAbilities().get(i);
 			if(a.slot>=0 && a.slot<=3) {
 				aList.add(a);
 			}
 		}
 		sList = new ArrayList<Ability>();
-		for(Ability a : equippedAbilities) {
+  		for(int i = 0; i < Ability.getEquippedAbilities().size(); i++) {
+  			Ability a = Ability.getEquippedAbilities().get(i);
 			if(a.slot==-1) {
 				sList.add(a);
 			}
@@ -180,7 +182,8 @@ public class Ability {
 	public static int countNormals() {
 		int count = 0;
 		synchronized(upgradeableAbilitiesLock) {
-			for(Ability a : upgradeableAbilities) {
+      		for(int i = 0; i < Ability.upgradeableAbilities.size(); i++) {
+      			Ability a = Ability.upgradeableAbilities.get(i);
 				if(a.slot!=-1 || a.slot!=0 || a.slot!=-2) {
 					count++;
 				}
@@ -192,7 +195,8 @@ public class Ability {
 	public static int countSpecials() {
 		int count = 0;
 		synchronized(upgradeableAbilitiesLock) {
-			for(Ability a : upgradeableAbilities) {
+      		for(int i = 0; i < Ability.upgradeableAbilities.size(); i++) {
+      			Ability a = Ability.upgradeableAbilities.get(i);
 				if(a.slot==-1) {
 					count++;
 				}
@@ -231,7 +235,8 @@ public class Ability {
 		purchasedAbilities = new ArrayList<Ability>();
 		synchronized(purchasedAbilitiesLock) {
 			int curSlot = 0;
-			for(Ability a : upgradeableAbilities) {
+      		for(int i = 0; i < Ability.upgradeableAbilities.size(); i++) {
+      			Ability a = Ability.upgradeableAbilities.get(i);
 				if(a.purchased){
 					purchasedAbilities.add(a);
 				}
@@ -242,7 +247,8 @@ public class Ability {
 	static void initUserAbilities() {
 		equippedAbilities = new ArrayList<Ability>();
 		synchronized(upgradeableAbilitiesLock) {
-			for(Ability a : upgradeableAbilities) {
+      		for(int i = 0; i < Ability.upgradeableAbilities.size(); i++) {
+      			Ability a = Ability.upgradeableAbilities.get(i);
 					if(getPrefs().getString("Slot1","Bomb").equals(a.getType())) {
 						a.setSlot(0);
 						equippedAbilities.add(a);
@@ -328,14 +334,16 @@ public class Ability {
       	}
       	
       	synchronized(abilitiesLock) {
-      		for(Ability a : Ability.getEquippedAbilities()) {
+      		for(int i = 0; i < Ability.getEquippedAbilities().size(); i++) {
+      			Ability a = Ability.getEquippedAbilities().get(i);
       			if(a.getBMP() != null) {
       				canvas.drawBitmap(a.getBMP(), a.getX()-a.getRadius(), a.getY() - a.getRadius(), null);
 	  				myPaint.setColor(Color.WHITE);
 	  				myPaint.setStyle(Style.FILL);
 	  				myPaint.setStrokeWidth(1);
  	  				myPaint.setTextSize(35);
-	  				canvas.drawText(a.getUses() + "",a.getX()-a.getRadius()+20,a.getY() - a.getRadius() +100,myPaint);
+	  				canvas.drawText(
+	  						Integer.toString(a.getUses()),a.getX()-a.getRadius()+20,a.getY() - a.getRadius() +100,myPaint);
       			}
       			else {
     	  				myPaint.setColor(a.getIconColor());
@@ -343,7 +351,7 @@ public class Ability {
     	  				canvas.drawRect(a.getX() - +a.getRadius(), a.getY() + ((float)a.getRadius())*(1-a.getCDPercentRemaining()) - +a.getRadius(), a.getX(), a.getY(), myPaint );
     	  				myPaint.setColor(Color.RED);
     	  				myPaint.setTextSize(14);
-    	  				canvas.drawText(a.getUses() + "",a.getX()+4-a.getRadius(),a.getY()+22-a.getRadius(),myPaint);
+    	  				canvas.drawText(Integer.toString(a.getUses()),a.getX()+4-a.getRadius(),a.getY()+22-a.getRadius(),myPaint);
     	  				myPaint.setColor(Color.WHITE);
     	  				myPaint.setTextSize(50);
     	  				canvas.drawText(a.getSymbol(),a.getX()+23-a.getRadius(),a.getY()-22,myPaint);
@@ -503,7 +511,8 @@ public class Ability {
 	public static int getAbilityPos(Ability thisAbility) {
 		synchronized(abilitiesLock) {
 			int foundAbility = 0;
-			for(Ability a : equippedAbilities) {
+      		for(int i = 0; i < Ability.getEquippedAbilities().size(); i++) {
+      			Ability a = Ability.getEquippedAbilities().get(i);
 				if(a == thisAbility) {
 					break;
 				}
@@ -528,7 +537,8 @@ public class Ability {
 		public static Ability getAbilityAt(float x, float y) {
 			synchronized(abilitiesLock) {
 				// Spare the plusses if possible.
-				for(Ability u : equippedAbilities) {
+	      		for(int i = 0; i < Ability.getEquippedAbilities().size(); i++) {
+	      			Ability u = Ability.getEquippedAbilities().get(i);
 					float yDistance = (u.getY() - y);
 					float xDistance = (u.getX() - x);
 					float distanceXY = (float)Math.sqrt(yDistance*yDistance + xDistance*xDistance);

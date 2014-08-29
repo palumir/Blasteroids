@@ -13,7 +13,7 @@ public class Background {
 	static Canvas bgCanvas;
 	static int backX = 0;
 	
-	public static void drawBackground(Canvas canvas, Paint myPaint) {
+	public static void drawBackground(Canvas canvas, Paint myPaint, String activity) {
 		canvas.drawColor(GameActivity.bgColor);
 		if (bgCanvas == null) {
 			background = Bitmap.createBitmap(GameActivity.getScreenWidth(),
@@ -38,10 +38,15 @@ public class Background {
 				x++;
 			}
 		}
-		backX++;
-		if(backX == GameActivity.getScreenWidth()) {
-			backX = 0;
+		// Move the background if it's not paused.
+		if(!(GameActivity.paused  && activity.equals("Game"))) {
+			backX++;
+			if(backX == GameActivity.getScreenWidth()) {
+				backX = 0;
+			}
 		}
+		myPaint.setColor(Color.WHITE);
+		myPaint.setStrokeWidth(1);
 		canvas.drawBitmap(background, backX - GameActivity.getScreenWidth(),0,myPaint);
 		canvas.drawBitmap(background, backX, 0, myPaint);
 	}

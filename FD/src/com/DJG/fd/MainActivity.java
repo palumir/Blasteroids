@@ -78,7 +78,6 @@ public class MainActivity extends ActionBarActivity {
 			GameActivity.gameContext =  currContext.getApplicationContext();
 		}
 		GameActivity.gameContext =  currContext.getApplicationContext();
-		Log.d("Yo","Yo");
 		if(i=="Survival") {
 			GameActivity.setMode("Survival");
 			Intent intent = new Intent(currContext, GameActivity.class);
@@ -131,7 +130,7 @@ public class MainActivity extends ActionBarActivity {
 	}
     
 	void drawBackground(Canvas canvas, Paint myPaint) {
-		Background.drawBackground(canvas,myPaint);
+		Background.drawBackground(canvas,myPaint, "Main");
 	}
 	
 	private class mainView extends View {
@@ -142,7 +141,7 @@ public class MainActivity extends ActionBarActivity {
 
 		@Override
 		protected void onDraw(Canvas canvas) {
-			Paint myPaint = new Paint();
+			Paint myPaint = GameActivity.myPaint;
 
 			// Draw background.
 			drawBackground(canvas, myPaint);

@@ -147,7 +147,6 @@ public class Survival {
 			}
 		}
 		else {
-			Log.d("Go",randomNum+"");
 		switch(randomNum) {		
 			// Explosive Circle Wave, probably most satisfying wave.
 			case 0:

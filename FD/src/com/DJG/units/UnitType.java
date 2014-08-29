@@ -11,6 +11,7 @@ import com.DJG.abilities.Coin;
 import com.DJG.fd.GameActivity;
 import com.DJG.fd.R;
 import com.DJG.planets.Planet;
+import com.DJG.screenelements.ScreenElement;
 
 public class UnitType {
 	
@@ -61,7 +62,8 @@ public class UnitType {
 	public static UnitType getUnitType(String searchType) {
 		UnitType foundUnitType = null;
 		synchronized(allUnitTypesLock) {
-			for(UnitType u : getAllUnitTypes()) {
+  	  		for(int i = 0; i < getAllUnitTypes().size(); i++) {
+  	  			UnitType u = getAllUnitTypes().get(i);
 				if(u.getType().equals(searchType)) {
 					foundUnitType = u;
 					break;
@@ -192,7 +194,8 @@ public class UnitType {
 	public static ArrayList<UnitType> getAllOf(String s) {
 		synchronized(allUnitTypesLock) {
 			ArrayList a = new ArrayList<UnitType>();
-			for(UnitType u : allUnitTypes) {
+  	  		for(int i = 0; i < getAllUnitTypes().size(); i++) {
+  	  			UnitType u = getAllUnitTypes().get(i);
 				if(u.getMetaType().equals(s)) {
 					a.add(u);
 				}

@@ -119,7 +119,7 @@ SharedPreferences prefs;
 	}
 	
 	void drawBackground(Canvas canvas, Paint myPaint) {
-		Background.drawBackground(canvas,myPaint);
+		Background.drawBackground(canvas,myPaint, "Campaign");
 	}
 	
 	private class CampaignView extends View {
@@ -130,7 +130,7 @@ SharedPreferences prefs;
 
 		@Override
 		protected void onDraw(Canvas canvas) {
-			Paint myPaint = new Paint();
+			Paint myPaint = GameActivity.myPaint;
 			drawCampaign(canvas, myPaint);
 		}
 	}
@@ -164,10 +164,10 @@ SharedPreferences prefs;
 			title.setTextSize(62);
 			c1.add(title);
 			for(int j = 0; j<(int)Campaign.campaignMax/10; j++){
-				myButton goButton = new myButton(""+(j+1),GameActivity.getScreenWidth()/6 + seperationX,start + 200 + seperationY,80,43,"Campaign");
+				myButton goButton = new myButton(Integer.toString(j+1),GameActivity.getScreenWidth()/6 + seperationX,start + 200 + seperationY,80,43,"Campaign");
 				ScreenElement descButton = new ScreenElement(
 						"Text",
-						""+(j*10+1),
+						Integer.toString(j*10+1),
 						GameActivity.getScreenWidth()/6 + seperationX - 50,
 						start + 200 + seperationY,
 						"Campaign"

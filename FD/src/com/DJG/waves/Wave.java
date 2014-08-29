@@ -12,6 +12,7 @@ import com.DJG.generators.WaveGenerator;
 import com.DJG.planets.Planet;
 import com.DJG.planets.Saturn;
 import com.DJG.units.Unit;
+import com.DJG.units.UnitType;
 
 class XY {
 	public int x;
@@ -189,7 +190,8 @@ public class Wave extends ArrayList<Unit> {
 		int screenWidth = GameActivity.getScreenWidth();
 		int screenHeight = GameActivity.getScreenHeight();
 		synchronized(currentWaveLock) {
-			for(Unit u : this) {
+  	  		for(int i = 0; i < this.size(); i++) {
+  	  			Unit u = this.get(i);
 				u.moveNormally(screenWidth/2,screenHeight/2);
 			}
 		}
@@ -207,7 +209,8 @@ public class Wave extends ArrayList<Unit> {
 	public static int getUnitPos(Unit thisUnit) {
 		int foundUnit = 0;
 		synchronized(currentWaveLock) {
-			for(Unit u : currentWave) {
+  	  		for(int i = 0; i < currentWave.size(); i++) {
+  	  			Unit u = currentWave.get(i);
 				if(u == thisUnit) {
 					break;
 				}
@@ -228,7 +231,8 @@ public class Wave extends ArrayList<Unit> {
 	public static void killUnit(Unit u) {
 			synchronized(currentWaveLock) {
 				int foundUnit = 0;
-					for(Unit v : currentWave) {
+	  	  		for(int i = 0; i < currentWave.size(); i++) {
+	  	  			Unit v = currentWave.get(i);
 						if(v == u) {
 							break;
 						}
