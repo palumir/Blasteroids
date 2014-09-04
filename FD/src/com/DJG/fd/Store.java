@@ -26,8 +26,10 @@ import com.DJG.abilities.Ability;
 import com.DJG.abilities.Coin;
 import com.DJG.fd.touchevents.TouchEvent;
 import com.DJG.planets.Planet;
+import com.DJG.screenelements.Background;
 import com.DJG.screenelements.Combo;
 import com.DJG.screenelements.ScreenElement;
+import com.DJG.screenelements.myButton;
 import com.DJG.units.UnitType;
 
 public class Store extends ActionBarActivity {
@@ -105,31 +107,7 @@ public class Store extends ActionBarActivity {
 	}
 	
 	void drawBackground(Canvas canvas, Paint myPaint) {
-		canvas.drawColor(GameActivity.bgColor);
-		if (GameActivity.bgCanvas == null) {
-			GameActivity.background = Bitmap.createBitmap(GameActivity.getScreenWidth(),
-					GameActivity.getScreenHeight(), Bitmap.Config.ARGB_8888);
-			GameActivity.bgCanvas = new Canvas(GameActivity.background);
-			myPaint.setStrokeWidth(1);
-			myPaint.setColor(Color.WHITE);
-			int x = 0;
-			while (x < GameActivity.getScreenWidth()) {
-				int y = 0;
-				int n = 0;
-				while (y < GameActivity.getScreenHeight()) {
-					if (r.nextInt(GameActivity.getScreenHeight()) == 0) {
-						n++;
-						GameActivity.bgCanvas.drawPoint(x, y, myPaint);
-					}
-					if (n > 10) {
-						break;
-					}
-					y++;
-				}
-				x++;
-			}
-		}
-		canvas.drawBitmap(GameActivity.background, 0, 0, myPaint);
+		Background.drawBackground(canvas,myPaint,"Store");
 	}
 	
 	private class storeView extends View {
@@ -140,7 +118,7 @@ public class Store extends ActionBarActivity {
 
 		@Override
 		protected void onDraw(Canvas canvas) {
-			Paint myPaint = new Paint();
+			Paint myPaint = GameActivity.myPaint;
 			drawStore(canvas, myPaint);
 		}
 	}
@@ -151,7 +129,7 @@ public class Store extends ActionBarActivity {
 		myPaint.setColor(Color.WHITE);
 		myPaint.setStrokeWidth(3);
 		myPaint.setTextSize(50);
-		canvas.drawText(Coin.getCoins() +"", 90f, (float) (GameActivity.getScreenHeight() - 50), myPaint);
+		canvas.drawText(Integer.toString(Coin.getCoins()), 90f, (float) (GameActivity.getScreenHeight() - 50), myPaint);
 		Combo.drawCombos(canvas, myPaint, "Store");
 	}
 	
@@ -246,37 +224,33 @@ public class Store extends ActionBarActivity {
 						);
 				ScreenElement costButton = new ScreenElement(
 						"Text",
-						""+a.getCost(),
+						Integer.toString(a.getCost()),
 						GameActivity.getScreenWidth()/2 + seperation + 50,
 						start,
 						"Store"
 						);
 				ScreenElement descButton = new ScreenElement(
 						"Text",
-						""+a.getDescription(),
-						GameActivity.getScreenWidth()/2 + seperation - 50,
+						a.getDescription(),
+						GameActivity.getScreenWidth()/2 + seperation - 60,
 						start+100,
 						"Store"
 						);
-				descButton.setTextSize(35);
-				ScreenElement buyButton = new ScreenElement(
+				descButton.setTextSize(30);
+				myButton buyButton = new myButton("Buy",GameActivity.getScreenWidth()/2 + seperation,start + 200,80,43,"Store");
+				ScreenElement buyButtonText = new ScreenElement(
+						"Text",
 						"Buy",
-						"Button",
-						GameActivity.getScreenWidth()/2 + seperation,
-						start + 200,
-						80,
-						43,
-						ScreenElement.buttonTest,
+						GameActivity.getScreenWidth()/2 + seperation - 45,
+						start + 200 + 15,
 						"Store"
 						);
-				ScreenElement equipButton = new ScreenElement(
+				myButton equipButton = new myButton("Equip",GameActivity.getScreenWidth()/2 + seperation,start + 300,80,43,"Store");
+				ScreenElement equipButtonText = new ScreenElement(
+						"Text",
 						"Equip",
-						"Button",
-						GameActivity.getScreenWidth()/2 + seperation,
-						start + 300,
-						80,
-						43,
-						ScreenElement.buttonTest,
+						GameActivity.getScreenWidth()/2 + seperation - 65,
+						start + 300 + 17,
 						"Store"
 						);
 				equipButton.attachAbility(a);
@@ -287,6 +261,8 @@ public class Store extends ActionBarActivity {
 				c1.add(costButton);
 				c1.add(descButton);
 				c1.add(buyButton);
+				c1.add(buyButtonText);
+				c1.add(equipButtonText);
 				seperation = seperation + 300;
 				}
 			}
@@ -323,37 +299,33 @@ public class Store extends ActionBarActivity {
 						);
 				ScreenElement costButton = new ScreenElement(
 						"Text",
-						""+u.getCost(),
+						Integer.toString(u.getCost()),
 						GameActivity.getScreenWidth()/2 + seperation + 50,
 						start,
 						"Store"
 						);
 				ScreenElement descButton = new ScreenElement(
 						"Text",
-						""+u.getDescription(),
-						GameActivity.getScreenWidth()/2 + seperation - 50,
+						u.getDescription(),
+						GameActivity.getScreenWidth()/2 + seperation - 60,
 						start+100,
 						"Store"
 						);
-				descButton.setTextSize(35);
-				ScreenElement buyButton = new ScreenElement(
+				descButton.setTextSize(30);
+				myButton buyButton = new myButton("Buy",GameActivity.getScreenWidth()/2 + seperation,start + 200,80,43,"Store");
+				ScreenElement buyButtonText = new ScreenElement(
+						"Text",
 						"Buy",
-						"Button",
-						GameActivity.getScreenWidth()/2 + seperation,
-						start + 200,
-						80,
-						43,
-						ScreenElement.buttonTest,
+						GameActivity.getScreenWidth()/2 + seperation - 45,
+						start + 200 + 15,
 						"Store"
 						);
-				ScreenElement equipButton = new ScreenElement(
+				myButton equipButton = new myButton("Equip",GameActivity.getScreenWidth()/2 + seperation,start + 300,80,43,"Store");
+				ScreenElement equipButtonText = new ScreenElement(
+						"Text",
 						"Equip",
-						"Button",
-						GameActivity.getScreenWidth()/2 + seperation,
-						start + 300,
-						80,
-						43,
-						ScreenElement.buttonTest,
+						GameActivity.getScreenWidth()/2 + seperation - 65,
+						start + 300 + 17,
 						"Store"
 						);
 				equipButton.attachPlanet(u);
@@ -364,6 +336,8 @@ public class Store extends ActionBarActivity {
 				c2.add(costButton);
 				c2.add(descButton);
 				c2.add(buyButton);
+				c2.add(buyButtonText);
+				c2.add(equipButtonText);
 				seperation = seperation + 300;
 			}
 		}

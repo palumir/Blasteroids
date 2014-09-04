@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.util.Log;
 
 import com.DJG.abilities.Ability;
 import com.DJG.abilities.Bomb;
@@ -17,6 +18,9 @@ import com.DJG.planets.Planet;
 import com.DJG.waves.Wave;
 
 public class Unit {
+	
+	static String[] order = { "Asteroid", "Ice Asteroid", "Cat", "Fire Asteroid" };
+	
 	// Global stuff.
 	public static ArrayList<Unit> moons = new ArrayList<Unit>();
 	public final static Object moonsLock = new Object();
@@ -89,7 +93,7 @@ public class Unit {
 		radius = u.getRadius();
 		type = u.getType();
 		setMoveSpeed(u.getMoveSpeed());
-		killable = u.getKillable();
+		setKillable(u.getKillable());
 		shape = u.getShape();
 		spinSpeed = 0;
 		bmp = u.getBMP();
@@ -127,7 +131,7 @@ public class Unit {
 		radius = u.getRadius();
 		type = u.getType();
 		setMoveSpeed(u.getMoveSpeed());
-		killable = u.getKillable();
+		setKillable(u.getKillable());
 		shape = u.getShape();
 		spinSpeed = spin;
 		bmp = u.getBMP();
@@ -165,8 +169,12 @@ public class Unit {
 		timeFrozen = GameActivity.getGameTime();
 		frozenDuration = time;
 		if (!isFrozen) {
-			oldbmp = this.getBMP();
+			oldbmp = this.getBMP(); 
 			bmp = this.frozenBMP;
+			oldMoveSpeed = moveSpeed;
+			oldSpinSpeed = spinSpeed;
+			moveSpeed = moveSpeed*Slow.slowSpeed;
+			spinSpeed = spinSpeed*Slow.slowSpeed;
 		}
 		isFrozen = true;
 	}
@@ -205,12 +213,14 @@ public class Unit {
 		}
 	
 		float gravity = planet.getGravity();
-		if (timeFrozen != 0
+		if (isFrozen && timeFrozen != 0
 				&& GameActivity.getGameTime() - timeFrozen > frozenDuration) {
 			isFrozen = false;
+			this.moveSpeed = oldMoveSpeed;
+			this.spinSpeed = oldSpinSpeed;
 			this.bmp = this.oldbmp;
 		}
-		if (!isFrozen) {
+		if (true) {
 			float yDistance = (yNew - y);
 			float xDistance = (xNew - x);
 			float step = getMoveSpeed() * gravity;
@@ -222,9 +232,6 @@ public class Unit {
 			if (!GameActivity.isCloseOffScreen(x, y) && !onScreen) {
 				setOnScreen();
 			}
-
-			// Log.d("On Screen",onScreenUnits.size()+"");
-			// Log.d("All",allUnits.size()+"");
 
 			// Move the unit.
 			if (xNew != x || yNew != y) {
@@ -242,6 +249,7 @@ public class Unit {
 					y = y + Math.abs(yDistance / distanceXY) * step;
 				}
 			}
+			
 			// Spin the Unit
 			if (spinSpeed != 0) {
 				yDistance = (yNew - y);
@@ -405,7 +413,6 @@ public class Unit {
 	}
 
 	public static boolean isGreaterThan(String a, String b) {
-		String[] order = { "Asteroid", "Ice Asteroid", "Cat", "Fire Asteroid" };
 		int posA = Arrays.asList(order).indexOf(a);
 		int posB = Arrays.asList(order).indexOf(b);
 		return posA > posB;
@@ -482,7 +489,7 @@ public class Unit {
 			if (distanceXYUnit <= castleRadius + u.getRadius()) {
 				u.attacks(castle);
 				u.die();
-				GameActivity.castleHP = "" + castle.getHP();
+				GameActivity.castleHP = Integer.toString(castle.getHP());
 				if (castle.isDead()) {
 					GameActivity.setLost();
 				}
@@ -517,12 +524,13 @@ public class Unit {
 				Unit m = moons.get(j);
 				float yDistanceUnit = (m.getY() - u.getY());
 				float xDistanceUnit = (m.getX() - u.getX());
-				float distanceXYUnit = (float) Math.sqrt(yDistanceUnit
-						* yDistanceUnit + xDistanceUnit * xDistanceUnit);
+				float distanceXYUnit = (float) Math.sqrt(yDistanceUnit * yDistanceUnit + xDistanceUnit * xDistanceUnit);
 				if (distanceXYUnit <= m.getRadius() + u.getRadius()
 						&& u.getMetaType() == "Unit"
 						&& u.getName() != "Fortress") {
-					m.die();
+					if(m.getType().contains("Fire")) {
+						Bomb b = new Bomb(u.getX(), u.getY(), 115, 400, Color.WHITE, Color.YELLOW);
+					}
 					u.die();
 				}
 			}
@@ -534,7 +542,7 @@ public class Unit {
 	}
 
 	public static void destroyAllUnits() {
-		allUnits.clear();
+		allUnits.clear(); 
 		onScreenUnits.clear();
 	}
 
@@ -653,7 +661,7 @@ public class Unit {
 	public static void updateUnits() {
 		// Where is the castle?
 		Planet castle = GameActivity.getFortress();
-		GameActivity.castleHP = "" + castle.getHP();
+		GameActivity.castleHP = Integer.toString(castle.getHP());
 
 		synchronized (Unit.onScreenUnitsLock) {
 			for (int j = 0; j < onScreenUnits.size(); j++) {
@@ -737,7 +745,7 @@ public class Unit {
 
 	public void hurt(int i) {
 		this.currentHitPoints -= i;
-		if (getHP() <= 0 && killable) {
+		if (getHP() <= 0 && isKillable()) {
 			die();
 		}
 	}
@@ -883,7 +891,7 @@ public class Unit {
 	}
 
 	public boolean getKillable() {
-		return killable;
+		return isKillable();
 	}
 
 	public Bitmap getBMP() {
@@ -952,5 +960,13 @@ public class Unit {
 
 	public void setInGunnerRange(boolean inGunnerRange) {
 		this.inGunnerRange = inGunnerRange;
+	}
+
+	public boolean isKillable() {
+		return killable;
+	}
+
+	public void setKillable(boolean killable) {
+		this.killable = killable;
 	}
 }

@@ -32,7 +32,6 @@ public abstract class Planet extends Unit {
 	//Action to do after each wave
 	//Currently set to 0
 	public void afterWave(){
-		spawnDefenders();
 	}
 	
 	//Gravity. Increases how fast units move to the planet
@@ -80,9 +79,9 @@ public abstract class Planet extends Unit {
 		//Do nothing, override this
 	}
 	//A method to spawn defenders. Likely overriden
-	protected void spawnDefenders(){
+	public void spawnDefenders(){
 	Unit fort = GameActivity.getFortress();
-	float fortX=fort.getX()+fort.getRadius()/2;
+	float fortX= fort.getX()+fort.getRadius()/2;
 	float fortY = fort.getY()+fort.getRadius()/2;
 	float screenHeight = GameActivity.getScreenHeight();
 	float screenWidth = GameActivity.getScreenWidth();
@@ -90,10 +89,11 @@ public abstract class Planet extends Unit {
 		double currentDegree = 0;
 		double degreeChange = (double) 360/numOfDefenders;
 		for(int i = 0; i<numOfDefenders; i++){
-			float x = (float) (screenWidth/2 + radius*Math.cos(Math.toRadians(currentDegree))); 
-			float y = (float) (screenHeight/2 + radius*Math.sin(Math.toRadians(currentDegree)));
+			int x = (int) (screenWidth/2 + radius*Math.cos(Math.toRadians(currentDegree))); 
+			int y = (int) (screenHeight/2 + radius*Math.sin(Math.toRadians(currentDegree)));
 			currentDegree += degreeChange;
-			Unit moon = new Unit("New name", defenderName, x, y, 5);
+			Unit moon = new Unit("New name", defenderName, x, y, 2);
+			moon.setKillable(false);
 			moon.moveNormally(fortX, fortY);
 			Unit.addMoon(moon);
 		}

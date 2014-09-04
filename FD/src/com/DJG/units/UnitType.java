@@ -11,6 +11,7 @@ import com.DJG.abilities.Coin;
 import com.DJG.fd.GameActivity;
 import com.DJG.fd.R;
 import com.DJG.planets.Planet;
+import com.DJG.screenelements.ScreenElement;
 
 public class UnitType {
 	
@@ -54,14 +55,15 @@ public class UnitType {
 		Planet.initPlanetTypes();
 		
 		//Defensive units, Will add own class later
-		getAllUnitTypes().add(new UnitType("Fire Defender Moon", 50, 0f,true, R.drawable.fire_asteroid, 1, 0));
-		getAllUnitTypes().add(new UnitType("Mars Moon", 50, 0f, true, R.drawable.asteroid, 2, 0));
+		getAllUnitTypes().add(new UnitType("Fire Defender Moon", 50, 0f,true, R.drawable.fire_asteroid, 1, 0,"Moon"));
+		getAllUnitTypes().add(new UnitType("Mars Moon", 50, 0f, true, R.drawable.asteroid, 2, 0,"Moon"));
 	}
 	
 	public static UnitType getUnitType(String searchType) {
 		UnitType foundUnitType = null;
 		synchronized(allUnitTypesLock) {
-			for(UnitType u : getAllUnitTypes()) {
+  	  		for(int i = 0; i < getAllUnitTypes().size(); i++) {
+  	  			UnitType u = getAllUnitTypes().get(i);
 				if(u.getType().equals(searchType)) {
 					foundUnitType = u;
 					break;
@@ -192,7 +194,8 @@ public class UnitType {
 	public static ArrayList<UnitType> getAllOf(String s) {
 		synchronized(allUnitTypesLock) {
 			ArrayList a = new ArrayList<UnitType>();
-			for(UnitType u : allUnitTypes) {
+  	  		for(int i = 0; i < getAllUnitTypes().size(); i++) {
+  	  			UnitType u = getAllUnitTypes().get(i);
 				if(u.getMetaType().equals(s)) {
 					a.add(u);
 				}

@@ -14,7 +14,8 @@ public class Drop {
 	private static Random r = new Random();
 	
 	public static void initAbilityDrops() {
-  		for(Ability a : Ability.getEquippedAbilities()) {
+  		for(int i = 0; i < Ability.getEquippedAbilities().size(); i++) {
+  			Ability a = Ability.getEquippedAbilities().get(i);
   			UnitType.addUnitType(new UnitType(a.getType(),"Ability Drop",a.getRadius(),0, true, a.getBMP(), 1, 0));
   		}
 	}

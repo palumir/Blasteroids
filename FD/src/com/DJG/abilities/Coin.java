@@ -85,7 +85,7 @@ public class Coin {
 	}
 	
 	public static void updateCoins() {
-		GameActivity.coinsText = getCoins() + "";
+		GameActivity.coinsText = Integer.toString(getCoins());
 	}
 	
 	public long getStartTime() {

@@ -8,10 +8,8 @@ public class Saturn extends Planet {
 		gravity = 1f;
 		defenderName = "Fire Defender Moon";
 		radiusOfDefenders = 200;
-		numOfDefenders = 8;
+		numOfDefenders = 1;
 	}
-	
-	
 	
 	public void afterWave(){
 		spawnDefenders();

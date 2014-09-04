@@ -67,7 +67,7 @@ public class TouchEvent {
     			}
     		}
     		else if(action == android.view.MotionEvent.ACTION_UP) {
-    			ScreenElement touchedElement = ScreenElement.getScreenElementAt(pos1, pos2);
+    			ScreenElement touchedElement = ScreenElement.getScreenElementAt(pos1, pos2,"Store");
     			if(touchedElement == null) {
     				grabbedAbility = null;
     				grabbedPlanet = null;
@@ -89,7 +89,7 @@ public class TouchEvent {
     					}
     				}
 	    			// Respond to a purchase.
-    				else if(grabbedScreenElement != null && grabbedScreenElement==touchedElement && grabbedScreenElement.getType() == "Button" && grabbedScreenElement.getName() == "Buy") {
+    				else if(grabbedScreenElement != null && grabbedScreenElement==touchedElement && grabbedScreenElement.getType() == "Drawn myButton" && grabbedScreenElement.getName() == "Buy") {
 	    				Ability attachedAbility = grabbedScreenElement.getAttachedAbility();
 	    				if(attachedAbility!=null) {
 	    					attachedAbility.buy();
@@ -100,7 +100,7 @@ public class TouchEvent {
 	    				}
 	    			}
 	    			// Respond to equip click
-	    			else if(grabbedScreenElement != null && grabbedScreenElement==touchedElement && grabbedScreenElement.getType() == "Button" && grabbedScreenElement.getName() == "Equip") {
+	    			else if(grabbedScreenElement != null && grabbedScreenElement==touchedElement && grabbedScreenElement.getType() == "Drawn myButton" && grabbedScreenElement.getName() == "Equip") {
 	    				Ability attachedAbility = grabbedScreenElement.getAttachedAbility();
 	    				grabbedAbility = attachedAbility;
 	    				UnitType attachedPlanet = grabbedScreenElement.getAttachedPlanet();
@@ -142,9 +142,9 @@ public class TouchEvent {
     			}
     		}
     		else if(action == android.view.MotionEvent.ACTION_UP) {
-    			ScreenElement touchedElement = ScreenElement.getScreenElementAt(pos1, pos2);
+    			ScreenElement touchedElement = ScreenElement.getScreenElementAt(pos1, pos2, "Campaign");
 	    			// Respond to a purchase.
-    				if(grabbedScreenElement != null && grabbedScreenElement==touchedElement && grabbedScreenElement.getType() == "Button") {
+    				if(grabbedScreenElement != null && grabbedScreenElement==touchedElement && grabbedScreenElement.getType() == "Drawn myButton") {
 	    				int attachedNum = Integer.parseInt(grabbedScreenElement.getName());
 	    				CampaignActivity.startGame(attachedNum*10);
 	    			}
@@ -197,7 +197,7 @@ public class TouchEvent {
 	    if(event.getPointerCount() <= 1) {
 	    	if(!(grabbedScreenElement == null && secondGrabbedScreenElement != null)) {
 	    		if(action == android.view.MotionEvent.ACTION_DOWN) {
-	    			grabbedScreenElement = ScreenElement.getScreenElementAt(pos1,pos2);
+	    			grabbedScreenElement = ScreenElement.getScreenElementAt(pos1,pos2,"Game");
 	    		}
 	    		else if(action == android.view.MotionEvent.ACTION_UP) {
 	    			if(grabbedScreenElement != null) {
@@ -208,7 +208,7 @@ public class TouchEvent {
 	    	}
 	    	else {
 	    		if(action == android.view.MotionEvent.ACTION_DOWN) {
-	    			secondGrabbedScreenElement = ScreenElement.getScreenElementAt(pos1,pos2);
+	    			secondGrabbedScreenElement = ScreenElement.getScreenElementAt(pos1,pos2,"Game");
 	    		}
 	    		else if(action == android.view.MotionEvent.ACTION_UP) {
 	    			if(secondGrabbedScreenElement != null) {
@@ -227,10 +227,10 @@ public class TouchEvent {
 			
 		    if(action == android.view.MotionEvent.ACTION_POINTER_DOWN) {
 		    	if(event.getActionIndex() == event.getPointerId(0)){
-		    		grabbedScreenElement = ScreenElement.getScreenElementAt(pos1,pos2);
+		    		grabbedScreenElement = ScreenElement.getScreenElementAt(pos1,pos2,"Game");
 		    	}
 		    	if(event.getActionIndex() == event.getPointerId(1)) {
-		    		secondGrabbedScreenElement = ScreenElement.getScreenElementAt(pos1Second,pos2Second);
+		    		secondGrabbedScreenElement = ScreenElement.getScreenElementAt(pos1Second,pos2Second,"Game");
 		    	}
 		    }
 		    else if(action == android.view.MotionEvent.ACTION_POINTER_UP) {

@@ -21,6 +21,7 @@ public class Slow {
 	// General ability attributes. Slows are static at the moment.
 	private long startTime;
 	private int duration = 2000;
+	public static float slowSpeed = .25f;
 	
 	// Bitmap
 	public static Bitmap slowBMP = GameActivity.makeTransparent(BitmapFactory.decodeResource(GameActivity.gameContext.getResources(), R.drawable.snowflake));
