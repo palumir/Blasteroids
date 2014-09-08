@@ -5,7 +5,6 @@ import java.util.Random;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -163,7 +162,8 @@ SharedPreferences prefs;
 			ScreenElement title =  new ScreenElement("Text","Select a Wave",GameActivity.getScreenWidth()/2 - 200,GameActivity.getScreenHeight()/8,"Campaign");
 			title.setTextSize(62);
 			c1.add(title);
-			for(int j = 0; j<(int)Campaign.campaignMax/10; j++){
+			int i = 0;
+			for(int j = 0; j<=(int)MainActivity.getHighScore()/10; j++){
 				myButton goButton = new myButton(Integer.toString(j+1),GameActivity.getScreenWidth()/6 + seperationX,start + 200 + seperationY,80,43,"Campaign");
 				ScreenElement descButton = new ScreenElement(
 						"Text",
@@ -176,6 +176,27 @@ SharedPreferences prefs;
 				c1.add(goButton);
 				c1.add(descButton);
 				seperationX = seperationX + 225;
+				i=j;
+				if(GameActivity.getScreenWidth()/3 + seperationX > GameActivity.getScreenWidth()) {
+					seperationX = 0;
+					seperationY = seperationY + 100;
+				}
+			}
+			for(int j = i+1; j<=(int)Campaign.campaignMax/10; j++){
+				myButton goButton = new myButton(Integer.toString(j+1),GameActivity.getScreenWidth()/6 + seperationX,start + 200 + seperationY,80,43,"Campaign");
+				goButton.setClickable(false);
+				ScreenElement descButton = new ScreenElement(
+						"Text",
+						Integer.toString(j*10+1),
+						GameActivity.getScreenWidth()/6 + seperationX - 50,
+						start + 200 + seperationY,
+						"Campaign"
+						);
+				descButton.setTextSize(35);
+				c1.add(goButton);
+				c1.add(descButton);
+				seperationX = seperationX + 225;
+				i=j;
 				if(GameActivity.getScreenWidth()/3 + seperationX > GameActivity.getScreenWidth()) {
 					seperationX = 0;
 					seperationY = seperationY + 100;
