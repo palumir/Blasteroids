@@ -25,11 +25,8 @@ public class Campaign {
 		//// LEVEL ONE ///////////////////////////////////////////////////
 		//////////////////////////////////////////////////////////////////
 		case 1:
-			genInfo.add(new GeneratorInfo("Cat Gunner", 2, spawnSystem.FullRandom,0,250));
-			genInfo.add(new GeneratorInfo("Cat", 2, spawnSystem.FullRandom,0,250));
-			genInfo.add(new GeneratorInfo("Asteroid", 2, spawnSystem.FullRandom));
-			genInfo.add(new GeneratorInfo("Fire Asteroid", 2, spawnSystem.FullRandom));
-			genInfo.add(new GeneratorInfo("Ice Asteroid", 2, spawnSystem.FullRandom));
+			genInfo.add(new GeneratorInfo("Asteroid", 1, spawnSystem.Cardinal));
+			genInfo.add(new GeneratorInfo("Asteroid", 1, spawnSystem.Cardinal, 3));
 			break;
 		/*case 0: 
 			Cthulu.battleStart();
@@ -112,7 +109,7 @@ public class Campaign {
 		//////////////////////////////////////////////////////////////////
 		case 11:
 			genInfo.add(new GeneratorInfo("Asteroid", 15,spawnSystem.Spiral));
-			genInfo.add(new GeneratorInfo("Splitter Medium", 5,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Splitter Medium", 2,spawnSystem.Spiral));
 			genInfo.add(new GeneratorInfo("Asteroid", 5,spawnSystem.Spiral));
 			genInfo.add(new GeneratorInfo("Splitter Medium", 2,spawnSystem.Spiral));
 			genInfo.add(new GeneratorInfo("Asteroid", 5,spawnSystem.Spiral));
@@ -137,8 +134,8 @@ public class Campaign {
 			genInfo.add(new GeneratorInfo("Splitter Medium", 1,spawnSystem.Spiral));
 			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.Spiral));
 			genInfo.add(new GeneratorInfo("Splitter Medium", 1,spawnSystem.Spiral));
-			genInfo.add(new GeneratorInfo("Fire Asteroid", 10,spawnSystem.FullRandom,0,600));
-			genInfo.add(new GeneratorInfo("Fire Asteroid", 10,spawnSystem.FullRandom,0,700));
+			//genInfo.add(new GeneratorInfo("Fire Asteroid", 10,spawnSystem.FullRandom,0,600));
+			//genInfo.add(new GeneratorInfo("Fire Asteroid", 10,spawnSystem.FullRandom,0,700));
 			break;
 		case 12:
 			genInfo.add(new GeneratorInfo("Fire Asteroid", 20,spawnSystem.Circle));	
@@ -183,23 +180,28 @@ public class Campaign {
 			genInfo.add(new GeneratorInfo("Cat", 1,spawnSystem.Circle));
 			break;
 		case 16:
-			genInfo.add(new GeneratorInfo("Splitter Big", 2,spawnSystem.FullRandom,1));
+			genInfo.add(new GeneratorInfo("Splitter Big", 2,spawnSystem.FullRandom,1,-200));
 			break;
 		case 17:
+		
 			genInfo.add(new GeneratorInfo("Cat",32,spawnSystem.Spiral));
 			break;
 		case 18:
-			genInfo.add(new GeneratorInfo("Cat", 7,spawnSystem.LineFromNorth,2));
+			
+			genInfo.add(new GeneratorInfo("Cat",8, spawnSystem.FullRandom,1, -50));
+			//genInfo.add(new GeneratorInfo("Cat", 7,spawnSystem.LineFromNorth,2));
 			genInfo.add(new GeneratorInfo("Cat", 7,spawnSystem.LineFromNorth,2,100));
+			genInfo.add(new GeneratorInfo("Ice Asteroid", 4,spawnSystem.FullRandom,2,100));
 			genInfo.add(new GeneratorInfo("Cat", 7,spawnSystem.LineFromNorth,2,200));
 			genInfo.add(new GeneratorInfo("Cat", 7,spawnSystem.LineFromNorth,2,350));
 			genInfo.add(new GeneratorInfo("Cat", 7,spawnSystem.LineFromNorth,2,600));
-			genInfo.add(new GeneratorInfo("Cat", 7,spawnSystem.LineFromSouth,2));
+			//genInfo.add(new GeneratorInfo("Cat", 7,spawnSystem.LineFromSouth,2));
 			genInfo.add(new GeneratorInfo("Cat", 15,spawnSystem.LineFromEast,4,400));
 			genInfo.add(new GeneratorInfo("Cat", 7,spawnSystem.LineFromSouth,2,100));
 			genInfo.add(new GeneratorInfo("Cat", 7,spawnSystem.LineFromSouth,2,200));
 			genInfo.add(new GeneratorInfo("Cat", 7,spawnSystem.LineFromSouth,2,350));
 			genInfo.add(new GeneratorInfo("Cat", 7,spawnSystem.LineFromSouth,2,450));
+			genInfo.add(new GeneratorInfo("Ice Asteroid", 4,spawnSystem.FullRandom,2,500));
 			genInfo.add(new GeneratorInfo("Cat", 7,spawnSystem.LineFromSouth,2,600));
 			break;
 		case 19:
@@ -257,7 +259,12 @@ public class Campaign {
 			genInfo.add(new GeneratorInfo("Fire Asteroid", 80,spawnSystem.Spiral,1,600));
 			break;
 		case 25:
-			genInfo.add(new GeneratorInfo("Cat", 100,spawnSystem.Cardinal));
+			genInfo.add(new GeneratorInfo("Cat", 8,spawnSystem.WallFromWest,0,100));
+			genInfo.add(new GeneratorInfo("Cat", 8,spawnSystem.WallFromEast,0,100));
+			genInfo.add(new GeneratorInfo("Cat", 4,spawnSystem.WallFromNorth,0,100));
+			genInfo.add(new GeneratorInfo("Cat", 4,spawnSystem.WallFromSouth,0,100));
+			genInfo.add(new GeneratorInfo("Asteroid", 12, spawnSystem.Spiral, 4, 25));
+			genInfo.add(new GeneratorInfo("Ice Asteroid", 4,spawnSystem.FullRandom,10,60));
 			break;
 		case 26:
 			genInfo.add(new GeneratorInfo("Splitter Medium", 30,spawnSystem.FullRandom));
@@ -699,6 +706,25 @@ public class Campaign {
 			genInfo.add(new GeneratorInfo("Cat Gunner", 10,spawnSystem.Circle));
 			genInfo.add(new GeneratorInfo("Asteroid", 10,spawnSystem.Circle));
 			genInfo.add(new GeneratorInfo("Cat", 10,spawnSystem.Circle));
+			break;
+		case 51:
+			genInfo.add(new GeneratorInfo("Asteroid", 7, spawnSystem.WallFromEast ));
+			genInfo.add(new GeneratorInfo("Asteroid", 7, spawnSystem.WallFromWest ));
+			genInfo.add(new GeneratorInfo("Asteroid", 4, spawnSystem.WallFromSouth));
+			genInfo.add(new GeneratorInfo("Asteroid", 4, spawnSystem.WallFromNorth ));
+			genInfo.add(new GeneratorInfo("Asteroid", 10, spawnSystem.WallFromEast ));
+			genInfo.add(new GeneratorInfo("Asteroid", 10, spawnSystem.WallFromWest ));
+			genInfo.add(new GeneratorInfo("Asteroid", 7, spawnSystem.WallFromSouth));
+			genInfo.add(new GeneratorInfo("Asteroid", 7, spawnSystem.WallFromNorth ));
+			genInfo.add(new GeneratorInfo("Cat", 3, spawnSystem.FullRandom));
+			genInfo.add(new GeneratorInfo("Fire Asteroid", 5, spawnSystem.FullRandom));
+			break;
+		case 52:
+			genInfo.add(new GeneratorInfo("Asteroid", 4, spawnSystem.WallFromNorth ));
+			genInfo.add(new GeneratorInfo("Asteroid", 7, spawnSystem.WallFromNorth ));
+			genInfo.add(new GeneratorInfo("Asteroid", 10, spawnSystem.WallFromNorth ));
+			genInfo.add(new GeneratorInfo("Asteroid", 13, spawnSystem.WallFromNorth ));
+			genInfo.add(new GeneratorInfo("Asteroid", 18, spawnSystem.WallFromNorth ));
 			break;
 		default:
 			genInfo.add(new GeneratorInfo("Asteroid", Wave.getR().nextInt((int)waveNumber) +1,spawnSystem.FullRandom));

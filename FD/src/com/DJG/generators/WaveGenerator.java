@@ -34,6 +34,8 @@ public class WaveGenerator {
 	private int southTracker = 0;
 	private int eastTracker = 0;
 	private int westTracker = 0;
+	private int wallNorthTracker = 0;
+	private int wallSouthTracker = 0;
 	private int wallWestTracker = 0;
 	private int wallEastTracker = 0;
 	private int spiralNumber = 30;
@@ -64,7 +66,9 @@ public class WaveGenerator {
 				}
 				break;
 			case Spiral:
+				spiralNumber+= g.startingDifference;
 				for(int i =0; i<g.unitNumbers; i++){
+					
 					xy = spiralXY();
 					w.add(new Unit("Any Name",g.unitType,xy.x,xy.y, spinVal));
 				}
@@ -135,7 +139,7 @@ public class WaveGenerator {
 				int range = bottom - top;
 				for(int i = 0; i < g.unitNumbers; i++){
 					int yPos = top+ range*i/g.unitNumbers;
-					w.add(new Unit("Any Name", g.unitType, wallLocation, yPos));
+					w.add(new Unit("Any Name", g.unitType, wallLocation, yPos, spinVal));
 				}	
 				wallEastTracker++;
 				break;
@@ -147,9 +151,35 @@ public class WaveGenerator {
 				int wRange = wBottom - wTop;
 				for(int i = 0; i < g.unitNumbers; i++){
 					int yPos = wTop+ wRange*i/g.unitNumbers;
-					w.add(new Unit("Any Name", g.unitType, wWallLocation, yPos));
+					w.add(new Unit("Any Name", g.unitType, wWallLocation, yPos, spinVal));
 				}	
 				wallWestTracker++;
+				break;
+			case WallFromNorth:
+				int nWallLocation = 0 + g.startingDifference - 200*wallNorthTracker;
+				float nRatio = nWallLocation/screenHeight;
+				int nRight= (int) (screenWidth*nRatio);
+				int nLeft = -(nRight- screenWidth);
+				int nRange = nRight - nLeft;
+				w.add(new Unit("Any Name", g.unitType, 0, nWallLocation));
+				for(int i = 0; i < g.unitNumbers; i++){
+					int xPos = nLeft+ nRange*i/g.unitNumbers;
+					w.add(new Unit("Any Name", g.unitType, xPos, nWallLocation,spinVal));
+				}	
+				
+				wallNorthTracker++;
+				break;
+			case WallFromSouth:
+				int sWallLocation = screenHeight+ g.startingDifference - 200*wallNorthTracker;
+				float sRatio = sWallLocation/screenHeight;
+				int sRight= (int) (screenWidth*sRatio);
+				int sLeft = -(sRight- screenWidth);
+				int sRange = sRight - sLeft;
+				for(int i = 0; i < g.unitNumbers; i++){
+					int xPos = sLeft+ sRange*i/g.unitNumbers;
+					w.add(new Unit("Any Name", g.unitType, xPos, sWallLocation,spinVal));
+				}	
+				wallSouthTracker++;
 				break;
 			default:
 				for (int i = 0; i<g.unitNumbers; i++){
@@ -169,6 +199,10 @@ public class WaveGenerator {
 		southTracker = 0;
 		eastTracker = 0;
 		westTracker = 0;
+		wallEastTracker=0;
+		wallWestTracker=0;
+		wallSouthTracker=0;
+		wallNorthTracker=0;
 		spiralNumber = 30;
 		circleRadius = 0;
 	}
