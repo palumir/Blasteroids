@@ -95,9 +95,9 @@ public class MainActivity extends ActionBarActivity {
 			Intent intent = new Intent(currContext, Store.class);
 			currContext.startActivity(intent);
 		}
-		if(i=="Credits") {
-			//Intent intent = new Intent(currContext, Credits.class);
-			//currContext.startActivity(intent);
+		if(i=="Options") {
+			Intent intent = new Intent(currContext, Options.class);
+		    currContext.startActivity(intent);
 		}
 
     }
@@ -122,10 +122,17 @@ public class MainActivity extends ActionBarActivity {
 		myButton upgrades = new myButton("Upgrades",width/2,height/5 + 6*height/20,(width - width/1.7f),height/20,"Main");
 		ScreenElement upgradesText =  new ScreenElement("Text","Upgrades",width/2 - 130,height/4.7f + 6*height/20,"Main");
 		upgradesText.setTextSize(60);
-		myButton credits = new myButton("Credits",width/2,height/5 + 9*height/20,(width - width/1.7f),height/20,"Main");
-		ScreenElement creditsText =  new ScreenElement("Text","Credits",width/2 - 100,height/4.7f + 9*height/20,"Main");
+		myButton credits = new myButton("Options",width/2,height/5 + 9*height/20,(width - width/1.7f),height/20,"Main");
+		ScreenElement creditsText =  new ScreenElement("Text","Options",width/2 - 100,height/4.7f + 9*height/20,"Main");
 		creditsText.setTextSize(60);
 		prefs = this.getSharedPreferences("flickOffGame", Context.MODE_PRIVATE);
+		/*ScreenElement descButton = new ScreenElement(
+				"Text",
+				Integer.toString(j*10+1),
+				GameActivity.getScreenWidth()/6 + seperationX - 22,
+				start + 210 + seperationY,
+				"Campaign"
+				);*/
     }
 
 	@Override
@@ -192,8 +199,8 @@ public class MainActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public static int getHighScore() {
-		return prefs.getInt("highScoreSurvival", 0);
+    public static int getHighScore(String mode) {
+		return prefs.getInt(mode + "highScore", 0);
 	}
 
 	/**

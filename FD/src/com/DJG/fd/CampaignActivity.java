@@ -163,13 +163,13 @@ SharedPreferences prefs;
 			title.setTextSize(62);
 			c1.add(title);
 			int i = 0;
-			for(int j = 0; j<=(int)MainActivity.getHighScore()/10; j++){
+			for(int j = 0; j<=(int)MainActivity.getHighScore("Campaign")/10; j++){
 				myButton goButton = new myButton(Integer.toString(j+1),GameActivity.getScreenWidth()/6 + seperationX,start + 200 + seperationY,80,43,"Campaign");
 				ScreenElement descButton = new ScreenElement(
 						"Text",
 						Integer.toString(j*10+1),
-						GameActivity.getScreenWidth()/6 + seperationX - 50,
-						start + 200 + seperationY,
+						GameActivity.getScreenWidth()/6 + seperationX - 22,
+						start + 210 + seperationY,
 						"Campaign"
 						);
 				descButton.setTextSize(35);
@@ -188,8 +188,8 @@ SharedPreferences prefs;
 				ScreenElement descButton = new ScreenElement(
 						"Text",
 						Integer.toString(j*10+1),
-						GameActivity.getScreenWidth()/6 + seperationX - 50,
-						start + 200 + seperationY,
+						GameActivity.getScreenWidth()/6 + seperationX - 22,
+						start + 210 + seperationY,
 						"Campaign"
 						);
 				descButton.setTextSize(35);

@@ -340,10 +340,10 @@ public class GameActivity extends ActionBarActivity {
 				+ " defeated you.";
 		castleHP = "";
 		coinsText = "";
-		int currHighScore = prefs.getInt("highScoreSurvival", 0);
+		int currHighScore = prefs.getInt(mode + "highScoreSurvival", 0);
 		if ((Wave.getCurrentWaveNumber() + 1) > currHighScore) {
 			Editor editor = prefs.edit();
-			editor.putInt("highScoreSurvival",
+			editor.putInt(mode + "highScoreSurvival",
 					(int)(Wave.getCurrentWaveNumber() + 1));
 			highScoreText = "New high score!";
 			previousHighScoreText = "Previous: Wave " + currHighScore + ".";
