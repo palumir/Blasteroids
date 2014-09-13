@@ -145,7 +145,7 @@ public class TouchEvent {
     		else if(action == android.view.MotionEvent.ACTION_UP) {
     			ScreenElement touchedElement = ScreenElement.getScreenElementAt(pos1, pos2, "Campaign");
 	    			// Respond to a purchase.
-    				if(grabbedScreenElement != null && grabbedScreenElement==touchedElement && grabbedScreenElement.getType() == "Drawn myButton") {
+    				if(grabbedScreenElement != null && grabbedScreenElement==touchedElement && grabbedScreenElement.getType().equals("Drawn myButton")) {
 	    				int attachedNum = Integer.parseInt(grabbedScreenElement.getName());
 	    				if(((myButton)grabbedScreenElement).isClickable()) {
 	    					CampaignActivity.startGame(attachedNum*10);

@@ -22,7 +22,7 @@ public class Turret {
 	// General ability attributes. Turrets are static at the moment.
 	private long startTime;
 	private int duration = 3000;
-	private int attackCooldown = 100;
+	private int attackCooldown = 200;
 	private double lastAttackTime = 0;
 	
 	// Bitmap

@@ -1,18 +1,13 @@
 package com.DJG.waves;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Random;
 
-import android.util.Log;
+import android.content.SharedPreferences.Editor;
 
 import com.DJG.fd.GameActivity;
-import com.DJG.generators.GeneratorInfo;
-import com.DJG.generators.GeneratorInfo.spawnSystem;
+import com.DJG.fd.MainActivity;
 import com.DJG.generators.WaveGenerator;
-import com.DJG.planets.Planet;
-import com.DJG.planets.Saturn;
 import com.DJG.units.Unit;
-import com.DJG.units.UnitType;
 
 class XY {
 	public int x;
@@ -127,6 +122,12 @@ public class Wave extends ArrayList<Unit> {
 	}
 	
 	static void sendWave(double waveNumber){
+		if ((Wave.getCurrentWaveNumber() + 1) > MainActivity.getHighScore(GameActivity.getMode())) {
+			Editor editor = GameActivity.prefs.edit();
+			editor.putInt(GameActivity.getMode() + "highScore",
+					(int)(Wave.getCurrentWaveNumber() + 1));
+			editor.commit();
+		} 
 		if(GameActivity.getMode() == "Campaign") {
 			Campaign.sendCampaignWave(waveNumber);
 		}

@@ -14,7 +14,7 @@ public class Gunner {
 		float xDistance = (width/2 - x);
 		float distanceXY = (float) Math.sqrt(yDistance * yDistance
 				+ xDistance * xDistance);
-		int delta = ((int) width/2 - 20);
+		int delta = ((int) width/2 - 20) - GameActivity.getR().nextInt(50);
 		return (distanceXY <= delta);
 	}
 	

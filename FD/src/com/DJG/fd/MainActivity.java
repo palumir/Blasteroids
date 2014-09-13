@@ -2,14 +2,12 @@ package com.DJG.fd;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
+import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -30,6 +28,7 @@ public class MainActivity extends ActionBarActivity {
 	public final static String EXTRA_MESSAGE = "com.DJG.fd.MESSAGE";
 	
 	public Thread mainThread;
+	public static DisplayMetrics metrics;
 	public View currentView;
 	private boolean doOnce = true;
 	private static Context currContext;
@@ -70,6 +69,7 @@ public class MainActivity extends ActionBarActivity {
 		setContentView(v);
 		currentView = v;
 		if(doOnce) {
+	    	metrics = getResources().getDisplayMetrics();
 			currContext = v.getContext();
 			initMain();
 			playMain();
@@ -95,6 +95,10 @@ public class MainActivity extends ActionBarActivity {
 			Intent intent = new Intent(currContext, Store.class);
 			currContext.startActivity(intent);
 		}
+		if(i=="Tutorial") {
+			Intent intent = new Intent(currContext, Options.class);
+		    currContext.startActivity(intent);
+		}
 		if(i=="Options") {
 			Intent intent = new Intent(currContext, Options.class);
 		    currContext.startActivity(intent);
@@ -112,27 +116,23 @@ public class MainActivity extends ActionBarActivity {
 		float height = display.getHeight();
 		float width = display.getWidth();
 		ScreenElement title =  new ScreenElement("Text","Blasteroids",width/2 - 200,height/8,"Main");
-		title.setTextSize(84);
+		title.setTextSize(GameActivity.getScreenWidth()/9);
 		myButton campaign = new myButton("Campaign",width/2,height/5,(width - width/1.7f),height/20,"Main");
 		ScreenElement campaignText =  new ScreenElement("Text","Campaign",width/2 - 135,height/4.7f,"Main");
-		campaignText.setTextSize(60);
+		campaignText.setTextSize(GameActivity.getScreenWidth()/12);
 		myButton survival = new myButton("Survival",width/2,height/5 + 3*height/20,(width - width/1.7f),height/20,"Main");
 		ScreenElement survivalText =  new ScreenElement("Text","Survival",width/2 - 110,height/4.7f + 3*height/20,"Main");
-		survivalText.setTextSize(60);
+		survivalText.setTextSize(GameActivity.getScreenWidth()/12);
 		myButton upgrades = new myButton("Upgrades",width/2,height/5 + 6*height/20,(width - width/1.7f),height/20,"Main");
 		ScreenElement upgradesText =  new ScreenElement("Text","Upgrades",width/2 - 130,height/4.7f + 6*height/20,"Main");
-		upgradesText.setTextSize(60);
-		myButton credits = new myButton("Options",width/2,height/5 + 9*height/20,(width - width/1.7f),height/20,"Main");
-		ScreenElement creditsText =  new ScreenElement("Text","Options",width/2 - 100,height/4.7f + 9*height/20,"Main");
-		creditsText.setTextSize(60);
+		upgradesText.setTextSize(GameActivity.getScreenWidth()/12);
+		myButton tutorial = new myButton("Tutorial",width/2,height/5 + 9*height/20,(width - width/1.7f),height/20,"Main");
+		ScreenElement tutorialText =  new ScreenElement("Text","Tutorial",width/2 - 100,height/4.7f + 9*height/20,"Main");
+		tutorialText.setTextSize(GameActivity.getScreenWidth()/12);
+		myButton options = new myButton("Options",width/2,height/5 + 12*height/20,(width - width/1.7f),height/20,"Main");
+		ScreenElement optionsText =  new ScreenElement("Text","Options",width/2 - 100,height/4.7f + 12*height/20,"Main");
+		optionsText.setTextSize(GameActivity.getScreenWidth()/12);
 		prefs = this.getSharedPreferences("flickOffGame", Context.MODE_PRIVATE);
-		/*ScreenElement descButton = new ScreenElement(
-				"Text",
-				Integer.toString(j*10+1),
-				GameActivity.getScreenWidth()/6 + seperationX - 22,
-				start + 210 + seperationY,
-				"Campaign"
-				);*/
     }
 
 	@Override

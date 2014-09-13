@@ -10,6 +10,7 @@ import android.graphics.Paint;
 
 import com.DJG.abilities.Ability;
 import com.DJG.fd.GameActivity;
+import com.DJG.fd.MainActivity;
 import com.DJG.fd.R;
 import com.DJG.units.UnitType;
 
@@ -82,6 +83,34 @@ public class ScreenElement {
 			addScreenElement(this);
 		}
 	}
+	
+	public ScreenElement(
+			String newType,
+			String newText,
+			float xSpawn,
+			float ySpawn,
+			float myWidth,
+			float myHeight,
+			String newActivity
+			) {
+		// Set it's coordinates.
+		setName(newText);
+		type = newType;
+		x = xSpawn;
+		y = ySpawn;
+		setWidth((int)myWidth);
+		setHeight((int)myHeight);
+		xNew = xSpawn;
+		yNew = ySpawn;
+		activity = newActivity;
+		color = Color.WHITE;
+		textsize = 50;
+		
+		// Add it to the list of ScreenElements to be drawn.
+		synchronized(allScreenElementsLock) {
+			addScreenElement(this);
+		}
+	}
 
 	public ScreenElement(String newName, String newType, float xSpawn, float ySpawn, int newWidth, int newHeight, Bitmap newBMP) {
 		
@@ -92,8 +121,8 @@ public class ScreenElement {
 		y = ySpawn;
 		xNew = xSpawn;
 		yNew = ySpawn;
-		setWidth(newWidth);
-		setHeight(newHeight);
+		setWidth(newBMP.getScaledWidth(MainActivity.metrics));
+		setHeight(newBMP.getScaledHeight(MainActivity.metrics));
 		bmp = newBMP;
 		
 		// Add it to the list of ScreenElements to be drawn.
@@ -190,27 +219,20 @@ public class ScreenElement {
 		}
 	
 	// Get the selected ScreenElement at the coordinates.
-	public static ScreenElement getScreenElementAt(float x, float y) {
-		synchronized(allScreenElementsLock) {
-			
-			// Get all the close ScreenElements.
-			for(int j = 0; j < allScreenElements.size(); j++) {
-				ScreenElement u = allScreenElements.get(j);
-				if(x > u.getX() - 50 && x < u.getX() + u.getWidth() + 50 && y > u.getY() - 50 && y < u.getY() + u.getHeight() + 50) {
-					return u;
-				}
-			}
-			return null;
-		}
-	}
-	
-	// Get the selected ScreenElement at the coordinates.
 	public static ScreenElement getScreenElementAt(float x, float y, String act) {
 		synchronized(allScreenElementsLock) {
 			
 			// Get all the close ScreenElements.
 			for(int j = 0; j < allScreenElements.size(); j++) {
 				ScreenElement u = allScreenElements.get(j);
+				if(u.getType().equals("Drawn myButton") &&
+						x >= u.getX() - u.getWidth() && 
+						x <= u.getX() + u.getWidth() &&
+						y >= u.getY() - u.getHeight() &&
+						y <= u.getY() + u.getHeight() &&
+						u.getActivity().equals(act)) {
+						return u;
+				}
 				if(x > u.getX() - 50 && x < u.getX() + u.getWidth() + 50 && y > u.getY() - 50 && y < u.getY() + u.getHeight() + 50 && u.getActivity().equals(act)) {
 					return u;
 				}

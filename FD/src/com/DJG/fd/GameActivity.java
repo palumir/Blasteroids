@@ -141,7 +141,7 @@ public class GameActivity extends ActionBarActivity {
 	void drawText(Canvas canvas, Paint myPaint) {
 		myPaint.setStyle(Paint.Style.FILL);
 		myPaint.setStrokeWidth(3);
-		myPaint.setTextSize(50);
+		myPaint.setTextSize(screenWidth/16);
 		myPaint.setColor(Color.WHITE);
 		canvas.drawText(levelText, 50f, 50f, myPaint);
 		canvas.drawText(coinsText, 260f, (float) (screenHeight - 50), myPaint);
@@ -340,10 +340,10 @@ public class GameActivity extends ActionBarActivity {
 				+ " defeated you.";
 		castleHP = "";
 		coinsText = "";
-		int currHighScore = prefs.getInt(mode + "highScoreSurvival", 0);
+		int currHighScore = prefs.getInt(mode + "highScore", 0);
 		if ((Wave.getCurrentWaveNumber() + 1) > currHighScore) {
 			Editor editor = prefs.edit();
-			editor.putInt(mode + "highScoreSurvival",
+			editor.putInt(mode + "highScore",
 					(int)(Wave.getCurrentWaveNumber() + 1));
 			highScoreText = "New high score!";
 			previousHighScoreText = "Previous: Wave " + currHighScore + ".";

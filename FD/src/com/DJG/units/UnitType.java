@@ -9,9 +9,9 @@ import android.util.Log;
 import com.DJG.abilities.Ability;
 import com.DJG.abilities.Coin;
 import com.DJG.fd.GameActivity;
+import com.DJG.fd.MainActivity;
 import com.DJG.fd.R;
 import com.DJG.planets.Planet;
-import com.DJG.screenelements.ScreenElement;
 
 public class UnitType {
 	
@@ -27,36 +27,30 @@ public class UnitType {
 		allUnitTypes = new ArrayList<UnitType>();
 		
 		// Basic Units
-		getAllUnitTypes().add(new UnitType("Asteroid",30,1f, true, R.drawable.asteroid, R.drawable.frozen_asteroid, 1, 10,"Unit"));
-		getAllUnitTypes().add(new UnitType("Fire Asteroid",30,1f,true, R.drawable.fire_asteroid, R.drawable.frozen_asteroid, 1, 10,"Unit"));
-		getAllUnitTypes().add(new UnitType("Ice Asteroid",30,1f,true, R.drawable.ice_asteroid, R.drawable.frozen_asteroid, 1, 10,"Unit"));
-		getAllUnitTypes().add(new UnitType("Cat",50,2f, true, R.drawable.satelite, 1, 10, "Unit"));
-		getAllUnitTypes().add(new UnitType("Cat Gunner",50,2f, true, R.drawable.satelite_gunner, 1, 10, "Unit"));
-		getAllUnitTypes().add(new UnitType("Splitter Huge",200,1.5f,true,R.drawable.splitter_big, 1, 200,"Unit"));
-		getAllUnitTypes().add(new UnitType("Splitter Big",100,1.25f,true,R.drawable.splitter_big, 1, 100,"Unit"));
-		getAllUnitTypes().add(new UnitType("Splitter Medium",50,1f,true,R.drawable.splitter_medium, 1, 25,"Unit"));
-		getAllUnitTypes().add(new UnitType("Splitter Small",25,0.25f,true,R.drawable.splitter_small, 1, 10,"Unit"));
-		getAllUnitTypes().add(new UnitType("MultiClicker 1",30,1f, true, R.drawable.fasteroid, 1, 10,"Unit"));
-		getAllUnitTypes().add(new UnitType("MultiClicker 2",30,1f, true, R.drawable.splitter_medium, 1, 10,"Unit"));
-		getAllUnitTypes().add(new UnitType("MultiClicker 3",30,1f, true, R.drawable.fasteroid, 1, 10,"Unit"));
-		getAllUnitTypes().add(new UnitType("MultiClicker 4",30,1f, true, R.drawable.splitter_medium, 1, 10,"Unit"));
+		getAllUnitTypes().add(new UnitType("Asteroid",1f, true, R.drawable.asteroid, 1, 10,"Unit"));
+		getAllUnitTypes().add(new UnitType("Fire Asteroid",1f,true, R.drawable.fire_asteroid, 1, 10,"Unit"));
+		getAllUnitTypes().add(new UnitType("Ice Asteroid",1f,true, R.drawable.ice_asteroid, 1, 10,"Unit"));
+		getAllUnitTypes().add(new UnitType("Cat",2f, true, R.drawable.satelite, 1, 10, "Unit"));
+		getAllUnitTypes().add(new UnitType("Cat Gunner",2f, true, R.drawable.satelite_gunner, 1, 10, "Unit"));
+		getAllUnitTypes().add(new UnitType("Splitter Big",1.25f,true,R.drawable.splitter_big, 1, 100,"Unit"));
+		getAllUnitTypes().add(new UnitType("Splitter Medium",1f,true,R.drawable.splitter_medium, 1, 25,"Unit"));
+		getAllUnitTypes().add(new UnitType("Splitter Small",0.25f,true,R.drawable.splitter_small, 1, 10,"Unit"));
+		getAllUnitTypes().add(new UnitType("MultiClicker 1",1f, true, R.drawable.fasteroid, 1, 10,"Unit"));
+		getAllUnitTypes().add(new UnitType("MultiClicker 2",1f, true, R.drawable.splitter_medium, 1, 10,"Unit"));
+		getAllUnitTypes().add(new UnitType("MultiClicker 3",1f, true, R.drawable.fasteroid, 1, 10,"Unit"));
+		getAllUnitTypes().add(new UnitType("MultiClicker 4",1f, true, R.drawable.splitter_medium, 1, 10,"Unit"));
 		
 		// Projectile
-		getAllUnitTypes().add(new UnitType("Bullet",20,10f, true, R.drawable.bullet, R.drawable.bullet, 1, 0,"Projectile"));
-		getAllUnitTypes().add(new UnitType("Bomb Bullet",20,10f, true, R.drawable.bomb_bullet, R.drawable.bomb_bullet, 1, 0,"Projectile"));
-		getAllUnitTypes().add(new UnitType("Gunner Bullet",30,1f, true, R.drawable.asteroid, 1, 1,"Unit"));
-		
-		// Cthulu
-		getAllUnitTypes().add(new UnitType("Cthulu Head",100,1f,true,Color.RED,"Square", 1, 0));
-		getAllUnitTypes().add(new UnitType("Cthulu Lazer Arm",100,1f,true,Color.RED,"Square", 1, 0));
-		getAllUnitTypes().add(new UnitType("Cthulu Rocket Arm",100,1f,true,Color.RED,"Circle", 1, 0));
+		getAllUnitTypes().add(new UnitType("Bullet",10f, true, R.drawable.bullet, R.drawable.bullet, 1, 0,"Projectile"));
+		getAllUnitTypes().add(new UnitType("Bomb Bullet",10f, true, R.drawable.bomb_bullet, R.drawable.bomb_bullet, 1, 0,"Projectile"));
+		getAllUnitTypes().add(new UnitType("Gunner Bullet",3f, true, R.drawable.red_orb, 1, 1,"Unit"));
 	
 		//Planets
 		Planet.initPlanetTypes();
 		
 		//Defensive units, Will add own class later
-		getAllUnitTypes().add(new UnitType("Fire Defender Moon", 50, 0f,true, R.drawable.fire_asteroid, 1, 0,"Moon"));
-		getAllUnitTypes().add(new UnitType("Mars Moon", 50, 0f, true, R.drawable.asteroid, 2, 0,"Moon"));
+		getAllUnitTypes().add(new UnitType("Fire Defender Moon", 0f,true, R.drawable.fire_moon, 1, 0,"Moon"));
+		getAllUnitTypes().add(new UnitType("Mars Moon", 0f, true, R.drawable.moon, 2, 0,"Moon"));
 	}
 	
 	public static UnitType getUnitType(String searchType) {
@@ -100,17 +94,32 @@ public class UnitType {
 		setCost(newCost);
 		frozenBMP = bitmap;
 	}
-	
-	public UnitType(String newType, int newRadius, float newMoveSpeed, boolean isKillable, int newBitMapLink, int newHP, int newDamage) {
+
+	public UnitType(String newType, float newMoveSpeed, boolean isKillable, int newBitMapLink, int newHP, int newDamage, String myMetaType) {
 		type = newType;
-		radius = newRadius;
 		moveSpeed = newMoveSpeed;
 		metaType = "Unit";
 		killable = isKillable;
+		metaType = myMetaType;
 		bitmap = GameActivity.makeTransparent(BitmapFactory.decodeResource(GameActivity.gameContext.getResources(), newBitMapLink));
+		radius = bitmap.getScaledWidth(MainActivity.metrics)/2;
+		Log.d(type,""+radius);
 		maxHitPoints = newHP;
 		damage = newDamage;
 		frozenBMP = bitmap;
+	}
+	
+	public UnitType(String newType, float newMoveSpeed, boolean isKillable, int newBitMapLink, int myFrozen, int newHP, int newDamage, String myMetaType) {
+		type = newType;
+		moveSpeed = newMoveSpeed;
+		metaType = "Unit";
+		killable = isKillable;
+		metaType = myMetaType;
+		bitmap = GameActivity.makeTransparent(BitmapFactory.decodeResource(GameActivity.gameContext.getResources(), newBitMapLink));
+		radius = bitmap.getScaledWidth(MainActivity.metrics)/2;
+		maxHitPoints = newHP;
+		damage = newDamage;
+		frozenBMP = GameActivity.makeTransparent(BitmapFactory.decodeResource(GameActivity.gameContext.getResources(), myFrozen));
 	}
 	
 	public UnitType(String newType, int newRadius, float newMoveSpeed, boolean isKillable, int newBitMapLink, int newFrozenBMPLink, int newHP, int newDamage, String newMetaType) {
@@ -162,8 +171,8 @@ public class UnitType {
 		damage = newDamage;
 		frozenBMP = bitmap;
 	}
-	
-    // Unit Type fields. WIP: Seperate into sections when there's lots of values.
+
+	// Unit Type fields. WIP: Seperate into sections when there's lots of values.
 	private String type;
 	private int radius;
 	private boolean killable;

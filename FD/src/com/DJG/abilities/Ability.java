@@ -20,7 +20,7 @@ public class Ability {
 	private static SharedPreferences prefs;
 	private static Editor editor;
 	
-	// All abilities
+	// All abilitiesf
 	private static ArrayList<Ability> equippedAbilities;
 	public static Ability coinAbility;
 	public static ArrayList<Ability> upgradeableAbilities;
@@ -424,12 +424,12 @@ public class Ability {
 			}
 			if(this.getType() == "Turret") {
 				synchronized(Turret.TurretsLock) {
-					Turret newTurret = new Turret(xSpawn,ySpawn,350,20000); // Default slow.
+					Turret newTurret = new Turret(xSpawn,ySpawn,150,20000); // Default slow.
 				}
 			}
 			if(this.getType() == "Bomb Turret") {
 				synchronized(BombTurret.BombTurretsLock) {
-					BombTurret newBombTurret = new BombTurret(xSpawn,ySpawn,350,20000); // Default slow.
+					BombTurret newBombTurret = new BombTurret(xSpawn,ySpawn,125,20000); // Default slow.
 				}
 			}
 			if(this.getType() == "KnockBack") {

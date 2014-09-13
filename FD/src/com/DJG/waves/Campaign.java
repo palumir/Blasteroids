@@ -8,9 +8,11 @@ import com.DJG.generators.GeneratorInfo.spawnSystem;
 
 public class Campaign {
 	
-	public static int campaignMax = 40;
+	public static int campaignMax = 50;
 	
 	static void sendCampaignWave(double waveNumber) {
+		int x=0;
+		int dist =100;
 		Wave myWave = new Wave();
 		Wave.setCurrentWave(myWave);
 		boolean isBoss = false;
@@ -23,6 +25,7 @@ public class Campaign {
 		//// LEVEL ONE ///////////////////////////////////////////////////
 		//////////////////////////////////////////////////////////////////
 		case 1:
+			genInfo.add(new GeneratorInfo("Cat Gunner", 2, spawnSystem.FullRandom,0,250));
 			genInfo.add(new GeneratorInfo("Cat", 2, spawnSystem.FullRandom,0,250));
 			genInfo.add(new GeneratorInfo("Asteroid", 2, spawnSystem.FullRandom));
 			genInfo.add(new GeneratorInfo("Fire Asteroid", 2, spawnSystem.FullRandom));
@@ -214,218 +217,489 @@ public class Campaign {
 			genInfo.add(new GeneratorInfo("Ice Asteroid", 20,spawnSystem.Circle,2));
 			genInfo.add(new GeneratorInfo("Asteroid", 20,spawnSystem.Circle,2));
 			break;
-				//////////////////////////////////////////////////////////////////
-				//// LEVEL THREE /////////////////////////////////////////////////
-				//////////////////////////////////////////////////////////////////
-				case 21:
-					genInfo.add(new GeneratorInfo("Splitter Medium", 4,spawnSystem.Circle));
-					genInfo.add(new GeneratorInfo("Asteroid", 10,spawnSystem.Circle));
-					genInfo.add(new GeneratorInfo("Splitter Medium", 4,spawnSystem.Circle));
-					genInfo.add(new GeneratorInfo("Splitter Medium", 4,spawnSystem.Circle));
-					genInfo.add(new GeneratorInfo("Fire Asteroid", 10,spawnSystem.Circle));
-					genInfo.add(new GeneratorInfo("Splitter Medium", 4,spawnSystem.Circle));
-					genInfo.add(new GeneratorInfo("Splitter Medium", 4,spawnSystem.Circle));
-					genInfo.add(new GeneratorInfo("Fire Asteroid", 10,spawnSystem.Circle));
-					genInfo.add(new GeneratorInfo("Splitter Medium", 6,spawnSystem.Circle));
-					genInfo.add(new GeneratorInfo("Fire Asteroid", 12,spawnSystem.FullRandom,2,600));
-					genInfo.add(new GeneratorInfo("Fire Asteroid", 12,spawnSystem.FullRandom,2,700));
-					break;
-				case 22:
-					genInfo.add(new GeneratorInfo("Fire Asteroid", 150,spawnSystem.FullRandom,10));	
-					break;
-				case 23:
-					genInfo.add(new GeneratorInfo("Fire Asteroid", 10,spawnSystem.FullRandom));
-					genInfo.add(new GeneratorInfo("Asteroid", 10,spawnSystem.FullRandom,2));
-					genInfo.add(new GeneratorInfo("Fire Asteroid", 10,spawnSystem.FullRandom));
-					genInfo.add(new GeneratorInfo("Fire Asteroid", 15,spawnSystem.LineFromWest,2));
-					genInfo.add(new GeneratorInfo("Asteroid", 15,spawnSystem.LineFromWest,4));
-					genInfo.add(new GeneratorInfo("Asteroid", 20,spawnSystem.LineFromNorth,2));
-					genInfo.add(new GeneratorInfo("Fire Asteroid", 10,spawnSystem.FullRandom));
-					genInfo.add(new GeneratorInfo("Fire Asteroid", 10,spawnSystem.FullRandom,0,200));
-					genInfo.add(new GeneratorInfo("Fire Asteroid", 10,spawnSystem.FullRandom,0,400));
-					genInfo.add(new GeneratorInfo("Asteroid", 25,spawnSystem.LineFromEast,2));
-					genInfo.add(new GeneratorInfo("Fire Asteroid", 10,spawnSystem.LineFromEast,4));
-					genInfo.add(new GeneratorInfo("Cat Gunner", 8,spawnSystem.FullRandom,0,2500));
-					break;
-				case 24:
-					genInfo.add(new GeneratorInfo("Ice Asteroid", 40,spawnSystem.FullRandom,2,150));
-					genInfo.add(new GeneratorInfo("Ice Asteroid", 40,spawnSystem.FullRandom,2,400));
-					genInfo.add(new GeneratorInfo("Ice Asteroid", 40,spawnSystem.FullRandom,2,700));
-					genInfo.add(new GeneratorInfo("Fire Asteroid", 80,spawnSystem.Spiral,1,600));
-					break;
-				case 25:
-					genInfo.add(new GeneratorInfo("Cat", 100,spawnSystem.Cardinal));
-					break;
-				case 26:
-					genInfo.add(new GeneratorInfo("Splitter Medium", 30,spawnSystem.FullRandom));
-					genInfo.add(new GeneratorInfo("Fire Asteroid", 20,spawnSystem.FullRandom));
-					genInfo.add(new GeneratorInfo("Cat Gunner", 9,spawnSystem.FullRandom,0));
-					break;
-				case 27:
-					genInfo.add(new GeneratorInfo("Ice Asteroid",50,spawnSystem.Spiral));
-					genInfo.add(new GeneratorInfo("Fire Asteroid",50,spawnSystem.Spiral,4));
-					genInfo.add(new GeneratorInfo("Cat", 30,spawnSystem.LineFromNorth,2,200));
-					genInfo.add(new GeneratorInfo("Cat", 30,spawnSystem.LineFromNorth,2,350));
-					break;
-				case 28:
-					genInfo.add(new GeneratorInfo("Cat", 7,spawnSystem.LineFromNorth,2));
-					genInfo.add(new GeneratorInfo("Cat", 7,spawnSystem.LineFromNorth,2,100));
-					genInfo.add(new GeneratorInfo("Cat", 7,spawnSystem.LineFromNorth,2,200));
-					genInfo.add(new GeneratorInfo("Cat", 7,spawnSystem.LineFromNorth,2,350));
-					genInfo.add(new GeneratorInfo("Cat", 7,spawnSystem.LineFromNorth,2,600));
-					genInfo.add(new GeneratorInfo("Cat", 7,spawnSystem.LineFromSouth,2));
-					genInfo.add(new GeneratorInfo("Asteroid", 60,spawnSystem.Spiral));
-					genInfo.add(new GeneratorInfo("Fire Asteroid", 20,spawnSystem.FullRandom,4,400));
-					break;
-				case 29:
-					genInfo.add(new GeneratorInfo("Splitter Big", 4,spawnSystem.LineFromNorth));
-					genInfo.add(new GeneratorInfo("Cat Gunner", 6,spawnSystem.FullRandom));
-					break;
-				case 30:
-					genInfo.add(new GeneratorInfo("Cat", 30,spawnSystem.Cardinal,4));
-					genInfo.add(new GeneratorInfo("Fire Asteroid", 20,spawnSystem.Circle,2));
-					genInfo.add(new GeneratorInfo("Ice Asteroid", 20,spawnSystem.Circle,2));
-					genInfo.add(new GeneratorInfo("Fire Asteroid", 20,spawnSystem.Circle,2));
-					genInfo.add(new GeneratorInfo("Ice Asteroid", 20,spawnSystem.Circle,2));
-					genInfo.add(new GeneratorInfo("Asteroid", 20,spawnSystem.Circle,2));
-					break;
-					//////////////////////////////////////////////////////////////////
-					//// LEVEL Four /////////////////////////////////////////////////
-					//////////////////////////////////////////////////////////////////
-					case 31:
-						genInfo.add(new GeneratorInfo("Asteroid", 10,spawnSystem.Circle));
-						genInfo.add(new GeneratorInfo("Asteroid", 10,spawnSystem.Circle));
-						genInfo.add(new GeneratorInfo("Asteroid", 10,spawnSystem.Circle));
-						genInfo.add(new GeneratorInfo("Asteroid", 10,spawnSystem.Circle));
-						genInfo.add(new GeneratorInfo("Asteroid",60,spawnSystem.Spiral));
-						genInfo.add(new GeneratorInfo("Cat", 20,spawnSystem.LineFromNorth,3,2000));
-						
-						break;
-					case 32:
-						genInfo.add(new GeneratorInfo("Cat", 100,spawnSystem.Cardinal,5));	
-						break;
-					case 33:
-						genInfo.add(new GeneratorInfo("Ice Asteroid", 40,spawnSystem.FullRandom,2,150));
-						genInfo.add(new GeneratorInfo("Ice Asteroid", 40,spawnSystem.FullRandom,2,400));
-						genInfo.add(new GeneratorInfo("Ice Asteroid", 40,spawnSystem.FullRandom,2,700));
-						genInfo.add(new GeneratorInfo("Cat", 80,spawnSystem.Spiral,1,600));
-						break;
-					case 34:
-						genInfo.add(new GeneratorInfo("Cat Gunner", 30,spawnSystem.FullRandom));
-						break;
-					case 35:
-						genInfo.add(new GeneratorInfo("Cat", 50,spawnSystem.Spiral));
-						genInfo.add(new GeneratorInfo("Asteroid", 25,spawnSystem.LineFromNorth,5,0));
-						genInfo.add(new GeneratorInfo("Asteroid", 25,spawnSystem.LineFromSouth,5,0));
-						genInfo.add(new GeneratorInfo("Cat", 25,spawnSystem.LineFromSouth,5,1750));
-						genInfo.add(new GeneratorInfo("Cat", 25,spawnSystem.LineFromNorth,5,1750));
-						break;
-					case 36:  
-						genInfo.add(new GeneratorInfo("Ice Asteroid", 1,spawnSystem.Spiral));
-						genInfo.add(new GeneratorInfo("Fire Asteroid", 1,spawnSystem.Spiral));
-						genInfo.add(new GeneratorInfo("Asteroid", 5,spawnSystem.Spiral));
-						genInfo.add(new GeneratorInfo("Ice Asteroid", 1,spawnSystem.Spiral));
-						genInfo.add(new GeneratorInfo("Fire Asteroid", 1,spawnSystem.Spiral));
-						genInfo.add(new GeneratorInfo("Asteroid", 5,spawnSystem.Spiral));
-						genInfo.add(new GeneratorInfo("Ice Asteroid", 1,spawnSystem.Spiral));
-						genInfo.add(new GeneratorInfo("Fire Asteroid", 1,spawnSystem.Spiral));
-						genInfo.add(new GeneratorInfo("Asteroid", 5,spawnSystem.Spiral));
-						genInfo.add(new GeneratorInfo("Ice Asteroid", 1,spawnSystem.Spiral));
-						genInfo.add(new GeneratorInfo("Fire Asteroid", 1,spawnSystem.Spiral));
-						genInfo.add(new GeneratorInfo("Asteroid", 5,spawnSystem.Spiral));
-						genInfo.add(new GeneratorInfo("Ice Asteroid", 1,spawnSystem.Spiral));
-						genInfo.add(new GeneratorInfo("Fire Asteroid", 1,spawnSystem.Spiral));
-						genInfo.add(new GeneratorInfo("Asteroid", 5,spawnSystem.Spiral));
-						genInfo.add(new GeneratorInfo("Ice Asteroid", 1,spawnSystem.Spiral));
-						genInfo.add(new GeneratorInfo("Fire Asteroid", 1,spawnSystem.Spiral));
-						genInfo.add(new GeneratorInfo("Asteroid", 5,spawnSystem.Spiral));
-						genInfo.add(new GeneratorInfo("Ice Asteroid", 1,spawnSystem.Spiral));
-						genInfo.add(new GeneratorInfo("Fire Asteroid", 1,spawnSystem.Spiral));
-						genInfo.add(new GeneratorInfo("Asteroid", 5,spawnSystem.Spiral));
-						genInfo.add(new GeneratorInfo("Ice Asteroid", 1,spawnSystem.Spiral));
-						genInfo.add(new GeneratorInfo("Fire Asteroid", 1,spawnSystem.Spiral));
-						genInfo.add(new GeneratorInfo("Asteroid", 5,spawnSystem.Spiral));
-						genInfo.add(new GeneratorInfo("Ice Asteroid", 1,spawnSystem.Spiral));
-						genInfo.add(new GeneratorInfo("Fire Asteroid", 1,spawnSystem.Spiral));
-						genInfo.add(new GeneratorInfo("Asteroid", 5,spawnSystem.Spiral));
-						genInfo.add(new GeneratorInfo("Ice Asteroid", 1,spawnSystem.Spiral));
-						genInfo.add(new GeneratorInfo("Fire Asteroid", 1,spawnSystem.Spiral));
-						genInfo.add(new GeneratorInfo("Asteroid", 5,spawnSystem.Spiral));
-						genInfo.add(new GeneratorInfo("Ice Asteroid", 1,spawnSystem.Spiral));
-						genInfo.add(new GeneratorInfo("Fire Asteroid", 1,spawnSystem.Spiral));
-						genInfo.add(new GeneratorInfo("Asteroid", 5,spawnSystem.Spiral));
-						genInfo.add(new GeneratorInfo("Ice Asteroid", 1,spawnSystem.Spiral));
-						genInfo.add(new GeneratorInfo("Fire Asteroid", 1,spawnSystem.Spiral));
-						genInfo.add(new GeneratorInfo("Asteroid", 5,spawnSystem.Spiral));
-						genInfo.add(new GeneratorInfo("Ice Asteroid", 1,spawnSystem.Spiral));
-						genInfo.add(new GeneratorInfo("Fire Asteroid", 1,spawnSystem.Spiral));
-						genInfo.add(new GeneratorInfo("Asteroid", 5,spawnSystem.Spiral));
-						genInfo.add(new GeneratorInfo("Ice Asteroid", 1,spawnSystem.Spiral));
-						genInfo.add(new GeneratorInfo("Fire Asteroid", 1,spawnSystem.Spiral));
-						genInfo.add(new GeneratorInfo("Asteroid", 5,spawnSystem.Spiral));
-						genInfo.add(new GeneratorInfo("Ice Asteroid", 1,spawnSystem.Spiral));
-						genInfo.add(new GeneratorInfo("Fire Asteroid", 1,spawnSystem.Spiral));
-						genInfo.add(new GeneratorInfo("Asteroid", 5,spawnSystem.Spiral));
-						genInfo.add(new GeneratorInfo("Ice Asteroid", 1,spawnSystem.Spiral));
-						genInfo.add(new GeneratorInfo("Fire Asteroid", 1,spawnSystem.Spiral));
-						genInfo.add(new GeneratorInfo("Asteroid", 5,spawnSystem.Spiral));
-						genInfo.add(new GeneratorInfo("Ice Asteroid", 1,spawnSystem.Spiral));
-						genInfo.add(new GeneratorInfo("Fire Asteroid", 1,spawnSystem.Spiral));
-						genInfo.add(new GeneratorInfo("Asteroid", 5,spawnSystem.Spiral));
-						genInfo.add(new GeneratorInfo("Asteroid", 20,spawnSystem.LineFromNorth,5,750));
-						genInfo.add(new GeneratorInfo("Asteroid", 20,spawnSystem.LineFromEast,5,1000));
-						break;
-					case 37:
-						genInfo.add(new GeneratorInfo("Ice Asteroid",20,spawnSystem.FullRandom,5,200));
-						genInfo.add(new GeneratorInfo("Asteroid",50,spawnSystem.Spiral,4));
-						genInfo.add(new GeneratorInfo("Fire Asteroid",50,spawnSystem.Circle,4));
-						genInfo.add(new GeneratorInfo("Asteroid",20,spawnSystem.Circle,4));
-						genInfo.add(new GeneratorInfo("Asteroid",20,spawnSystem.Circle,4));
-						genInfo.add(new GeneratorInfo("Asteroid",20,spawnSystem.Circle,4));
-						genInfo.add(new GeneratorInfo("Cat", 20,spawnSystem.LineFromNorth,2,1000));
-						genInfo.add(new GeneratorInfo("Cat", 20,spawnSystem.LineFromEast,2,1500));
-						break;
-					case 38:
-						int x=0;
-						int dist =100;
-						while(x < waveNumber+1) { 
-							genInfo.add(new GeneratorInfo(Survival.fireorice(), Survival.cap(Survival.r.nextInt((int) (waveNumber*2+x+1))/3+1,50),Survival.randomWave(),Survival.r.nextInt(2), dist));
-							genInfo.add(new GeneratorInfo(Survival.morethanlikelyfire(), Survival.cap(Survival.r.nextInt((int) (waveNumber/4+x+1)),50),Survival.randomWave(),Survival.r.nextInt(2), dist));
-							genInfo.add(new GeneratorInfo(Survival.fireorice(), Survival.cap(Survival.r.nextInt((int) (waveNumber/3+x+1)),50),Survival.randomWave(),0, dist));
-							genInfo.add(new GeneratorInfo("Cat", Survival.cap(Survival.r.nextInt((int) (waveNumber/6+1)),50),Survival.randomWave(),Survival.r.nextInt(2), (int)1.25*dist+100));
-							if(waveNumber >= 12) {
-								genInfo.add(new GeneratorInfo("Splitter Medium", Survival.cap(Survival.r.nextInt((int) (waveNumber/8+2)),6), Survival.randomWave(), Survival.r.nextInt(1),dist+Survival.r.nextInt(15)));
-							}
-							if(waveNumber >= 24) {
-								genInfo.add(new GeneratorInfo("Splitter Big", Survival.cap(Survival.r.nextInt((int) (waveNumber/20+2)),6), Survival.randomWave(), Survival.r.nextInt(1), (int)(1.2f*dist)+Survival.r.nextInt(15)));
-							}
-							if(waveNumber >= 5) {
-								genInfo.add(new GeneratorInfo("Cat Gunner", Survival.cap(Survival.r.nextInt((int) (waveNumber/8+1)),50),Survival.randomWave(),0, (int)1.25*dist+100));
-							}
-							if(300 - waveNumber<100) {
-								dist += 100;
-							}
-							else {
-								dist += 300 - 2*waveNumber;
-							}
-							x = x + 5;
-						}
-						break;
-					case 39:
-						genInfo.add(new GeneratorInfo("Splitter Big", 4,spawnSystem.Cardinal));
-						genInfo.add(new GeneratorInfo("Splitter Big", 4,spawnSystem.Cardinal,1,300));
-						genInfo.add(new GeneratorInfo("Splitter Big", 4,spawnSystem.Cardinal,2,600));
-						genInfo.add(new GeneratorInfo("Splitter Big", 4,spawnSystem.Cardinal,3,900));
-						
-						break;
-					case 40:
-						genInfo.add(new GeneratorInfo("Cat", 30,spawnSystem.Spiral,4,250));
-						genInfo.add(new GeneratorInfo("Fire Asteroid", 20,spawnSystem.Spiral,2));
-						genInfo.add(new GeneratorInfo("Splitter Medium", 20,spawnSystem.Circle,2));
-						genInfo.add(new GeneratorInfo("Splitter Medium", 20,spawnSystem.Circle,2));
-						genInfo.add(new GeneratorInfo("Ice Asteroid", 20,spawnSystem.Circle,2));
-						genInfo.add(new GeneratorInfo("Asteroid", 20,spawnSystem.Circle,2));
-						break;
+		//////////////////////////////////////////////////////////////////
+		//// LEVEL THREE /////////////////////////////////////////////////
+		//////////////////////////////////////////////////////////////////
+		case 21:
+			genInfo.add(new GeneratorInfo("Splitter Medium", 4,spawnSystem.Circle));
+			genInfo.add(new GeneratorInfo("Asteroid", 10,spawnSystem.Circle));
+			genInfo.add(new GeneratorInfo("Splitter Medium", 4,spawnSystem.Circle));
+			genInfo.add(new GeneratorInfo("Splitter Medium", 4,spawnSystem.Circle));
+			genInfo.add(new GeneratorInfo("Fire Asteroid", 10,spawnSystem.Circle));
+			genInfo.add(new GeneratorInfo("Splitter Medium", 4,spawnSystem.Circle));
+			genInfo.add(new GeneratorInfo("Splitter Medium", 4,spawnSystem.Circle));
+			genInfo.add(new GeneratorInfo("Fire Asteroid", 10,spawnSystem.Circle));
+			genInfo.add(new GeneratorInfo("Splitter Medium", 6,spawnSystem.Circle));
+			genInfo.add(new GeneratorInfo("Fire Asteroid", 12,spawnSystem.FullRandom,2,600));
+			genInfo.add(new GeneratorInfo("Fire Asteroid", 12,spawnSystem.FullRandom,2,700));
+			break;
+		case 22:
+			genInfo.add(new GeneratorInfo("Fire Asteroid", 150,spawnSystem.FullRandom,10));	
+			break;
+		case 23:
+			genInfo.add(new GeneratorInfo("Fire Asteroid", 10,spawnSystem.FullRandom));
+			genInfo.add(new GeneratorInfo("Asteroid", 10,spawnSystem.FullRandom,2));
+			genInfo.add(new GeneratorInfo("Fire Asteroid", 10,spawnSystem.FullRandom));
+			genInfo.add(new GeneratorInfo("Fire Asteroid", 15,spawnSystem.LineFromWest,2));
+			genInfo.add(new GeneratorInfo("Asteroid", 15,spawnSystem.LineFromWest,4));
+			genInfo.add(new GeneratorInfo("Asteroid", 20,spawnSystem.LineFromNorth,2));
+			genInfo.add(new GeneratorInfo("Fire Asteroid", 10,spawnSystem.FullRandom));
+			genInfo.add(new GeneratorInfo("Fire Asteroid", 10,spawnSystem.FullRandom,0,200));
+			genInfo.add(new GeneratorInfo("Fire Asteroid", 10,spawnSystem.FullRandom,0,400));
+			genInfo.add(new GeneratorInfo("Asteroid", 25,spawnSystem.LineFromEast,2));
+			genInfo.add(new GeneratorInfo("Fire Asteroid", 10,spawnSystem.LineFromEast,4));
+			genInfo.add(new GeneratorInfo("Cat Gunner", 8,spawnSystem.FullRandom,0,2500));
+			break;
+		case 24:
+			genInfo.add(new GeneratorInfo("Ice Asteroid", 40,spawnSystem.FullRandom,2,150));
+			genInfo.add(new GeneratorInfo("Ice Asteroid", 40,spawnSystem.FullRandom,2,400));
+			genInfo.add(new GeneratorInfo("Ice Asteroid", 40,spawnSystem.FullRandom,2,700));
+			genInfo.add(new GeneratorInfo("Fire Asteroid", 80,spawnSystem.Spiral,1,600));
+			break;
+		case 25:
+			genInfo.add(new GeneratorInfo("Cat", 100,spawnSystem.Cardinal));
+			break;
+		case 26:
+			genInfo.add(new GeneratorInfo("Splitter Medium", 30,spawnSystem.FullRandom));
+			genInfo.add(new GeneratorInfo("Fire Asteroid", 20,spawnSystem.FullRandom));
+			genInfo.add(new GeneratorInfo("Cat Gunner", 9,spawnSystem.FullRandom,0));
+			break;
+		case 27:
+			genInfo.add(new GeneratorInfo("Ice Asteroid",50,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Fire Asteroid",50,spawnSystem.Spiral,4));
+			genInfo.add(new GeneratorInfo("Cat", 30,spawnSystem.LineFromNorth,2,200));
+			genInfo.add(new GeneratorInfo("Cat", 30,spawnSystem.LineFromNorth,2,350));
+			break;
+		case 28:
+			genInfo.add(new GeneratorInfo("Cat", 7,spawnSystem.LineFromNorth,2));
+			genInfo.add(new GeneratorInfo("Cat", 7,spawnSystem.LineFromNorth,2,100));
+			genInfo.add(new GeneratorInfo("Cat", 7,spawnSystem.LineFromNorth,2,200));
+			genInfo.add(new GeneratorInfo("Cat", 7,spawnSystem.LineFromNorth,2,350));
+			genInfo.add(new GeneratorInfo("Cat", 7,spawnSystem.LineFromNorth,2,600));
+			genInfo.add(new GeneratorInfo("Cat", 7,spawnSystem.LineFromSouth,2));
+			genInfo.add(new GeneratorInfo("Asteroid", 60,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Fire Asteroid", 20,spawnSystem.FullRandom,4,400));
+			break;
+		case 29:
+			genInfo.add(new GeneratorInfo("Splitter Big", 4,spawnSystem.LineFromNorth));
+			genInfo.add(new GeneratorInfo("Cat Gunner", 6,spawnSystem.FullRandom));
+			break;
+		case 30:
+			genInfo.add(new GeneratorInfo("Cat", 30,spawnSystem.Cardinal,4));
+			genInfo.add(new GeneratorInfo("Fire Asteroid", 20,spawnSystem.Circle,2));
+			genInfo.add(new GeneratorInfo("Ice Asteroid", 20,spawnSystem.Circle,2));
+			genInfo.add(new GeneratorInfo("Fire Asteroid", 20,spawnSystem.Circle,2));
+			genInfo.add(new GeneratorInfo("Ice Asteroid", 20,spawnSystem.Circle,2));
+			genInfo.add(new GeneratorInfo("Asteroid", 20,spawnSystem.Circle,2));
+			break;
+		//////////////////////////////////////////////////////////////////
+		//// LEVEL Four /////////////////////////////////////////////////
+		//////////////////////////////////////////////////////////////////
+		case 31:
+			genInfo.add(new GeneratorInfo("Asteroid", 10,spawnSystem.Circle));
+			genInfo.add(new GeneratorInfo("Asteroid", 10,spawnSystem.Circle));
+			genInfo.add(new GeneratorInfo("Asteroid", 10,spawnSystem.Circle));
+			genInfo.add(new GeneratorInfo("Asteroid", 10,spawnSystem.Circle));
+			genInfo.add(new GeneratorInfo("Asteroid",60,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Cat", 20,spawnSystem.LineFromNorth,3,2000));
+			
+			break;
+		case 32:
+			genInfo.add(new GeneratorInfo("Cat", 100,spawnSystem.Cardinal,5));	
+			break;
+		case 33:
+			genInfo.add(new GeneratorInfo("Ice Asteroid", 40,spawnSystem.FullRandom,2,150));
+			genInfo.add(new GeneratorInfo("Ice Asteroid", 40,spawnSystem.FullRandom,2,400));
+			genInfo.add(new GeneratorInfo("Ice Asteroid", 40,spawnSystem.FullRandom,2,700));
+			genInfo.add(new GeneratorInfo("Cat", 80,spawnSystem.Spiral,1,600));
+			break;
+		case 34:
+			genInfo.add(new GeneratorInfo("Cat Gunner", 30,spawnSystem.FullRandom));
+			break;
+		case 35:
+			genInfo.add(new GeneratorInfo("Cat", 50,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Asteroid", 25,spawnSystem.LineFromNorth,5,0));
+			genInfo.add(new GeneratorInfo("Asteroid", 25,spawnSystem.LineFromSouth,5,0));
+			genInfo.add(new GeneratorInfo("Cat", 25,spawnSystem.LineFromSouth,5,1750));
+			genInfo.add(new GeneratorInfo("Cat", 25,spawnSystem.LineFromNorth,5,1750));
+			break;
+		case 36:  
+			genInfo.add(new GeneratorInfo("Ice Asteroid", 1,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Fire Asteroid", 1,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Asteroid", 5,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Ice Asteroid", 1,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Fire Asteroid", 1,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Asteroid", 5,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Ice Asteroid", 1,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Fire Asteroid", 1,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Asteroid", 5,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Ice Asteroid", 1,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Fire Asteroid", 1,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Asteroid", 5,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Ice Asteroid", 1,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Fire Asteroid", 1,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Asteroid", 5,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Ice Asteroid", 1,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Fire Asteroid", 1,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Asteroid", 5,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Ice Asteroid", 1,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Fire Asteroid", 1,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Asteroid", 5,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Ice Asteroid", 1,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Fire Asteroid", 1,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Asteroid", 5,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Ice Asteroid", 1,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Fire Asteroid", 1,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Asteroid", 5,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Ice Asteroid", 1,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Fire Asteroid", 1,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Asteroid", 5,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Ice Asteroid", 1,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Fire Asteroid", 1,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Asteroid", 5,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Ice Asteroid", 1,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Fire Asteroid", 1,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Asteroid", 5,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Ice Asteroid", 1,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Fire Asteroid", 1,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Asteroid", 5,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Ice Asteroid", 1,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Fire Asteroid", 1,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Asteroid", 5,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Ice Asteroid", 1,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Fire Asteroid", 1,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Asteroid", 5,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Ice Asteroid", 1,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Fire Asteroid", 1,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Asteroid", 5,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Ice Asteroid", 1,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Fire Asteroid", 1,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Asteroid", 5,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Asteroid", 20,spawnSystem.LineFromNorth,5,750));
+			genInfo.add(new GeneratorInfo("Asteroid", 20,spawnSystem.LineFromEast,5,1000));
+			break;
+		case 37:
+			genInfo.add(new GeneratorInfo("Ice Asteroid",20,spawnSystem.FullRandom,5,200));
+			genInfo.add(new GeneratorInfo("Asteroid",50,spawnSystem.Spiral,4));
+			genInfo.add(new GeneratorInfo("Fire Asteroid",50,spawnSystem.Circle,4));
+			genInfo.add(new GeneratorInfo("Asteroid",20,spawnSystem.Circle,4));
+			genInfo.add(new GeneratorInfo("Asteroid",20,spawnSystem.Circle,4));
+			genInfo.add(new GeneratorInfo("Asteroid",20,spawnSystem.Circle,4));
+			genInfo.add(new GeneratorInfo("Cat", 20,spawnSystem.LineFromNorth,2,1000));
+			genInfo.add(new GeneratorInfo("Cat", 20,spawnSystem.LineFromEast,2,1500));
+			break;
+		case 38:
+			x=0;
+			dist =100;
+			while(x < waveNumber+1) { 
+				genInfo.add(new GeneratorInfo(Survival.fireorice(), Survival.cap(Survival.r.nextInt((int) (waveNumber*2+x+1))/3+1,50),Survival.randomWave(),Survival.r.nextInt(2), dist));
+				genInfo.add(new GeneratorInfo(Survival.morethanlikelyfire(), Survival.cap(Survival.r.nextInt((int) (waveNumber/4+x+1)),50),Survival.randomWave(),Survival.r.nextInt(2), dist));
+				genInfo.add(new GeneratorInfo(Survival.fireorice(), Survival.cap(Survival.r.nextInt((int) (waveNumber/3+x+1)),50),Survival.randomWave(),0, dist));
+				genInfo.add(new GeneratorInfo("Cat", Survival.cap(Survival.r.nextInt((int) (waveNumber/6+1)),50),Survival.randomWave(),Survival.r.nextInt(2), (int)1.25*dist+100));
+				if(waveNumber >= 12) {
+					genInfo.add(new GeneratorInfo("Splitter Medium", Survival.cap(Survival.r.nextInt((int) (waveNumber/8+2)),6), Survival.randomWave(), Survival.r.nextInt(1),dist+Survival.r.nextInt(15)));
+				}
+				if(waveNumber >= 24) {
+					genInfo.add(new GeneratorInfo("Splitter Big", Survival.cap(Survival.r.nextInt((int) (waveNumber/20+2)),6), Survival.randomWave(), Survival.r.nextInt(1), (int)(1.2f*dist)+Survival.r.nextInt(15)));
+				}
+				if(waveNumber >= 5) {
+					genInfo.add(new GeneratorInfo("Cat Gunner", Survival.cap(Survival.r.nextInt((int) (waveNumber/8+1)),50),Survival.randomWave(),0, (int)1.25*dist+100));
+				}
+				if(300 - waveNumber<100) {
+					dist += 100;
+				}
+				else {
+					dist += 300 - 2*waveNumber;
+				}
+				x = x + 5;
+			}
+			break;
+		case 39:
+			genInfo.add(new GeneratorInfo("Splitter Big", 4,spawnSystem.Cardinal));
+			genInfo.add(new GeneratorInfo("Splitter Big", 4,spawnSystem.Cardinal,1,300));
+			genInfo.add(new GeneratorInfo("Splitter Big", 4,spawnSystem.Cardinal,2,600));
+			genInfo.add(new GeneratorInfo("Splitter Big", 4,spawnSystem.Cardinal,3,900));
+			
+			break;
+		case 40:
+			genInfo.add(new GeneratorInfo("Cat", 30,spawnSystem.Spiral,4,250));
+			genInfo.add(new GeneratorInfo("Fire Asteroid", 20,spawnSystem.Spiral,2));
+			genInfo.add(new GeneratorInfo("Splitter Medium", 20,spawnSystem.Circle,2));
+			genInfo.add(new GeneratorInfo("Splitter Medium", 20,spawnSystem.Circle,2));
+			genInfo.add(new GeneratorInfo("Ice Asteroid", 20,spawnSystem.Circle,2));
+			genInfo.add(new GeneratorInfo("Asteroid", 20,spawnSystem.Circle,2));
+			break;		
+		//////////////////////////////////////////////////////////////////
+		//// LEVEL Four /////////////////////////////////////////////////
+		//////////////////////////////////////////////////////////////////
+		case 41:
+			genInfo.add(new GeneratorInfo("Cat Gunner", 10,spawnSystem.Circle,0,500));
+			genInfo.add(new GeneratorInfo("Cat Gunner", 10,spawnSystem.Circle,0,1000));
+			genInfo.add(new GeneratorInfo("Cat Gunner", 10,spawnSystem.Circle,0,1500));
+			genInfo.add(new GeneratorInfo("Cat Gunner", 10,spawnSystem.Circle,0,2000));
+			genInfo.add(new GeneratorInfo("Asteroid", 25,spawnSystem.Spiral,3,2500));
+			genInfo.add(new GeneratorInfo("Cat", 20,spawnSystem.Cardinal,  3,3200));
+			break;
+		case 42:
+			genInfo.add(new GeneratorInfo("Asteroid", 200,spawnSystem.Cardinal,5));	
+			genInfo.add(new GeneratorInfo("Asteroid", 50,spawnSystem.Spiral,7));	
+			genInfo.add(new GeneratorInfo("Cat Gunner", 20,spawnSystem.Cardinal,5,1000));
+			break;
+		case 43:
+			genInfo.add(new GeneratorInfo("Ice Asteroid", 40,spawnSystem.FullRandom,2,150));
+			genInfo.add(new GeneratorInfo("Cat Gunner", 80,spawnSystem.Spiral,1,600));
+			genInfo.add(new GeneratorInfo("Splitter Medium", 40,spawnSystem.Cardinal,5,600));	
+			genInfo.add(new GeneratorInfo("Cat", 15,spawnSystem.LineFromSouth,7,1200));	
+			genInfo.add(new GeneratorInfo("Cat", 15,spawnSystem.LineFromNorth,0,1200));	
+			break;
+		case 44:
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.LineFromNorth,0));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.LineFromNorth,1));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.LineFromNorth,2));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.LineFromNorth,3));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.LineFromNorth,4));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.LineFromNorth,5));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.LineFromNorth,0));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.LineFromNorth,1));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.LineFromNorth,2));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.LineFromNorth,3));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.LineFromNorth,4));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.LineFromNorth,5));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.LineFromNorth,0));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.LineFromNorth,1));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.LineFromNorth,2));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.LineFromNorth,3));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.LineFromNorth,4));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.LineFromNorth,5));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.LineFromNorth,0));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.LineFromNorth,1));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.LineFromNorth,2));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.LineFromNorth,3));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.LineFromNorth,4));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.LineFromNorth,5));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.LineFromNorth,0));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.LineFromNorth,1));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.LineFromNorth,2));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.LineFromNorth,3));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.LineFromNorth,4));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.LineFromNorth,5));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.LineFromNorth,0));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.LineFromNorth,1));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.LineFromNorth,2));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.LineFromNorth,3));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.LineFromNorth,4));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.LineFromNorth,5));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.LineFromNorth,0));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.LineFromNorth,1));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.LineFromNorth,2));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.LineFromNorth,3));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.LineFromNorth,4));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.LineFromNorth,5));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.LineFromNorth,0));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.LineFromNorth,1));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.LineFromNorth,2));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.LineFromNorth,3));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.LineFromNorth,4));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.LineFromNorth,5));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.LineFromNorth,0));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.LineFromNorth,1));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.LineFromNorth,2));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.LineFromNorth,3));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.LineFromNorth,4));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.LineFromNorth,5));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.LineFromNorth,0));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.LineFromNorth,1));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.LineFromNorth,2));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.LineFromNorth,3));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.LineFromNorth,4));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.LineFromNorth,5));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.LineFromNorth,0));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.LineFromNorth,1));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.LineFromNorth,2));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.LineFromNorth,3));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.LineFromNorth,4));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.LineFromNorth,5));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.LineFromNorth,0));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.LineFromNorth,1));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.LineFromNorth,2));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.LineFromNorth,3));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.LineFromNorth,4));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.LineFromNorth,5));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.LineFromNorth,0));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.LineFromNorth,1));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.LineFromNorth,2));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.LineFromNorth,3));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.LineFromNorth,4));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.LineFromNorth,5));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.LineFromNorth,0));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.LineFromNorth,1));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.LineFromNorth,2));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.LineFromNorth,3));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.LineFromNorth,4));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.LineFromNorth,5));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.LineFromNorth,0));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.LineFromNorth,1));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.LineFromNorth,2));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.LineFromNorth,3));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.LineFromNorth,4));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.LineFromNorth,5));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.LineFromNorth,0));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.LineFromNorth,1));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.LineFromNorth,2));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.LineFromNorth,3));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.LineFromNorth,4));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.LineFromNorth,5));
+			break;
+		case 45:
+			genInfo.add(new GeneratorInfo("Cat", 20,spawnSystem.FullRandom));
+			genInfo.add(new GeneratorInfo("Cat", 20,spawnSystem.FullRandom,4,200));
+			genInfo.add(new GeneratorInfo("Splitter Huge", 3,spawnSystem.FullRandom,3));
+			genInfo.add(new GeneratorInfo("Ice Asteroid", 25,spawnSystem.Spiral,5,500));
+			genInfo.add(new GeneratorInfo("Cat Gunner", 25,spawnSystem.Circle,5,1000));
+			genInfo.add(new GeneratorInfo("Cat", 25,spawnSystem.LineFromSouth,5,1750));
+			genInfo.add(new GeneratorInfo("Cat", 25,spawnSystem.LineFromNorth,5,1750));
+			genInfo.add(new GeneratorInfo("Cat Gunner", 25,spawnSystem.LineFromNorth,5,2500));
+			genInfo.add(new GeneratorInfo("Asteroid", 25,spawnSystem.LineFromSouth,3,1750));
+			genInfo.add(new GeneratorInfo("Fire Asteroid", 25,spawnSystem.LineFromNorth,3,1750));
+			genInfo.add(new GeneratorInfo("Ice Asteroid", 25,spawnSystem.LineFromEast,3,1750));
+			genInfo.add(new GeneratorInfo("Cat", 20,spawnSystem.FullRandom,2,3400));
+			break;
+		case 46:  
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.Spiral,1));
+			genInfo.add(new GeneratorInfo("Fire Asteroid", 1,spawnSystem.Spiral,2));
+			genInfo.add(new GeneratorInfo("Asteroid", 5,spawnSystem.Spiral,3));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.Spiral,1));
+			genInfo.add(new GeneratorInfo("Fire Asteroid", 1,spawnSystem.Spiral,2));
+			genInfo.add(new GeneratorInfo("Asteroid", 5,spawnSystem.Spiral,3));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.Spiral,1));
+			genInfo.add(new GeneratorInfo("Fire Asteroid", 1,spawnSystem.Spiral,2));
+			genInfo.add(new GeneratorInfo("Asteroid", 5,spawnSystem.Spiral,3));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.Spiral,1));
+			genInfo.add(new GeneratorInfo("Fire Asteroid", 1,spawnSystem.Spiral,2));
+			genInfo.add(new GeneratorInfo("Asteroid", 5,spawnSystem.Spiral,3));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.Spiral,1));
+			genInfo.add(new GeneratorInfo("Fire Asteroid", 1,spawnSystem.Spiral,2));
+			genInfo.add(new GeneratorInfo("Asteroid", 5,spawnSystem.Spiral,3));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.Spiral,1));
+			genInfo.add(new GeneratorInfo("Fire Asteroid", 1,spawnSystem.Spiral,2));
+			genInfo.add(new GeneratorInfo("Asteroid", 5,spawnSystem.Spiral,3));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.Spiral,1));
+			genInfo.add(new GeneratorInfo("Fire Asteroid", 1,spawnSystem.Spiral,2));
+			genInfo.add(new GeneratorInfo("Asteroid", 5,spawnSystem.Spiral,3));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.Spiral,1));
+			genInfo.add(new GeneratorInfo("Fire Asteroid", 1,spawnSystem.Spiral,2));
+			genInfo.add(new GeneratorInfo("Asteroid", 5,spawnSystem.Spiral,3));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.Spiral,1));
+			genInfo.add(new GeneratorInfo("Fire Asteroid", 1,spawnSystem.Spiral,2));
+			genInfo.add(new GeneratorInfo("Asteroid", 5,spawnSystem.Spiral,3));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.Spiral,1));
+			genInfo.add(new GeneratorInfo("Fire Asteroid", 1,spawnSystem.Spiral,2));
+			genInfo.add(new GeneratorInfo("Asteroid", 5,spawnSystem.Spiral,3));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.Spiral,1));
+			genInfo.add(new GeneratorInfo("Fire Asteroid", 1,spawnSystem.Spiral,2));
+			genInfo.add(new GeneratorInfo("Asteroid", 5,spawnSystem.Spiral,3));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.Spiral,1));
+			genInfo.add(new GeneratorInfo("Fire Asteroid", 1,spawnSystem.Spiral,2));
+			genInfo.add(new GeneratorInfo("Asteroid", 5,spawnSystem.Spiral,3));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.Spiral,1));
+			genInfo.add(new GeneratorInfo("Fire Asteroid", 1,spawnSystem.Spiral,2));
+			genInfo.add(new GeneratorInfo("Asteroid", 5,spawnSystem.Spiral,3));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.Spiral,1));
+			genInfo.add(new GeneratorInfo("Fire Asteroid", 1,spawnSystem.Spiral,2));
+			genInfo.add(new GeneratorInfo("Asteroid", 5,spawnSystem.Spiral,3));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.Spiral,1));
+			genInfo.add(new GeneratorInfo("Fire Asteroid", 1,spawnSystem.Spiral,2));
+			genInfo.add(new GeneratorInfo("Asteroid", 5,spawnSystem.Spiral,3));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.Spiral,1));
+			genInfo.add(new GeneratorInfo("Fire Asteroid", 1,spawnSystem.Spiral,2));
+			genInfo.add(new GeneratorInfo("Asteroid", 5,spawnSystem.Spiral,3));
+			genInfo.add(new GeneratorInfo("Cat", 20,spawnSystem.LineFromNorth,5,1500));
+			genInfo.add(new GeneratorInfo("Asteroid", 1,spawnSystem.Spiral,1));
+			genInfo.add(new GeneratorInfo("Fire Asteroid", 1,spawnSystem.Spiral,2));
+			genInfo.add(new GeneratorInfo("Asteroid", 5,spawnSystem.Spiral,3));
+			genInfo.add(new GeneratorInfo("Asteroid", 20,spawnSystem.LineFromEast,5,1000));
+			genInfo.add(new GeneratorInfo("Cat Gunner", 20,spawnSystem.LineFromEast,5,2500));
+			break;
+		case 47:
+			genInfo.add(new GeneratorInfo("Fire Asteroid",25,spawnSystem.Circle));
+			genInfo.add(new GeneratorInfo("Fire Asteroid",25,spawnSystem.Circle));
+			genInfo.add(new GeneratorInfo("Fire Asteroid",25,spawnSystem.Circle));
+			genInfo.add(new GeneratorInfo("Fire Asteroid",25,spawnSystem.Circle));
+			genInfo.add(new GeneratorInfo("Fire Asteroid",25,spawnSystem.Circle));
+			genInfo.add(new GeneratorInfo("Fire Asteroid",25,spawnSystem.Circle));
+			genInfo.add(new GeneratorInfo("Fire Asteroid",25,spawnSystem.Circle));
+			genInfo.add(new GeneratorInfo("Fire Asteroid",25,spawnSystem.Circle));
+			break;
+		case 48:
+			genInfo.add(new GeneratorInfo("Splitter Medium", 30,spawnSystem.Spiral));
+			genInfo.add(new GeneratorInfo("Asteroid", 4,spawnSystem.Cardinal,1,1000));
+			genInfo.add(new GeneratorInfo("Asteroid", 4,spawnSystem.Cardinal,2,1000));
+			genInfo.add(new GeneratorInfo("Asteroid", 4,spawnSystem.Cardinal,3,1000));
+			genInfo.add(new GeneratorInfo("Asteroid", 4,spawnSystem.Cardinal,1,1000));
+			genInfo.add(new GeneratorInfo("Asteroid", 4,spawnSystem.Cardinal,2,1000));
+			genInfo.add(new GeneratorInfo("Asteroid", 4,spawnSystem.Cardinal,3,1000));
+			genInfo.add(new GeneratorInfo("Asteroid", 4,spawnSystem.Cardinal,1,1000));
+			genInfo.add(new GeneratorInfo("Asteroid", 4,spawnSystem.Cardinal,2,1000));
+			genInfo.add(new GeneratorInfo("Asteroid", 4,spawnSystem.Cardinal,3,1000));
+			genInfo.add(new GeneratorInfo("Asteroid", 4,spawnSystem.Cardinal,1,1000));
+			genInfo.add(new GeneratorInfo("Asteroid", 4,spawnSystem.Cardinal,2,1000));
+			genInfo.add(new GeneratorInfo("Asteroid", 4,spawnSystem.Cardinal,3,1000));
+			genInfo.add(new GeneratorInfo("Asteroid", 4,spawnSystem.Cardinal,1,1000));
+			genInfo.add(new GeneratorInfo("Asteroid", 4,spawnSystem.Cardinal,2,1000));
+			genInfo.add(new GeneratorInfo("Asteroid", 4,spawnSystem.Cardinal,3,1000));
+			genInfo.add(new GeneratorInfo("Asteroid", 4,spawnSystem.Cardinal,1,1000));
+			genInfo.add(new GeneratorInfo("Asteroid", 4,spawnSystem.Cardinal,2,1000));
+			genInfo.add(new GeneratorInfo("Asteroid", 4,spawnSystem.Cardinal,3,1000));
+			genInfo.add(new GeneratorInfo("Asteroid", 4,spawnSystem.Cardinal,1,1000));
+			genInfo.add(new GeneratorInfo("Asteroid", 4,spawnSystem.Cardinal,2,1000));
+			genInfo.add(new GeneratorInfo("Asteroid", 4,spawnSystem.Cardinal,3,1000));
+			genInfo.add(new GeneratorInfo("Asteroid", 4,spawnSystem.Cardinal,1,1000));
+			genInfo.add(new GeneratorInfo("Asteroid", 4,spawnSystem.Cardinal,2,1000));
+			genInfo.add(new GeneratorInfo("Asteroid", 4,spawnSystem.Cardinal,3,1000));
+			genInfo.add(new GeneratorInfo("Asteroid", 4,spawnSystem.Cardinal,1,1000));
+			genInfo.add(new GeneratorInfo("Asteroid", 4,spawnSystem.Cardinal,2,1000));
+			genInfo.add(new GeneratorInfo("Asteroid", 4,spawnSystem.Cardinal,3,1000));
+			genInfo.add(new GeneratorInfo("Asteroid", 4,spawnSystem.Cardinal,1,1000));
+			genInfo.add(new GeneratorInfo("Asteroid", 4,spawnSystem.Cardinal,2,1000));
+			genInfo.add(new GeneratorInfo("Asteroid", 4,spawnSystem.Cardinal,3,1000));
+			genInfo.add(new GeneratorInfo("Asteroid", 4,spawnSystem.Cardinal,1,1000));
+			genInfo.add(new GeneratorInfo("Asteroid", 4,spawnSystem.Cardinal,2,1000));
+			genInfo.add(new GeneratorInfo("Asteroid", 4,spawnSystem.Cardinal,3,1000));
+			genInfo.add(new GeneratorInfo("Asteroid", 4,spawnSystem.Cardinal,1,1000));
+			genInfo.add(new GeneratorInfo("Asteroid", 4,spawnSystem.Cardinal,2,1000));
+			genInfo.add(new GeneratorInfo("Asteroid", 4,spawnSystem.Cardinal,3,1000));
+			genInfo.add(new GeneratorInfo("Cat Gunner", 16,spawnSystem.Cardinal,3000));
+			break;
+		case 49:
+			genInfo.add(new GeneratorInfo("Splitter Big", 4,spawnSystem.FullRandom));
+			genInfo.add(new GeneratorInfo("Splitter Big", 4,spawnSystem.FullRandom,1,600));	
+			genInfo.add(new GeneratorInfo("Splitter Big", 4,spawnSystem.FullRandom,2,1200));	
+			genInfo.add(new GeneratorInfo("Splitter Big", 4,spawnSystem.FullRandom,3,1800));	
+			break;
+		case 50:
+			genInfo.add(new GeneratorInfo("Asteroid", 10,spawnSystem.Circle));
+			genInfo.add(new GeneratorInfo("Cat", 10,spawnSystem.Circle));
+			genInfo.add(new GeneratorInfo("Asteroid", 10,spawnSystem.Circle));
+			genInfo.add(new GeneratorInfo("Cat", 10,spawnSystem.Circle));
+			genInfo.add(new GeneratorInfo("Asteroid", 10,spawnSystem.Circle));
+			genInfo.add(new GeneratorInfo("Cat", 10,spawnSystem.Circle));
+			genInfo.add(new GeneratorInfo("Asteroid", 10,spawnSystem.Circle));
+			genInfo.add(new GeneratorInfo("Cat", 10,spawnSystem.Circle));
+			genInfo.add(new GeneratorInfo("Asteroid", 10,spawnSystem.Circle));
+			genInfo.add(new GeneratorInfo("Cat", 10,spawnSystem.Circle));
+			genInfo.add(new GeneratorInfo("Asteroid", 10,spawnSystem.Circle));
+			genInfo.add(new GeneratorInfo("Cat", 10,spawnSystem.Circle));
+			genInfo.add(new GeneratorInfo("Asteroid", 10,spawnSystem.Circle));
+			genInfo.add(new GeneratorInfo("Cat", 10,spawnSystem.Circle));
+			genInfo.add(new GeneratorInfo("Asteroid", 10,spawnSystem.Circle));
+			genInfo.add(new GeneratorInfo("Cat", 10,spawnSystem.Circle));
+			genInfo.add(new GeneratorInfo("Asteroid", 10,spawnSystem.Circle));
+			genInfo.add(new GeneratorInfo("Cat Gunner", 10,spawnSystem.Circle));
+			genInfo.add(new GeneratorInfo("Asteroid", 10,spawnSystem.Circle));
+			genInfo.add(new GeneratorInfo("Cat Gunner", 10,spawnSystem.Circle));
+			genInfo.add(new GeneratorInfo("Asteroid", 10,spawnSystem.Circle));
+			genInfo.add(new GeneratorInfo("Cat", 10,spawnSystem.Circle));
+			break;
 		default:
 			genInfo.add(new GeneratorInfo("Asteroid", Wave.getR().nextInt((int)waveNumber) +1,spawnSystem.FullRandom));
 			genInfo.add(new GeneratorInfo("Fire Asteroid", Wave.getR().nextInt((int)waveNumber*5+1)/4,spawnSystem.FullRandom));

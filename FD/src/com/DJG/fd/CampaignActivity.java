@@ -11,6 +11,7 @@ import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -44,6 +45,9 @@ SharedPreferences prefs;
 	private static Thread CampaignThread;
 	private static View currentView;
 	private static Context currContext;
+	
+	// Combo for unlocks
+	public static Combo c1;
 	
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
@@ -139,7 +143,7 @@ SharedPreferences prefs;
 		myPaint.setStyle(Paint.Style.FILL);
 		myPaint.setColor(Color.WHITE);
 		myPaint.setStrokeWidth(3);
-		myPaint.setTextSize(50);
+		myPaint.setTextSize(GameActivity.getScreenWidth()/16);
 		Combo.drawCombos(canvas, myPaint, "Campaign");
 	}
 	
@@ -156,11 +160,11 @@ SharedPreferences prefs;
 			int start = GameActivity.getScreenHeight()/5 - GameActivity.getScreenHeight()/16;
 			int top = start - 50;
 			int bot = start + 400;
-			Combo c1 = new Combo(0, 0,"Campaign");
+			c1 = new Combo(0, 0,"Campaign");
 			
 			// Campaign Slider
 			ScreenElement title =  new ScreenElement("Text","Select a Wave",GameActivity.getScreenWidth()/2 - 200,GameActivity.getScreenHeight()/8,"Campaign");
-			title.setTextSize(62);
+			title.setTextSize(GameActivity.getScreenWidth()/12);
 			c1.add(title);
 			int i = 0;
 			for(int j = 0; j<=(int)MainActivity.getHighScore("Campaign")/10; j++){
@@ -206,6 +210,19 @@ SharedPreferences prefs;
 	
 	void updateStuff() {
 		Combo.updateCombos("Campaign");
+		checkIfUnlockedLevels();
+	}
+	
+	void checkIfUnlockedLevels() {
+		for(int i=0; i < c1.size(); i++) {
+			ScreenElement s = c1.get(i);
+			if(s.getType().equals("Drawn myButton")) {
+				myButton u = (myButton)c1.get(i);
+				if(MainActivity.getHighScore(GameActivity.getMode()) >= 10*(Integer.parseInt(s.getName()) - 1)) {
+					u.setClickable(true);
+				}
+			}
+		}
 	}
 	
 	void runCampaign() {
