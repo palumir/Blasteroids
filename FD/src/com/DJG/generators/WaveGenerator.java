@@ -34,6 +34,8 @@ public class WaveGenerator {
 	private int southTracker = 0;
 	private int eastTracker = 0;
 	private int westTracker = 0;
+	private int wallWestTracker = 0;
+	private int wallEastTracker = 0;
 	private int spiralNumber = 30;
 	private int circleRadius = 3;
 	
@@ -94,6 +96,7 @@ public class WaveGenerator {
 			case Circle:
 				buildCircle(w, g.unitNumbers, g.unitType, g.startingDifference);
 				break;
+			
 			case LineFromNorth:
 				for (int i = 0; i<g.unitNumbers; i++){
 					xy = northLine(g.startingDifference);
@@ -123,6 +126,30 @@ public class WaveGenerator {
 					xy = new XY(0, screenHeight/2);
 					w.add(new UnitSpawner("Any name", g.unitType, xy.x, xy.y, w));
 				}
+				break;
+			case WallFromEast:
+				int wallLocation = screenWidth + g.startingDifference + 200*wallEastTracker;
+				float ratio = wallLocation/screenWidth;
+				int bottom = (int) (screenHeight*ratio);
+				int top = -(bottom - screenHeight);
+				int range = bottom - top;
+				for(int i = 0; i < g.unitNumbers; i++){
+					int yPos = top+ range*i/g.unitNumbers;
+					w.add(new Unit("Any Name", g.unitType, wallLocation, yPos));
+				}	
+				wallEastTracker++;
+				break;
+			case WallFromWest:
+				int wWallLocation = 0 + g.startingDifference - 200*wallWestTracker;
+				float wRatio = wWallLocation/screenWidth;
+				int wBottom = (int) (screenHeight*wRatio);
+				int wTop = -(wBottom - screenHeight);
+				int wRange = wBottom - wTop;
+				for(int i = 0; i < g.unitNumbers; i++){
+					int yPos = wTop+ wRange*i/g.unitNumbers;
+					w.add(new Unit("Any Name", g.unitType, wWallLocation, yPos));
+				}	
+				wallWestTracker++;
 				break;
 			default:
 				for (int i = 0; i<g.unitNumbers; i++){
