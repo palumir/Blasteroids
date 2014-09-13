@@ -1,6 +1,7 @@
 package com.DJG.fd;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -32,6 +33,9 @@ public class MainActivity extends ActionBarActivity {
 	public View currentView;
 	private boolean doOnce = true;
 	private static Context currContext;
+	
+	// Globals
+	public static SharedPreferences prefs;
 	
 	public void startSurvival(View view) {
 		if(GameActivity.gameContext==null) {
@@ -121,6 +125,7 @@ public class MainActivity extends ActionBarActivity {
 		myButton credits = new myButton("Credits",width/2,height/5 + 9*height/20,(width - width/1.7f),height/20,"Main");
 		ScreenElement creditsText =  new ScreenElement("Text","Credits",width/2 - 100,height/4.7f + 9*height/20,"Main");
 		creditsText.setTextSize(60);
+		prefs = this.getSharedPreferences("flickOffGame", Context.MODE_PRIVATE);
     }
 
 	@Override
@@ -187,7 +192,11 @@ public class MainActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    /**
+    public static int getHighScore() {
+		return prefs.getInt("highScoreSurvival", 0);
+	}
+
+	/**
      * A placeholder fragment containing a simple view.
      */
     public static class PlaceholderFragment extends Fragment {

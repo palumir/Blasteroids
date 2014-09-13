@@ -17,6 +17,8 @@ public class myButton extends ScreenElement {
 	
 	private float width;
 	private float height;
+	private boolean clickable = true;
+	private boolean beingClicked = false;
 	
 	public myButton(String newText,float xSpawn,float ySpawn,float myWidth,float myHeight,String newActivity) {
 		super("Drawn myButton",newText,xSpawn,ySpawn,myWidth,myHeight,newActivity);
@@ -52,6 +54,9 @@ public class myButton extends ScreenElement {
 				myPaint);
 		myPaint.setStyle(Paint.Style.FILL);
 		myPaint.setColor(Color.BLUE);
+		if(!isClickable()) {
+			myPaint.setColor(Color.RED);
+		}
 		canvas.drawRect(
 				getX() - width,
 				getY() - height,
@@ -77,6 +82,22 @@ public class myButton extends ScreenElement {
 			}
 		}
 	}
+	}
+
+	public boolean isClickable() {
+		return clickable;
+	}
+
+	public void setClickable(boolean clickable) {
+		this.clickable = clickable;
+	}
+
+	public boolean isBeingClicked() {
+		return beingClicked;
+	}
+
+	public void setBeingClicked(boolean beingClicked) {
+		this.beingClicked = beingClicked;
 	}
 	
 }

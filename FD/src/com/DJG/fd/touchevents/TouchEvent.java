@@ -11,6 +11,7 @@ import com.DJG.fd.GameActivity;
 import com.DJG.fd.MainActivity;
 import com.DJG.screenelements.Combo;
 import com.DJG.screenelements.ScreenElement;
+import com.DJG.screenelements.myButton;
 import com.DJG.units.Unit;
 import com.DJG.units.UnitType;
 
@@ -146,7 +147,9 @@ public class TouchEvent {
 	    			// Respond to a purchase.
     				if(grabbedScreenElement != null && grabbedScreenElement==touchedElement && grabbedScreenElement.getType() == "Drawn myButton") {
 	    				int attachedNum = Integer.parseInt(grabbedScreenElement.getName());
-	    				CampaignActivity.startGame(attachedNum*10);
+	    				if(((myButton)grabbedScreenElement).isClickable()) {
+	    					CampaignActivity.startGame(attachedNum*10);
+	    				}
 	    			}
     			if(touchedCombo!=null) {
 	    			touchedCombo.startComboX = 0;
