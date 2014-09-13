@@ -58,7 +58,7 @@ public class Unit {
 	// Projectile Information
 	private Unit target = null;
 	private boolean isAttacked = false;
-	private float attackSpeed = 1000;
+	private float attackSpeed = 2000;
 	private float lastAttackTime = 0;
 	private boolean inGunnerRange = false;
 

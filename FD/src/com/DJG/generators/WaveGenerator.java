@@ -187,31 +187,10 @@ public class WaveGenerator {
 	}
 	private static XY getRandomXY(int d) {
 		// Get the height, width, and a new random number generator.
-	    int whatQuarter = r.nextInt(4) + 1;
-	    
-	    // ^ // NORTH // TOP
-	    if(whatQuarter == 1) {
-	    	xSpawn = r.nextInt(screenWidth);
-	    	ySpawn = r.nextInt(300)*(-1)-50-d;
-	    }
-	    
-	    // > // EAST // RIGHT
-	    if(whatQuarter == 2) {
-	    	xSpawn = screenWidth + r.nextInt(300) + 50+d;
-	    	ySpawn = r.nextInt(screenHeight);
-	    }
-	    
-	    // \/ // SOUTH // BOTTOM
-	    if(whatQuarter == 3) {
-	    	xSpawn = r.nextInt(screenWidth);
-	    	ySpawn = screenHeight + r.nextInt(300) + 50 +d;
-	    }
-	    
-	    // < // WEST // LEFT
-	    if(whatQuarter == 4) {
-	    	xSpawn = r.nextInt(300)*(-1)-50-d;
-	    	ySpawn = r.nextInt(screenHeight);
-	    }
+	    int radian = r.nextInt(360) + 1;
+	    int radius = screenHeight/2 + 150 + r.nextInt(300);
+	    xSpawn = (int) (screenWidth/2 + radius*Math.cos(Math.toRadians(radian))); 
+	    ySpawn = (int) (screenHeight/2 + radius*Math.sin(Math.toRadians(radian)));
 	    XY xy = new XY(xSpawn,ySpawn);
 	    return xy;
 	}

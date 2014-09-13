@@ -19,7 +19,7 @@ public class myButton extends ScreenElement {
 	private float height;
 	
 	public myButton(String newText,float xSpawn,float ySpawn,float myWidth,float myHeight,String newActivity) {
-		super("Drawn myButton",newText,xSpawn,ySpawn,newActivity);
+		super("Drawn myButton",newText,xSpawn,ySpawn,myWidth,myHeight,newActivity);
 		width = myWidth;
 		height = myHeight;
 		creationTime = GameActivity.getGameTime();

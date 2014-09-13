@@ -82,6 +82,34 @@ public class ScreenElement {
 			addScreenElement(this);
 		}
 	}
+	
+	public ScreenElement(
+			String newType,
+			String newText,
+			float xSpawn,
+			float ySpawn,
+			float myWidth,
+			float myHeight,
+			String newActivity
+			) {
+		// Set it's coordinates.
+		setName(newText);
+		type = newType;
+		x = xSpawn;
+		y = ySpawn;
+		setWidth((int)myWidth);
+		setHeight((int)myHeight);
+		xNew = xSpawn;
+		yNew = ySpawn;
+		activity = newActivity;
+		color = Color.WHITE;
+		textsize = 50;
+		
+		// Add it to the list of ScreenElements to be drawn.
+		synchronized(allScreenElementsLock) {
+			addScreenElement(this);
+		}
+	}
 
 	public ScreenElement(String newName, String newType, float xSpawn, float ySpawn, int newWidth, int newHeight, Bitmap newBMP) {
 		

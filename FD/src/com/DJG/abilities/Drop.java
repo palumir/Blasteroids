@@ -39,7 +39,7 @@ public class Drop {
 			}
 			
 			// Drop a special ability?
-			if(getR().nextInt(1000) == 1) {
+			if(getR().nextInt(600) == 1) {
 				if(u.getMetaType() == "Unit") {
 					abilityToDrop = Ability.getAbilityDrop("Special");
 				}

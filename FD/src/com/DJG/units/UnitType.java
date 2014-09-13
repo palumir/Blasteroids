@@ -44,7 +44,7 @@ public class UnitType {
 		// Projectile
 		getAllUnitTypes().add(new UnitType("Bullet",20,10f, true, R.drawable.bullet, R.drawable.bullet, 1, 0,"Projectile"));
 		getAllUnitTypes().add(new UnitType("Bomb Bullet",20,10f, true, R.drawable.bomb_bullet, R.drawable.bomb_bullet, 1, 0,"Projectile"));
-		getAllUnitTypes().add(new UnitType("Gunner Bullet",30,1f, true, R.drawable.red_orb, 1, 1,"Unit"));
+		getAllUnitTypes().add(new UnitType("Gunner Bullet",9,3f, true, R.drawable.red_orb, 1, 1,"Unit"));
 		
 		// Cthulu
 		getAllUnitTypes().add(new UnitType("Cthulu Head",100,1f,true,Color.RED,"Square", 1, 0));
@@ -55,8 +55,8 @@ public class UnitType {
 		Planet.initPlanetTypes();
 		
 		//Defensive units, Will add own class later
-		getAllUnitTypes().add(new UnitType("Fire Defender Moon", 50, 0f,true, R.drawable.fire_asteroid, 1, 0,"Moon"));
-		getAllUnitTypes().add(new UnitType("Mars Moon", 50, 0f, true, R.drawable.asteroid, 2, 0,"Moon"));
+		getAllUnitTypes().add(new UnitType("Fire Defender Moon", 26, 0f,true, R.drawable.fire_moon, 1, 0,"Moon"));
+		getAllUnitTypes().add(new UnitType("Mars Moon", 26, 0f, true, R.drawable.moon, 2, 0,"Moon"));
 	}
 	
 	public static UnitType getUnitType(String searchType) {
