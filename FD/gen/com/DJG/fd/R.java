@@ -1138,12 +1138,13 @@ containing a value of this type.
         public static final int activity_main=0x7f03001a;
         public static final int activity_options=0x7f03001b;
         public static final int activity_store=0x7f03001c;
-        public static final int fragment_campaign=0x7f03001d;
-        public static final int fragment_campaign_selector=0x7f03001e;
-        public static final int fragment_game=0x7f03001f;
-        public static final int fragment_main=0x7f030020;
-        public static final int fragment_store=0x7f030021;
-        public static final int support_simple_spinner_dropdown_item=0x7f030022;
+        public static final int activity_tutorial=0x7f03001d;
+        public static final int fragment_campaign=0x7f03001e;
+        public static final int fragment_campaign_selector=0x7f03001f;
+        public static final int fragment_game=0x7f030020;
+        public static final int fragment_main=0x7f030021;
+        public static final int fragment_store=0x7f030022;
+        public static final int support_simple_spinner_dropdown_item=0x7f030023;
     }
     public static final class menu {
         public static final int campaign=0x7f0d0000;
@@ -1152,6 +1153,7 @@ containing a value of this type.
         public static final int main=0x7f0d0003;
         public static final int options=0x7f0d0004;
         public static final int store=0x7f0d0005;
+        public static final int tutorial=0x7f0d0006;
     }
     public static final class raw {
         public static final int small_3_second_explosion=0x7f050000;
@@ -1207,6 +1209,7 @@ containing a value of this type.
         public static final int title_activity_display_message=0x7f0b0012;
         public static final int title_activity_options=0x7f0b0016;
         public static final int title_activity_store=0x7f0b0013;
+        public static final int title_activity_tutorial=0x7f0b0017;
     }
     public static final class style {
         /** 

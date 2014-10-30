@@ -11,5 +11,6 @@
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_campaign">CampaignActivity</string>
     <string name="title_activity_options">Options</string>
+    <string name="title_activity_tutorial">Tutorial</string>
 
 </resources>

@@ -226,14 +226,14 @@ public class ScreenElement {
 			for(int j = 0; j < allScreenElements.size(); j++) {
 				ScreenElement u = allScreenElements.get(j);
 				if(u.getType().equals("Drawn myButton") &&
-						x >= u.getX() - u.getWidth() && 
-						x <= u.getX() + u.getWidth() &&
-						y >= u.getY() - u.getHeight() &&
-						y <= u.getY() + u.getHeight() &&
-						u.getActivity().equals(act)) {
+						x >= u.getX() - u.getWidth() - u.getHeight()/3 && 
+						x <= u.getX() + u.getWidth() + u.getHeight()/3 &&
+						y >= u.getY() - u.getHeight() - u.getHeight()/3 &&
+						y <= u.getY() + u.getHeight() + u.getHeight()/3 &&
+						u.getActivity().equals(act) && ((myButton)u).isClickable()) {
 						return u;
 				}
-				if(x > u.getX() - 50 && x < u.getX() + u.getWidth() + 50 && y > u.getY() - 50 && y < u.getY() + u.getHeight() + 50 && u.getActivity().equals(act)) {
+				else if(!u.getType().equals("Drawn myButton") && x > u.getX() - 50 && x < u.getX() + u.getWidth() + 50 && y > u.getY() - 50 && y < u.getY() + u.getHeight() + 50 && u.getActivity().equals(act)) {
 					return u;
 				}
 			}

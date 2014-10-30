@@ -47,6 +47,10 @@
             android:label="@string/title_activity_options"
             android:screenOrientation="portrait" >
         </activity>
+        <activity
+            android:name=".Tutorial"
+            android:label="@string/title_activity_tutorial" >
+        </activity>
     </application>
 
 </manifest>

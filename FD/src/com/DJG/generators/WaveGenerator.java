@@ -92,7 +92,10 @@ public class WaveGenerator {
 				}
 				break;
 			case Circle:
-				buildCircle(w, g.unitNumbers, g.unitType, g.startingDifference);
+				buildCircle(w, g.unitNumbers, g.unitType, g.startingDifference, spinVal);
+				break;
+			case Bombardment:
+				buildBombardment(w, g.unitNumbers, g.unitType, g.startingDifference, spinVal);
 				break;
 			case LineFromNorth:
 				for (int i = 0; i<g.unitNumbers; i++){
@@ -195,7 +198,7 @@ public class WaveGenerator {
 	    return xy;
 	}
 	
-	public void buildCircle(Wave w, int n, String unitType, int startingDifference){
+	public void buildCircle(Wave w, int n, String unitType, int startingDifference, int spinVal){
 		int radius = circleRadius*150 + screenHeight/2 + startingDifference;
 		double currentDegree = 0;
 		double degreeChange = (double) 360/n;
@@ -203,7 +206,20 @@ public class WaveGenerator {
 			int x = (int) (screenWidth/2 + radius*Math.cos(Math.toRadians(currentDegree))); 
 			int y = (int) (screenHeight/2 + radius*Math.sin(Math.toRadians(currentDegree)));
 			currentDegree += degreeChange;
-			w.add(new Unit("New name", unitType, x, y, 10));
+			w.add(new Unit("New name", unitType, x, y, spinVal));
+		}
+		circleRadius++;
+	}
+	
+	public void buildBombardment(Wave w, int n, String unitType, int startingDifference, int spinVal){
+		int radius = circleRadius*100 + startingDifference;
+		double currentDegree = 0;
+		double degreeChange = (double) 360/n;
+		for(int i = 0; i<n; i++){
+			int x = (int) (screenWidth/2 + radius*Math.cos(Math.toRadians(currentDegree))); 
+			int y = (int) (screenHeight/2 + radius*Math.sin(Math.toRadians(currentDegree)));
+			currentDegree += degreeChange;
+			w.add(new Unit("New name", unitType, x, y, spinVal));
 		}
 		circleRadius++;
 	}

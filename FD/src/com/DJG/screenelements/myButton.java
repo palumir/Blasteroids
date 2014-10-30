@@ -15,6 +15,7 @@ public class myButton extends ScreenElement {
 	private static ArrayList<myButton> myButtons = new ArrayList<myButton>();
 	public static Object lock = new Object();
 	
+	private boolean forceColor = false;
 	private float width;
 	private float height;
 	private boolean clickable = true;
@@ -57,12 +58,20 @@ public class myButton extends ScreenElement {
 		if(!isClickable()) {
 			myPaint.setColor(Color.RED);
 		}
+		if(forceColor) {
+			myPaint.setColor(color);
+		}
 		canvas.drawRect(
 				getX() - width,
 				getY() - height,
 				getX() + width,
 				getY() + height,
 				myPaint);
+	}
+	
+	public void forceColor(int n) {
+		forceColor = true;
+		color = n;
 	}
 	
 	public static void killmyButton(ScreenElement u) {

@@ -202,6 +202,8 @@ public class Store extends ActionBarActivity {
 			for(int j = 0; j < Ability.upgradeableAbilities.size(); j++){
 				Ability a = Ability.upgradeableAbilities.get(j);
 				if(a.getSlot() != -1) {
+				myButton backgroundPanel = new myButton("Background Panel",GameActivity.getScreenWidth()/2 + seperation,start + GameActivity.getScreenHeight()*9/72,GameActivity.getScreenWidth()/6,GameActivity.getScreenHeight()*13/72,"Store");
+				backgroundPanel.forceColor(Color.BLUE);
 				ScreenElement abilityIcon = new ScreenElement(
 						"Buy",
 						"Icon",
@@ -255,6 +257,8 @@ public class Store extends ActionBarActivity {
 						);
 				equipButton.attachAbility(a);
 				buyButton.attachAbility(a);
+				backgroundPanel.setClickable(false);
+				c1.add(backgroundPanel);
 				c1.add(abilityIcon);
 				c1.add(equipButton);
 				c1.add(coinIcon);
@@ -277,6 +281,8 @@ public class Store extends ActionBarActivity {
 		for(int j = 0; j < Planet.getPlanetTypes().size(); j++){
 			UnitType u = Planet.getPlanetTypes().get(j);
 			if(u.getMetaType() == "Planet") { 
+				myButton backgroundPanel = new myButton("Background Panel",GameActivity.getScreenWidth()/2 + seperation,start + GameActivity.getScreenHeight()*9/72,GameActivity.getScreenWidth()/6,GameActivity.getScreenHeight()*13/72,"Store");
+				backgroundPanel.forceColor(Color.BLUE + Color.CYAN);
 				ScreenElement abilityIcon = new ScreenElement(
 						"Buy",
 						"Icon",
@@ -330,6 +336,8 @@ public class Store extends ActionBarActivity {
 						);
 				equipButton.attachPlanet(u);
 				buyButton.attachPlanet(u);
+				backgroundPanel.setClickable(false);
+				c2.add(backgroundPanel);
 				c2.add(abilityIcon);
 				c2.add(equipButton);
 				c2.add(coinIcon);
