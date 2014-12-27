@@ -212,6 +212,7 @@ public class Store extends ActionBarActivity {
 						80,
 						43,
 						a.getBMP(),
+						"No Resize",
 						"Store"
 						);
 				ScreenElement coinIcon = new ScreenElement(
@@ -291,6 +292,7 @@ public class Store extends ActionBarActivity {
 						80,
 						43,
 						u.getBMP(),
+						"No Resize",
 						"Store"
 						);
 				ScreenElement coinIcon = new ScreenElement(

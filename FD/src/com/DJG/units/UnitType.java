@@ -88,6 +88,7 @@ public class UnitType {
 		metaType = "Unit";
 		killable = isKillable;
 		bitmap = GameActivity.makeTransparent(BitmapFactory.decodeResource(GameActivity.gameContext.getResources(), newBitMapLink));
+		bitmap =  Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), MainActivity.matrix, true);
 		maxHitPoints = newHP;
 		damage = newDamage;
 		metaType = newMetaType;
@@ -103,7 +104,7 @@ public class UnitType {
 		metaType = myMetaType;
 		bitmap = GameActivity.makeTransparent(BitmapFactory.decodeResource(GameActivity.gameContext.getResources(), newBitMapLink));
 		radius = bitmap.getScaledWidth(MainActivity.metrics)/2;
-		Log.d(type,""+radius);
+		bitmap =  Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), MainActivity.matrix, true);
 		maxHitPoints = newHP;
 		damage = newDamage;
 		frozenBMP = bitmap;
@@ -117,6 +118,7 @@ public class UnitType {
 		metaType = myMetaType;
 		bitmap = GameActivity.makeTransparent(BitmapFactory.decodeResource(GameActivity.gameContext.getResources(), newBitMapLink));
 		radius = bitmap.getScaledWidth(MainActivity.metrics)/2;
+		bitmap =  Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), MainActivity.matrix, true);
 		maxHitPoints = newHP;
 		damage = newDamage;
 		frozenBMP = GameActivity.makeTransparent(BitmapFactory.decodeResource(GameActivity.gameContext.getResources(), myFrozen));
@@ -129,6 +131,7 @@ public class UnitType {
 		metaType = newMetaType;
 		killable = isKillable;
 		bitmap = GameActivity.makeTransparent(BitmapFactory.decodeResource(GameActivity.gameContext.getResources(), newBitMapLink));
+		bitmap =  Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), MainActivity.matrix, true);
 		setFrozenBMP(GameActivity.makeTransparent(BitmapFactory.decodeResource(GameActivity.gameContext.getResources(), newFrozenBMPLink)));
 		maxHitPoints = newHP;
 		damage = newDamage;
@@ -141,6 +144,7 @@ public class UnitType {
 		metaType = newMetaType;
 		killable = isKillable;
 		bitmap = GameActivity.makeTransparent(BitmapFactory.decodeResource(GameActivity.gameContext.getResources(), newBitMapLink));
+		bitmap =  Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), MainActivity.matrix, true);
 		setFrozenBMP(bitmap);
 		maxHitPoints = newHP;
 		damage = newDamage;
@@ -154,6 +158,7 @@ public class UnitType {
 		metaType = newMetaType;
 		killable = isKillable;
 		bitmap = newBitMap;
+		bitmap =  Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), MainActivity.matrix, true);
 		maxHitPoints = newHP;
 		damage = newDamage;
 		frozenBMP = bitmap;
@@ -169,7 +174,6 @@ public class UnitType {
 		color = newColor;
 		maxHitPoints = newHP;
 		damage = newDamage;
-		frozenBMP = bitmap;
 	}
 
 	// Unit Type fields. WIP: Seperate into sections when there's lots of values.

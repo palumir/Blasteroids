@@ -12,7 +12,6 @@ import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -28,9 +27,9 @@ import com.DJG.fd.touchevents.TouchEvent;
 import com.DJG.planets.Planet;
 import com.DJG.screenelements.Background;
 import com.DJG.screenelements.ScreenElement;
-import com.DJG.secrets.JenkinsSecrets;
 import com.DJG.units.Unit;
 import com.DJG.units.UnitType;
+import com.DJG.waves.Survival;
 import com.DJG.waves.Wave;
 
 public class GameActivity extends ActionBarActivity {
@@ -62,6 +61,9 @@ public class GameActivity extends ActionBarActivity {
 	
 	// The castle of course
 	private static Planet fortress;
+	
+	// DEBUG
+	public static String debug = "";
 	
 	// Paint
 	static Paint myPaint = new Paint();
@@ -128,7 +130,7 @@ public class GameActivity extends ActionBarActivity {
 			Coin.coinsSave();
 			gameContext = this.getApplicationContext();
 			gameOver = false;
-			levelText = "Wave " + (int)(Wave.getCurrentWaveNumber() + 1);
+			levelText = "0";
 			highScoreText = "";
 			previousHighScoreText = "";
 			castleHP = "";
@@ -144,7 +146,7 @@ public class GameActivity extends ActionBarActivity {
 		myPaint.setTextSize(screenWidth/16);
 		myPaint.setColor(Color.WHITE);
 		canvas.drawText(levelText, 50f, 50f, myPaint);
-		canvas.drawText(coinsText, 260f, (float) (screenHeight - 50), myPaint);
+		canvas.drawText(debug, 260f, (float) (screenHeight - 50), myPaint); // DEBUG
 		canvas.drawText(highScoreText, 50f, 100f, myPaint);
 		canvas.drawText(previousHighScoreText, 50f, 150f, myPaint);
 		canvas.drawText(castleHP, 100f, (float) (screenHeight - 50), myPaint);
@@ -281,8 +283,8 @@ public class GameActivity extends ActionBarActivity {
 		pauseButton = new ScreenElement("Pause", "Button", screenWidth - 40,
 				40, 22, 22, ScreenElement.pauseBMP, "Game");
 		// Coin symbol
-		coinSymbol = new ScreenElement("Coin", "Button", 230f,
-				(screenHeight - 68), 25, 25, Coin.CoinBMP, "Game");
+		/*coinSymbol = new ScreenElement("Coin", "Button", 230f,
+				(screenHeight - 68), 25, 25, Coin.CoinBMP, "Game");*/
 		
 		// Health symbol
 		healthSymbol = new ScreenElement("Health", "Button", 70f,
@@ -290,7 +292,7 @@ public class GameActivity extends ActionBarActivity {
 		
 
 		Wave.initWaves(levelStart);
-		levelText = "Wave " + (levelStart + 1);
+		levelText = "0";
 		Ability.initAbilities(prefs);
 		// Spawn the planet.
 		Planet p = Planet.getCurrentPlanet(screenWidth/2,screenHeight/2);
@@ -336,20 +338,20 @@ public class GameActivity extends ActionBarActivity {
 		Coin.coinsSave();
 		gameOver = true;
 		doOnce = true;
-		levelText = "Wave " + (Wave.getCurrentWaveNumber() + 1)
-				+ " defeated you.";
+		levelText = "You survived " + (int)Math.round(gameTime/1000)
+				+ " seconds.";
 		castleHP = "";
 		coinsText = "";
 		int currHighScore = prefs.getInt(mode + "highScore", 0);
-		if ((Wave.getCurrentWaveNumber() + 1) > currHighScore) {
+		if ((int)Math.round(gameTime) > currHighScore) {
 			Editor editor = prefs.edit();
 			editor.putInt(mode + "highScore",
-					(int)(Wave.getCurrentWaveNumber() + 1));
+					(int)Math.round(gameTime/1000));
 			highScoreText = "New high score!";
-			previousHighScoreText = "Previous: Wave " + currHighScore + ".";
+			previousHighScoreText = "Previous: " + currHighScore + " seconds.";
 			editor.commit();
 		} else {
-			highScoreText = "Current high score: Wave " + currHighScore + ".";
+			highScoreText = "High score: " + currHighScore + " seconds.";
 			previousHighScoreText = "";
 		}
 		Unit.destroyAllUnits(); // Don't request the lock because the caller is
@@ -368,6 +370,7 @@ public class GameActivity extends ActionBarActivity {
 		// If the game is unpaused...
 		if(!paused) {
 			gameTime = gameTime + 10;
+			levelText = Double.toString((double)gameTime/1000d);
 			
 			// Unleash the waves.
 			if (lost == false) {
@@ -375,8 +378,6 @@ public class GameActivity extends ActionBarActivity {
 			}
 	
 			ScreenElement.updateScreenElements();
-			
-			JenkinsSecrets.updateSecrets();
 			
 			// Update abilities.
 			Ability.updateAbilities();
@@ -387,6 +388,8 @@ public class GameActivity extends ActionBarActivity {
 	}
 	
 	public static void reset() {
+		gameTime = 0;
+		Ability.slotNumber = 0;
 		paused = false;
 		gameOver = true;
 		doOnce = true;

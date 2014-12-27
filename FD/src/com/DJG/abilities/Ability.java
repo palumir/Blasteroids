@@ -12,6 +12,7 @@ import android.media.MediaPlayer;
 import android.util.Log;
 
 import com.DJG.fd.GameActivity;
+import com.DJG.fd.MainActivity;
 import com.DJG.fd.R;
 import com.DJG.fd.touchevents.TouchEvent;
 import com.DJG.units.Unit;
@@ -42,6 +43,7 @@ public class Ability {
 	private long coolDownTime = 0;
 	
 	// Slot information.
+	public static int slotNumber = 0;
 	private Bitmap bmp;
 	private int slot;
 	private float x;
@@ -67,7 +69,8 @@ public class Ability {
 		uses = newUses;
 		iconColor = Color.WHITE;
 		bmp = newBMP;
-		purchased = (getPrefs().getInt(newType + "_equipped", 0) == 1);
+		bmp =  Bitmap.createBitmap(bmp, 0, 0, bmp.getWidth(), bmp.getHeight(), MainActivity.matrix, true);
+		/*purchased = (getPrefs().getInt(newType + "_equipped", 0) == 1);*/
 		
 		switch(getSlot()){
 		case -2:
@@ -80,17 +83,9 @@ public class Ability {
 			x = -1000;
 			y = -1000;
 			break;
-		case 0:
-			x = GameActivity.getScreenWidth()-100;
-			radius = newRadius;
-			break;
-		case 1:
-			x = GameActivity.getScreenWidth()-200;
-			break;
-		case 2:
-			x = GameActivity.getScreenWidth()-300;
-			break;
 		default:
+			x = GameActivity.getScreenWidth()-((slotNumber+1)*100);
+			slotNumber = slotNumber + 1;
 			break;
 		}
 		y = GameActivity.getScreenHeight()-100;
@@ -104,29 +99,28 @@ public class Ability {
 		
 		
 		// If they have no abilities, give them a bomb!
-		if(getPrefs().getInt("Bomb_purchased", -99) == -99) {
+		/*if(getPrefs().getInt("Bomb_purchased", -99) == -99) {
 			getEditor().putInt("Bomb_purchased",1);
 			getEditor().commit();
 		}
 		if(getPrefs().getString("Slot1","None").equals("None")) {
 			getEditor().putString("Slot1", "Bomb");
 			getEditor().commit();
-		}
+		}*/
 		
 		// Load all abilities that you can upgrade
 		upgradeableAbilities = new ArrayList<Ability>();
 		upgradeableAbilities.add(new Ability("Bomb",0,1,3,R.raw.small_3_second_explosion,Bomb.bombBMP,32,"POW!",0));
-		upgradeableAbilities.add(new Ability("Slow",0,1,3,-1,Slow.slowBMP,32,"Slows in a radius.",15));
-		upgradeableAbilities.add(new Ability("Blackhole",0,1,3,-1,Blackhole.BlackholeBMP,32,"Sucks in asteroids.",25));
-		upgradeableAbilities.add(new Ability("Turret",0,1,3,-1,Turret.TurretBMP,32,"Shoots stuff.",30));
-		upgradeableAbilities.add(new Ability("Bomb Turret",0,1,3,-1,BombTurret.BombTurretBMP,32,"Shoots bombs.",30));
+		upgradeableAbilities.add(new Ability("Slow",0,1,0,-1,Slow.slowBMP,32,"Slows in a radius.",15));
+		upgradeableAbilities.add(new Ability("Blackhole",0,1,0,-1,Blackhole.BlackholeBMP,32,"Sucks in asteroids.",25));
+		upgradeableAbilities.add(new Ability("Turret",0,1,0,-1,Turret.TurretBMP,32,"Shoots stuff.",30));
+		upgradeableAbilities.add(new Ability("Bomb Turret",0,1,0,-1,BombTurret.BombTurretBMP,32,"Shoots bombs.",30));
 		upgradeableAbilities.add(new Ability("Fire Fingers",-1,1,3,-1,FireFingers.fireBMP,32,"Fire Fingers",0));
 		upgradeableAbilities.add(new Ability("Lazer Fingers",-1,1,3,-1,LazerFingers.lazerBMP,32,"Lazer Fingers",0));
 		upgradeableAbilities.add(new Ability("Nuke",-1,1,3,-1,Nuke.NukeBMP,32,"Nuke",0));
-		upgradeableAbilities.add(new Ability("Coin",-2,1,3,-1,Coin.CoinBMP,25,"Coin",0));
 		
 		// All droppable abilities/equippable abilities.
-		initPurchasedAbilities();
+		//initPurchasedAbilities();
 		initUserAbilities();
 		Drop.initAbilityDrops();
 		
@@ -134,7 +128,7 @@ public class Ability {
 		aList = new ArrayList<Ability>();
   		for(int i = 0; i < Ability.getEquippedAbilities().size(); i++) {
   			Ability a = Ability.getEquippedAbilities().get(i);
-			if(a.slot>=0 && a.slot<=3) {
+			if(a.slot>=0) {
 				aList.add(a);
 			}
 		}
@@ -150,10 +144,10 @@ public class Ability {
 		}
 		
 		// Planet stuff
-		if(Ability.getPrefs().getInt("Earth_purchased", 0) == 0) {
+	/*	if(Ability.getPrefs().getInt("Earth_purchased", 0) == 0) {
 			Ability.getEditor().putInt("Earth_purchased", 1);
 			Ability.getEditor().commit();
-		}
+		}*/
 	}
 	
 	public static Ability getAbilityDrop(String dropType) {
@@ -205,7 +199,7 @@ public class Ability {
 		return count;
 	}
 	
-	public void buy() {
+	/*public void buy() {
 		if(getPrefs().getInt(getType() + "_purchased", -99) == -99 && Coin.getCoins() >= getCost()) {
 			getEditor().putInt(getType() + "_purchased",1);
 			Coin.increaseCoins((-1)*getCost());
@@ -218,9 +212,9 @@ public class Ability {
 		else if(!(Coin.getCoins() >= getCost())) {
 			// You don't have enough coins for that!
 		}
-	}
+	}*/
 	
-	public void equip(String equipSlot) {
+	/*public void equip(String equipSlot) {
 		if(getPrefs().getInt(getType() + "_purchased", -99) == 1) {
 			getEditor().putString(equipSlot, getType());
 			getEditor().commit();
@@ -229,40 +223,26 @@ public class Ability {
 		else {
 			// You do not have that ability purchased.
 		}
-	}
+	}*/
 	
-	static void initPurchasedAbilities() {
+	/*static void initPurchasedAbilities() {
 		purchasedAbilities = new ArrayList<Ability>();
 		synchronized(purchasedAbilitiesLock) {
 			int curSlot = 0;
       		for(int i = 0; i < Ability.upgradeableAbilities.size(); i++) {
       			Ability a = Ability.upgradeableAbilities.get(i);
-				if(a.purchased){
-					purchasedAbilities.add(a);
-				}
+				purchasedAbilities.add(a);
 			}
 		}
-	}
+	}*/
 	
 	static void initUserAbilities() {
 		equippedAbilities = new ArrayList<Ability>();
 		synchronized(upgradeableAbilitiesLock) {
       		for(int i = 0; i < Ability.upgradeableAbilities.size(); i++) {
       			Ability a = Ability.upgradeableAbilities.get(i);
-					if(getPrefs().getString("Slot1","Bomb").equals(a.getType())) {
-						a.setSlot(0);
-						equippedAbilities.add(a);
-					}
-					else if(getPrefs().getString("Slot2","None").equals(a.getType())) {
-						a.setSlot(1);
-						equippedAbilities.add(a);
-					}
-					else if(getPrefs().getString("Slot3","None").equals(a.getType())) {
-						a.setSlot(2);
-						equippedAbilities.add(a);
-					}
 				// The ability is passive!
-				else if(a.getSlot() <= -1) {
+				if(a.getSlot() <= -1 || a.getSlot() == 0) {
 					equippedAbilities.add(a);
 				}
 			}
@@ -336,7 +316,7 @@ public class Ability {
       	synchronized(abilitiesLock) {
       		for(int i = 0; i < Ability.getEquippedAbilities().size(); i++) {
       			Ability a = Ability.getEquippedAbilities().get(i);
-      			if(a.getBMP() != null) {
+      			if(a.getBMP() != null && a.getUses() > 0) {
       				canvas.drawBitmap(a.getBMP(), a.getX()-a.getRadius(), a.getY() - a.getRadius(), null);
 	  				myPaint.setColor(Color.WHITE);
 	  				myPaint.setStyle(Style.FILL);
@@ -344,19 +324,6 @@ public class Ability {
  	  				myPaint.setTextSize(35);
 	  				canvas.drawText(
 	  						Integer.toString(a.getUses()),a.getX()-a.getRadius()+20,a.getY() - a.getRadius() +100,myPaint);
-      			}
-      			else {
-    	  				myPaint.setColor(a.getIconColor());
-    	  				myPaint.setStyle(Paint.Style.FILL);
-    	  				canvas.drawRect(a.getX() - +a.getRadius(), a.getY() + ((float)a.getRadius())*(1-a.getCDPercentRemaining()) - +a.getRadius(), a.getX(), a.getY(), myPaint );
-    	  				myPaint.setColor(Color.RED);
-    	  				myPaint.setTextSize(14);
-    	  				canvas.drawText(Integer.toString(a.getUses()),a.getX()+4-a.getRadius(),a.getY()+22-a.getRadius(),myPaint);
-    	  				myPaint.setColor(Color.WHITE);
-    	  				myPaint.setTextSize(50);
-    	  				canvas.drawText(a.getSymbol(),a.getX()+23-a.getRadius(),a.getY()-22,myPaint);
-    	  				myPaint.setStyle(Paint.Style.STROKE);
-    	  				canvas.drawRect(a.getX() - a.getRadius(), a.getY() - a.getRadius(), a.getX(), a.getY(), myPaint );
       			}
       		}
       	}

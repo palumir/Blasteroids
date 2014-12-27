@@ -769,6 +769,9 @@ public class Unit {
 		Drop.potentiallyDropItem(this);
 
 		// Do special things for special units.
+		if(type.equals("Asteroid") || type.equals("Cat")) {
+			Bomb b = new Bomb(getX(), getY(), 20, 400, Color.WHITE, Color.YELLOW);
+		}
 		if (type.startsWith("Fire")) {
 			Bomb b = new Bomb(this.getX(), this.getY(), 115, 400, Color.RED, Color.YELLOW);
 		}

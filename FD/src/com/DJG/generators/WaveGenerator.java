@@ -23,11 +23,14 @@ class XY {
 }
 
 public class WaveGenerator {
+	public static double maxTimeOnWave;
+	public static XY xy;
+	public static float xySpeed;
+	
 	private static int screenWidth;// = DisplayMessageActivity.getScreenWidth();
 	private static int screenHeight;// = DisplayMessageActivity.getScreenHeight();
 	private static int xSpawn = -200;
 	private static int ySpawn = -200;
-	
 	
 	private static Random r = new Random();
 	private int northTracker = 0;
@@ -38,6 +41,7 @@ public class WaveGenerator {
 	private int circleRadius = 3;
 	
 	public WaveGenerator(){
+		 maxTimeOnWave = 0;
 		 screenWidth = GameActivity.getScreenWidth();
 		 screenHeight = GameActivity.getScreenHeight();
 	}
@@ -53,7 +57,6 @@ public class WaveGenerator {
 		for(GeneratorInfo g : genInfo){
 			int spinVal = g.spin;
 			spawnSystem s = g.spawn;
-			XY xy;
 			switch(s){
 			case FullRandom:
 				for (int i = 0; i<g.unitNumbers; i++){
@@ -69,25 +72,25 @@ public class WaveGenerator {
 				break;
 			case Cardinal:
 				for(int i = 0; i<g.unitNumbers; i+=4){
-					 xy = northLine(g.startingDifference);
+					 xy = northLine(g.startingDifference+GameActivity.getScreenWidth()/2);
 					 w.add(new Unit("Any Name",g.unitType,xy.x,xy.y, spinVal));
-					 xy = eastLine(g.startingDifference);
+					 xy = eastLine(g.startingDifference+GameActivity.getScreenWidth()/2);
 					 w.add(new Unit("Any Name",g.unitType,xy.x,xy.y,spinVal));
-					 xy = southLine(g.startingDifference);
+					 xy = southLine(g.startingDifference+GameActivity.getScreenWidth()/2);
 					 w.add(new Unit("Any Name",g.unitType,xy.x,xy.y, spinVal));
-					 xy = westLine(g.startingDifference);
+					 xy = westLine(g.startingDifference+GameActivity.getScreenWidth()/2);
 					 w.add(new Unit("Any Name",g.unitType,xy.x,xy.y, spinVal));
 				}
 				break;
 			case SpinCardinal:
 				for(int i = 0; i<g.unitNumbers; i+=4){
-					 xy = northLine(g.startingDifference);
+					 xy = northLine(g.startingDifference+GameActivity.getScreenWidth()/2);
 					 w.add(new Unit("Any Name",g.unitType,xy.x,xy.y, spinVal));
-					 xy = eastLine(g.startingDifference);
+					 xy = eastLine(g.startingDifference+GameActivity.getScreenWidth()/2);
 					 w.add(new Unit("Any Name",g.unitType,xy.x,xy.y,spinVal));
-					 xy = southLine(g.startingDifference);
+					 xy = southLine(g.startingDifference+GameActivity.getScreenWidth()/2);
 					 w.add(new Unit("Any Name",g.unitType,xy.x,xy.y, spinVal));
-					 xy = westLine(g.startingDifference);
+					 xy = westLine(g.startingDifference+GameActivity.getScreenWidth()/2);
 					 w.add(new Unit("Any Name",g.unitType,xy.x,xy.y, spinVal));
 				}
 				break;
@@ -95,29 +98,29 @@ public class WaveGenerator {
 				buildCircle(w, g.unitNumbers, g.unitType, g.startingDifference, spinVal);
 				break;
 			case Bombardment:
-				buildBombardment(w, g.unitNumbers, g.unitType, g.startingDifference, spinVal);
+				buildBombardment(w, g.unitNumbers, g.unitType, g.startingDifference+GameActivity.getScreenWidth()/2, spinVal);
 				break;
 			case LineFromNorth:
 				for (int i = 0; i<g.unitNumbers; i++){
-					xy = northLine(g.startingDifference);
+					xy = northLine(g.startingDifference+GameActivity.getScreenWidth()/2);
 					w.add(new Unit("Any Name",g.unitType,xy.x,xy.y, spinVal));
 				}
 				break;
 			case LineFromEast:
 				for (int i = 0; i<g.unitNumbers; i++){
-					xy = eastLine(g.startingDifference);
+					xy = eastLine(g.startingDifference+GameActivity.getScreenWidth()/2);
 					w.add(new Unit("Any Name",g.unitType,xy.x,xy.y, spinVal));
 				}
 				break;
 			case LineFromSouth:
 				for (int i = 0; i<g.unitNumbers; i++){
-					xy = southLine(g.startingDifference);
+					xy = southLine(g.startingDifference+GameActivity.getScreenWidth()/2);
 					w.add(new Unit("Any Name",g.unitType,xy.x,xy.y,spinVal));
 				}
 				break;
 			case LineFromWest:
 				for (int i = 0; i<g.unitNumbers; i++){
-					xy = westLine(g.startingDifference);
+					xy = westLine(g.startingDifference+GameActivity.getScreenWidth()/2);
 					w.add(new Unit("Any Name",g.unitType,xy.x,xy.y,spinVal));
 				}
 				break;
@@ -133,6 +136,18 @@ public class WaveGenerator {
 					w.add(new Unit("Any Name",g.unitType,xy.x,xy.y, spinVal));
 				}
 				break;
+			}
+			float yDistance = (GameActivity.getScreenHeight()/2 - xy.y);
+			float xDistance = (GameActivity.getScreenWidth()/2 - xy.x);
+			if(!w.isEmpty()) {
+				float speed = w.get(w.size()-1).getMoveSpeed();
+				float distanceXY = (float) Math.sqrt(yDistance * yDistance
+						+ xDistance * xDistance) - GameActivity.getScreenWidth()/2;
+				long timeToGetToEarth = (long) (distanceXY/speed)*10;
+				long newTimeOnWave = GameActivity.getGameTime() + timeToGetToEarth;
+				if(newTimeOnWave>maxTimeOnWave) { 
+					maxTimeOnWave = newTimeOnWave;
+				}
 			}
 		}
 		
@@ -202,9 +217,12 @@ public class WaveGenerator {
 		int radius = circleRadius*150 + screenHeight/2 + startingDifference;
 		double currentDegree = 0;
 		double degreeChange = (double) 360/n;
+		xy = new XY(0,0);
 		for(int i = 0; i<n; i++){
 			int x = (int) (screenWidth/2 + radius*Math.cos(Math.toRadians(currentDegree))); 
 			int y = (int) (screenHeight/2 + radius*Math.sin(Math.toRadians(currentDegree)));
+			xy.x = x;
+			xy.y = y;
 			currentDegree += degreeChange;
 			w.add(new Unit("New name", unitType, x, y, spinVal));
 		}
@@ -213,11 +231,14 @@ public class WaveGenerator {
 	
 	public void buildBombardment(Wave w, int n, String unitType, int startingDifference, int spinVal){
 		int radius = circleRadius*100 + startingDifference;
+		xy = new XY(0,0);
 		double currentDegree = 0;
 		double degreeChange = (double) 360/n;
 		for(int i = 0; i<n; i++){
 			int x = (int) (screenWidth/2 + radius*Math.cos(Math.toRadians(currentDegree))); 
 			int y = (int) (screenHeight/2 + radius*Math.sin(Math.toRadians(currentDegree)));
+			xy.x = x;
+			xy.y = y;
 			currentDegree += degreeChange;
 			w.add(new Unit("New name", unitType, x, y, spinVal));
 		}

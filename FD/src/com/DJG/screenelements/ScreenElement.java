@@ -124,6 +124,7 @@ public class ScreenElement {
 		setWidth(newBMP.getScaledWidth(MainActivity.metrics));
 		setHeight(newBMP.getScaledHeight(MainActivity.metrics));
 		bmp = newBMP;
+		bmp =  Bitmap.createBitmap(bmp, 0, 0, bmp.getWidth(), bmp.getHeight(), MainActivity.matrix, true);
 		
 		// Add it to the list of ScreenElements to be drawn.
 		synchronized(allScreenElementsLock) {
@@ -132,6 +133,27 @@ public class ScreenElement {
 	}
 	
 	public ScreenElement(String newName, String newType, float xSpawn, float ySpawn, int newWidth, int newHeight, Bitmap newBMP, String newActivity) {
+		
+		// Set it's coordinates.
+		activity = newActivity;
+		setName(newName);
+		type = newType;
+		x = xSpawn;
+		y = ySpawn;
+		xNew = xSpawn;
+		yNew = ySpawn;
+		setWidth(newWidth);
+		setHeight(newHeight);
+		bmp = newBMP;
+		bmp =  Bitmap.createBitmap(bmp, 0, 0, bmp.getWidth(), bmp.getHeight(), MainActivity.matrix, true);
+		
+		// Add it to the list of ScreenElements to be drawn.
+		synchronized(allScreenElementsLock) {
+			addScreenElement(this);
+		}
+	}
+	
+	public ScreenElement(String newName, String newType, float xSpawn, float ySpawn, int newWidth, int newHeight, Bitmap newBMP, String resize, String newActivity) {
 		
 		// Set it's coordinates.
 		activity = newActivity;

@@ -6,6 +6,7 @@ import android.content.SharedPreferences.Editor;
 
 import com.DJG.fd.GameActivity;
 import com.DJG.fd.MainActivity;
+import com.DJG.generators.GeneratorInfo;
 import com.DJG.generators.WaveGenerator;
 import com.DJG.units.Unit;
 
@@ -39,7 +40,7 @@ public class Wave extends ArrayList<Unit> {
 	private static double currentWaveNumber;
 	private static boolean waveSent = false;
 	private static Random r = new Random();
-	private static int waveWaitTime = 1000;
+	private static int waveWaitTime = 0;
 	
 	public static void initWaves() {
 		// Obviously we just started the game.
@@ -161,10 +162,9 @@ public class Wave extends ArrayList<Unit> {
 
 			}
 			
-			// Send the next wave if the current one is empty and it has been two seconds!
-			if(currentWave.isEmpty() && GameActivity.getGameTime() - waveEndedTime > getWaveWaitTime()) {
+			// Send the next wave if the current one has gotten "close" to earth.
+			if(GameActivity.getGameTime() > WaveGenerator.maxTimeOnWave) {
 				currentWaveNumber++;
-				GameActivity.levelText = "Wave " + (int)(currentWaveNumber+1);
 				sendWave(currentWaveNumber);
 				waveSent = false;
 				isFirst = true;

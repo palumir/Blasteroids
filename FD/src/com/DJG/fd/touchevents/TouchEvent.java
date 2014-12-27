@@ -80,7 +80,7 @@ public class TouchEvent {
 	    					if(Ability.getPrefs().getInt(grabbedAbility.getType() + "_purchased", -99) == 1) {
 	    						grabbedScreenElement.setName(grabbedAbility.getType());
 	    					}
-	    					grabbedAbility.equip(grabbedScreenElement.getType());
+	    					/*grabbedAbility.equip(grabbedScreenElement.getType());*/
     					}
     					if(grabbedPlanet!=null && grabbedScreenElement.getType().equals("PlanetSlot")) {
 	    					if(Ability.getPrefs().getInt(grabbedPlanet.getType() + "_purchased", -99) == 1) {
@@ -93,7 +93,7 @@ public class TouchEvent {
     				else if(grabbedScreenElement != null && grabbedScreenElement==touchedElement && grabbedScreenElement.getType() == "Drawn myButton" && grabbedScreenElement.getName() == "Buy") {
 	    				Ability attachedAbility = grabbedScreenElement.getAttachedAbility();
 	    				if(attachedAbility!=null) {
-	    					attachedAbility.buy();
+	    					//attachedAbility.buy();
 	    				}
 	    				UnitType attachedPlanet = grabbedScreenElement.getAttachedPlanet();
 	    				if(attachedPlanet!=null) {

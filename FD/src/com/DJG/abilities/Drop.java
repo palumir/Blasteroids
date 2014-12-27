@@ -24,13 +24,6 @@ public class Drop {
 		if(!u.getType().equals("Gunner Bullet")) {
 			Ability abilityToDrop = null;
 			
-			// Drop a coin?
-			if(getR().nextInt(250) == 1) {
-				if(u.getMetaType() == "Unit") {
-					abilityToDrop = Ability.getAbilityDrop("Coin");
-				} 
-			}
-			
 			// Drop a regular ability?
 			if(getR().nextInt(500) == 1) {
 				if(u.getMetaType() == "Unit") {
