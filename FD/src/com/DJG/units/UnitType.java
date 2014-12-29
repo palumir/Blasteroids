@@ -15,6 +15,8 @@ import com.DJG.planets.Planet;
 
 public class UnitType {
 	
+	public boolean displayTut = false;
+	
 	// Global list of all Unit Types.
 	private final static Object allUnitTypesLock= new Object(); // A lock so we don't fuck up the allUnits
 	private static ArrayList<UnitType> allUnitTypes;
@@ -23,18 +25,18 @@ public class UnitType {
 	private Bitmap frozenBMP;
 	
 	public static void initUnitTypes() {
-		
 		allUnitTypes = new ArrayList<UnitType>();
 		
 		// Basic Units
-		getAllUnitTypes().add(new UnitType("Asteroid",1f, true, R.drawable.asteroid, 1, 10,"Unit"));
-		getAllUnitTypes().add(new UnitType("Fire Asteroid",1f,true, R.drawable.fire_asteroid, 1, 10,"Unit"));
-		getAllUnitTypes().add(new UnitType("Ice Asteroid",1f,true, R.drawable.ice_asteroid, 1, 10,"Unit"));
-		getAllUnitTypes().add(new UnitType("Cat",2f, true, R.drawable.satelite, 1, 10, "Unit"));
-		getAllUnitTypes().add(new UnitType("Cat Gunner",2f, true, R.drawable.satelite_gunner, 1, 10, "Unit"));
+		getAllUnitTypes().add(new UnitType("Pie",1f, true, R.drawable.pie, 1, 10,"Unit"));
+		getAllUnitTypes().add(new UnitType("Asteroid",1f, true, R.drawable.asteroid, 1, 10,"Unit", "Regular asteroid"));
+		getAllUnitTypes().add(new UnitType("Fire Asteroid",1f,true, R.drawable.fire_asteroid, 1, 10,"Unit", "Explodes"));
+		getAllUnitTypes().add(new UnitType("Ice Asteroid",1f,true, R.drawable.ice_asteroid, 1, 10,"Unit", "Freezes things"));
+		getAllUnitTypes().add(new UnitType("Cat",2f, true, R.drawable.satelite, 1, 10, "Unit", "Fast moving"));
+		getAllUnitTypes().add(new UnitType("Cat Gunner",2f, true, R.drawable.satelite_gunner, 1, 10, "Unit", "Shoots you!"));
 		getAllUnitTypes().add(new UnitType("Splitter Big",1.25f,true,R.drawable.splitter_big, 1, 100,"Unit"));
 		getAllUnitTypes().add(new UnitType("Splitter Medium",1f,true,R.drawable.splitter_medium, 1, 25,"Unit"));
-		getAllUnitTypes().add(new UnitType("Splitter Small",0.25f,true,R.drawable.splitter_small, 1, 10,"Unit"));
+		getAllUnitTypes().add(new UnitType("Splitter Small",0.25f,true,R.drawable.splitter_small, 1, 10,"Unit", "Splits apart"));
 		getAllUnitTypes().add(new UnitType("MultiClicker 1",1f, true, R.drawable.fasteroid, 1, 10,"Unit"));
 		getAllUnitTypes().add(new UnitType("MultiClicker 2",1f, true, R.drawable.splitter_medium, 1, 10,"Unit"));
 		getAllUnitTypes().add(new UnitType("MultiClicker 3",1f, true, R.drawable.fasteroid, 1, 10,"Unit"));
@@ -124,6 +126,22 @@ public class UnitType {
 		frozenBMP = GameActivity.makeTransparent(BitmapFactory.decodeResource(GameActivity.gameContext.getResources(), myFrozen));
 	}
 	
+	public UnitType(String newType, float newMoveSpeed, boolean isKillable, int newBitMapLink, int newHP, int newDamage, String myMetaType, String desc) {
+		description = desc;
+		displayTut = true;
+		type = newType;
+		moveSpeed = newMoveSpeed;
+		metaType = "Unit";
+		killable = isKillable;
+		metaType = myMetaType;
+		bitmap = GameActivity.makeTransparent(BitmapFactory.decodeResource(GameActivity.gameContext.getResources(), newBitMapLink));
+		radius = bitmap.getScaledWidth(MainActivity.metrics)/2;
+		bitmap =  Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), MainActivity.matrix, true);
+		maxHitPoints = newHP;
+		damage = newDamage;
+		frozenBMP = bitmap;
+	}
+	
 	public UnitType(String newType, int newRadius, float newMoveSpeed, boolean isKillable, int newBitMapLink, int newFrozenBMPLink, int newHP, int newDamage, String newMetaType) {
 		type = newType;
 		radius = newRadius;
@@ -175,6 +193,7 @@ public class UnitType {
 		maxHitPoints = newHP;
 		damage = newDamage;
 	}
+
 
 	// Unit Type fields. WIP: Seperate into sections when there's lots of values.
 	private String type;

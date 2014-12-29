@@ -140,7 +140,6 @@ public class Store extends ActionBarActivity {
 		Display display = getWindowManager().getDefaultDisplay();
 		GameActivity.setScreenWidth(display.getWidth());
 		GameActivity.setScreenHeight(display.getHeight());
-		Ability.initAbilities(prefs);
 		
 		Combo slots = new Combo(0,0,"Store");
 		int slotsY = (int) ((int)GameActivity.getScreenHeight()*0.9);

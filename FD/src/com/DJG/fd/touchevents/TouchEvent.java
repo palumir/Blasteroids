@@ -55,6 +55,12 @@ public class TouchEvent {
     		}
 	}
 	
+	public static void respondToTutorialTouchEvent(MotionEvent event) {
+	}
+	
+	public static void respondToOptionsTouchEvent(MotionEvent event) {
+	}
+	
 	public static void respondToStoreTouchEvent(MotionEvent event) {
 		float pos1 = event.getX(event.findPointerIndex(event.getPointerId(0)));
 		float pos2 = event.getY(event.findPointerIndex(event.getPointerId(0)));

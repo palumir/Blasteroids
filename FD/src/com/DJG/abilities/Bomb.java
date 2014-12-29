@@ -10,6 +10,7 @@ import android.graphics.Paint;
 
 import com.DJG.fd.GameActivity;
 import com.DJG.fd.R;
+import com.DJG.secrets.Secret;
 import com.DJG.units.Unit;
 
 public class Bomb {
@@ -24,6 +25,7 @@ public class Bomb {
 	// General ability attributes. Bombs are static at the moment.
 	private long startTime;
 	private int duration = 1050;
+	private boolean deadly = true;
 
 	// Well, where is the ability?!
 	private float x;
@@ -77,6 +79,22 @@ public class Bomb {
 		}
 	}
 	
+	public Bomb(float newX, float newY, int newBlastRadius, int newDuration, int newColor, int newColor2, boolean kill) {
+		deadly = kill;
+		x = newX;
+		y = newY;
+		color = newColor;
+		color1 = newColor;
+		color2 = newColor2;
+		maxStroke = 100;
+		blastRadius = newBlastRadius;
+		duration = newDuration;
+		startTime = GameActivity.getGameTime();
+		synchronized(allBombs) {
+			addBomb(this);
+		}
+	}
+	
 	public Bomb(float newX, float newY, int newBlastRadius, int newDuration, String setColor) {
 		x = newX;
 		y = newY;
@@ -95,7 +113,7 @@ public class Bomb {
 			addBomb(this);
 		}
 	}
-	
+
 	public void updateBomb(int bombPos) {
 		synchronized(bombsLock) {
 		if(this != null) {
@@ -125,6 +143,7 @@ public class Bomb {
 			int bombPos = 0;
 			for(int i = 0; i < allBombs.size(); i++) {
 				Bomb b = allBombs.get(i);
+				if(Secret.isPieSecret(b.x,b.y)) Secret.activatePieSecret();
 				b.updateBomb(bombPos);
 				bombPos++;
 			}
@@ -162,15 +181,17 @@ public class Bomb {
 		synchronized(Bomb.bombsLock) {
 			for(int i = 0; i < Bomb.getAllBombs().size(); i++) {
 				Bomb b = Bomb.getAllBombs().get(i);
-				bombY = b.getY();
-				bombX = b.getX();
-				bombRadius = b.getRadius();
-				float yDistanceBomb = (bombY - u.getY());
-				float xDistanceBomb = (bombX - u.getX());
-				float distanceXYBomb = (float)Math.sqrt(yDistanceBomb*yDistanceBomb + xDistanceBomb*xDistanceBomb);
-				if(distanceXYBomb <= bombRadius + u.getRadius() && !GameActivity.isOffScreen(u.getX(),u.getY())) {
-					u.die();
-					break;
+				if(b.deadly){ 
+					bombY = b.getY();
+					bombX = b.getX();
+					bombRadius = b.getRadius();
+					float yDistanceBomb = (bombY - u.getY());
+					float xDistanceBomb = (bombX - u.getX());
+					float distanceXYBomb = (float)Math.sqrt(yDistanceBomb*yDistanceBomb + xDistanceBomb*xDistanceBomb);
+					if(distanceXYBomb <= bombRadius + u.getRadius() && !GameActivity.isOffScreen(u.getX(),u.getY())) {
+						u.die();
+						break;
+					}
 				}
 			}
 		}

@@ -43,6 +43,7 @@ public class Nuke {
 		maxStroke = 0;
 		blastRadius = newBlastRadius;
 		duration = newDuration;
+		Bomb b = new Bomb(GameActivity.getScreenWidth()/2,GameActivity.getScreenHeight()/2,GameActivity.getScreenHeight()/2,3000,Color.WHITE,Color.YELLOW);
 		startTime = GameActivity.getGameTime();
 		synchronized(allNukes) {
 			addNuke(this);
@@ -52,9 +53,6 @@ public class Nuke {
 	public void updateNuke(int NukePos) {
 		synchronized(NukesLock) {
 		if(this != null) {
-			if(r.nextInt(100) < 12) {
-				Bomb b = new Bomb(r.nextInt(GameActivity.getScreenWidth()),r.nextInt(GameActivity.getScreenHeight()),r.nextInt(175) + 100,r.nextInt(600) + 600,Color.WHITE,Color.YELLOW);
-			}
 			long currentTime = GameActivity.getGameTime();
 			if((int)(currentTime - startTime) > duration) {
 					removeNuke(NukePos);

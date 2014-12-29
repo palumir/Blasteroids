@@ -107,6 +107,17 @@ public class GameActivity extends ActionBarActivity {
 
 	// Just do it once.
 	public static boolean doOnce = true;
+	
+	public static String toTime(int n) {
+		int minutes = n/60;
+		int seconds = n - minutes*60;
+		if(minutes>0) {
+			return minutes + " min " + seconds + " sec";
+		}
+		else {
+			return seconds + " seconds";
+		}
+	}
 
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
@@ -127,7 +138,6 @@ public class GameActivity extends ActionBarActivity {
 		TouchEvent.purgeTouch();
 
 		if (doOnce) {
-			Coin.coinsSave();
 			gameContext = this.getApplicationContext();
 			gameOver = false;
 			levelText = "0";
@@ -274,7 +284,6 @@ public class GameActivity extends ActionBarActivity {
 	}
 
 	void initGame() {
-		UnitType.initUnitTypes();
 		// Put the Castle in the middle.
 		lost = false;
 		lostTime = 0;
@@ -293,12 +302,12 @@ public class GameActivity extends ActionBarActivity {
 
 		Wave.initWaves(levelStart);
 		levelText = "0";
-		Ability.initAbilities(prefs);
 		// Spawn the planet.
 		Planet p = Planet.getCurrentPlanet(screenWidth/2,screenHeight/2);
 		setFortress(p);
 		p.setOnScreen();
 		p.spawnDefenders();
+		Ability.initAbilities();
 	}
 
 	public static void setScreenWidth(int i) {
@@ -338,20 +347,20 @@ public class GameActivity extends ActionBarActivity {
 		Coin.coinsSave();
 		gameOver = true;
 		doOnce = true;
-		levelText = "You survived " + (int)Math.round(gameTime/1000)
-				+ " seconds.";
+		levelText = "You survived " + toTime((int)Math.round(gameTime/1000))
+				+ ".";
 		castleHP = "";
 		coinsText = "";
 		int currHighScore = prefs.getInt(mode + "highScore", 0);
-		if ((int)Math.round(gameTime) > currHighScore) {
+		if ((int)Math.round(gameTime/1000) > currHighScore) {
 			Editor editor = prefs.edit();
 			editor.putInt(mode + "highScore",
 					(int)Math.round(gameTime/1000));
 			highScoreText = "New high score!";
-			previousHighScoreText = "Previous: " + currHighScore + " seconds.";
+			previousHighScoreText = "Previous: " + toTime(currHighScore) + ".";
 			editor.commit();
 		} else {
-			highScoreText = "High score: " + currHighScore + " seconds.";
+			highScoreText = "High score: " + toTime(currHighScore) + ".";
 			previousHighScoreText = "";
 		}
 		Unit.destroyAllUnits(); // Don't request the lock because the caller is

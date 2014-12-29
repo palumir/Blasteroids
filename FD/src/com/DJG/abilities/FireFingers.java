@@ -14,7 +14,7 @@ import com.DJG.screenelements.ScreenElement;
 public class FireFingers {
 	// General ability attributes.
 	private static long startTime;
-	private static long duration = 15000;
+	private static long duration = 20000;
 	private static int radius = 140;
 	private static int explosionDuration = 550;
 	public static ScreenElement timer;

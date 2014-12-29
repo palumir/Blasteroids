@@ -54,20 +54,7 @@ public abstract class Planet extends Unit {
 	}
 	
 	public static Planet getCurrentPlanet(float x, float y) {
-		String planet = Ability.getPrefs().getString("currentPlanet", "Earth");
-		if(planet.equals("Earth"))  {
-			return new Earth("Fortress",x,y);
-		}
-		if(planet.equals("Mars"))  {
-			return new Mars("Fortress",x,y);
-		}
-		if(planet.equals("Jupiter"))  {
-			return new Jupiter("Fortress",x,y);
-		}
-		if(planet.equals("Saturn"))  {
-			return new Saturn("Fortress",x,y);
-		}
-		else return new Earth("Fortress",x,y);
+		return new Earth("Fortress",x,y);
 	}
 	
 	public static UnitType getCurrentPlanet() {

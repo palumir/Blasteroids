@@ -154,7 +154,6 @@ SharedPreferences prefs;
 		Display display = getWindowManager().getDefaultDisplay();
 		GameActivity.setScreenWidth(display.getWidth());
 		GameActivity.setScreenHeight(display.getHeight());
-		Ability.initAbilities(prefs);
 			int seperationX = 0;
 			int seperationY = 0;
 			int start = GameActivity.getScreenHeight()/5 - GameActivity.getScreenHeight()/16;

@@ -28,12 +28,11 @@ public class Background {
 					if (GameActivity.getR().nextInt(GameActivity.getScreenHeight()) == 0) {
 						n++;
 						int m = GameActivity.getR().nextInt(100);
-						if(m<50) myPaint.setColor(Color.WHITE);
-						else if(m>=50&&m<70) myPaint.setColor(Color.CYAN);
-						else if(m>=70&&m<80) myPaint.setColor(Color.YELLOW);
-						else if(m>=80&&m<90) myPaint.setColor(Color.WHITE);
-						else if(m>=90&&m<95) myPaint.setColor(Color.MAGENTA);
-						else if(m>=95&&m<=100) myPaint.setColor(Color.WHITE);
+						if(m==1) myPaint.setColor(Color.CYAN);
+						else if(m==2) myPaint.setColor(Color.YELLOW);
+						else if(m==3) myPaint.setColor(Color.RED);
+						else if(m==4) myPaint.setColor(Color.RED);
+						else myPaint.setColor(Color.WHITE);
 						bgCanvas.drawPoint(x, y, myPaint);
 					}
 					if (n > 10) {

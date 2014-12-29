@@ -19,7 +19,7 @@ import com.DJG.units.Unit;
 public class LazerFingers {
 	// General ability attributes.
 	private static long startTime;
-	private static long duration = 20000;
+	private static long duration = 25000;
 	private static int radius = 10;
 	private static int minRadius = 10;
 	private static int maxRadius = 20;

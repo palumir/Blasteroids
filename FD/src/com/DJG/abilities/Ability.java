@@ -92,10 +92,7 @@ public class Ability {
 		radius = newRadius;
 	}
 	
-	public static void initAbilities(SharedPreferences shared) {
-		
-		setPrefs(shared);
-		setEditor(getPrefs().edit());
+	public static void initAbilities() {
 		
 		
 		// If they have no abilities, give them a bomb!
@@ -312,7 +309,6 @@ public class Ability {
       	if(TouchEvent.lazerFingers) {
       		LazerFingers.drawLazerFingers(canvas, myPaint);
       	}
-      	
       	synchronized(abilitiesLock) {
       		for(int i = 0; i < Ability.getEquippedAbilities().size(); i++) {
       			Ability a = Ability.getEquippedAbilities().get(i);
@@ -334,7 +330,7 @@ public class Ability {
       	Bomb.drawBombs(canvas, myPaint);
       	Slow.drawSlows(canvas, myPaint);
       	Nuke.drawNukes(canvas,myPaint);
-      	Coin.drawCoins(canvas,myPaint);
+      	//Coin.drawCoins(canvas,myPaint);
       	Blackhole.drawBlackholes(canvas, myPaint);
       	Turret.drawTurrets(canvas,myPaint);
       	BombTurret.drawBombTurrets(canvas,myPaint);
@@ -345,7 +341,7 @@ public class Ability {
 		Bomb.updateBombs();
 		Slow.updateSlows();
 		Nuke.updateNukes();
-		Coin.updateCoins();
+		//Coin.updateCoins();
 		Blackhole.updateBlackholes();
 		Turret.updateTurrets();
 		BombTurret.updateBombTurrets();
@@ -452,15 +448,12 @@ public class Ability {
 		synchronized(abilitiesLock) {
 			Bomb.clearBombs();
 			Slow.clearSlows();
-			Coin.clearCoins();
+			//Coin.clearCoins();
 			Nuke.clearNukes();
 			Blackhole.clearBlackholes();
 			Turret.clearTurrets();
 			BombTurret.clearBombTurrets();
 			KnockBack.clearKnockBacks();
-			if(equippedAbilities!=null) {
-				equippedAbilities.clear();
-			}
 		}
 	}
 	

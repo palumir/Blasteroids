@@ -19,11 +19,13 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.DJG.abilities.Ability;
 import com.DJG.fd.touchevents.TouchEvent;
 import com.DJG.screenelements.Background;
 import com.DJG.screenelements.ScreenElement;
 import com.DJG.screenelements.myButton;
 import com.DJG.secrets.Secret;
+import com.DJG.units.UnitType;
 
 public class MainActivity extends ActionBarActivity {
 
@@ -39,6 +41,7 @@ public class MainActivity extends ActionBarActivity {
 	// resize the bit map
 	private boolean doOnce = true;
 	private static Context currContext;
+	public ScreenElement highScoreText;
 	
 	// Globals
 	public static SharedPreferences prefs;
@@ -109,6 +112,7 @@ public class MainActivity extends ActionBarActivity {
 		if(i=="Credits") {
 			Intent intent = new Intent(currContext, Options.class);
 		    currContext.startActivity(intent);
+			Options.creditCount++;
 		}
 
     }
@@ -117,7 +121,6 @@ public class MainActivity extends ActionBarActivity {
 		if(GameActivity.gameContext==null) {
 			GameActivity.gameContext =  this.getApplicationContext();
 		}
-
 		Display display = getWindowManager().getDefaultDisplay();
 		GameActivity.setScreenWidth(display.getWidth());
 		GameActivity.setScreenHeight(display.getHeight());
@@ -151,8 +154,9 @@ public class MainActivity extends ActionBarActivity {
 		ScreenElement optionsText =  new ScreenElement("Text","Credits",width/2 - 100,height/4.7f + 6*height/20,"Main");
 		optionsText.setTextSize(GameActivity.getScreenWidth()/12);
 		prefs = this.getSharedPreferences("flickOffGame", Context.MODE_PRIVATE);
-		ScreenElement highScoreText =  new ScreenElement("Text","High Score: " + prefs.getInt("SurvivalhighScore", 0) + " seconds" ,width/7,height/4.7f + 9*height/20,"Main");
-		ScreenElement secretText =  new ScreenElement("Text","Secrets Found: " + prefs.getInt("secretNumber", 0) + "/" + Secret.secretNumber ,width/7,height/4.7f + 41*height/80,"Main");
+		highScoreText =  new ScreenElement("Text","High Score: " + GameActivity.toTime(prefs.getInt("SurvivalhighScore", 0)),width/7,height/4.7f + 9*height/20,"Main");
+		UnitType.initUnitTypes();
+		Ability.initAbilities();
     }
 
 	@Override
@@ -189,6 +193,8 @@ public class MainActivity extends ActionBarActivity {
 			public void run() {
 				while (true) {
 					currentView.postInvalidate();
+					if(Secret.isFiveSecret()) Secret.activateFiveSecret();
+					highScoreText.setName("High Score: " + GameActivity.toTime(prefs.getInt("SurvivalhighScore", 0)));
 					try {
 						Thread.sleep(10);
 					} catch (Throwable t) {

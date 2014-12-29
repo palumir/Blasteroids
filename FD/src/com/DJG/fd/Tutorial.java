@@ -1,15 +1,16 @@
 package com.DJG.fd;
 
+import java.util.Random;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Canvas;
-import android.graphics.Matrix;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
-import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -20,207 +21,70 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.DJG.abilities.Ability;
+import com.DJG.abilities.Coin;
 import com.DJG.fd.touchevents.TouchEvent;
 import com.DJG.screenelements.Background;
+import com.DJG.screenelements.Combo;
 import com.DJG.screenelements.ScreenElement;
 import com.DJG.screenelements.myButton;
-import com.DJG.secrets.Secret;
+import com.DJG.units.UnitType;
 
 public class Tutorial extends ActionBarActivity {
-	public final static String EXTRA_MESSAGE = "com.DJG.fd.MESSAGE";
+SharedPreferences prefs;
 	
-	public Thread mainThread;
-	public static DisplayMetrics metrics;
-	public View currentView;
-	// create a matrix for the manipulation
-	public static double defaultWidth = 4.226;
-	public static double density = 1;
-	public static Matrix matrix;
-	// resize the bit map
-	private boolean doOnce = true;
+	// Just do it once.
+	public static boolean doOnce = true;
+
+	// Just a random
+	static Random r = new Random();
+	
+	// Thread
+	private static Thread TutorialThread;
+	private static View currentView;
 	private static Context currContext;
 	
-	// Globals
-	public static SharedPreferences prefs;
+	// Combo for unlocks
+	public static Combo c1;
 	
-	public void startSurvival(View view) {
-		if(GameActivity.gameContext==null) {
-			GameActivity.gameContext =  this.getApplicationContext();
-		}
-		GameActivity.gameContext =  this.getApplicationContext();
-		GameActivity.setMode("Survival");
-		Intent intent = new Intent(this, GameActivity.class);
-		startActivity(intent);
+	@Override
+	public boolean onTouchEvent(MotionEvent event) {
+		TouchEvent.respondToTutorialTouchEvent(event);
+		return true;
 	}
 	
-	public void startCampaign(View view) {
-		if(GameActivity.gameContext==null) {
-			GameActivity.gameContext =  this.getApplicationContext();
-		}
-		Intent intent = new Intent(this, CampaignActivity.class);
-		startActivity(intent);
+	public static void startGame(int level) {
+			if(GameActivity.gameContext==null) {
+				GameActivity.gameContext =  currContext.getApplicationContext();
+			}
+			GameActivity.gameContext =  currContext.getApplicationContext();
+			GameActivity.setMode("Tutorial");
+			GameActivity.levelStart = level-10;
+			Intent intent = new Intent(currContext, GameActivity.class);
+			currContext.startActivity(intent);
 	}
 	
-	public void openStore(View view) {
-		Intent intent = new Intent(this, Store.class);
-		startActivity(intent);
-	}
-	
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);
-		View v = new mainView(this);
+		prefs = this.getSharedPreferences("flickOffGame", Context.MODE_PRIVATE);
+		View v = new TutorialView(this);
 		setContentView(v);
 		currentView = v;
 		if(doOnce) {
-	    	metrics = getResources().getDisplayMetrics();
 			currContext = v.getContext();
-			initMain();
-			playMain();
+			initTutorial();
+			runTutorial();
 			doOnce = false;
 		}
-    }
-    
-    public static void startIntent(String i) {
-		if(GameActivity.gameContext==null) {
-			GameActivity.gameContext =  currContext.getApplicationContext();
-		}
-		GameActivity.gameContext =  currContext.getApplicationContext();
-		if(i=="Play") {
-			GameActivity.setMode("Survival");
-			Intent intent = new Intent(currContext, GameActivity.class);
-			currContext.startActivity(intent);
-		}
-		if(i=="Campaign") {
-			Intent intent = new Intent(currContext, CampaignActivity.class);
-			currContext.startActivity(intent);
-		}
-		if(i=="Upgrades") {
-			Intent intent = new Intent(currContext, Store.class);
-			currContext.startActivity(intent);
-		}
-		if(i=="Tutorial") {
-			Intent intent = new Intent(currContext, Tutorial.class);
-		    currContext.startActivity(intent);
-		}
-		if(i=="Credits") {
-			Intent intent = new Intent(currContext, Options.class);
-		    currContext.startActivity(intent);
-		}
-
-    }
-    
-    void initMain() {
-		if(GameActivity.gameContext==null) {
-			GameActivity.gameContext =  this.getApplicationContext();
-		}
-
-		Display display = getWindowManager().getDefaultDisplay();
-		GameActivity.setScreenWidth(display.getWidth());
-		GameActivity.setScreenHeight(display.getHeight());
-		float height = display.getHeight();
-		float width = display.getWidth();
-		
-		// Get the inches of the device.
-		int widthPixels = metrics.widthPixels;
-		int heightPixels = metrics.heightPixels;
-		float widthDpi = metrics.xdpi;
-		float heightDpi = metrics.ydpi;
-		float widthInches = widthPixels / widthDpi;
-		float heightInches = heightPixels / heightDpi;
-		double diagonalInches = Math.sqrt(
-			    (widthInches * widthInches) 
-			    + (heightInches * heightInches));
-		density = diagonalInches/defaultWidth;
-		if(matrix==null) {
-			matrix = new Matrix();
-			matrix.postScale((float)density, (float)density);
-		}
-		ScreenElement title =  new ScreenElement("Text","Blasteroids",width/2 - 200,height/8,"Main");
-		title.setTextSize(GameActivity.getScreenWidth()/9);
-		myButton survival = new myButton("Play",width/2,height/5,(width - width/1.7f),height/20,"Main");
-		ScreenElement survivalText =  new ScreenElement("Text","Play",width/2 - 65,height/4.7f,"Main");
-		survivalText.setTextSize(GameActivity.getScreenWidth()/12);
-		myButton tutorial = new myButton("Tutorial",width/2,height/5 + 3*height/20,(width - width/1.7f),height/20,"Main");
-		ScreenElement tutorialText =  new ScreenElement("Text","Tutorial",width/2 - 100,height/4.7f + 3*height/20,"Main");
-		tutorialText.setTextSize(GameActivity.getScreenWidth()/12);
-		myButton options = new myButton("Credits",width/2,height/5 + 6*height/20,(width - width/1.7f),height/20,"Main");
-		ScreenElement optionsText =  new ScreenElement("Text","Credits",width/2 - 100,height/4.7f + 6*height/20,"Main");
-		optionsText.setTextSize(GameActivity.getScreenWidth()/12);
-		prefs = this.getSharedPreferences("flickOffGame", Context.MODE_PRIVATE);
-		ScreenElement highScoreText =  new ScreenElement("Text","High Score: " + prefs.getInt("SurvivalhighScore", 0) + " seconds" ,width/7,height/4.7f + 9*height/20,"Main");
-		ScreenElement secretText =  new ScreenElement("Text","Secrets Found: " + prefs.getInt("secretNumber", 0) + "/" + Secret.secretNumber ,width/7,height/4.7f + 41*height/80,"Main");
-    }
-
-	@Override
-	public boolean onTouchEvent(MotionEvent event) {
-		TouchEvent.respondToMainTouchevent(event);
-		return true;
 	}
-    
-	void drawBackground(Canvas canvas, Paint myPaint) {
-		Background.drawBackground(canvas,myPaint, "Main");
-	}
-	
-	private class mainView extends View {
-
-		public mainView(Context context) {
-			super(context);
-		}
-
-		@Override
-		protected void onDraw(Canvas canvas) {
-			Paint myPaint = GameActivity.myPaint;
-
-			// Draw background.
-			drawBackground(canvas, myPaint);
-			
-			// Draw screen elements (buttons, etc.)
-			ScreenElement.drawScreenElements(canvas, myPaint, "Main");
-
-		}
-	}
-	
-	void playMain() {
-		mainThread = new Thread(new Runnable() {
-			public void run() {
-				while (true) {
-					currentView.postInvalidate();
-					try {
-						Thread.sleep(10);
-					} catch (Throwable t) {
-					}
-				}
-			}
-		});
-		mainThread.start();
-	}
-
-    public static int getHighScore(String mode) {
-		return prefs.getInt(mode + "highScore", 0);
-	}
-
-	/**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class PlaceholderFragment extends Fragment {
-
-        public PlaceholderFragment() {
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-            return rootView;
-        }
-    }
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
+
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.tutorial, menu);
 		return true;
@@ -237,4 +101,113 @@ public class Tutorial extends ActionBarActivity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
+
+	/**
+	 * A placeholder fragment containing a simple view.
+	 */
+	public static class PlaceholderFragment extends Fragment {
+
+		public PlaceholderFragment() {
+		}
+
+		@Override
+		public View onCreateView(LayoutInflater inflater, ViewGroup container,
+				Bundle savedInstanceState) {
+			View rootView = inflater.inflate(R.layout.fragment_main,
+					container, false);
+			return rootView;
+		}
+	}
+	
+	void drawBackground(Canvas canvas, Paint myPaint) {
+		Background.drawBackground(canvas,myPaint, "Tutorial");
+	}
+	
+	private class TutorialView extends View {
+
+		public TutorialView(Context context) {
+			super(context);
+		}
+
+		@Override
+		protected void onDraw(Canvas canvas) {
+			Paint myPaint = GameActivity.myPaint;
+			drawTutorial(canvas, myPaint);
+		}
+	}
+	
+	void drawTutorial(Canvas canvas, Paint myPaint) {
+		drawBackground(canvas,myPaint);
+		myPaint.setStyle(Paint.Style.FILL);
+		myPaint.setColor(Color.WHITE);
+		myPaint.setStrokeWidth(3);
+		myPaint.setTextSize(GameActivity.getScreenWidth()/16);
+		ScreenElement.drawScreenElements(canvas, myPaint, "Tutorial");
+	}
+	
+	void initTutorial() {
+		GameActivity.setContext(this.getApplicationContext());
+		UnitType.initUnitTypes();
+		// Put the Castle in the middle.
+		Display display = getWindowManager().getDefaultDisplay();
+		GameActivity.setScreenWidth(display.getWidth());
+		GameActivity.setScreenHeight(display.getHeight());
+		ScreenElement units = new ScreenElement("Text","Enemies",50f,GameActivity.getScreenHeight()/14, "Tutorial");
+		units.setTextSize(GameActivity.getScreenWidth()/12);
+		int q = 0;
+		for(int i=0; i < UnitType.getAllUnitTypes().size(); i++) {
+			UnitType u = UnitType.getAllUnitTypes().get(i);
+			if(u.displayTut) {
+				q++;
+				ScreenElement unitSymbol = new ScreenElement("UnitIcon" + u.getType(), "Button", 60f + u.getBMP().getWidth()/2, GameActivity.getScreenHeight()/12 + q*GameActivity.getScreenHeight()/12 , u.getBMP().getWidth(), u.getBMP().getHeight(), u.getBMP(), "Tutorial");
+				ScreenElement unitDesc = new ScreenElement("Text",u.getDescription(),GameActivity.getScreenWidth()/6,GameActivity.getScreenHeight()/16 + q*GameActivity.getScreenHeight()/12, "Tutorial");
+				unitDesc.setTextSize(GameActivity.getScreenWidth()/18);
+			}
+		}
+		int w = 0;
+		ScreenElement items = new ScreenElement("Text","Items",50f,GameActivity.getScreenHeight()/16 + (++q)*GameActivity.getScreenHeight()/11, "Tutorial");
+		items.setTextSize(GameActivity.getScreenWidth()/12);
+		q++;
+		for(int i=0; i < Ability.upgradeableAbilities.size(); i++) {
+			Ability a = Ability.upgradeableAbilities.get(i);
+			if(a.getSlot()==0) {
+				ScreenElement itemSymbol = new ScreenElement("AbilityIcon" + a.getType(), "Button", 60f + a.getBMP().getWidth()/2 + w*GameActivity.getScreenWidth()/8, GameActivity.getScreenHeight()/10 + q*GameActivity.getScreenHeight()/12 , a.getBMP().getWidth(), a.getBMP().getHeight(), a.getBMP(), "Tutorial");
+				w++;
+			}
+		}
+		ScreenElement itemDesc = new ScreenElement("Text","Items appear at random.",GameActivity.getScreenWidth()/11,GameActivity.getScreenHeight()/7 + q*GameActivity.getScreenHeight()/12, "Tutorial");
+		itemDesc.setTextSize(GameActivity.getScreenWidth()/18);
+		ScreenElement itemDesc2 = new ScreenElement("Text","Pick up, then drag and drop!",GameActivity.getScreenWidth()/11,GameActivity.getScreenHeight()/5 + q*GameActivity.getScreenHeight()/12, "Tutorial");
+		itemDesc2.setTextSize(GameActivity.getScreenWidth()/18);
+		w=0;
+		for(int i=0; i < Ability.upgradeableAbilities.size(); i++) {
+			Ability a = Ability.upgradeableAbilities.get(i);
+			if(a.getSlot()==-1) {
+				ScreenElement itemSymbol = new ScreenElement("UnitIcon" + a.getType(), "Button", 60f + a.getBMP().getWidth()/2 + w*GameActivity.getScreenWidth()/8, GameActivity.getScreenHeight()/4 + GameActivity.getScreenHeight()/40 + q*GameActivity.getScreenHeight()/12 , a.getBMP().getWidth(), a.getBMP().getHeight(), a.getBMP(), "Tutorial");
+				w++;
+			}
+		}
+		ScreenElement itemDesc3 = new ScreenElement("Text","These are rare, special items.",GameActivity.getScreenWidth()/11,GameActivity.getScreenHeight()/3 + q*GameActivity.getScreenHeight()/12 - GameActivity.getScreenHeight()/40, "Tutorial");
+		itemDesc3.setTextSize(GameActivity.getScreenWidth()/18);
+	}
+	
+	void updateStuff() {
+		Combo.updateCombos("Tutorial");
+	}
+	
+	void runTutorial() {
+			TutorialThread = new Thread(new Runnable() {
+				public void run() {
+					while(true) {
+							updateStuff();
+							currentView.postInvalidate();
+							try {
+								Thread.sleep(10);
+							} catch (Throwable t) {
+							}
+					}
+				}
+			});
+			TutorialThread.start();
+		}
 }
