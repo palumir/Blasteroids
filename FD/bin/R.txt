@@ -370,7 +370,8 @@ int menu main 0x7f0d0003
 int menu options 0x7f0d0004
 int menu store 0x7f0d0005
 int menu tutorial 0x7f0d0006
-int raw small_3_second_explosion 0x7f050000
+int raw crunch 0x7f050000
+int raw small_3_second_explosion 0x7f050001
 int string abc_action_bar_home_description 0x7f0b0001
 int string abc_action_bar_up_description 0x7f0b0002
 int string abc_action_menu_overflow_description 0x7f0b0003

@@ -20,7 +20,7 @@ public class Secret {
 	}
 	
 	public static boolean isFiveSecret() {
-		boolean fiveSecret = Options.creditCount >= 5 /*&& MainActivity.prefs.getInt("SurvivalhighScore", 0)/60 >= 5*/;
+		boolean fiveSecret = Options.creditCount >= 5 && MainActivity.prefs.getInt("SurvivalhighScore", 0)/60 >= 5;
 		return fiveSecret;
 	}
 	

@@ -7,13 +7,15 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.util.Log;
+import android.media.MediaPlayer;
 
 import com.DJG.abilities.Ability;
 import com.DJG.abilities.Bomb;
 import com.DJG.abilities.Drop;
 import com.DJG.abilities.Slow;
 import com.DJG.fd.GameActivity;
+import com.DJG.fd.MainActivity;
+import com.DJG.fd.R;
 import com.DJG.planets.Planet;
 import com.DJG.waves.Wave;
 
@@ -54,6 +56,7 @@ public class Unit {
 	private float xMomentum = 0;
 	private float yMomentum = 0;
 	private float fixedRadius = 0;
+	public static int deathSoundID;
 
 	// Projectile Information
 	private Unit target = null;
@@ -97,6 +100,7 @@ public class Unit {
 		shape = u.getShape();
 		spinSpeed = 0;
 		bmp = u.getBMP();
+		deathSoundID = u.getDeathSound();
 		frozenBMP = u.getFrozenBMP();
 		metaType = u.getMetaType();
 		// Stats
@@ -142,6 +146,7 @@ public class Unit {
 		damage = u.getDamage();
 		color = u.getColor();
 		frozenBMP = u.getFrozenBMP();
+		deathSoundID = u.getDeathSound();
 
 		// Set it's coordinates.
 		name = newName;
@@ -742,6 +747,10 @@ public class Unit {
 			}
 		}
 	}
+	
+	public void playDeathSound() {
+		MainActivity.soundPool.play(this.deathSoundID, MainActivity.volume, MainActivity.volume, 1, 0, 1f);
+	}
 
 	public void hurt(int i) {
 		this.currentHitPoints -= i;
@@ -848,6 +857,8 @@ public class Unit {
 			killMoon(this);
 		}
 
+		
+		playDeathSound();
 		// Kill the old unit.
 		dontDrawUnit(this);
 		killUnit(this);

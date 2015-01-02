@@ -23,20 +23,21 @@ public class UnitType {
 	
 	// Frozen BMP
 	private Bitmap frozenBMP;
+	private int deathSound;
 	
 	public static void initUnitTypes() {
 		allUnitTypes = new ArrayList<UnitType>();
 		
 		// Basic Units
 		getAllUnitTypes().add(new UnitType("Pie",1f, true, R.drawable.pie, 1, 10,"Unit"));
-		getAllUnitTypes().add(new UnitType("Asteroid",1f, true, R.drawable.asteroid, 1, 10,"Unit", "Regular asteroid"));
-		getAllUnitTypes().add(new UnitType("Fire Asteroid",1f,true, R.drawable.fire_asteroid, 1, 10,"Unit", "Explodes"));
-		getAllUnitTypes().add(new UnitType("Ice Asteroid",1f,true, R.drawable.ice_asteroid, 1, 10,"Unit", "Freezes things"));
-		getAllUnitTypes().add(new UnitType("Cat",2f, true, R.drawable.satelite, 1, 10, "Unit", "Fast moving"));
-		getAllUnitTypes().add(new UnitType("Cat Gunner",2f, true, R.drawable.satelite_gunner, 1, 10, "Unit", "Shoots you!"));
+		getAllUnitTypes().add(new UnitType("Asteroid",1f, true, R.drawable.asteroid, 1, 10,"Unit", "Regular asteroid",R.raw.crunch));
+		getAllUnitTypes().add(new UnitType("Fire Asteroid",1f,true, R.drawable.fire_asteroid, 1, 10,"Unit", "Explodes",R.raw.crunch));
+		getAllUnitTypes().add(new UnitType("Ice Asteroid",1f,true, R.drawable.ice_asteroid, 1, 10,"Unit", "Freezes things",R.raw.crunch));
+		getAllUnitTypes().add(new UnitType("Cat",2f, true, R.drawable.satelite, 1, 10, "Unit", "Fast moving",R.raw.crunch));
+		getAllUnitTypes().add(new UnitType("Cat Gunner",2f, true, R.drawable.satelite_gunner, 1, 10, "Unit", "Shoots you!",R.raw.crunch));
 		getAllUnitTypes().add(new UnitType("Splitter Big",1.25f,true,R.drawable.splitter_big, 1, 100,"Unit"));
 		getAllUnitTypes().add(new UnitType("Splitter Medium",1f,true,R.drawable.splitter_medium, 1, 25,"Unit"));
-		getAllUnitTypes().add(new UnitType("Splitter Small",0.25f,true,R.drawable.splitter_small, 1, 10,"Unit", "Splits apart"));
+		getAllUnitTypes().add(new UnitType("Splitter Small",0.25f,true,R.drawable.splitter_small, 1, 10,"Unit", "Splits apart",R.raw.crunch));
 		getAllUnitTypes().add(new UnitType("MultiClicker 1",1f, true, R.drawable.fasteroid, 1, 10,"Unit"));
 		getAllUnitTypes().add(new UnitType("MultiClicker 2",1f, true, R.drawable.splitter_medium, 1, 10,"Unit"));
 		getAllUnitTypes().add(new UnitType("MultiClicker 3",1f, true, R.drawable.fasteroid, 1, 10,"Unit"));
@@ -126,10 +127,11 @@ public class UnitType {
 		frozenBMP = GameActivity.makeTransparent(BitmapFactory.decodeResource(GameActivity.gameContext.getResources(), myFrozen));
 	}
 	
-	public UnitType(String newType, float newMoveSpeed, boolean isKillable, int newBitMapLink, int newHP, int newDamage, String myMetaType, String desc) {
+	public UnitType(String newType, float newMoveSpeed, boolean isKillable, int newBitMapLink, int newHP, int newDamage, String myMetaType, String desc, int death) {
 		description = desc;
 		displayTut = true;
 		type = newType;
+		setDeathSound(MainActivity.soundPool.load(GameActivity.gameContext, death, 1));
 		moveSpeed = newMoveSpeed;
 		metaType = "Unit";
 		killable = isKillable;
@@ -327,5 +329,13 @@ public class UnitType {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public int getDeathSound() {
+		return deathSound;
+	}
+
+	public void setDeathSound(int deathSound) {
+		this.deathSound = deathSound;
 	}
 }
