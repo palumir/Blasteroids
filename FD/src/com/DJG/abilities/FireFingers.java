@@ -54,6 +54,7 @@ public class FireFingers {
     	int action = MotionEventCompat.getActionMasked(event);
 		// Respond to a single touch event
 	    if(event.getPointerCount() <= 1) {
+			Ability.getAbility("Bomb").playPlaceSound();
 	    	if(action == android.view.MotionEvent.ACTION_DOWN) {
 	    	}
 	    	if(action == android.view.MotionEvent.ACTION_UP) {
@@ -65,6 +66,8 @@ public class FireFingers {
 	    
 	    // Respond to a multitouch event.
 	    if(event.getPointerCount() > 1) {
+			Ability.getAbility("Bomb").playPlaceSound();
+			Ability.getAbility("Bomb").playPlaceSound();
 			float pos1Second = event.getX(event.findPointerIndex(event.getPointerId(1)));
 			float pos2Second = event.getY(event.findPointerIndex(event.getPointerId(1)));
 		    if(action == MotionEvent.ACTION_POINTER_DOWN) {

@@ -390,7 +390,7 @@ public class Survival {
 					dist=height/2;
 					int dist2 = dist;
 					while(x < waveNumber+1) { 
-						genInfo.add(new GeneratorInfo(strictlyfireorice(), 25,spawnSystem.Bombardment,interestingSpin(), dist));
+						genInfo.add(new GeneratorInfo(fireorice(), 10,spawnSystem.Bombardment,interestingSpin(), dist));
 						if(waveNumber>=5) {
 							int y = 0;
 							while(y*20<=waveNumber) {

@@ -49,7 +49,7 @@ public class Ability {
 	private float x;
 	private float y;
 	private int radius;
-	private MediaPlayer mpPlacement;
+	private int placeSound;
 	private int uses;
 	private String symbol;
 	private int iconColor;
@@ -63,7 +63,7 @@ public class Ability {
 		coolDown = newCoolDown;
 		setCost(newCost);
 		setDescription(newDesc);
-		if(soundID!=-1)  mpPlacement = MediaPlayer.create(GameActivity.gameContext, soundID); 
+		if(soundID!=-1)  placeSound = MainActivity.soundPool.load(GameActivity.gameContext, soundID, 1);
 		setSlot(newSlot);
 		type = newType;
 		uses = newUses;
@@ -108,13 +108,13 @@ public class Ability {
 		// Load all abilities that you can upgrade
 		upgradeableAbilities = new ArrayList<Ability>();
 		upgradeableAbilities.add(new Ability("Bomb",0,1,3,R.raw.small_3_second_explosion,Bomb.bombBMP,32,"POW!",0));
-		upgradeableAbilities.add(new Ability("Slow",0,1,0,-1,Slow.slowBMP,32,"Slows in a radius.",15));
-		upgradeableAbilities.add(new Ability("Blackhole",0,1,0,-1,Blackhole.BlackholeBMP,32,"Sucks in asteroids.",25));
-		upgradeableAbilities.add(new Ability("Turret",0,1,0,-1,Turret.TurretBMP,32,"Shoots stuff.",30));
-		upgradeableAbilities.add(new Ability("Bomb Turret",0,1,0,-1,BombTurret.BombTurretBMP,32,"Shoots bombs.",30));
-		upgradeableAbilities.add(new Ability("Fire Fingers",-1,1,3,-1,FireFingers.fireBMP,32,"Fire Fingers",0));
-		upgradeableAbilities.add(new Ability("Lazer Fingers",-1,1,3,-1,LazerFingers.lazerBMP,32,"Lazer Fingers",0));
-		upgradeableAbilities.add(new Ability("Nuke",-1,1,3,-1,Nuke.NukeBMP,32,"Nuke",0));
+		upgradeableAbilities.add(new Ability("Slow",0,1,0,R.raw.shatter2,Slow.slowBMP,32,"Slows in a radius.",15));
+		upgradeableAbilities.add(new Ability("Blackhole",0,1,0,R.raw.blackhole,Blackhole.BlackholeBMP,32,"Sucks in asteroids.",25));
+		upgradeableAbilities.add(new Ability("Turret",0,1,0,R.raw.turret,Turret.TurretBMP,32,"Shoots stuff.",30));
+		upgradeableAbilities.add(new Ability("Bomb Turret",0,1,0,R.raw.turret,BombTurret.BombTurretBMP,32,"Shoots bombs.",30));
+		upgradeableAbilities.add(new Ability("Fire Fingers",-1,1,3,R.raw.fire_fingers,FireFingers.fireBMP,32,"Fire Fingers",0));
+		upgradeableAbilities.add(new Ability("Lazer Fingers",-1,1,3,R.raw.laser,LazerFingers.lazerBMP,32,"Lazer Fingers",0));
+		upgradeableAbilities.add(new Ability("Nuke",-1,1,3,R.raw.big_explosion,Nuke.NukeBMP,32,"Nuke",0));
 		
 		// All droppable abilities/equippable abilities.
 		//initPurchasedAbilities();
@@ -351,9 +351,7 @@ public class Ability {
 	}
 	
 	public void playPlaceSound() {
-		if(mpPlacement != null) {
-			mpPlacement.start();
-		}
+		MainActivity.soundPool.play(this.placeSound, 1, 1, 1, 0, 1f);
 	}
 	
 	public void useAbility(float xSpawn,float ySpawn) {

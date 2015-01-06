@@ -29,19 +29,15 @@ public class UnitType {
 		allUnitTypes = new ArrayList<UnitType>();
 		
 		// Basic Units
-		getAllUnitTypes().add(new UnitType("Pie",1f, true, R.drawable.pie, 1, 10,"Unit"));
+		getAllUnitTypes().add(new UnitType("Pie",1f, true, R.drawable.pie, 1, 10,"Unit", R.raw.crunch));
 		getAllUnitTypes().add(new UnitType("Asteroid",1f, true, R.drawable.asteroid, 1, 10,"Unit", "Regular asteroid",R.raw.crunch));
-		getAllUnitTypes().add(new UnitType("Fire Asteroid",1f,true, R.drawable.fire_asteroid, 1, 10,"Unit", "Explodes",R.raw.crunch));
-		getAllUnitTypes().add(new UnitType("Ice Asteroid",1f,true, R.drawable.ice_asteroid, 1, 10,"Unit", "Freezes things",R.raw.crunch));
+		getAllUnitTypes().add(new UnitType("Fire Asteroid",1f,true, R.drawable.fire_asteroid, 1, 10,"Unit", "Explodes",R.raw.small_boom));
+		getAllUnitTypes().add(new UnitType("Ice Asteroid",1f,true, R.drawable.ice_asteroid, 1, 10,"Unit", "Freezes things",R.raw.shatter));
 		getAllUnitTypes().add(new UnitType("Cat",2f, true, R.drawable.satelite, 1, 10, "Unit", "Fast moving",R.raw.crunch));
 		getAllUnitTypes().add(new UnitType("Cat Gunner",2f, true, R.drawable.satelite_gunner, 1, 10, "Unit", "Shoots you!",R.raw.crunch));
-		getAllUnitTypes().add(new UnitType("Splitter Big",1.25f,true,R.drawable.splitter_big, 1, 100,"Unit"));
-		getAllUnitTypes().add(new UnitType("Splitter Medium",1f,true,R.drawable.splitter_medium, 1, 25,"Unit"));
+		getAllUnitTypes().add(new UnitType("Splitter Big",1.25f,true,R.drawable.splitter_big, 1, 100,"Unit", R.raw.crunch));
+		getAllUnitTypes().add(new UnitType("Splitter Medium",1f,true,R.drawable.splitter_medium, 1, 25,"Unit", R.raw.crunch));
 		getAllUnitTypes().add(new UnitType("Splitter Small",0.25f,true,R.drawable.splitter_small, 1, 10,"Unit", "Splits apart",R.raw.crunch));
-		getAllUnitTypes().add(new UnitType("MultiClicker 1",1f, true, R.drawable.fasteroid, 1, 10,"Unit"));
-		getAllUnitTypes().add(new UnitType("MultiClicker 2",1f, true, R.drawable.splitter_medium, 1, 10,"Unit"));
-		getAllUnitTypes().add(new UnitType("MultiClicker 3",1f, true, R.drawable.fasteroid, 1, 10,"Unit"));
-		getAllUnitTypes().add(new UnitType("MultiClicker 4",1f, true, R.drawable.splitter_medium, 1, 10,"Unit"));
 		
 		// Projectile
 		getAllUnitTypes().add(new UnitType("Bullet",10f, true, R.drawable.bullet, R.drawable.bullet, 1, 0,"Projectile"));
@@ -83,6 +79,7 @@ public class UnitType {
 		color = Color.WHITE;
 	}
 	
+	
 	// Store unitType constructor;
 	public UnitType(String newType, int newRadius, float newMoveSpeed, boolean isKillable, int newBitMapLink, int newHP, int newDamage, String newMetaType, int newCost) {
 		type = newType;
@@ -98,13 +95,28 @@ public class UnitType {
 		setCost(newCost);
 		frozenBMP = bitmap;
 	}
-
+	
 	public UnitType(String newType, float newMoveSpeed, boolean isKillable, int newBitMapLink, int newHP, int newDamage, String myMetaType) {
 		type = newType;
 		moveSpeed = newMoveSpeed;
 		metaType = "Unit";
 		killable = isKillable;
 		metaType = myMetaType;
+		bitmap = GameActivity.makeTransparent(BitmapFactory.decodeResource(GameActivity.gameContext.getResources(), newBitMapLink));
+		radius = bitmap.getScaledWidth(MainActivity.metrics)/2;
+		bitmap =  Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), MainActivity.matrix, true);
+		maxHitPoints = newHP;
+		damage = newDamage;
+		frozenBMP = bitmap;
+	}
+	
+	public UnitType(String newType, float newMoveSpeed, boolean isKillable, int newBitMapLink, int newHP, int newDamage, String myMetaType, int death) {
+		type = newType;
+		moveSpeed = newMoveSpeed;
+		metaType = "Unit";
+		killable = isKillable;
+		metaType = myMetaType;
+		setDeathSound(MainActivity.soundPool.load(GameActivity.gameContext, death, 1));
 		bitmap = GameActivity.makeTransparent(BitmapFactory.decodeResource(GameActivity.gameContext.getResources(), newBitMapLink));
 		radius = bitmap.getScaledWidth(MainActivity.metrics)/2;
 		bitmap =  Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), MainActivity.matrix, true);
@@ -144,32 +156,6 @@ public class UnitType {
 		frozenBMP = bitmap;
 	}
 	
-	public UnitType(String newType, int newRadius, float newMoveSpeed, boolean isKillable, int newBitMapLink, int newFrozenBMPLink, int newHP, int newDamage, String newMetaType) {
-		type = newType;
-		radius = newRadius;
-		moveSpeed = newMoveSpeed;
-		metaType = newMetaType;
-		killable = isKillable;
-		bitmap = GameActivity.makeTransparent(BitmapFactory.decodeResource(GameActivity.gameContext.getResources(), newBitMapLink));
-		bitmap =  Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), MainActivity.matrix, true);
-		setFrozenBMP(GameActivity.makeTransparent(BitmapFactory.decodeResource(GameActivity.gameContext.getResources(), newFrozenBMPLink)));
-		maxHitPoints = newHP;
-		damage = newDamage;
-	}
-	
-	public UnitType(String newType, int newRadius, float newMoveSpeed, boolean isKillable, int newBitMapLink, int newHP, int newDamage, String newMetaType) {
-		type = newType;
-		radius = newRadius;
-		moveSpeed = newMoveSpeed;
-		metaType = newMetaType;
-		killable = isKillable;
-		bitmap = GameActivity.makeTransparent(BitmapFactory.decodeResource(GameActivity.gameContext.getResources(), newBitMapLink));
-		bitmap =  Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), MainActivity.matrix, true);
-		setFrozenBMP(bitmap);
-		maxHitPoints = newHP;
-		damage = newDamage;
-	}
-	
 	public UnitType(String newType, String newMetaType, int newRadius, float newMoveSpeed, boolean isKillable, Bitmap newBitMap, int newHP, int newDamage) {
 		setFrozenBMP(bitmap);
 		type = newType;
@@ -182,18 +168,6 @@ public class UnitType {
 		maxHitPoints = newHP;
 		damage = newDamage;
 		frozenBMP = bitmap;
-	}
-	
-	public UnitType(String newType, int newRadius, float newMoveSpeed, boolean isKillable, int newColor, String newShape, int newHP, int newDamage) {
-		type = newType;
-		radius = newRadius;
-		metaType = "Unit";
-		moveSpeed = newMoveSpeed;
-		shape = newShape;
-		killable = isKillable;
-		color = newColor;
-		maxHitPoints = newHP;
-		damage = newDamage;
 	}
 
 

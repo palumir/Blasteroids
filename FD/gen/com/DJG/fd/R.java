@@ -1157,8 +1157,16 @@ containing a value of this type.
         public static final int tutorial=0x7f0d0006;
     }
     public static final class raw {
-        public static final int crunch=0x7f050000;
-        public static final int small_3_second_explosion=0x7f050001;
+        public static final int big_explosion=0x7f050000;
+        public static final int blackhole=0x7f050001;
+        public static final int crunch=0x7f050002;
+        public static final int fire_fingers=0x7f050003;
+        public static final int laser=0x7f050004;
+        public static final int shatter=0x7f050005;
+        public static final int shatter2=0x7f050006;
+        public static final int small_3_second_explosion=0x7f050007;
+        public static final int small_boom=0x7f050008;
+        public static final int turret=0x7f050009;
     }
     public static final class string {
         /**  Content description for the action bar "home" affordance. [CHAR LIMIT=NONE] 

@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -27,7 +28,6 @@ import com.DJG.screenelements.Background;
 import com.DJG.screenelements.ScreenElement;
 import com.DJG.screenelements.myButton;
 import com.DJG.secrets.Secret;
-import com.DJG.units.Unit;
 import com.DJG.units.UnitType;
 
 public class MainActivity extends ActionBarActivity {
@@ -45,11 +45,12 @@ public class MainActivity extends ActionBarActivity {
 	private boolean doOnce = true;
 	private static Context currContext;
 	public ScreenElement highScoreText;
+	
+	// Sound
 	public static SoundPool soundPool;
 	
 	// Globals
 	public static SharedPreferences prefs;
-	public static float volume;
 	
 	public void startSurvival(View view) {
 		if(GameActivity.gameContext==null) {
@@ -163,12 +164,6 @@ public class MainActivity extends ActionBarActivity {
 		soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
 		UnitType.initUnitTypes();
 		Ability.initAbilities();
-		AudioManager audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
-		float actualVolume = (float) audioManager
-		          .getStreamVolume(AudioManager.STREAM_MUSIC);
-		float maxVolume = (float) audioManager
-		          .getStreamMaxVolume(AudioManager.STREAM_MUSIC);
-		volume = actualVolume / maxVolume;
     }
 
 	@Override

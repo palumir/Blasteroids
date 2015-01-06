@@ -56,7 +56,7 @@ public class Unit {
 	private float xMomentum = 0;
 	private float yMomentum = 0;
 	private float fixedRadius = 0;
-	public static int deathSoundID;
+	public int deathSoundID;
 
 	// Projectile Information
 	private Unit target = null;
@@ -749,7 +749,7 @@ public class Unit {
 	}
 	
 	public void playDeathSound() {
-		MainActivity.soundPool.play(this.deathSoundID, MainActivity.volume, MainActivity.volume, 1, 0, 1f);
+		MainActivity.soundPool.play(this.deathSoundID, 1, 1, 1, 0, 1f);
 	}
 
 	public void hurt(int i) {

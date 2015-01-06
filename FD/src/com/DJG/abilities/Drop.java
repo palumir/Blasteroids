@@ -53,13 +53,14 @@ public class Drop {
 			FireFingers.startFireFingers((int)FireFingers.getDuration());
 			ScreenElement newS = new ScreenElement(
 					"Text",
-					"Bomb Fingers " + (int)FireFingers.getDuration()/1000,
+					"Bomb Fingers " + (int)FireFingers.getDuration()/1000 + "\nTap everywhere!",
 					x-200,
 					y,
 					"Game");
 			newS.setColor(Color.RED);
 			FireFingers.setScreenElement(newS);
 			newS.animate("Bob", (int)FireFingers.getDuration());
+			Ability.getAbility(type).playPlaceSound();
 		}
 		if(type == "Lazer Fingers") {
 			if(LazerFingers.timer!=null) {
@@ -68,16 +69,18 @@ public class Drop {
 			LazerFingers.startLazerFingers((int)LazerFingers.getDuration());
 			ScreenElement newF = new ScreenElement(
 					"Text",
-					"Lazer Fingers " + (int)LazerFingers.getDuration()/1000,
+					"Lazer Fingers " + (int)LazerFingers.getDuration()/1000 + "\nUse both fingers!",
 					x-200,
 					y,
 					"Game");
 			newF.setColor(Color.RED);
 			LazerFingers.setScreenElement(newF);
 			newF.animate("Bob", (int)LazerFingers.getDuration());
+			Ability.getAbility(type).playPlaceSound();
 		}
 		if(type == "Nuke") {
 			Nuke newNuke = new Nuke(GameActivity.getScreenWidth()/2,GameActivity.getScreenHeight()/2,GameActivity.getScreenHeight()*2,6000); // Default explosion for now. Make upgradable.
+			Ability.getAbility(type).playPlaceSound();
 		}
 		if(type == "Coin") {
 			FleetingScreenElement newF = new FleetingScreenElement(

@@ -255,6 +255,7 @@ public class GameActivity extends ActionBarActivity {
 	public static void setLost() {
 		lost = true;
 		Unit.destroyPlanet();
+		Ability.getAbility("Bomb").playPlaceSound();
 		lostTime = gameTime;
 	}
 
