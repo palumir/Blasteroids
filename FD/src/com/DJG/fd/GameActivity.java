@@ -10,8 +10,10 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.os.PowerManager;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -28,8 +30,6 @@ import com.DJG.planets.Planet;
 import com.DJG.screenelements.Background;
 import com.DJG.screenelements.ScreenElement;
 import com.DJG.units.Unit;
-import com.DJG.units.UnitType;
-import com.DJG.waves.Survival;
 import com.DJG.waves.Wave;
 
 public class GameActivity extends ActionBarActivity {
@@ -116,6 +116,17 @@ public class GameActivity extends ActionBarActivity {
 		}
 		else {
 			return seconds + " seconds";
+		}
+	}
+	
+	public static String toTimeDouble(double n) {
+		int minutes = (int)(n/60d);
+		double seconds = n - minutes*60d;
+		if(minutes>0d) {
+			return minutes + "m " + (Math.round(seconds*100.0)/100.0) + "s";
+		}
+		else {
+			return seconds + "s";
 		}
 	}
 
@@ -326,6 +337,20 @@ public class GameActivity extends ActionBarActivity {
 			GameActivity.youLose();
 		}
 	}
+	
+	@Override
+	protected void onPause()
+	{
+	    super.onPause();
+
+	    // If the screen is off then the device has been locked
+	    PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
+	    boolean isScreenOn = powerManager.isScreenOn();
+
+	    if (!isScreenOn) {
+	    	pause();
+	    }
+	}
 
 	void playGame() {
 		gameThread = new Thread(new Runnable() {
@@ -374,13 +399,21 @@ public class GameActivity extends ActionBarActivity {
 	public static long getGameTime() {
 		return gameTime;
 	}
+	
+	public static void pause() {
+		GameActivity.paused = true;
+	}
+	
+	public static void unpause() {
+		GameActivity.paused = false;
+	}
 
 	void updateAllStuff() {
 		
 		// If the game is unpaused...
 		if(!paused) {
 			gameTime = gameTime + 10;
-			levelText = Double.toString((double)gameTime/1000d);
+			levelText = toTimeDouble((double)gameTime/1000d);
 			
 			// Unleash the waves.
 			if (lost == false) {

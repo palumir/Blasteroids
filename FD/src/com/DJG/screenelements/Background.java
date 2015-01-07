@@ -30,8 +30,6 @@ public class Background {
 						int m = GameActivity.getR().nextInt(100);
 						if(m==1) myPaint.setColor(Color.CYAN);
 						else if(m==2) myPaint.setColor(Color.YELLOW);
-						else if(m==3) myPaint.setColor(Color.RED);
-						else if(m==4) myPaint.setColor(Color.RED);
 						else myPaint.setColor(Color.WHITE);
 						bgCanvas.drawPoint(x, y, myPaint);
 					}
@@ -45,8 +43,8 @@ public class Background {
 		}
 		// Move the background if it's not paused.
 		if(!(GameActivity.paused  && activity.equals("Game"))) {
-			backX++;
-			if(backX == GameActivity.getScreenWidth()) {
+			backX = backX + 1;
+			if(backX > GameActivity.getScreenWidth()) {
 				backX = 0;
 			}
 		}

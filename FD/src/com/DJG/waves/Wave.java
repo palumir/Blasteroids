@@ -164,7 +164,19 @@ public class Wave extends ArrayList<Unit> {
 			
 			// Send the next wave if the current one has gotten "close" to earth.
 			if(GameActivity.getGameTime() > WaveGenerator.maxTimeOnWave) {
-				currentWaveNumber++;
+				// Ramp up quickly
+				if(currentWaveNumber < 3) {
+					currentWaveNumber++;
+				}
+				else if(currentWaveNumber == 3) {
+					currentWaveNumber = 6;
+				}
+				else if(currentWaveNumber == 6) {
+					currentWaveNumber = 8;
+				}
+				else {
+					currentWaveNumber++;
+				}
 				sendWave(currentWaveNumber);
 				waveSent = false;
 				isFirst = true;
