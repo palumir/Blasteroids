@@ -190,11 +190,12 @@ public class Survival {
 		int difficulty = (int)ddifficulty;
 		int x = 0;
 		int dist = 0;
+		int dist2 = 0;
 		Wave myWave = new Wave();
 		Wave.setCurrentWave(myWave);
 		HashMap<String, UnitPattern> unitMap = new HashMap<String, UnitPattern>();
 		GenInfo genInfo = new GenInfo();
-		int numCases = 9;
+		int numCases = 10;
 		int randomNum = getMyRandom(r.nextInt(numCases), numCases);
 		GameActivity.debug = randomNum+"";
 		if(Secret.pieActive) {
@@ -216,7 +217,7 @@ public class Survival {
 						dist = dist + 350;
 						genInfo.add(new GeneratorInfo("Fire Asteroid", cap(r.nextInt(difficulty*2+1),difficulty,difficulty*2),spawnSystem.Circle,interestingSpin(),dist));
 						genInfo.add(new GeneratorInfo("Fire Asteroid", cap(r.nextInt(difficulty*2+1),difficulty,difficulty*2),spawnSystem.Circle,interestingSpin(),dist));
-						genInfo.add(new GeneratorInfo("Cat", cap(r.nextInt(difficulty/14+1),difficulty,difficulty*2),spawnSystem.FullRandom, interestingSpin(), dist*2));
+						genInfo.add(new GeneratorInfo("Cat", cap(r.nextInt(difficulty/14+1),difficulty*2),randomWave(), interestingSpin(), dist*2));
 						x = x+10;
 					}
 				break;
@@ -399,7 +400,7 @@ public class Survival {
 				case 8:
 					x=0;
 					dist=height/2;
-					int dist2 = dist;
+					dist2 = dist;
 					while(x < difficulty+1) { 
 						genInfo.add(new GeneratorInfo(fireorice(), 10,spawnSystem.Bombardment,interestingSpinNotFast(), dist));
 						if(difficulty>=5) {
@@ -418,8 +419,36 @@ public class Survival {
 						x = x + 2;
 					}
 				break;
-				// Very random long wave
+				// Ice/Fire BIG bombardment
 				case 9:
+					x=0;
+					dist=height/2;
+					dist2 = dist;
+					while(x < difficulty+1) { 
+						int which = r.nextInt(100);
+						String go = "Splitter Medium";
+						if(which==1) {
+							go = "Splitter Big";
+						}
+						genInfo.add(new GeneratorInfo(go, cap(r.nextInt(4),1,4),spawnSystem.Bombardment,interestingSpin(), dist));
+						if(difficulty>=5) {
+							int y = 0;
+							while(y*20<=difficulty) {
+								genInfo.add(new GeneratorInfo("Cat", cap(r.nextInt(difficulty/7+x+1),difficulty*2),randomWave(),interestingSpin(), dist2));
+								y++;
+							}
+						}
+						if(300 - difficulty<100) {
+							dist2 += 100;
+						}
+						else {
+							dist2 += 300 - 2*difficulty;
+						}
+						x = x + 2;
+					}
+				break;
+				// Very random long wave
+				case 10:
 					x=0;
 					dist=100;
 					while(x < difficulty+1) { 

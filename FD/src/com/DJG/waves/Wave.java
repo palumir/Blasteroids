@@ -52,6 +52,10 @@ public class Wave extends ArrayList<Unit> {
 		sendWave(currentWaveNumber);
 	}
 	
+	public static double getSpeedFactor() {
+		return (getCurrentWaveNumber()/100 + 1);
+	}
+	
 	public static double getWaveNumber() {
 		return currentWaveNumber;
 	}

@@ -2,13 +2,10 @@ package com.DJG.generators;
 import java.util.ArrayList;
 import java.util.Random;
 
-import android.util.Log;
-
 import com.DJG.fd.GameActivity;
 import com.DJG.generators.GeneratorInfo.spawnSystem;
 import com.DJG.generators.GeneratorInfo.unitOrder;
 import com.DJG.units.Unit;
-import com.DJG.units.UnitSpawner;
 import com.DJG.waves.Wave;
 
 
@@ -122,12 +119,6 @@ public class WaveGenerator {
 				for (int i = 0; i<g.unitNumbers; i++){
 					xy = westLine(g.startingDifference+GameActivity.getScreenWidth()/2);
 					w.add(new Unit("Any Name",g.unitType,xy.x,xy.y,spinVal));
-				}
-				break;
-			case Spawner:
-				for(int i=0; i<g.unitNumbers; i++){
-					xy = new XY(0, screenHeight/2);
-					w.add(new UnitSpawner("Any name", g.unitType, xy.x, xy.y, w));
 				}
 				break;
 			default:

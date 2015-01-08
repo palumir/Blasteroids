@@ -224,10 +224,9 @@ public class Unit {
 			this.spinSpeed = oldSpinSpeed;
 			this.bmp = this.oldbmp;
 		}
-		if (true) {
 			float yDistance = (yNew - y);
 			float xDistance = (xNew - x);
-			float step = getMoveSpeed() * gravity;
+			float step = (float)Wave.getSpeedFactor() * getMoveSpeed() * gravity;
 			float distanceXY = (float) Math.sqrt(yDistance * yDistance
 					+ xDistance * xDistance); // It should take this many frames
 												// to get there.
@@ -281,7 +280,6 @@ public class Unit {
 				x = xNew;
 				y = yNew;
 			}
-		}
 		// Move based on Momentum, fozen units can move. Fixed radius not
 		// affected for now
 		if (fixedRadius == 0) {
@@ -652,9 +650,6 @@ public class Unit {
 			Planet fort = GameActivity.getFortress();
 			for (int j = 0; j < allUnits.size(); j++) {
 				Unit u = allUnits.get(j);
-				if (u instanceof UnitSpawner) {
-					((UnitSpawner) u).spawnNewUnits();
-				}
 				if (u.getName() != "Fortress") {
 					// Check if we have hit the castle.
 					u.moveUnit(fort);

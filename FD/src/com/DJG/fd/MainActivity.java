@@ -62,11 +62,6 @@ public class MainActivity extends ActionBarActivity {
 		startActivity(intent);
 	}
 	
-	public void openStore(View view) {
-		Intent intent = new Intent(this, Store.class);
-		startActivity(intent);
-	}
-	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,10 +88,6 @@ public class MainActivity extends ActionBarActivity {
 		if(i=="Play") {
 			GameActivity.setMode("Survival");
 			Intent intent = new Intent(currContext, GameActivity.class);
-			currContext.startActivity(intent);
-		}
-		if(i=="Upgrades") {
-			Intent intent = new Intent(currContext, Store.class);
 			currContext.startActivity(intent);
 		}
 		if(i=="Tutorial") {

@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 
 import com.DJG.fd.GameActivity;
+import com.DJG.waves.Wave;
 
 public class Background {
 	// Background
@@ -43,7 +44,7 @@ public class Background {
 		}
 		// Move the background if it's not paused.
 		if(!(GameActivity.paused  && activity.equals("Game"))) {
-			backX = backX + 1;
+			backX = (int)(backX + Wave.getSpeedFactor());
 			if(backX > GameActivity.getScreenWidth()) {
 				backX = 0;
 			}
