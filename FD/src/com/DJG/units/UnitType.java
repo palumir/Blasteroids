@@ -33,8 +33,8 @@ public class UnitType {
 		getAllUnitTypes().add(new UnitType("Asteroid",1f, true, R.drawable.asteroid, 1, 10,"Unit", "Regular asteroid",R.raw.crunch));
 		getAllUnitTypes().add(new UnitType("Fire Asteroid",1f,true, R.drawable.fire_asteroid, 1, 10,"Unit", "Explodes",R.raw.small_boom));
 		getAllUnitTypes().add(new UnitType("Ice Asteroid",1f,true, R.drawable.ice_asteroid, 1, 10,"Unit", "Freezes things",R.raw.shatter));
-		getAllUnitTypes().add(new UnitType("Cat",2f, true, R.drawable.satelite, 1, 10, "Unit", "Fast moving",R.raw.crunch));
-		getAllUnitTypes().add(new UnitType("Cat Gunner",2f, true, R.drawable.satelite_gunner, 1, 10, "Unit", "Shoots you!",R.raw.crunch));
+		getAllUnitTypes().add(new UnitType("Cat",2f, true, R.drawable.satelite, 1, 10, "Unit", "Fast moving",R.raw.explosion_spaceship));
+		getAllUnitTypes().add(new UnitType("Cat Gunner",2f, true, R.drawable.satelite_gunner, 1, 10, "Unit", "Shoots you!",R.raw.explosion_spaceship));
 		getAllUnitTypes().add(new UnitType("Splitter Big",1.25f,true,R.drawable.splitter_big, 1, 100,"Unit", R.raw.crunch));
 		getAllUnitTypes().add(new UnitType("Splitter Medium",1f,true,R.drawable.splitter_medium, 1, 25,"Unit", R.raw.crunch));
 		getAllUnitTypes().add(new UnitType("Splitter Small",0.25f,true,R.drawable.splitter_small, 1, 10,"Unit", "Splits apart",R.raw.crunch));

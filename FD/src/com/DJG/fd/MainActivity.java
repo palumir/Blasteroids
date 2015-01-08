@@ -62,14 +62,6 @@ public class MainActivity extends ActionBarActivity {
 		startActivity(intent);
 	}
 	
-	public void startCampaign(View view) {
-		if(GameActivity.gameContext==null) {
-			GameActivity.gameContext =  this.getApplicationContext();
-		}
-		Intent intent = new Intent(this, CampaignActivity.class);
-		startActivity(intent);
-	}
-	
 	public void openStore(View view) {
 		Intent intent = new Intent(this, Store.class);
 		startActivity(intent);
@@ -101,10 +93,6 @@ public class MainActivity extends ActionBarActivity {
 		if(i=="Play") {
 			GameActivity.setMode("Survival");
 			Intent intent = new Intent(currContext, GameActivity.class);
-			currContext.startActivity(intent);
-		}
-		if(i=="Campaign") {
-			Intent intent = new Intent(currContext, CampaignActivity.class);
 			currContext.startActivity(intent);
 		}
 		if(i=="Upgrades") {

@@ -21,7 +21,7 @@ public class ScreenElement {
 	public static Bitmap buttonTest = GameActivity.makeTransparent(BitmapFactory.decodeResource(GameActivity.gameContext.getResources(), R.drawable.buttontest));
 	
 	// Global stuff.
-	public static ArrayList<ScreenElement> allScreenElements = new ArrayList<ScreenElement>();
+	public static ArrayList<ScreenElement> allScreenElements = new ArrayList<ScreenElement>(256);
 	public static Object allScreenElementsLock = new Object();
 	
 	// ScreenElement General Information:

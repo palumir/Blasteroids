@@ -71,6 +71,7 @@ public class GameActivity extends ActionBarActivity {
 	// Shared data.
 	public static SharedPreferences prefs;
 	public static int bgColor = Color.BLACK;
+	public static int earthExplode;
 
 	// The current game thread.
 	private static String mode = "Campaign";
@@ -266,7 +267,7 @@ public class GameActivity extends ActionBarActivity {
 	public static void setLost() {
 		lost = true;
 		Unit.destroyPlanet();
-		Ability.getAbility("Bomb").playPlaceSound();
+		MainActivity.soundPool.play(earthExplode, 1, 1, 1, 0, 1f);
 		lostTime = gameTime;
 	}
 
@@ -320,6 +321,7 @@ public class GameActivity extends ActionBarActivity {
 		p.setOnScreen();
 		p.spawnDefenders();
 		Ability.initAbilities();
+		earthExplode = MainActivity.soundPool.load(GameActivity.gameContext, R.raw.big_explosion, 1);
 	}
 
 	public static void setScreenWidth(int i) {

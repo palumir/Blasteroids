@@ -129,12 +129,7 @@ public class Wave extends ArrayList<Unit> {
 					(int)(Wave.getCurrentWaveNumber() + 1));
 			editor.commit();
 		} 
-		if(GameActivity.getMode() == "Campaign") {
-			Campaign.sendCampaignWave(waveNumber);
-		}
-		else {
 			Survival.sendSurvivalWave(waveNumber);
-		}
 	}
 	
 	public boolean getWaveSent() {

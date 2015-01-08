@@ -6,12 +6,10 @@ import android.view.MotionEvent;
 import com.DJG.abilities.Ability;
 import com.DJG.abilities.FireFingers;
 import com.DJG.abilities.LazerFingers;
-import com.DJG.fd.CampaignActivity;
 import com.DJG.fd.GameActivity;
 import com.DJG.fd.MainActivity;
 import com.DJG.screenelements.Combo;
 import com.DJG.screenelements.ScreenElement;
-import com.DJG.screenelements.myButton;
 import com.DJG.units.Unit;
 import com.DJG.units.UnitType;
 
@@ -136,47 +134,6 @@ public class TouchEvent {
     		}
 	}
 	
-	public static void respondToCampaignTouchEvent(MotionEvent event) {
-		float pos1 = event.getX(event.findPointerIndex(event.getPointerId(0)));
-		float pos2 = event.getY(event.findPointerIndex(event.getPointerId(0)));
-    	int action = MotionEventCompat.getActionMasked(event);
-    	Combo touchedCombo = Combo.getComboWithin(pos1,pos2,"Campaign");
-    		if(action == android.view.MotionEvent.ACTION_DOWN) {
-    			grabbedScreenElement = ScreenElement.getScreenElementAt(pos1,pos2,"Campaign");
-    			if(touchedCombo!=null) {
-    				touchedCombo.setOldX();
-    				touchedCombo.startComboX = pos1;
-    			}
-    		}
-    		else if(action == android.view.MotionEvent.ACTION_UP) {
-    			ScreenElement touchedElement = ScreenElement.getScreenElementAt(pos1, pos2, "Campaign");
-	    			// Respond to a purchase.
-    				if(grabbedScreenElement != null && grabbedScreenElement==touchedElement && grabbedScreenElement.getType().equals("Drawn myButton")) {
-	    				int attachedNum = Integer.parseInt(grabbedScreenElement.getName());
-	    				if(((myButton)grabbedScreenElement).isClickable()) {
-	    					CampaignActivity.startGame(attachedNum*10);
-	    				}
-	    			}
-    			if(touchedCombo!=null) {
-	    			touchedCombo.startComboX = 0;
-	    			touchedCombo.moveBy = 0;
-	    			touchedCombo.curFingerPos = 0;
-	    			touchedCombo.leftorright = 0;
-    			}
-    		}
-    		else {
-    			if(touchedCombo!=null) {
-	    			touchedCombo.curFingerPos = pos1;
-	    			if((pos1 - touchedCombo.startComboX) - touchedCombo.moveBy > 0) {
-	    				touchedCombo.leftorright = 1;
-	    			}
-	    			else {
-	    				touchedCombo.leftorright = -1;
-	    			}
-	    			touchedCombo.moveBy = pos1 - touchedCombo.startComboX;
-	    		}
-    		}
-	}
 	
 	public static void respondToGameTouchEvent(MotionEvent event) { 
 		if(fireFingers || lazerFingers) {

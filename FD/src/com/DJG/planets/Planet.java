@@ -79,10 +79,6 @@ public abstract class Planet extends Unit {
 			int x = (int) (screenWidth/2 + radius*Math.cos(Math.toRadians(currentDegree))); 
 			int y = (int) (screenHeight/2 + radius*Math.sin(Math.toRadians(currentDegree)));
 			currentDegree += degreeChange;
-			Unit moon = new Unit("New name", defenderName, x, y, 2);
-			moon.setKillable(false);
-			moon.moveNormally(fortX, fortY);
-			Unit.addMoon(moon);
 		}
 		
 	}

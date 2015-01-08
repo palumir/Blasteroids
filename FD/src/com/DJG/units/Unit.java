@@ -24,12 +24,11 @@ public class Unit {
 	static String[] order = { "Asteroid", "Ice Asteroid", "Cat", "Fire Asteroid" };
 	
 	// Global stuff.
-	public static ArrayList<Unit> moons = new ArrayList<Unit>();
 	public final static Object moonsLock = new Object();
-	public static ArrayList<Unit> projectiles = new ArrayList<Unit>();
+	public static ArrayList<Unit> projectiles = new ArrayList<Unit>(16);
 	public final static Object projectilesLock = new Object();
-	public static ArrayList<Unit> allUnits = new ArrayList<Unit>();
-	public static ArrayList<Unit> onScreenUnits = new ArrayList<Unit>();
+	public static ArrayList<Unit> allUnits = new ArrayList<Unit>(1024);
+	public static ArrayList<Unit> onScreenUnits = new ArrayList<Unit>(128);
 	public final static Object onScreenUnitsLock = new Object();
 	public final static Object allUnitsLock = new Object(); // A lock so we
 															// don't fuck up the
@@ -316,16 +315,6 @@ public class Unit {
 		}
 	}
 
-	public static ArrayList<Unit> getMoons() {
-		return moons;
-	}
-	
-	public static void addMoon(Unit u){
-		synchronized (moonsLock) {
-			moons.add(u);
-		}
-	}
-
 	public static int getUnitPos(Unit thisUnit) {
 		synchronized (allUnitsLock) {
 			int foundUnit = 0;
@@ -398,25 +387,6 @@ public class Unit {
 			}
 		}
 	}
-	
-	public static void killMoon(Unit u) {
-		if (moons.size() != 0) {
-			synchronized (moonsLock) {
-				int foundUnit = 0;
-				for (int j = 0; j < moons.size(); j++) {
-					Unit v = moons.get(j);
-					if (u == v) {
-						break;
-					}
-					foundUnit++;
-				}
-				if (foundUnit < moons.size()) {
-					moons.remove(foundUnit);
-				}
-			}
-		}
-	}
-
 	public static boolean isGreaterThan(String a, String b) {
 		int posA = Arrays.asList(order).indexOf(a);
 		int posB = Arrays.asList(order).indexOf(b);
@@ -523,24 +493,7 @@ public class Unit {
 		}
 	}
 
-	static void checkIfHitMoon(Unit u) {
-		synchronized (moonsLock) {
-			for (int j = 0; j < moons.size(); j++) {
-				Unit m = moons.get(j);
-				float yDistanceUnit = (m.getY() - u.getY());
-				float xDistanceUnit = (m.getX() - u.getX());
-				float distanceXYUnit = (float) Math.sqrt(yDistanceUnit * yDistanceUnit + xDistanceUnit * xDistanceUnit);
-				if (distanceXYUnit <= m.getRadius() + u.getRadius()
-						&& u.getMetaType() == "Unit"
-						&& u.getName() != "Fortress") {
-					if(m.getType().contains("Fire")) {
-						Bomb b = new Bomb(u.getX(), u.getY(), 115, 400, Color.WHITE, Color.YELLOW);
-					}
-					u.die();
-				}
-			}
-		}
-	}
+
 	
 	public Boolean isMoon(){
 		return getType().contains("Moon");
@@ -709,10 +662,6 @@ public class Unit {
 					// Check if we hit a projectile.
 					checkIfHitProjectile(u);
 				}
-				
-				  if(!u.isMoon()){
-					  checkIfHitMoon(u); // SO IS THIS. //Lol
-				  }
 			  }
 			
 		}
@@ -853,10 +802,6 @@ public class Unit {
 		if (metaType == "Projectile") {
 			killProj(this);
 		}
-		if (isMoon()) {
-			killMoon(this);
-		}
-
 		
 		playDeathSound();
 		// Kill the old unit.

@@ -216,9 +216,9 @@ public class Survival {
 						dist = dist + 350;
 						genInfo.add(new GeneratorInfo("Fire Asteroid", cap(r.nextInt(difficulty*2+1),difficulty,difficulty*2),spawnSystem.Circle,interestingSpin(),dist));
 						genInfo.add(new GeneratorInfo("Fire Asteroid", cap(r.nextInt(difficulty*2+1),difficulty,difficulty*2),spawnSystem.Circle,interestingSpin(),dist));
+						genInfo.add(new GeneratorInfo("Cat", cap(r.nextInt(difficulty/14+1),difficulty,difficulty*2),spawnSystem.FullRandom, interestingSpin(), dist*2));
 						x = x+10;
 					}
-					genInfo.add(new GeneratorInfo("Cat", cap(r.nextInt(difficulty/5+1),difficulty,difficulty*2),spawnSystem.FullRandom));
 				break;
 		
 				// Spiral wave!
@@ -235,7 +235,7 @@ public class Survival {
 						if(difficulty >= 10) {
 							genInfo.add(new GeneratorInfo("Splitter Medium", cap(r.nextInt(difficulty/8+2),6), randomWave(),interestingSpin(),dist+r.nextInt(15)));
 						}
-						genInfo.add(new GeneratorInfo(morethanlikelyfire(), cap(x,difficulty,difficulty*2),spawnSystem.Spiral));
+						genInfo.add(new GeneratorInfo(fireorice(), cap(x,difficulty,difficulty*2),spawnSystem.Spiral));
 						genInfo.add(new GeneratorInfo("Cat", cap(r.nextInt(difficulty/3+1)+1,difficulty*2),randomWave(),interestingSpin(),(int)1.25*dist+100));
 						x = x/2;
 					}
@@ -251,7 +251,7 @@ public class Survival {
 						genInfo.add(new GeneratorInfo("Cat", cap(r.nextInt(difficulty/3+1),difficulty*2),randomWave(),r.nextInt(2)-1,(int)1.25*dist+100));
 						x = x+5;
 					}
-					genInfo.add(new GeneratorInfo("Fire Asteroid", cap(difficulty+1,difficulty,difficulty*2),spawnSystem.LineFromNorth,r.nextInt(2)));
+					genInfo.add(new GeneratorInfo(morethanlikelyfire(), cap(difficulty+1,difficulty,difficulty*2),spawnSystem.LineFromNorth,r.nextInt(2)));
 					genInfo.add(new GeneratorInfo(morethanlikelyfire(), cap(difficulty+1,difficulty,difficulty*2),spawnSystem.LineFromSouth,r.nextInt(2)));	
 					genInfo.add(new GeneratorInfo(morethanlikelyfire(), cap(difficulty+1,difficulty*2),randomWave(),r.nextInt(2)));	
 				break;
@@ -264,6 +264,7 @@ public class Survival {
 						genInfo.add(new GeneratorInfo("Cat", cap(r.nextInt(2+x/4),difficulty*2),randomLine(),interestingSpin(), (int)1.25*dist+100));
 						if(difficulty >= 6) {
 							genInfo.add(new GeneratorInfo("Splitter Medium", cap(r.nextInt(difficulty/6+2),6), randomWave(), r.nextInt(1),dist+r.nextInt(15)));
+							genInfo.add(new GeneratorInfo("Cat", cap(r.nextInt(2+x/4),difficulty*2),randomLine(),interestingSpin(), (int)1.25*dist+100));
 						}
 						if(300 - difficulty<100) {
 							dist += 100;
@@ -326,7 +327,7 @@ public class Survival {
 					while(x < difficulty+1) { 
 						genInfo.add(new GeneratorInfo(fireorice(), cap(r.nextInt(difficulty*2+x+1)/3+1,difficulty,difficulty*2),spawnSystem.Circle,r.nextInt(2), dist));
 						genInfo.add(new GeneratorInfo(morethanlikelyfire(), cap(r.nextInt(difficulty*10+x+1),difficulty*2)/4+1,spawnSystem.Circle,r.nextInt(2), dist+175));
-						genInfo.add(new GeneratorInfo(morethanlikelyice(), cap(r.nextInt(difficulty/3+x/5+1),difficulty,difficulty*2),spawnSystem.FullRandom,r.nextInt(4), dist));
+						genInfo.add(new GeneratorInfo(morethanlikelyice(), cap(r.nextInt(difficulty/3+x/5+1),difficulty,difficulty*2),randomWave(),r.nextInt(4), dist));
 						genInfo.add(new GeneratorInfo("Cat", cap(r.nextInt(2+x/3),difficulty*2),randomWave(),interestingSpinNotFast(), (int)1.25*dist+100));
 						if(300 - difficulty<100) {
 							dist += 100;
@@ -404,7 +405,7 @@ public class Survival {
 						if(difficulty>=5) {
 							int y = 0;
 							while(y*20<=difficulty) {
-								genInfo.add(new GeneratorInfo("Asteroid", cap(r.nextInt(difficulty/3+x+1),difficulty*2),randomWave(),interestingSpin(), dist2));
+								genInfo.add(new GeneratorInfo("Cat", cap(r.nextInt(difficulty/5+x+1),difficulty*2),randomWave(),interestingSpin(), dist2));
 								y++;
 							}
 						}
