@@ -25,14 +25,14 @@ public class Drop {
 			Ability abilityToDrop = null;
 			
 			// Drop a regular ability?
-			if(getR().nextInt(6) == 1) {
+			if(getR().nextInt(500) == 1) {
 				if(u.getMetaType() == "Unit") {
 					abilityToDrop = Ability.getAbilityDrop("Normal");
 				}
 			}
 			
 			// Drop a special ability?
-			if(getR().nextInt(6) == 1) {
+			if(getR().nextInt(600) == 1) {
 				if(u.getMetaType() == "Unit") {
 					abilityToDrop = Ability.getAbilityDrop("Special");
 				}

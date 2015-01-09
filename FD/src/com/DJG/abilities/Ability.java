@@ -364,9 +364,7 @@ public class Ability {
 			this.playPlaceSound();
 			
 			if(this.getType() == "Bomb") {
-				synchronized(Bomb.bombsLock) {
-					Bomb newBomb = new Bomb(xSpawn,ySpawn,400,1250, Color.RED, Color.YELLOW); // Default explosion for now. Make upgradable.
-				}
+				Bomb newBomb = new Bomb(xSpawn,ySpawn,400,1250, Color.RED, Color.YELLOW); // Default explosion for now. Make upgradable.
 			}
 			if(this.getType() == "Slow") {
 				synchronized(Slow.SlowsLock) {

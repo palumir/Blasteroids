@@ -17,7 +17,6 @@ public class Bomb {
 	
 	// Static information.
 	private static ArrayList<Bomb> allBombs = new ArrayList<Bomb>();
-	public final static Object bombsLock = new Object(); // A lock so we don't fuck up the bombs
 	
 	// Bitmap
 	public static Bitmap bombBMP = GameActivity.makeTransparent(BitmapFactory.decodeResource(GameActivity.gameContext.getResources(), R.drawable.bomb));
@@ -46,9 +45,7 @@ public class Bomb {
 		blastRadius = newBlastRadius;
 		duration = newDuration;
 		startTime = GameActivity.getGameTime();
-		synchronized(allBombs) {
-			addBomb(this);
-		}
+		addBomb(this);
 	}
 	
 	public Bomb(float newX, float newY, int newBlastRadius, int newDuration, int newColor) {
@@ -59,9 +56,7 @@ public class Bomb {
 		blastRadius = newBlastRadius;
 		duration = newDuration;
 		startTime = GameActivity.getGameTime();
-		synchronized(allBombs) {
-			addBomb(this);
-		}
+		addBomb(this);
 	}
 	
 	public Bomb(float newX, float newY, int newBlastRadius, int newDuration, int newColor, int newColor2) {
@@ -74,9 +69,7 @@ public class Bomb {
 		blastRadius = newBlastRadius;
 		duration = newDuration;
 		startTime = GameActivity.getGameTime();
-		synchronized(allBombs) {
-			addBomb(this);
-		}
+		addBomb(this);
 	}
 	
 	public Bomb(float newX, float newY, int newBlastRadius, int newDuration, int newColor, int newColor2, boolean kill) {
@@ -90,9 +83,7 @@ public class Bomb {
 		blastRadius = newBlastRadius;
 		duration = newDuration;
 		startTime = GameActivity.getGameTime();
-		synchronized(allBombs) {
-			addBomb(this);
-		}
+		addBomb(this);
 	}
 	
 	public Bomb(float newX, float newY, int newBlastRadius, int newDuration, String setColor) {
@@ -109,15 +100,11 @@ public class Bomb {
 		blastRadius = newBlastRadius;
 		duration = newDuration;
 		startTime = GameActivity.getGameTime();
-		synchronized(allBombs) {
-			addBomb(this);
-		}
+		addBomb(this);
 	}
 
 	public void updateBomb(int bombPos) {
-		synchronized(bombsLock) {
 		if(this != null) {
-			
 			if(color2 != -1) {
 				if(color==color2) {
 					color=color1;
@@ -135,18 +122,15 @@ public class Bomb {
 					removeBomb(bombPos);
 			}
 		 }
-		}
 	}
 	
 	public static void updateBombs() {
-		synchronized(Bomb.bombsLock) {
 			int bombPos = 0;
 			for(int i = 0; i < allBombs.size(); i++) {
 				Bomb b = allBombs.get(i);
 				if(Secret.isPieSecret(b.x,b.y)) Secret.activatePieSecret();
 				b.updateBomb(bombPos);
 				bombPos++;
-			}
 		}
 	}
 	
@@ -155,58 +139,48 @@ public class Bomb {
 	}
 	
 	public static void clearBombs() {
-		synchronized(bombsLock) {
-			if(allBombs!=null) {
-				allBombs.clear();
-			}
+		if(allBombs!=null) {
+			allBombs.clear();
 		}
 	}
 	
 	public static void addBomb(Bomb b) {
-		synchronized(bombsLock) {
-			allBombs.add(b);
-		}
+		allBombs.add(b);
 	}
 	
 	public static void removeBomb(int pos) {
-		synchronized(bombsLock) {
-			allBombs.remove(pos);
-		}
+		allBombs.remove(pos);
 	}
 	
 	public static void checkIfHitBomb(Unit u) {
 		float bombY = 0;
 		float bombX = 0;
 		float bombRadius = 0;
-		synchronized(Bomb.bombsLock) {
-			for(int i = 0; i < Bomb.getAllBombs().size(); i++) {
-				Bomb b = Bomb.getAllBombs().get(i);
-				if(b.deadly){ 
-					bombY = b.getY();
-					bombX = b.getX();
-					bombRadius = b.getRadius();
-					float yDistanceBomb = (bombY - u.getY());
-					float xDistanceBomb = (bombX - u.getX());
-					float distanceXYBomb = (float)Math.sqrt(yDistanceBomb*yDistanceBomb + xDistanceBomb*xDistanceBomb);
-					if(distanceXYBomb <= bombRadius + u.getRadius() && !GameActivity.isOffScreen(u.getX(),u.getY())) {
-						u.die();
-						break;
-					}
+		for(int i = 0; i < Bomb.getAllBombs().size(); i++) {
+			Bomb b = Bomb.getAllBombs().get(i);
+			if(b.deadly){ 
+				bombY = b.getY();
+				bombX = b.getX();
+				bombRadius = b.getRadius();
+				float yDistanceBomb = (bombY - u.getY());
+				float xDistanceBomb = (bombX - u.getX());
+				float distanceXYBomb = (float)Math.sqrt(yDistanceBomb*yDistanceBomb + xDistanceBomb*xDistanceBomb);
+				if(distanceXYBomb <= bombRadius + u.getRadius() && !GameActivity.isOffScreen(u.getX(),u.getY())) {
+					u.die();
+					break;
 				}
 			}
 		}
 	}
 	
 	public static void drawBombs (Canvas canvas, Paint myPaint) {
-        synchronized(Bomb.bombsLock) {
-  	        myPaint.setStyle(Paint.Style.STROKE);
-			for(int i = 0; i < Bomb.getAllBombs().size(); i++) {
-				Bomb b = Bomb.getAllBombs().get(i);
-        		myPaint.setColor(b.getColor());
-	        	myPaint.setStrokeWidth(b.getStroke());
-        		canvas.drawCircle(b.getX(),b.getY(),b.getRadius(), myPaint);
-        	  }
-        	}
+        myPaint.setStyle(Paint.Style.STROKE);
+		for(int i = 0; i < Bomb.getAllBombs().size(); i++) {
+			Bomb b = Bomb.getAllBombs().get(i);
+    		myPaint.setColor(b.getColor());
+        	myPaint.setStrokeWidth(b.getStroke());
+    		canvas.drawCircle(b.getX(),b.getY(),b.getRadius(), myPaint);
+    	  }
 	}
 	
 	public int getDuration() {

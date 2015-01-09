@@ -3,10 +3,10 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import android.content.SharedPreferences.Editor;
+import android.util.Log;
 
 import com.DJG.fd.GameActivity;
 import com.DJG.fd.MainActivity;
-import com.DJG.generators.GeneratorInfo;
 import com.DJG.generators.WaveGenerator;
 import com.DJG.units.Unit;
 
@@ -41,6 +41,7 @@ public class Wave extends ArrayList<Unit> {
 	private static boolean waveSent = false;
 	private static Random r = new Random();
 	private static int waveWaitTime = 0;
+	private static double speedFactor = 1;
 	
 	public static void initWaves() {
 		// Obviously we just started the game.
@@ -53,7 +54,7 @@ public class Wave extends ArrayList<Unit> {
 	}
 	
 	public static double getSpeedFactor() {
-		return (getCurrentWaveNumber()/100 + 1);
+		return speedFactor;
 	}
 	
 	public static double getWaveNumber() {
@@ -164,6 +165,7 @@ public class Wave extends ArrayList<Unit> {
 			// Send the next wave if the current one has gotten "close" to earth.
 			if(GameActivity.getGameTime() > WaveGenerator.maxTimeOnWave) {
 				// Ramp up quickly
+				currentWaveNumber = 50;
 				if(currentWaveNumber < 3) {
 					currentWaveNumber++;
 				}
@@ -176,6 +178,7 @@ public class Wave extends ArrayList<Unit> {
 				else {
 					currentWaveNumber++;
 				}
+				speedFactor = (getCurrentWaveNumber()/40 + 1);
 				sendWave(currentWaveNumber);
 				waveSent = false;
 				isFirst = true;

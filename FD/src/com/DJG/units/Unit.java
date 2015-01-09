@@ -7,7 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.media.MediaPlayer;
+import android.util.Log;
 
 import com.DJG.abilities.Ability;
 import com.DJG.abilities.Bomb;
@@ -15,7 +15,6 @@ import com.DJG.abilities.Drop;
 import com.DJG.abilities.Slow;
 import com.DJG.fd.GameActivity;
 import com.DJG.fd.MainActivity;
-import com.DJG.fd.R;
 import com.DJG.planets.Planet;
 import com.DJG.waves.Wave;
 

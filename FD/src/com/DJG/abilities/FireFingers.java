@@ -54,20 +54,18 @@ public class FireFingers {
     	int action = MotionEventCompat.getActionMasked(event);
 		// Respond to a single touch event
 	    if(event.getPointerCount() <= 1) {
-			Ability.getAbility("Bomb").playPlaceSound();
 	    	if(action == android.view.MotionEvent.ACTION_DOWN) {
 	    	}
 	    	if(action == android.view.MotionEvent.ACTION_UP) {
 		    	if(TouchEvent.fireFingers) {
 					Bomb b = new Bomb(pos1,pos2,radius,explosionDuration, Color.RED, Color.YELLOW);
+					Ability.getAbility("Bomb").playPlaceSound();
 		    	}
 	    	}
 	    }
 	    
 	    // Respond to a multitouch event.
 	    if(event.getPointerCount() > 1) {
-			Ability.getAbility("Bomb").playPlaceSound();
-			Ability.getAbility("Bomb").playPlaceSound();
 			float pos1Second = event.getX(event.findPointerIndex(event.getPointerId(1)));
 			float pos2Second = event.getY(event.findPointerIndex(event.getPointerId(1)));
 		    if(action == MotionEvent.ACTION_POINTER_DOWN) {
@@ -76,9 +74,11 @@ public class FireFingers {
 		    	if(TouchEvent.fireFingers) {
 		    		if(event.getActionIndex() == event.getPointerId(0)) {
 		    			Bomb b1 = new Bomb(pos1,pos2,radius,explosionDuration, Color.RED, Color.YELLOW);
+		    			Ability.getAbility("Bomb").playPlaceSound();
 		    		}
 		    		if(event.getActionIndex() == event.getPointerId(1)) {
 						Bomb b2 = new Bomb(pos1Second,pos2Second,radius,explosionDuration, Color.RED, Color.YELLOW);
+						Ability.getAbility("Bomb").playPlaceSound();
 		    		}
 		    	}
 		    }
