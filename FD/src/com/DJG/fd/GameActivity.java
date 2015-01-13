@@ -302,11 +302,7 @@ public class GameActivity extends ActionBarActivity {
 		lostTime = 0;
 
 		// Spawn pause button
-		pauseButton = new ScreenElement("Pause", "Button", screenWidth - 40,
-				40, 22, 22, ScreenElement.pauseBMP, "Game");
-		// Coin symbol
-		/*coinSymbol = new ScreenElement("Coin", "Button", 230f,
-				(screenHeight - 68), 25, 25, Coin.CoinBMP, "Game");*/
+		pauseButton = new ScreenElement("Pause", "Button", screenWidth - 40, 40, 22, 22, ScreenElement.pauseBMP, "Game");
 		
 		// Health symbol
 		healthSymbol = new ScreenElement("Health", "Button", 70f,
