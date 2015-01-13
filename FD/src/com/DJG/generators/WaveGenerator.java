@@ -131,7 +131,7 @@ public class WaveGenerator {
 			if(!w.isEmpty()) {
 				float yDistance = (GameActivity.getScreenHeight()/2 - xy.y);
 				float xDistance = (GameActivity.getScreenWidth()/2 - xy.x);
-				float speed = w.get(w.size()-1).getMoveSpeed();
+				float speed = (float) (w.get(w.size()-1).getMoveSpeed()*Wave.getSpeedFactor());
 				float distanceXY = (float) Math.sqrt(yDistance * yDistance
 						+ xDistance * xDistance) - GameActivity.getScreenWidth()/2;
 				long timeToGetToEarth = (long) (distanceXY/speed)*10;
