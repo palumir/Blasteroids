@@ -18,7 +18,6 @@ public class ScreenElement {
 	// Static button stuff
 	public static Bitmap pauseBMP = GameActivity.makeTransparent(BitmapFactory.decodeResource(GameActivity.gameContext.getResources(), R.drawable.pause));
 	public static Bitmap healthBMP = GameActivity.makeTransparent(BitmapFactory.decodeResource(GameActivity.gameContext.getResources(), R.drawable.health));
-	public static Bitmap buttonTest = GameActivity.makeTransparent(BitmapFactory.decodeResource(GameActivity.gameContext.getResources(), R.drawable.buttontest));
 	
 	// Global stuff.
 	public static ArrayList<ScreenElement> allScreenElements = new ArrayList<ScreenElement>(256);
