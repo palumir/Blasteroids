@@ -372,14 +372,16 @@ int menu tutorial 0x7f0d0006
 int raw big_explosion 0x7f050000
 int raw blackhole 0x7f050001
 int raw crunch 0x7f050002
-int raw explosion_spaceship 0x7f050003
-int raw fire_fingers 0x7f050004
-int raw laser 0x7f050005
-int raw shatter 0x7f050006
-int raw shatter2 0x7f050007
-int raw small_3_second_explosion 0x7f050008
-int raw small_boom 0x7f050009
-int raw turret 0x7f05000a
+int raw earth_explode 0x7f050003
+int raw equip 0x7f050004
+int raw explosion_spaceship 0x7f050005
+int raw fire_fingers 0x7f050006
+int raw laser 0x7f050007
+int raw shatter 0x7f050008
+int raw shatter2 0x7f050009
+int raw small_3_second_explosion 0x7f05000a
+int raw small_boom 0x7f05000b
+int raw turret 0x7f05000c
 int string abc_action_bar_home_description 0x7f0b0001
 int string abc_action_bar_up_description 0x7f0b0002
 int string abc_action_menu_overflow_description 0x7f0b0003
@@ -398,12 +400,11 @@ int string app_name 0x7f0b000d
 int string button_camp 0x7f0b0010
 int string button_send2 0x7f0b0011
 int string button_surv 0x7f0b000f
-int string hello_world 0x7f0b0014
-int string title_activity_campaign 0x7f0b0015
+int string title_activity_campaign 0x7f0b0014
 int string title_activity_display_message 0x7f0b0012
-int string title_activity_options 0x7f0b0016
+int string title_activity_options 0x7f0b0015
 int string title_activity_store 0x7f0b0013
-int string title_activity_tutorial 0x7f0b0017
+int string title_activity_tutorial 0x7f0b0016
 int style AppBaseTheme 0x7f0c0083
 int style AppTheme 0x7f0c0084
 int style TextAppearance_AppCompat_Base_CompactMenu_Dialog 0x7f0c0063
@@ -606,7 +607,7 @@ int styleable MenuItem_android_title 7
 int styleable MenuItem_android_titleCondensed 8
 int styleable MenuItem_android_visible 4
 int styleable MenuItem_showAsAction 13
-int[] styleable MenuView { 0x010100ae, 0x0101012c, 0x0101012d, 0x0101012e, 0x0101012f, 0x01010130, 0x01010131, 0x0101052f }
+int[] styleable MenuView { 0x010100ae, 0x0101012c, 0x0101012d, 0x0101012e, 0x0101012f, 0x01010130, 0x01010131, 0x0101041a }
 int styleable MenuView_android_headerBackground 4
 int styleable MenuView_android_horizontalDivider 2
 int styleable MenuView_android_itemBackground 5
