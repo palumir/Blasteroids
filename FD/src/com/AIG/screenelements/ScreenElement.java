@@ -9,9 +9,9 @@ import android.graphics.Color;
 import android.graphics.Paint;
 
 import com.AIG.abilities.Ability;
-import com.AIG.blasteroids.GameActivity;
-import com.AIG.blasteroids.MainActivity;
-import com.AIG.blasteroids.R;
+import com.AIG.earthDefense.GameActivity;
+import com.AIG.earthDefense.MainActivity;
+import com.AIG.earthDefense.R;
 import com.AIG.units.UnitType;
 
 public class ScreenElement {
@@ -123,7 +123,7 @@ public class ScreenElement {
 		setWidth(newBMP.getScaledWidth(MainActivity.metrics));
 		setHeight(newBMP.getScaledHeight(MainActivity.metrics));
 		bmp = newBMP;
-		bmp =  Bitmap.createBitmap(bmp, 0, 0, bmp.getWidth(), bmp.getHeight(), MainActivity.matrix, true);
+		if(!newName.contains("AbilityIcon") && !newName.contains("UnitIcon")) bmp =  Bitmap.createBitmap(bmp, 0, 0, bmp.getWidth(), bmp.getHeight(), MainActivity.matrix, true);
 		
 		// Add it to the list of ScreenElements to be drawn.
 		synchronized(allScreenElementsLock) {
@@ -144,7 +144,7 @@ public class ScreenElement {
 		setWidth(newWidth);
 		setHeight(newHeight);
 		bmp = newBMP;
-		bmp =  Bitmap.createBitmap(bmp, 0, 0, bmp.getWidth(), bmp.getHeight(), MainActivity.matrix, true);
+		if(!newName.contains("AbilityIcon") && !newName.contains("UnitIcon")) bmp =  Bitmap.createBitmap(bmp, 0, 0, bmp.getWidth(), bmp.getHeight(), MainActivity.matrix, true);
 		
 		// Add it to the list of ScreenElements to be drawn.
 		synchronized(allScreenElementsLock) {
@@ -165,6 +165,7 @@ public class ScreenElement {
 		setWidth(newWidth);
 		setHeight(newHeight);
 		bmp = newBMP;
+		if(!newName.contains("AbilityIcon") && !newName.contains("UnitIcon")) bmp =  Bitmap.createBitmap(bmp, 0, 0, bmp.getWidth(), bmp.getHeight(), MainActivity.matrix, true);
 		
 		// Add it to the list of ScreenElements to be drawn.
 		synchronized(allScreenElementsLock) {
@@ -296,7 +297,7 @@ public class ScreenElement {
 			myPaint.setStrokeWidth(3);
 			myPaint.setTextSize(this.textsize);
 			myPaint.setColor(this.color);
-			canvas.drawText(this.getName(), this.x, this.y, myPaint);
+			canvas.drawText(this.getName(), this.x - myPaint.measureText(this.getName())/2, this.y, myPaint);
 		}
 		else if(this.type == "Drawn Button") {
 			this.draw(canvas,myPaint);

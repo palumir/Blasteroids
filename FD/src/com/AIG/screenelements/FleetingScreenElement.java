@@ -2,7 +2,7 @@ package com.AIG.screenelements;
 
 import java.util.ArrayList;
 
-import com.AIG.blasteroids.GameActivity;
+import com.AIG.earthDefense.GameActivity;
 
 public class FleetingScreenElement extends ScreenElement {
 	

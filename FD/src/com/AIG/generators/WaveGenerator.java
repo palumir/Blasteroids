@@ -2,9 +2,7 @@ package com.AIG.generators;
 import java.util.ArrayList;
 import java.util.Random;
 
-import android.util.Log;
-
-import com.AIG.blasteroids.GameActivity;
+import com.AIG.earthDefense.GameActivity;
 import com.AIG.generators.GeneratorInfo.spawnSystem;
 import com.AIG.generators.GeneratorInfo.unitOrder;
 import com.AIG.units.Unit;
@@ -158,8 +156,8 @@ public class WaveGenerator {
 	}
 	
 	private XY spiralXY(){
-		int x = screenWidth/2 + (int) (18 * spiralNumber *Math.cos(((double) spiralNumber)/3)); 
-		int y = screenHeight/2  + (int) (18 * spiralNumber *Math.sin(((double) spiralNumber)/3));
+		int x = screenWidth/2 + (int) ((screenWidth + 18 * spiralNumber)*Math.cos(((double) spiralNumber)/3));
+		int y = screenHeight/2  + (int) ((screenWidth + 18 * spiralNumber)*Math.sin(((double) spiralNumber)/3));
 		spiralNumber++;
 		return new XY(x,y);
 	}

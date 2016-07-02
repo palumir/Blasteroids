@@ -8,8 +8,9 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 
-import com.AIG.blasteroids.GameActivity;
-import com.AIG.blasteroids.R;
+import com.AIG.earthDefense.GameActivity;
+import com.AIG.earthDefense.MainActivity;
+import com.AIG.earthDefense.R;
 import com.AIG.units.Unit;
 
 public class BombTurret {
@@ -25,7 +26,14 @@ public class BombTurret {
 	private double lastAttackTime = 0;
 	
 	// Bitmap
-	public static Bitmap BombTurretBMP = GameActivity.makeTransparent(BitmapFactory.decodeResource(GameActivity.gameContext.getResources(), R.drawable.bomb_turret));
+	public static Bitmap BombTurretBMP = GameActivity.makeTransparent(
+			Bitmap.createBitmap(BitmapFactory.decodeResource(GameActivity.gameContext.getResources(), R.drawable.bomb_turret),
+					0,
+					0,
+					32,
+					32,
+					MainActivity.matrix,
+					true));
 
 	// Well, where is the ability?!
 	private float x;

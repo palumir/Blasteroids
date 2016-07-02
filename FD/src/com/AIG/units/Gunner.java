@@ -1,6 +1,6 @@
 package com.AIG.units;
 
-import com.AIG.blasteroids.GameActivity;
+import com.AIG.earthDefense.GameActivity;
 import com.AIG.waves.Wave;
 
 public class Gunner {

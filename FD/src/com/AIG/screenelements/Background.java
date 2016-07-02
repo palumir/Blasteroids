@@ -5,7 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 
-import com.AIG.blasteroids.GameActivity;
+import com.AIG.earthDefense.GameActivity;
 import com.AIG.waves.Wave;
 
 public class Background {

@@ -8,8 +8,9 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 
-import com.AIG.blasteroids.GameActivity;
-import com.AIG.blasteroids.R;
+import com.AIG.earthDefense.GameActivity;
+import com.AIG.earthDefense.MainActivity;
+import com.AIG.earthDefense.R;
 import com.AIG.units.Unit;
 
 public class Slow {
@@ -21,10 +22,17 @@ public class Slow {
 	// General ability attributes. Slows are static at the moment.
 	private long startTime;
 	private int duration = 2000;
-	public static float slowSpeed = .25f;
+	public static float slowSpeed = .2f;
 	
 	// Bitmap
-	public static Bitmap slowBMP = GameActivity.makeTransparent(BitmapFactory.decodeResource(GameActivity.gameContext.getResources(), R.drawable.snowflake));
+	public static Bitmap slowBMP  = GameActivity.makeTransparent(
+			Bitmap.createBitmap(BitmapFactory.decodeResource(GameActivity.gameContext.getResources(), R.drawable.snowflake),
+					0,
+					0,
+					32,
+					32,
+					MainActivity.matrix,
+					true));
 
 	// Well, where is the ability?!
 	private float x;

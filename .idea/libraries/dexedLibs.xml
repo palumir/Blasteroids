@@ -1,0 +1,17 @@
+<component name="libraryTable">
+  <library name="dexedLibs">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/FD/bin/dexedLibs/android-support-v4-7f22d4d0d6ae8c29d6ba0414f3bed767.jar!/" />
+      <root url="jar://$PROJECT_DIR$/FD/bin/dexedLibs/android-support-v7-appcompat-421f611c268df1f9801139f273b78113.jar!/" />
+      <root url="jar://$PROJECT_DIR$/FD/bin/dexedLibs/android-support-v7-appcompat-f2dc000f2fc3040c34383262ece13d3e.jar!/" />
+      <root url="jar://$PROJECT_DIR$/FD/bin/dexedLibs/android-support-v7-appcompat-d3426ec363e83fd1c897e6313a27b633.jar!/" />
+      <root url="jar://$PROJECT_DIR$/FD/bin/dexedLibs/android-support-v7-appcompat-c7ef4873cf0a09deb5008efa66645127.jar!/" />
+      <root url="jar://$PROJECT_DIR$/FD/bin/dexedLibs/android-support-v4-7f2c98367e3623aca501970359e0fd68.jar!/" />
+      <root url="jar://$PROJECT_DIR$/FD/bin/dexedLibs/android-support-v7-appcompat-73201bb816c94a4a3da66ff476d6b24d.jar!/" />
+      <root url="jar://$PROJECT_DIR$/FD/bin/dexedLibs/android-support-v7-appcompat-4dce8d451b65eeab728935ea995b5632.jar!/" />
+      <root url="jar://$PROJECT_DIR$/FD/bin/dexedLibs/android-support-v4-8649bc6c390514c3dea001c9f382d758.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

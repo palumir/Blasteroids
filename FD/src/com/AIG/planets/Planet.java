@@ -3,8 +3,8 @@ package com.AIG.planets;
 import java.util.ArrayList;
 
 import com.AIG.abilities.Ability;
-import com.AIG.blasteroids.GameActivity;
-import com.AIG.blasteroids.R;
+import com.AIG.earthDefense.GameActivity;
+import com.AIG.earthDefense.R;
 import com.AIG.units.Unit;
 import com.AIG.units.UnitType;
 
@@ -43,7 +43,7 @@ public abstract class Planet extends Unit {
 	
 
 	public static void initPlanetTypes() {
-		UnitType.addUnitType(new UnitType("Earth",50,0f,false,R.drawable.earth, 100,0,"Planet",0)); 
+		UnitType.addUnitType(new UnitType("Earth",(int) 50,0f,false,R.drawable.earth, 100,0,"Planet",0));
 		UnitType.addUnitType(new UnitType("Mars",50,0f,false,R.drawable.mars, 100,0,"Planet",15));
 		UnitType.addUnitType(new UnitType("Saturn", 50, 0f, false, R.drawable.saturn, 150, 0,"Planet",25));
 		UnitType.addUnitType(new UnitType("Jupiter", 50, 0f, false, R.drawable.jupitier, 80, 0,"Planet",50));

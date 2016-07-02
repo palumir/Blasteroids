@@ -2,12 +2,10 @@ package com.AIG.secrets;
 
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import android.util.Log;
 
-import com.AIG.blasteroids.GameActivity;
-import com.AIG.blasteroids.MainActivity;
-import com.AIG.blasteroids.Options;
-import com.AIG.screenelements.FleetingScreenElement;
+import com.AIG.earthDefense.GameActivity;
+import com.AIG.earthDefense.MainActivity;
+import com.AIG.earthDefense.Options;
 
 public class Secret {
 	public static int secretNumber = 5;

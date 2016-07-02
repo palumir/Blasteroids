@@ -6,21 +6,29 @@ import android.graphics.Color;
 import android.support.v4.view.MotionEventCompat;
 import android.view.MotionEvent;
 
-import com.AIG.blasteroids.GameActivity;
-import com.AIG.blasteroids.R;
-import com.AIG.blasteroids.touchevents.TouchEvent;
+import com.AIG.earthDefense.GameActivity;
+import com.AIG.earthDefense.MainActivity;
+import com.AIG.earthDefense.R;
+import com.AIG.earthDefense.touchevents.TouchEvent;
 import com.AIG.screenelements.ScreenElement;
 
 public class FireFingers {
 	// General ability attributes.
 	private static long startTime;
-	private static long duration = 20000;
+	private static long duration = 10000;
 	private static int radius = 140;
 	private static int explosionDuration = 550;
 	public static ScreenElement timer;
 	
 	// Bitmap
-	public static Bitmap fireBMP = GameActivity.makeTransparent(BitmapFactory.decodeResource(GameActivity.gameContext.getResources(), R.drawable.fire));
+	public static Bitmap fireBMP = GameActivity.makeTransparent(
+			Bitmap.createBitmap(BitmapFactory.decodeResource(GameActivity.gameContext.getResources(), R.drawable.fire),
+			0,
+			0,
+			32,
+			32,
+	MainActivity.matrix,
+			true));
 	
 	public static void startFireFingers(int newDuration) {
 		TouchEvent.fireFingers = true;
@@ -37,7 +45,7 @@ public class FireFingers {
 			else {
 				timer.setColor(Color.RED);
 			}
-			timer.setName("Bomb Fingers " + (getDuration() - (GameActivity.getGameTime() - startTime))/1000);
+			timer.setName("Tap everywhere! " + (getDuration() - (GameActivity.getGameTime() - startTime))/1000);
 		}
 		if(GameActivity.getGameTime() - startTime > getDuration()) {
 				TouchEvent.fireFingers = false;

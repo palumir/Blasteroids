@@ -4,10 +4,6 @@ import java.util.ArrayList;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.util.Log;
-
-import com.AIG.abilities.Ability;
-import com.AIG.blasteroids.touchevents.TouchEvent;
 
 public class Combo extends ArrayList<ScreenElement> {
 	public static ArrayList<Combo> allCombos = new ArrayList<Combo>();

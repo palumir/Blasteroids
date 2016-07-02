@@ -7,9 +7,9 @@ import android.graphics.Color;
 
 import com.AIG.abilities.Ability;
 import com.AIG.abilities.Coin;
-import com.AIG.blasteroids.GameActivity;
-import com.AIG.blasteroids.MainActivity;
-import com.AIG.blasteroids.R;
+import com.AIG.earthDefense.GameActivity;
+import com.AIG.earthDefense.MainActivity;
+import com.AIG.earthDefense.R;
 import com.AIG.planets.Planet;
 
 public class UnitType {
@@ -163,7 +163,7 @@ public class UnitType {
 		metaType = newMetaType;
 		killable = isKillable;
 		bitmap = newBitMap;
-		bitmap =  Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), MainActivity.matrix, true);
+		bitmap =  Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), null, true);
 		maxHitPoints = newHP;
 		damage = newDamage;
 		frozenBMP = bitmap;

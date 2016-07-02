@@ -9,16 +9,17 @@ import android.graphics.Paint.Style;
 import android.support.v4.view.MotionEventCompat;
 import android.view.MotionEvent;
 
-import com.AIG.blasteroids.GameActivity;
-import com.AIG.blasteroids.R;
-import com.AIG.blasteroids.touchevents.TouchEvent;
+import com.AIG.earthDefense.GameActivity;
+import com.AIG.earthDefense.MainActivity;
+import com.AIG.earthDefense.R;
+import com.AIG.earthDefense.touchevents.TouchEvent;
 import com.AIG.screenelements.ScreenElement;
 import com.AIG.units.Unit;
 
 public class LazerFingers {
 	// General ability attributes.
 	private static long startTime;
-	private static long duration = 25000;
+	private static long duration = 10000;
 	private static int radius = 10;
 	private static int minRadius = 10;
 	private static int maxRadius = 20;
@@ -33,7 +34,14 @@ public class LazerFingers {
 	public static float lazerPoint2Y = -10000000;
 	
 	// Bitmap
-	public static Bitmap lazerBMP = GameActivity.makeTransparent(BitmapFactory.decodeResource(GameActivity.gameContext.getResources(), R.drawable.laser_fingers));
+	public static Bitmap lazerBMP  = GameActivity.makeTransparent(
+			Bitmap.createBitmap(BitmapFactory.decodeResource(GameActivity.gameContext.getResources(), R.drawable.laser_fingers),
+					0,
+					0,
+					32,
+					32,
+					MainActivity.matrix,
+					true));
 	
 	public static void startLazerFingers(int newDuration) {
 		TouchEvent.lazerFingers = true;
@@ -91,7 +99,7 @@ public class LazerFingers {
 			else {
 				timer.setColor(Color.RED);
 			}
-			timer.setName("Lazer Fingers " + (getDuration() - (GameActivity.getGameTime() - startTime))/1000);
+			timer.setName("Use both fingers! " + (getDuration() - (GameActivity.getGameTime() - startTime))/1000);
 		}
 		if(GameActivity.getGameTime() - startTime > getDuration()) {
 			TouchEvent.lazerFingers = false;

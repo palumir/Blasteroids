@@ -9,10 +9,10 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
 
-import com.AIG.blasteroids.GameActivity;
-import com.AIG.blasteroids.MainActivity;
-import com.AIG.blasteroids.R;
-import com.AIG.blasteroids.touchevents.TouchEvent;
+import com.AIG.earthDefense.GameActivity;
+import com.AIG.earthDefense.MainActivity;
+import com.AIG.earthDefense.R;
+import com.AIG.earthDefense.touchevents.TouchEvent;
 import com.AIG.units.Unit;
 
 public class Ability {
@@ -68,7 +68,7 @@ public class Ability {
 		uses = newUses;
 		iconColor = Color.WHITE;
 		bmp = newBMP;
-		bmp =  Bitmap.createBitmap(bmp, 0, 0, bmp.getWidth(), bmp.getHeight(), MainActivity.matrix, true);
+		bmp =  Bitmap.createBitmap(bmp, 0, 0, bmp.getWidth(), bmp.getHeight(), null, true);
 		/*purchased = (getPrefs().getInt(newType + "_equipped", 0) == 1);*/
 		
 		switch(getSlot()){
@@ -106,7 +106,7 @@ public class Ability {
 		
 		// Load all abilities that you can upgrade
 		upgradeableAbilities = new ArrayList<Ability>();
-		upgradeableAbilities.add(new Ability("Bomb",0,1,3,R.raw.small_3_second_explosion,Bomb.bombBMP,32,"POW!",0));
+		upgradeableAbilities.add(new Ability("Bomb",0,1,0,R.raw.small_3_second_explosion,Bomb.bombBMP,32,"POW!",0));
 		upgradeableAbilities.add(new Ability("Slow",0,1,0,R.raw.shatter2,Slow.slowBMP,32,"Slows in a radius.",15));
 		upgradeableAbilities.add(new Ability("Blackhole",0,1,0,R.raw.blackhole,Blackhole.BlackholeBMP,32,"Sucks in asteroids.",25));
 		upgradeableAbilities.add(new Ability("Turret",0,1,0,R.raw.turret,Turret.TurretBMP,32,"Shoots stuff.",30));
@@ -294,7 +294,7 @@ public class Ability {
 	}
 	
 	public static void drawAbilities(Canvas canvas, Paint myPaint) {
-        // Draw ability icons. 
+        // Draw ability icons.
       	myPaint.setStrokeWidth(3);
       	myPaint.setTextSize(50);
       	
@@ -319,7 +319,7 @@ public class Ability {
 	  				myPaint.setStrokeWidth(1);
  	  				myPaint.setTextSize(35);
 	  				canvas.drawText(
-	  						Integer.toString(a.getUses()),a.getX()-a.getRadius()+20,a.getY() - a.getRadius() +100,myPaint);
+	  						Integer.toString(a.getUses()),a.getX()-a.getRadius()+20,a.getY() - a.getRadius() +110,myPaint);
       			}
       		}
       	}
@@ -359,43 +359,6 @@ public class Ability {
 			// Well you just used it right, put in on CD!
 			this.putOnCoolDown();
 			uses--;
-			
-			// Play a sound of placing ability.
-			this.playPlaceSound();
-			
-			if(this.getType() == "Bomb") {
-				Bomb newBomb = new Bomb(xSpawn,ySpawn,400,1250, Color.RED, Color.YELLOW); // Default explosion for now. Make upgradable.
-			}
-			if(this.getType() == "Slow") {
-				synchronized(Slow.SlowsLock) {
-					Slow newSlow = new Slow(xSpawn,ySpawn,600,850); // Default slow.
-				}
-			}
-			if(this.getType() == "Nuke") {
-				synchronized(Nuke.NukesLock) {
-					Nuke nuke = new Nuke(xSpawn,ySpawn,2000,3000); // Default slow.
-				}
-			}
-			if(this.getType() == "Blackhole") {
-				synchronized(Blackhole.BlackholesLock) {
-					Blackhole newBlackhole = new Blackhole(xSpawn,ySpawn,200,11000); // Default slow.
-				}
-			}
-			if(this.getType() == "Turret") {
-				synchronized(Turret.TurretsLock) {
-					Turret newTurret = new Turret(xSpawn,ySpawn,150,20000); // Default slow.
-				}
-			}
-			if(this.getType() == "Bomb Turret") {
-				synchronized(BombTurret.BombTurretsLock) {
-					BombTurret newBombTurret = new BombTurret(xSpawn,ySpawn,125,20000); // Default slow.
-				}
-			}
-			if(this.getType() == "KnockBack") {
-				synchronized (KnockBack.knockBacksLock) {
-					KnockBack newKnockBack = new KnockBack(xSpawn, ySpawn, 450, 2000);
-				}
-			}
 		}
 	} 
 	

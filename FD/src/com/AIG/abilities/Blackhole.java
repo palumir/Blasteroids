@@ -8,8 +8,9 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 
-import com.AIG.blasteroids.GameActivity;
-import com.AIG.blasteroids.R;
+import com.AIG.earthDefense.GameActivity;
+import com.AIG.earthDefense.MainActivity;
+import com.AIG.earthDefense.R;
 import com.AIG.units.Unit;
 
 public class Blackhole {
@@ -23,7 +24,14 @@ public class Blackhole {
 	private int duration = 3000;
 	
 	// Bitmap
-	public static Bitmap BlackholeBMP = GameActivity.makeTransparent(BitmapFactory.decodeResource(GameActivity.gameContext.getResources(), R.drawable.blackhole));
+	public static Bitmap BlackholeBMP = GameActivity.makeTransparent(
+			Bitmap.createBitmap(BitmapFactory.decodeResource(GameActivity.gameContext.getResources(), R.drawable.blackhole),
+					0,
+					0,
+					32,
+					32,
+					MainActivity.matrix,
+					true));
 
 	// Well, where is the ability?!
 	private float x;

@@ -8,8 +8,9 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 
-import com.AIG.blasteroids.GameActivity;
-import com.AIG.blasteroids.R;
+import com.AIG.earthDefense.GameActivity;
+import com.AIG.earthDefense.MainActivity;
+import com.AIG.earthDefense.R;
 import com.AIG.secrets.Secret;
 import com.AIG.units.Unit;
 
@@ -19,7 +20,14 @@ public class Bomb {
 	private static ArrayList<Bomb> allBombs = new ArrayList<Bomb>();
 	
 	// Bitmap
-	public static Bitmap bombBMP = GameActivity.makeTransparent(BitmapFactory.decodeResource(GameActivity.gameContext.getResources(), R.drawable.bomb));
+	public static Bitmap bombBMP = GameActivity.makeTransparent(
+			Bitmap.createBitmap(BitmapFactory.decodeResource(GameActivity.gameContext.getResources(), R.drawable.bomb),
+					0,
+					0,
+					32,
+					32,
+					MainActivity.matrix,
+					true));
 	
 	// General ability attributes. Bombs are static at the moment.
 	private long startTime;

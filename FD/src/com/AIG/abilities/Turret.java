@@ -8,8 +8,9 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 
-import com.AIG.blasteroids.GameActivity;
-import com.AIG.blasteroids.R;
+import com.AIG.earthDefense.GameActivity;
+import com.AIG.earthDefense.MainActivity;
+import com.AIG.earthDefense.R;
 import com.AIG.units.Unit;
 
 public class Turret {
@@ -21,11 +22,18 @@ public class Turret {
 	// General ability attributes. Turrets are static at the moment.
 	private long startTime;
 	private int duration = 3000;
-	private int attackCooldown = 200;
+	private int attackCooldown = 100;
 	private double lastAttackTime = 0;
 	
 	// Bitmap
-	public static Bitmap TurretBMP = GameActivity.makeTransparent(BitmapFactory.decodeResource(GameActivity.gameContext.getResources(), R.drawable.turret));
+	public static Bitmap TurretBMP  = GameActivity.makeTransparent(
+			Bitmap.createBitmap(BitmapFactory.decodeResource(GameActivity.gameContext.getResources(), R.drawable.turret),
+					0,
+					0,
+					32,
+					32,
+					MainActivity.matrix,
+					true));
 
 	// Well, where is the ability?!
 	private float x;

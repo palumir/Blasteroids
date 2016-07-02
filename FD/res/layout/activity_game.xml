@@ -3,5 +3,5 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.AIG.blasteroids.GameActivity"
+    tools:context="com.AIG.earthDefense.GameActivity"
     tools:ignore="MergeRootFrame" />

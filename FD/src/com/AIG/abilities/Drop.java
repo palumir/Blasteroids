@@ -4,9 +4,7 @@ import java.util.Random;
 
 import android.graphics.Color;
 
-import com.AIG.blasteroids.GameActivity;
-import com.AIG.blasteroids.MainActivity;
-import com.AIG.screenelements.FleetingScreenElement;
+import com.AIG.earthDefense.GameActivity;
 import com.AIG.screenelements.ScreenElement;
 import com.AIG.units.Unit;
 import com.AIG.units.UnitType;
@@ -26,14 +24,14 @@ public class Drop {
 			Ability abilityToDrop = null;
 			
 			// Drop a regular ability?
-			if(getR().nextInt(250) == 1) {
+			if(getR().nextInt(20) == 1) {
 				if(u.getMetaType() == "Unit") {
 					abilityToDrop = Ability.getAbilityDrop("Normal");
 				}
 			}
 			
 			// Drop a special ability?
-			if(getR().nextInt(400) == 1) {
+			if(getR().nextInt(100) == 1) {
 				if(u.getMetaType() == "Unit") {
 					abilityToDrop = Ability.getAbilityDrop("Special");
 				}
@@ -54,7 +52,7 @@ public class Drop {
 			FireFingers.startFireFingers((int)FireFingers.getDuration());
 			ScreenElement newS = new ScreenElement(
 					"Text",
-					"Bomb Fingers " + (int)FireFingers.getDuration()/1000 + "\nTap everywhere!",
+					"Tap everywhere! " + (int)FireFingers.getDuration()/1000,
 					x-200,
 					y,
 					"Game");
@@ -70,7 +68,7 @@ public class Drop {
 			LazerFingers.startLazerFingers((int)LazerFingers.getDuration());
 			ScreenElement newF = new ScreenElement(
 					"Text",
-					"Lazer Fingers " + (int)LazerFingers.getDuration()/1000 + "\nUse both fingers!",
+					"Use both fingers! " + (int)LazerFingers.getDuration()/1000,
 					x-200,
 					y,
 					"Game");
@@ -83,28 +81,32 @@ public class Drop {
 			Nuke newNuke = new Nuke(GameActivity.getScreenWidth()/2,GameActivity.getScreenHeight()/2,GameActivity.getScreenHeight()*2,6000); // Default explosion for now. Make upgradable.
 			Ability.getAbility(type).playPlaceSound();
 		}
-		else if(type == "Coin") {
-			FleetingScreenElement newF = new FleetingScreenElement(
-					"+1 Coin",
-					x-125,
-					y,
-					"Game");
-			newF.setColor(Color.YELLOW);
-			Coin.increaseCoins();
+		else if(type == "Bomb") {
+			Ability.getAbility(type).playPlaceSound();
+			Bomb newBomb = new Bomb(x,y,GameActivity.getScreenWidth(),1250, Color.RED, Color.YELLOW); // Default explosion for now. Make upgradable.
 		}
-		else {
-			MainActivity.soundPool.play(Ability.equipSound, 1, 1, 1, 0, 1f);
-			for(int j = 0; j < Ability.getEquippedAbilities().size(); j++) {
-				Ability a = Ability.getEquippedAbilities().get(j);
-				if(a.getType() == type) {
-					FleetingScreenElement newF = new FleetingScreenElement(
-							"+1 " + a.getType(),
-							x-125,
-							y,
-							"Game");
-					newF.setColor(Color.WHITE);
-					a.increaseUses();
-				}
+		else if(type == "Slow") {
+			synchronized(Slow.SlowsLock) {
+				Ability.getAbility(type).playPlaceSound();
+				Slow newSlow = new Slow(x,y,GameActivity.getScreenWidth()*2,850); // Default slow.
+			}
+		}
+		else if(type == "Blackhole") {
+			synchronized(Blackhole.BlackholesLock) {
+				Blackhole newBlackhole = new Blackhole(x,y,GameActivity.getScreenWidth()*1/3,11000); // Default slow.
+				Ability.getAbility(type).playPlaceSound();
+			}
+		}
+		else if(type == "Turret") {
+			synchronized(Turret.TurretsLock) {
+				Turret newTurret = new Turret(x,y,GameActivity.getScreenWidth()*1/3,20000); // Default slow.
+				Ability.getAbility(type).playPlaceSound();
+			}
+		}
+		else if(type == "Bomb Turret") {
+			synchronized(BombTurret.BombTurretsLock) {
+				BombTurret newBombTurret = new BombTurret(x,y,GameActivity.getScreenWidth()*1/3,20000); // Default slow.
+				Ability.getAbility(type).playPlaceSound();
 			}
 		}
 	}

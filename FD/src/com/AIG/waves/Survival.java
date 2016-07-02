@@ -3,9 +3,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
-import android.util.Log;
-
-import com.AIG.blasteroids.GameActivity;
+import com.AIG.earthDefense.GameActivity;
 import com.AIG.generators.GeneratorInfo;
 import com.AIG.generators.GeneratorInfo.spawnSystem;
 import com.AIG.secrets.Secret;
@@ -254,7 +252,7 @@ public class Survival {
 					x = 0;
 					dist = 0;
 					while(x < cap(difficulty+1,10)) { 
-						dist = dist + 350;
+						dist = dist + GameActivity.getScreenWidth();
 						genInfo.add(new GeneratorInfo("Fire Asteroid", cap(r.nextInt(difficulty*2+1),difficulty,25),spawnSystem.Circle,interestingSpin(),dist));
 						genInfo.add(new GeneratorInfo("Fire Asteroid", cap(r.nextInt(difficulty*2+1),difficulty,25),spawnSystem.Circle,interestingSpin(),dist));
 						genInfo.add(new GeneratorInfo("Cat", cap(r.nextInt(difficulty/14+1),25),randomWave(), interestingSpinCat(), dist*2));
@@ -265,13 +263,13 @@ public class Survival {
 				// Spiral wave!
 				case 1:
 					x = difficulty+ 2*r.nextInt(difficulty+1) + 1;
-					dist = 200;
+					dist = GameActivity.getScreenWidth()*2/3;
 					while(x > 0) {
 						if(300 - difficulty<100) {
-							dist += 100;
+							dist += GameActivity.getScreenWidth()/3;
 						}
 						else {
-							dist += 300 - 2*difficulty;
+							dist += GameActivity.getScreenWidth()*2/3 - 2*difficulty;
 						}
 						if(difficulty >= 10) {
 							genInfo.add(new GeneratorInfo("Splitter Medium", cap(r.nextInt(difficulty/8+2),6), randomWave(),interestingSpin(),(int)(Wave.getSpeedFactor()*dist+r.nextInt(15))));
@@ -287,7 +285,7 @@ public class Survival {
 					x = 0;
 					dist = 0;
 					while(x < cap(difficulty+1,10)) { 
-						dist = dist + 350;
+						dist = dist + GameActivity.getScreenWidth()*2/3;
 						genInfo.add(new GeneratorInfo(fireorice(), cap(r.nextInt(difficulty+1),difficulty,25),spawnSystem.Circle, r.nextInt(2)-1, (int)(Wave.getSpeedFactor()*dist)));
 						genInfo.add(new GeneratorInfo("Cat", cap(r.nextInt(difficulty/3+1),25),randomWave(),r.nextInt(2)-1,(int)(Wave.getSpeedFactor()*(int)1.25*dist+100)));
 						x = x+5;
@@ -300,7 +298,7 @@ public class Survival {
 				// Four sides spiraling inward. 
 				case 3:
 					x=0;
-					dist=200;
+					dist=GameActivity.getScreenWidth()*2/3;
 					while(x < cap(difficulty+1,10)) { 
 						genInfo.add(new GeneratorInfo("Cat", cap(r.nextInt(2+x/4),25),randomLine(),interestingSpin(), (int)(Wave.getSpeedFactor()*(int)1.25*dist+100)));
 						if(difficulty >= 6) {
@@ -308,10 +306,10 @@ public class Survival {
 							genInfo.add(new GeneratorInfo("Cat", cap(r.nextInt(2+x/4),25),randomLine(),interestingSpinCat(), (int)1.25*dist+100));
 						}
 						if(300 - difficulty<100) {
-							dist += 100;
+							dist += GameActivity.getScreenWidth()/3;
 						}
 						else {
-							dist += 300 - 2*difficulty;
+							dist += GameActivity.getScreenWidth()*2/3 - 2*difficulty;
 						}
 						
 						x = x + 5;
@@ -326,7 +324,7 @@ public class Survival {
 				case 4:
 					x=0;
 					int n = 0;
-					dist=200;
+					dist=GameActivity.getScreenWidth()*2/3;
 					while(x < cap((int)Math.ceil(difficulty/5),10)) { 
 						if(n%2 == 0) {
 							genInfo.add(new GeneratorInfo("Cat", cap(r.nextInt(3*difficulty/4+1)+1,difficulty,25),spawnSystem.LineFromNorth,interestingSpinNotFast(),(int)(Wave.getSpeedFactor()*(int)1.25*dist)));
@@ -351,10 +349,10 @@ public class Survival {
 								}
 						}
 						if(300 - difficulty<100) {
-							dist += 100;
+							dist += GameActivity.getScreenWidth()/3;
 						}
 						else {
-							dist += 300 - 2*difficulty;
+							dist += GameActivity.getScreenWidth()*2/3 - 2*difficulty;
 						}
 						x = x + 1;
 					}
@@ -364,17 +362,17 @@ public class Survival {
 				// Circle wave
 				case 5:
 					x=0;
-					dist=200;
+					dist=GameActivity.getScreenWidth()*2/3;
 					while(x < cap(difficulty+1,10)) { 
 						genInfo.add(new GeneratorInfo(fireorice(), cap(r.nextInt(difficulty*2+x+1)/3+1,difficulty,25),spawnSystem.Circle,r.nextInt(2), (int)(Wave.getSpeedFactor()*dist)));
 						genInfo.add(new GeneratorInfo(morethanlikelyfire(), cap(r.nextInt(difficulty*10+x+1),difficulty*2)/4+1,spawnSystem.Circle,r.nextInt(2), (int)(Wave.getSpeedFactor()*dist+175)));
 						genInfo.add(new GeneratorInfo(morethanlikelyice(), cap(r.nextInt(difficulty/3+x/5+1),difficulty,25),randomWave(),r.nextInt(4), (int)(Wave.getSpeedFactor()*dist)));
 						genInfo.add(new GeneratorInfo("Cat", cap(r.nextInt(2+x/3),25),randomWave(),interestingSpinNotFast(), (int)(Wave.getSpeedFactor()*(int)1.25*dist+100)));
 						if(300 - difficulty<100) {
-							dist += 100;
+							dist += GameActivity.getScreenWidth()/3;
 						}
 						else {
-							dist += 300 - 2*difficulty;
+							dist += GameActivity.getScreenWidth()*2/3 - 2*difficulty;
 						}
 						x = x + 5;
 					}
@@ -382,13 +380,13 @@ public class Survival {
 				// Spiral wave ice!
 				case 6:
 					x = difficulty+ 2*r.nextInt(difficulty+1) + 1;
-					dist = 200;
+					dist = GameActivity.getScreenWidth()*2/3;
 					while(x > 0) {
 						if(300 - difficulty<100) {
-							dist += 100;
+							dist += GameActivity.getScreenWidth()/3;
 						}
 						else {
-							dist += 300 - 2*difficulty;
+							dist += GameActivity.getScreenWidth()*2/3 - 2*difficulty;
 						}
 						if(difficulty >= 6) {
 							genInfo.add(new GeneratorInfo("Splitter Medium", cap(r.nextInt(difficulty/8+2),6), randomWave(), interestingSpin(),(int)(Wave.getSpeedFactor()*dist+r.nextInt(15))));
@@ -402,7 +400,7 @@ public class Survival {
 				case 7:
 					x=0;
 					n = 0;
-					dist=200;
+					dist=GameActivity.getScreenWidth()*2/3;
 					while(x < cap((int)Math.ceil(difficulty/5),50)) { 
 						if(n%2 == 0) {
 							genInfo.add(new GeneratorInfo("Cat", cap(r.nextInt(difficulty/2+1)+1,difficulty,25),spawnSystem.LineFromNorth,r.nextInt(4),(int)(Wave.getSpeedFactor()*(int)1.25*dist)));
@@ -427,10 +425,10 @@ public class Survival {
 								}
 						}
 						if(300 - difficulty<100) {
-							dist += 100;
+							dist += GameActivity.getScreenWidth()/3;
 						}
 						else {
-							dist += 300 - 2*difficulty;
+							dist += GameActivity.getScreenWidth()*2/3 - 2*difficulty;
 						}
 						x = x + 1;
 					}
@@ -439,7 +437,7 @@ public class Survival {
 				// Ice/Fire BIG bombardment
 				case 8:
 					x=0;
-					dist=height/2;
+					dist=GameActivity.getScreenWidth()*2/3;
 					dist2 = dist;
 					while(x < difficulty+1) { 
 						genInfo.add(new GeneratorInfo(fireorice(), 10,spawnSystem.Bombardment,interestingSpinNotFast(), dist));
@@ -451,10 +449,10 @@ public class Survival {
 							}
 						}
 						if(300 - difficulty<100) {
-							dist2 += 100;
+							dist2 += GameActivity.getScreenWidth()/3;
 						}
 						else {
-							dist2 += 300 - 2*difficulty;
+							dist2 += GameActivity.getScreenWidth()*2/3 - 2*difficulty;
 						}
 						x = x + 2;
 					}
@@ -462,7 +460,7 @@ public class Survival {
 				// Splitter wave
 				case 9:
 					x=0;
-					dist=height/3;
+					dist=(int)(GameActivity.getScreenWidth()*0.75f);
 					while(x < cap(difficulty+2,11)) { 
 						int which = r.nextInt(100);
 						String go = "Splitter Medium";
@@ -483,10 +481,10 @@ public class Survival {
 						int direction;
 						if(x%2==0) direction = (-1)*4;
 						else direction = 4;
-						genInfo.add(new GeneratorInfo("Asteroid", cap(r.nextInt(4),1,4),getUniqueLine(),direction, 0));
-						genInfo.add(new GeneratorInfo("Fire Asteroid", cap(r.nextInt(4),1,4),getUniqueLine(), direction, 0));
-						genInfo.add(new GeneratorInfo("Ice Asteroid", cap(r.nextInt(4),1,4),getUniqueLine(),direction, 0));
-						genInfo.add(new GeneratorInfo("Asteroid", cap(r.nextInt(4),1,4),getUniqueLine(), direction, 0));
+						genInfo.add(new GeneratorInfo("Asteroid", cap(r.nextInt(4),1,4),getUniqueLine(),direction, GameActivity.getScreenWidth()));
+						genInfo.add(new GeneratorInfo("Fire Asteroid", cap(r.nextInt(4),1,4),getUniqueLine(), direction, GameActivity.getScreenWidth()));
+						genInfo.add(new GeneratorInfo("Ice Asteroid", cap(r.nextInt(4),1,4),getUniqueLine(),direction, GameActivity.getScreenWidth()));
+						genInfo.add(new GeneratorInfo("Asteroid", cap(r.nextInt(4),1,4),getUniqueLine(), direction, GameActivity.getScreenWidth()));
 						x = x + 2;
 					}
 				break;
@@ -507,19 +505,19 @@ public class Survival {
 							}
 						}
 						if(difficulty >= 8) {
-							genInfo.add(new GeneratorInfo("Splitter Medium", cap(r.nextInt(difficulty/6+2),6), randomWave(), r.nextInt(1),(int)(Wave.getSpeedFactor()*dist+r.nextInt(15))));
+							genInfo.add(new GeneratorInfo("Splitter Medium", cap(r.nextInt(difficulty/6+2),6), randomWave(), r.nextInt(1),(int)(Wave.getSpeedFactor()*dist*0.75f+r.nextInt(15))));
 						}
 						if(difficulty >= 8) {
-							genInfo.add(new GeneratorInfo("Splitter Big", cap(r.nextInt(difficulty/8+2),6), randomWave(), r.nextInt(1), (int)(Wave.getSpeedFactor()*(int)(1.25f*dist)+r.nextInt(15))));
+							genInfo.add(new GeneratorInfo("Splitter Big", cap(r.nextInt(difficulty/8+2),6), randomWave(), r.nextInt(1), (int)(Wave.getSpeedFactor()*(int)(1f*dist)+r.nextInt(15))));
 						}
 						if(difficulty >= 5) {
 							genInfo.add(new GeneratorInfo("Cat Gunner", cap(r.nextInt(difficulty/8+1),25),randomWave(),0, (int)(Wave.getSpeedFactor()*(int)2*dist+100)));
 						}
 						if(300 - difficulty<100) {
-							dist += 100;
+							dist += GameActivity.getScreenWidth()/3;
 						}
 						else {
-							dist += 300 - 2*difficulty;
+							dist += GameActivity.getScreenWidth()*2/3 - 2*difficulty;
 						}
 						x = x + 5;
 					}

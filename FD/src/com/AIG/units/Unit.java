@@ -7,20 +7,19 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.util.Log;
 
 import com.AIG.abilities.Ability;
 import com.AIG.abilities.Bomb;
 import com.AIG.abilities.Drop;
 import com.AIG.abilities.Slow;
-import com.AIG.blasteroids.GameActivity;
-import com.AIG.blasteroids.MainActivity;
+import com.AIG.earthDefense.GameActivity;
+import com.AIG.earthDefense.MainActivity;
 import com.AIG.planets.Planet;
 import com.AIG.waves.Wave;
 
 public class Unit {
 	
-	static String[] order = { "Asteroid", "Ice Asteroid", "Cat", "Fire Asteroid" };
+	static String[] order = {null, "Asteroid", "Ice Asteroid", "Cat", "Fire Asteroid", "Ability Drop" };
 	
 	// Global stuff.
 	public final static Object moonsLock = new Object();
@@ -385,6 +384,10 @@ public class Unit {
 		}
 	}
 	public static boolean isGreaterThan(String a, String b) {
+		if(a == null && b != null) return false;
+		if(a == null && b == null) return false;
+		if(a != null && b == null) return true;
+
 		int posA = Arrays.asList(order).indexOf(a);
 		int posB = Arrays.asList(order).indexOf(b);
 		return posA > posB;
@@ -404,22 +407,27 @@ public class Unit {
 				float xDistance = (u.getX() - x);
 				float distanceXY = (float) Math.sqrt(yDistance * yDistance
 						+ xDistance * xDistance);
-				if (distanceXY <= 60 + u.getRadius()
+				if (distanceXY <= 110 + u.getRadius()
 						&& u.getName() != "Fortress" && u.getRadius() <= 51) {
 					if ((closestUnit == null)
 							|| (distanceXY < closestDistance && u.getType() == closestUnit
 									.getType())
-							|| (isGreaterThan(u.getType(),
-									closestUnit.getType()))) {
+							|| (isGreaterThan(u.getMetaType(),
+							closestUnit.getMetaType()))
+							|| ((!isGreaterThan(u.getMetaType(),
+							closestUnit.getMetaType())) && (isGreaterThan(u.getType(),
+									closestUnit.getType())))) {
 						closestUnit = u;
 						closestDistance = distanceXY;
 					}
 				}
-				if (distanceXY <= 10 + u.getRadius()
+				if (distanceXY <= 30 + u.getRadius()
 						&& u.getName() != "Fortress" && u.getRadius() > 51) {
 					if ((closestUnit == null)
 							|| (distanceXY < closestDistance && u.getType() == closestUnit
 									.getType())
+							|| (isGreaterThan(u.getMetaType(),
+							closestUnit.getMetaType()))
 							|| (isGreaterThan(u.getType(),
 									closestUnit.getType()))) {
 						closestUnit = u;
@@ -512,8 +520,8 @@ public class Unit {
 					myPaint.setColor(currentUnit.color);
 					// Draw Earth!
 					canvas.drawBitmap(currentUnit.getBMP(), currentUnit.getX()
-							- currentUnit.getRadius(), currentUnit.getY()
-							- currentUnit.getRadius(), null);
+							- (int)(currentUnit.getRadius()), currentUnit.getY()
+							-(int)( currentUnit.getRadius()), null);
 				}
 			}
 		}
@@ -528,8 +536,8 @@ public class Unit {
 					myPaint.setColor(currentUnit.color);
 					if (currentUnit.getBMP() != null) {
 						canvas.drawBitmap(currentUnit.getBMP(),
-								currentUnit.getX() - currentUnit.getRadius(),
-								currentUnit.getY() - currentUnit.getRadius(),
+								currentUnit.getX() - (int)(currentUnit.getRadius()*MainActivity.density),
+								currentUnit.getY() - (int)(currentUnit.getRadius()*MainActivity.density),
 								null);
 					} else if (currentUnit.getShape() == "Circle") {
 						canvas.drawCircle(currentUnit.getX(),

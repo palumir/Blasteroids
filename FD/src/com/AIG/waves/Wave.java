@@ -3,10 +3,9 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import android.content.SharedPreferences.Editor;
-import android.util.Log;
 
-import com.AIG.blasteroids.GameActivity;
-import com.AIG.blasteroids.MainActivity;
+import com.AIG.earthDefense.GameActivity;
+import com.AIG.earthDefense.MainActivity;
 import com.AIG.generators.WaveGenerator;
 import com.AIG.units.Unit;
 
@@ -177,7 +176,7 @@ public class Wave extends ArrayList<Unit> {
 				else {
 					currentWaveNumber++;
 				}
-				speedFactor = (getCurrentWaveNumber()/50 + 1);
+				speedFactor = (getCurrentWaveNumber()/10 + 1);
 				sendWave(currentWaveNumber);
 				waveSent = false;
 				isFirst = true;
